@@ -1,4 +1,6 @@
 __pycache__/
 .vscode/
+config.toml
+speedofsound.log
 TODO.md
 venv/
