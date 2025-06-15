@@ -6,7 +6,7 @@ Speed of Sound (SOS) provides three different methods to activate voice input, e
 
 This is the most straightforward method to use SOS and is ideal for initial testing and getting familiar with the application. However, the keyboard and joystick methods explained below are preferable for daily usage due to their convenience.
 
-![SOS Ready State](../assets/sol-ready.png)
+![SOS Ready State](../assets/sos-ready.png)
 
 To use the main screen button:
 
@@ -32,7 +32,7 @@ To set up a keyboard shortcut using GNOME system settings:
    - **Command**: Enter the full path to the provided trigger script: `/path/to/scripts/trigger.sh`
    - **Shortcut**: Press your desired key combination (e.g., **Super+Z**)
 
-![Set Custom Shortcut Dialog](../assets/sol-shortcut.png)
+![Set Custom Shortcut Dialog](../assets/sos-shortcut.png)
 
 Once configured, you can activate voice input from any application by pressing your chosen keyboard shortcut.
 
