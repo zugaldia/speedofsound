@@ -1,6 +1,10 @@
 # Speed of Sound
 
-Speed of Sound (SOS) provides voice input to any Linux desktop application, powered by state-of-the-art generative AI models, both local and cloud. 
+Speed of Sound (SOS) provides voice input to any Linux desktop application, powered by state-of-the-art generative AI models, both local and cloud.
+<div align="center">
+  <img src="assets/sos-listening.png" alt="SOL Screenshot">
+  <br><em>SOS listening to voice input.</em>
+</div>
 
 ## Features
 
