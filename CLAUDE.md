@@ -37,3 +37,7 @@ All services inherit from `BaseService` (base_service.py) which provides:
 - PyGObject bindings for Python
 - Custom styling via `speedofsound/data/style.css`
 - Main window components in `speedofsound/ui/main/`
+
+## Debugging
+- Check `speedofsound.log` in the project root for detailed debugging information
+- The log file contains all DEBUG level messages while console shows only INFO and above
