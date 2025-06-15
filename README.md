@@ -3,14 +3,13 @@
 Speed of Sound (SOS) provides voice input to any Linux desktop application, powered by state-of-the-art generative AI models, both local and cloud.
 <div align="center">
   <img src="assets/sos-listening.png" alt="SOL Screenshot">
-  <br><em>SOS listening to voice input.</em>
 </div>
 
 ## Features
 
-- 🏠 Support for both local (Whisper, NVIDIA RIVA) and cloud providers (ElevenLabs, Google, NVIDIA NIM, OpenAI).
-- 🎨 Developed with GNOME Adwaita for a modern look and compatibility with any desktop environment.
+- 🏠 Support for both local (Whisper, NVIDIA Riva) and cloud providers (ElevenLabs, Google, NVIDIA NIM, OpenAI).
 - 🎮 Joystick/gamepad control for enhanced accessibility.
+- 🎨 Developed with GNOME Adwaita for a modern look and compatibility with any desktop environment.
 
 ## Launch the App
 
