@@ -1,0 +1,42 @@
+language_auto = true
+language = "en"
+
+microphone_id = -1
+
+# joystick_id = 0
+# joystick_language_left = "en"
+# joystick_language_right = "es"
+
+transcriber = "whisper"
+
+[nvidia_riva]
+enabled = false
+model = ""
+endpoint = ""
+ssl = false
+
+[nvidia_nim]
+enabled = false
+api_key = ""
+model = ""
+endpoint = ""
+ssl = true
+
+[whisper]
+enabled = true
+endpoint = "http://localhost:8080"
+
+[google]
+enabled = false
+api_key = ""
+model = ""
+
+[openai]
+enabled = false
+api_key = ""
+model = ""
+
+[elevenlabs]
+enabled = false
+api_key = ""
+model = ""
