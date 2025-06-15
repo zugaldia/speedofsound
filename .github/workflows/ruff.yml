@@ -1,0 +1,15 @@
+name: Ruff
+on: [ push, pull_request ]
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: "check"
+          src: "./speedofsound"
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: "format --check"
+          src: "./speedofsound"
