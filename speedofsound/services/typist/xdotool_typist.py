@@ -2,10 +2,10 @@ import shlex
 import subprocess
 
 from speedofsound.models import TypistRequest, TypistResponse
-from speedofsound.services.base_provider import BaseProvider
+from speedofsound.services.typist.base_typist import BaseTypist
 
 
-class XdotoolTypist(BaseProvider):
+class XdotoolTypist(BaseTypist):
     def __init__(self):
         super().__init__(provider_name="xdotool")
         self._logger.info("Initialized.")
