@@ -6,6 +6,8 @@ Speed of Sound uses a TOML configuration file located at `config.toml` in the pr
 cp config.example.toml config.toml
 ```
 
+It shows the basic settings needed to set up the application with Whisper as the Speech-to-Text backend. 
+
 ## General Settings
 
 ### Language Configuration
@@ -54,6 +56,23 @@ Choose your transcription provider:
 - `"openai"` - OpenAI GTP-4o and Whisper API (cloud)
 - `"elevenlabs"` - ElevenLabs Speech-to-Text (cloud)
 - `"race"` - Run multiple providers simultaneously (hybrid)
+
+### Typist Backend Selection
+
+This setting is optional:
+
+```toml
+typist_backend = "xdotool"
+```
+
+Choose how text is typed into applications:
+- `"atspi"` - GTK accessibility API (default)
+- `"xdotool"` - X11-based typing (works with most X11 applications)
+- `"ydotool"` - Universal input tool (works with X11, Wayland, and consoles)
+
+Manual selection is only needed if the default choice doesn't work properly with your specific setup, or want to force a different tool.
+
+**Requirements**: If you select `xdotool` or `ydotool`, you must install these tools separately on your system.
 
 ## Provider Configurations
 
