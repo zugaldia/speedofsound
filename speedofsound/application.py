@@ -2,6 +2,12 @@ import logging
 
 import gi
 
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+gi.require_version("Atspi", "2.0")
+from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
+
+from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
 from speedofsound.services.configuration.configuration_service import (
     ConfigurationService,
 )
@@ -12,13 +18,6 @@ from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder
 from speedofsound.services.recorder.recorder_service import RecorderService
 from speedofsound.services.transcriber.transcriber_service import TranscriberService
 from speedofsound.services.typist.typist_service import TypistService
-
-gi.require_version("Gtk", "4.0")
-gi.require_version("Adw", "1")
-
-from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
-
-from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
 
@@ -81,7 +80,9 @@ class SosApplication(Adw.Application):
             configuration_service=self._configuration_service,
         )
 
-        self._typist_service = TypistService()
+        self._typist_service = TypistService(
+            configuration_service=self._configuration_service
+        )
 
         self._orchestrator = OrchestratorService(
             configuration_service=self._configuration_service,

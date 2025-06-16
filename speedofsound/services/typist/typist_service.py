@@ -3,9 +3,15 @@ from concurrent.futures import Future, ThreadPoolExecutor
 from gi.repository import GObject  # type: ignore
 
 from speedofsound.constants import TYPIST_RESPONSE_SIGNAL
-from speedofsound.models import TypistRequest, TypistResponse
+from speedofsound.models import TypistBackend, TypistRequest, TypistResponse
 from speedofsound.services.base_service import BaseService
+from speedofsound.services.configuration.configuration_service import (
+    ConfigurationService,
+)
+from speedofsound.services.typist.atspi_typist import AtSpiTypist
+from speedofsound.services.typist.base_typist import BaseTypist
 from speedofsound.services.typist.xdotool_typist import XdotoolTypist
+from speedofsound.services.typist.ydotool_typist import YdotoolTypist
 
 
 class TypistService(BaseService):
@@ -15,19 +21,35 @@ class TypistService(BaseService):
         TYPIST_RESPONSE_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
     }
 
-    def __init__(self):
+    def __init__(self, configuration_service: ConfigurationService):
         super().__init__(service_name=self.SERVICE_NAME)
+        self._configuration_service = configuration_service
         self._executor = ThreadPoolExecutor(max_workers=1)
-
-        # TODO: Atspi alternative?
-        # https://docs.gtk.org/atspi2/func.generate_keyboard_event.html
-        self._typist = XdotoolTypist()
+        self._typist: BaseTypist = self._get_typist()
         self._logger.info("Initialized.")
 
     def shutdown(self):
         self._logger.info("Shutting down.")
         self._executor.shutdown(wait=True)
         self._typist.shutdown()
+
+    def _get_typist(self) -> BaseTypist:
+        config = self._configuration_service.config
+        backend = (
+            TypistBackend(config.typist_backend)
+            if config.typist_backend
+            else TypistBackend.ATSPI  # Default to AT-SPI
+        )
+
+        if backend == TypistBackend.XDOTOOL:
+            self._logger.info("Using xdotool typist backend.")
+            return XdotoolTypist()
+        elif backend == TypistBackend.YDOTOOL:
+            self._logger.info("Using ydotool typist backend.")
+            return YdotoolTypist()
+        else:
+            self._logger.info("Using AT-SPI typist backend.")
+            return AtSpiTypist()
 
     def type_async(self, request: TypistRequest):
         self._logger.info("Typing.")
