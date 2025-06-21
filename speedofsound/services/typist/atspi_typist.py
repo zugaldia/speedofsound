@@ -1,17 +1,13 @@
 """
 
-AT-SPI seems like the most idiomatic way to simulate keyboard events, but it's not
-as stable as the old implementation with xdotool.
+AT-SPI (Assistive Technology Service Provider Interface) is a platform-neutral
+framework for providing communication between assistive technologies (AT) and
+applications, like SOS. It is AFAICT the de facto standard for providing
+accessibility to free and open desktops.
 
-Besides the warning included below, we are seeing:
-- Occasional session crashes that forces a full logout/login sequence.
-- Some characters typed in the wrong order when special characters are present,
-  like tildes or opening question marks in Spanish. One thing to try is adding
-  a small timeout between keystrokes.
-
-This implementation is currently the default so that I can peform more testing.
-It could also benefit from a review by someone more knowledgeable on this subsystem.
-If you encounter any issues, you can fall back to xdotool and ydotool as needed.
+This is the default mechanism to enter text into the desktop, and it should work
+across desktop environments. Read the configuration documentation if you run
+into any issues and you want to switch to an alternative typing backend.
 
 Docs:
 https://gnome.pages.gitlab.gnome.org/at-spi2-core/libatspi/func.generate_keyboard_event.html
@@ -28,11 +24,70 @@ class AtSpiTypist(BaseTypist):
     def __init__(self):
         super().__init__(provider_name="atspi")
 
-        # init/exit doesn’t seem to have any impact fixing the warning we're seeing:
-        # (python3:251463): dbind-WARNING **: 09:10:38.357:
-        # AT-SPI: Unable to open bus connection: Failed to connect to socket
-        # /run/user/1000/at-spi2-0P6U72/socket: No such file or directory
+        # Character replacement table for problematic characters.
+        # I was hoping that I could throw at AT-SPI any text, but I'm seeing
+        # errors when standard Spanish characters are included. We are for
+        # now handling this with the replacement table below and also issuing
+        # warnings for non-ASCII characters in case we need to add more.
+        self._replacement_table = {
+            # Accented vowels -> base vowels
+            "á": "a",
+            "à": "a",
+            "ä": "a",
+            "â": "a",
+            "ã": "a",
+            "å": "a",
+            "é": "e",
+            "è": "e",
+            "ë": "e",
+            "ê": "e",
+            "í": "i",
+            "ì": "i",
+            "ï": "i",
+            "î": "i",
+            "ó": "o",
+            "ò": "o",
+            "ö": "o",
+            "ô": "o",
+            "õ": "o",
+            "ø": "o",
+            "ú": "u",
+            "ù": "u",
+            "ü": "u",
+            "û": "u",
+            "Á": "A",
+            "À": "A",
+            "Ä": "A",
+            "Â": "A",
+            "Ã": "A",
+            "Å": "A",
+            "É": "E",
+            "È": "E",
+            "Ë": "E",
+            "Ê": "E",
+            "Í": "I",
+            "Ì": "I",
+            "Ï": "I",
+            "Î": "I",
+            "Ó": "O",
+            "Ò": "O",
+            "Ö": "O",
+            "Ô": "O",
+            "Õ": "O",
+            "Ø": "O",
+            "Ú": "U",
+            "Ù": "U",
+            "Ü": "U",
+            "Û": "U",
+            # Spanish ñ
+            "ñ": "n",
+            "Ñ": "N",
+            # Characters to remove
+            "¿": "",
+            "¡": "",
+        }
 
+        # Needed?
         # result = Atspi.init()
         # if result != 0 and result != 1:  # 0 = success, 1 = already initialized
         #     raise RuntimeError(f"AT-SPI initialization failed with code: {result}")
@@ -40,24 +95,41 @@ class AtSpiTypist(BaseTypist):
         self._logger.info("Initialized.")
 
     def shutdown(self):
-        self._logger.info("Shutting down.")
+        # Needed?
+        # self._logger.info("Shutting down.")
         # result = Atspi.exit()
         # if result != 0:
         #     self._logger.error(f"AT-SPI exit failed with code: {result}")
+        pass
+
+    def _clean_text(self, text: str) -> str:
+        """Clean text by replacing problematic characters."""
+        return "".join(self._replacement_table.get(char, char) for char in text)
+
+    def _check_non_ascii(self, text: str) -> None:
+        """Log warnings for non-ASCII characters that might need replacement."""
+        non_ascii_chars = set()
+        for char in text:
+            if ord(char) > 127:
+                non_ascii_chars.add(char)
+        if non_ascii_chars:
+            chars_str = "".join(sorted(non_ascii_chars))
+            self._logger.warning(f"Found non-ASCII characters: {chars_str}")
 
     def type(self, request: TypistRequest) -> TypistResponse:
         text = request.transcriber_response.get_text()
-        self._logger.debug(f"Typing text: {text}")
+        clean = self._clean_text(text)
+        self._check_non_ascii(clean)
+        if text != clean:
+            self._logger.debug(f"Cleaned text: '{text}' -> '{clean}'")
+        self._logger.debug(f"Typing text: {clean}")
 
         try:
-            for char in text:
-                success = Atspi.generate_keyboard_event(
-                    ord(char), None, Atspi.KeySynthType.SYM
-                )
-                if not success:
-                    message = f"Failed to type character: {char}"
-                    self._logger.error(message)
-                    return TypistResponse(success=False, message=message)
+            success = Atspi.generate_keyboard_event(0, clean, Atspi.KeySynthType.STRING)
+            if not success:
+                message = f"Failed to type text: {clean}"
+                self._logger.error(message)
+                return TypistResponse(success=False, message=message)
             return TypistResponse(success=True)
         except Exception as e:
             message = f"Error during typing: {str(e)}"
