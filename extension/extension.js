@@ -7,7 +7,7 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import Extension from 'resource:///org/gnome/shell/extensions/extension.js';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const KEYBINDING_NAME = 'trigger-sos';
 const DEFAULT_COLOR = 'white';
@@ -124,16 +124,16 @@ export default class SosExtension extends Extension {
     }
 
     _showApp() {
-        Main.notify('TODO: Show app');
+        Main.notify('TODO: Show app', 'Feature not implemented yet');
     }
 
     _quitApp() {
-        Main.notify('TODO: Quit app');
+        Main.notify('TODO: Quit app', 'Feature not implemented yet');
     }
 
     _trigger() {
         try {
-            Main.notify('TODO: App triggered');
+            Main.notify('TODO: App triggered', 'Feature not implemented yet');
 
             // Equivalent to scripts/trigger.sh
             Gio.DBus.session.call(

@@ -13,9 +13,10 @@ Speed of Sound (SOS) provides voice input to any Linux desktop application, powe
 
 ## Launch the App
 
-Clone this repository, install the dependencies in a virtual environment, and launch the app with Python:
+Clone this repository, install the system dependencies and Python dependencies in a virtual environment, and launch the app with Python:
 
 ```bash
+$ sudo apt install libgirepository-2.0-dev  # Development files for GObject introspection
 $ git clone git@github.com:zugaldia/speedofsound.git
 $ cd speedofsound
 $ python3 -m venv venv
