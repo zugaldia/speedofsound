@@ -18,8 +18,6 @@ class MainViewModel(BaseViewModel):
     def shutdown(self):
         pass
 
-    def input_button_clicked(self):
-        self._orchestrator.triggered()
 
     def action_type(self):
         self._orchestrator.action_type()
