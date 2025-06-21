@@ -1,7 +1,19 @@
 """
 
-Docs:
+AT-SPI seems like the most idiomatic way to simulate keyboard events, but it's not
+as stable as the old implementation with xdotool.
 
+Besides the warning included below, we are seeing:
+- Occasional session crashes that forces a full logout/login sequence.
+- Some characters typed in the wrong order when special characters are present,
+  like tildes or opening question marks in Spanish. One thing to try is adding
+  a small timeout between keystrokes.
+
+This implementation is currently the default so that I can peform more testing.
+It could also benefit from a review by someone more knowledgeable on this subsystem.
+If you encounter any issues, you can fall back to xdotool and ydotool as needed.
+
+Docs:
 https://gnome.pages.gitlab.gnome.org/at-spi2-core/libatspi/func.generate_keyboard_event.html
 
 """
