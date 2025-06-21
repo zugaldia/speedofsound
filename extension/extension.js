@@ -41,19 +41,19 @@ export default class SosExtension extends Extension {
         try {
             this._createMenuItems();
         } catch (error) {
-            console.log(`Failed to create menu items: ${error.message}`);
+            console.error(`Failed to create menu items: ${error.message}`);
         }
 
         try {
             this._setupSettings();
         } catch (error) {
-            console.log(`Failed to setup settings: ${error.message}`);
+            console.error(`Failed to setup settings: ${error.message}`);
         }
 
         try {
             this._createKeybinding();
         } catch (error) {
-            console.log(`Failed to create keybinding: ${error.message}`);
+            console.error(`Failed to create keybinding: ${error.message}`);
         }
 
         Main.panel.addToStatusArea(this.uuid, this._indicator);
@@ -77,10 +77,6 @@ export default class SosExtension extends Extension {
 
     _setupSettings() {
         this._settings = this.getSettings();
-        this._settings.list_keys().forEach((key) => {
-            console.log(`Available setting: ${key}`);
-        });
-
         this._settingsChangedId = this._settings.connect('changed', (settings, key) => {
             if (key === SETTING_APP_STATUS) {
                 const color = settings.get_string(key);
@@ -88,7 +84,6 @@ export default class SosExtension extends Extension {
                 this._updateAppStatus(color);
             } else if (key === SETTING_APP_ERROR) {
                 const error = settings.get_string(key);
-                console.log(`App error changed to: ${error}`);
                 this._handleAppError(error);
             } else {
                 console.log(`Unhandled setting change: ${key}`);
@@ -118,14 +113,14 @@ export default class SosExtension extends Extension {
 
     _handleAppError(error) {
         if (error && error.trim() !== '') {
-            console.log(`Handling app error: ${error}`);
+            console.error(`Handling app error: ${error}`);
             Main.notify('Oops! Speed of Sound Error', error);
         }
     }
 
-    _callAppAction(actionName) {
+    async _callAppAction(actionName) {
         try {
-            const reply = Gio.DBus.session.call(
+            const reply = await Gio.DBus.session.call(
                 'io.speedofsound.App',
                 '/io/speedofsound/App',
                 'org.gtk.Actions',
@@ -133,9 +128,15 @@ export default class SosExtension extends Extension {
                 new GLib.Variant('(sava{sv})', [actionName, [], {}]),
                 null, Gio.DBusCallFlags.NONE, -1, null
             );
-            console.log(`${actionName} action reply: ${reply}`);
+
+            // The reply is an empty tuple, safe to ignore. E.g.:
+            // show action reply: [object variant of type "()"]
+            // console.log(`${actionName} action succeeded: ${reply}`);
         } catch (error) {
-            console.log(`Failed to call ${actionName} action: ${error.message}`);
+            // If the app is not running, a GDBus.Error will be thrown. E.g.:
+            // Failed to call show action: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown:
+            // The name io.speedofsound.App was not provided by any .service files
+            this._handleAppError(`Is the app running? ${error.message}`);
         }
     }
 

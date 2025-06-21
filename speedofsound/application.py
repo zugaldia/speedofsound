@@ -13,11 +13,21 @@ from speedofsound.services.configuration.configuration_service import (  # noqa:
 )
 from speedofsound.services.control.control_service import ControlService  # noqa: E402
 from speedofsound.services.control.joystick_control import JoystickControl  # noqa: E402
-from speedofsound.services.extension.extension_service import ExtensionService  # noqa: E402
-from speedofsound.services.orchestrator.orchestrator_service import OrchestratorService  # noqa: E402
-from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder  # noqa: E402
-from speedofsound.services.recorder.recorder_service import RecorderService  # noqa: E402
-from speedofsound.services.transcriber.transcriber_service import TranscriberService  # noqa: E402
+from speedofsound.services.extension.extension_service import (
+    ExtensionService,
+)  # noqa: E402
+from speedofsound.services.orchestrator.orchestrator_service import (
+    OrchestratorService,
+)  # noqa: E402
+from speedofsound.services.recorder.pyaudio_recorder import (
+    PyAudioRecorder,
+)  # noqa: E402
+from speedofsound.services.recorder.recorder_service import (
+    RecorderService,
+)  # noqa: E402
+from speedofsound.services.transcriber.transcriber_service import (
+    TranscriberService,
+)  # noqa: E402
 from speedofsound.services.typist.typist_service import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
@@ -99,9 +109,9 @@ class SosApplication(Adw.Application):
     def do_startup(self):
         Adw.Application.do_startup(self)
         self._logger.info("Starting up.")
-        self._create_action("quit", self.quit, ["<primary>q"])
         self._create_action("trigger", self._on_trigger_action)
         self._create_action("show", self._on_show_action)
+        self._create_action("quit", self._on_quit_action, ["<primary>q"])
 
         try:
             # Poor man DI
@@ -146,6 +156,9 @@ class SosApplication(Adw.Application):
     def _on_show_action(self, action, param):
         if self._main_window:
             self._main_window.present()
+
+    def _on_quit_action(self, action, param):
+        self.quit()
 
     def _create_action(self, name, callback, shortcuts=None):
         action = Gio.SimpleAction.new(name, None)
