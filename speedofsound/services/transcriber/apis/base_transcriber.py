@@ -8,9 +8,7 @@ from speedofsound.models import (
     TranscriberType,
 )
 from speedofsound.services.base_provider import BaseProvider
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.transcriber_prompts import PROMPTS
 from speedofsound.utils import get_config_dir, is_empty
 

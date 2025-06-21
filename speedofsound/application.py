@@ -8,27 +8,17 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
 from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
-from speedofsound.services.configuration.configuration_service import (  # noqa: E402
-    ConfigurationService,
-)
-from speedofsound.services.control.control_service import ControlService  # noqa: E402
+from speedofsound.services.configuration import ConfigurationService  # noqa: E402
+from speedofsound.services.control import ControlService  # noqa: E402
 from speedofsound.services.control.joystick_control import JoystickControl  # noqa: E402
-from speedofsound.services.extension.extension_service import (
-    ExtensionService,
-)  # noqa: E402
-from speedofsound.services.orchestrator.orchestrator_service import (
-    OrchestratorService,
-)  # noqa: E402
-from speedofsound.services.recorder.pyaudio_recorder import (
+from speedofsound.services.extension import ExtensionService  # noqa: E402
+from speedofsound.services.orchestrator import OrchestratorService  # noqa: E402
+from speedofsound.services.recorder import RecorderService  # noqa: E402
+from speedofsound.services.recorder.pyaudio_recorder import (  # noqa: E402
     PyAudioRecorder,
-)  # noqa: E402
-from speedofsound.services.recorder.recorder_service import (
-    RecorderService,
-)  # noqa: E402
-from speedofsound.services.transcriber.transcriber_service import (
-    TranscriberService,
-)  # noqa: E402
-from speedofsound.services.typist.typist_service import TypistService  # noqa: E402
+)
+from speedofsound.services.transcriber import TranscriberService  # noqa: E402
+from speedofsound.services.typist import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
 

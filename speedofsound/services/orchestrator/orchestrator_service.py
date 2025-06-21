@@ -23,14 +23,12 @@ from speedofsound.models import (
     TypistResponse,
 )
 from speedofsound.services.base_service import BaseService
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
-from speedofsound.services.control.control_service import ControlService
-from speedofsound.services.extension.extension_service import ExtensionService
-from speedofsound.services.recorder.recorder_service import RecorderService
-from speedofsound.services.transcriber.transcriber_service import TranscriberService
-from speedofsound.services.typist.typist_service import TypistService
+from speedofsound.services.configuration import ConfigurationService
+from speedofsound.services.control import ControlService
+from speedofsound.services.extension import ExtensionService
+from speedofsound.services.recorder import RecorderService
+from speedofsound.services.transcriber import TranscriberService
+from speedofsound.services.typist import TypistService
 from speedofsound.utils import is_empty
 
 

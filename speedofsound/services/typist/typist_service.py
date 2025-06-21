@@ -5,9 +5,7 @@ from gi.repository import GObject  # type: ignore
 from speedofsound.constants import TYPIST_RESPONSE_SIGNAL
 from speedofsound.models import TypistBackend, TypistRequest, TypistResponse
 from speedofsound.services.base_service import BaseService
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.typist.atspi_typist import AtSpiTypist
 from speedofsound.services.typist.base_typist import BaseTypist
 from speedofsound.services.typist.xdotool_typist import XdotoolTypist

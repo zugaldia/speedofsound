@@ -12,9 +12,7 @@ from speedofsound.models import (
     TranscriberResponse,
     TranscriberType,
 )
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
 from speedofsound.utils import is_empty
 

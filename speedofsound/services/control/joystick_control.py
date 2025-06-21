@@ -6,9 +6,7 @@ from gi.repository import GLib  # type: ignore
 
 from speedofsound.models import JoystickDevice
 from speedofsound.services.base_provider import BaseProvider
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 
 
 class JoystickControl(BaseProvider):

@@ -3,9 +3,7 @@ from gi.repository import GObject  # type: ignore
 from speedofsound.constants import RECORDER_RESPONSE_SIGNAL, VOLUME_LEVEL_SIGNAL
 from speedofsound.models import RecorderRequest, RecorderResponse
 from speedofsound.services.base_service import BaseService
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder
 
 

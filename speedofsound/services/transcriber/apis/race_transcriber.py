@@ -2,9 +2,7 @@ import concurrent.futures
 from typing import Dict, List
 
 from speedofsound.models import TranscriberRequest, TranscriberResponse, TranscriberType
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
 
 
