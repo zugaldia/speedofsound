@@ -19,17 +19,20 @@ class JoystickControl(BaseProvider):
         self._joystick = None
         self._is_running = False
 
+        joystick_id = self._configuration.config.joystick_id
+        if joystick_id is None:
+            self._logger.info("No joystick ID configured, skipping initialization.")
+            return
+
         pygame.init()
         pygame.joystick.init()
-        devices = self.get_joystick_devices()
-        self._logger.debug(
-            f"Found {len(devices)} joystick devices: {[d.name for d in devices]}"
-        )
-
-        self._setup_joystick()
+        self._setup_joystick(joystick_id)
         self._logger.info("Initialized.")
 
-    def get_joystick_devices(self) -> typing.List[JoystickDevice]:
+    def set_callback(self, callback: Callable):
+        self._callback = callback
+
+    def _get_joystick_devices(self) -> typing.List[JoystickDevice]:
         devices = []
         for i in range(pygame.joystick.get_count()):
             device = pygame.joystick.Joystick(i)
@@ -42,17 +45,23 @@ class JoystickControl(BaseProvider):
 
         return devices
 
-    def set_callback(self, callback: Callable):
-        self._callback = callback
+    def _setup_joystick(self, joystick_id: int):
+        devices = self._get_joystick_devices()
+        names = [device.name for device in devices]
+        self._logger.debug(f"Found {len(devices)} joystick device(s): {names}")
+        if joystick_id < 0 or joystick_id >= len(devices):
+            self._logger.error(
+                f"Invalid joystick ID: {joystick_id}. "
+                f"Must be between 0 and {len(devices) - 1}."
+            )
+            return
 
-    def _setup_joystick(self):
-        joystick_id = self._configuration.config.joystick_id
-        if joystick_id is not None:
-            self._joystick = pygame.joystick.Joystick(joystick_id)
-            self._joystick.init()
-            self._is_running = True
-            GLib.timeout_add(100, self._poll_joystick)
-            self._logger.info(f"Joystick initialized: {self._joystick.get_name()}")
+        self._joystick = pygame.joystick.Joystick(joystick_id)
+        self._joystick.init()
+        self._is_running = True
+
+        GLib.timeout_add(100, self._poll_joystick)
+        self._logger.info(f"Joystick initialized: {self._joystick.get_name()}")
 
     def _poll_joystick(self):
         if not self._callback:
@@ -69,5 +78,5 @@ class JoystickControl(BaseProvider):
         self._is_running = False
         if self._joystick:
             self._joystick.quit()
-        pygame.joystick.quit()
-        pygame.quit()
+            pygame.joystick.quit()
+            pygame.quit()
