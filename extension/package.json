@@ -1,0 +1,12 @@
+{
+  "name": "speedofsound",
+  "version": "1.0.0",
+  "description": "Type into any app at the speed of sound.",
+  "main": "extension.js",
+  "author": "Antonio Zugaldia",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "eslint": "^9.29.0"
+  }
+}
