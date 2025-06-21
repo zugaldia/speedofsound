@@ -1,10 +1,9 @@
-from gi.repository import GLib, GObject, Gtk  # type: ignore
+from gi.repository import GLib, Gtk  # type: ignore
 
 from speedofsound.constants import DEFAULT_MARGIN, DEFAULT_SPACING
 
 
 class InputWidget(Gtk.Box):
-
     def __init__(self) -> None:
         super().__init__(
             orientation=Gtk.Orientation.VERTICAL,

@@ -18,7 +18,6 @@ class MainViewModel(BaseViewModel):
     def shutdown(self):
         pass
 
-
     def action_type(self):
         self._orchestrator.action_type()
 
