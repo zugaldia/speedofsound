@@ -1,3 +1,4 @@
+import os
 from concurrent.futures import Future, ThreadPoolExecutor
 
 from gi.repository import GObject  # type: ignore
@@ -31,23 +32,45 @@ class TypistService(BaseService):
         self._executor.shutdown(wait=True)
         self._typist.shutdown()
 
+    def _get_display_server(self) -> str:
+        """Detect the display server type (x11, wayland, or unknown)."""
+        session_type = os.environ.get("XDG_SESSION_TYPE", "").lower()
+        self._logger.info(f"Detected session type: {session_type}")
+        if session_type in ["x11", "wayland"]:
+            return session_type
+        return "unknown"
+
+    def _get_default_backend(self) -> TypistBackend:
+        """Get the default typist backend based on the display server."""
+        display_server = self._get_display_server()
+        if display_server == "x11":
+            return TypistBackend.XDOTOOL
+        elif display_server == "wayland":
+            return TypistBackend.YDOTOOL
+        else:
+            self._logger.warning("Unknown display server, defaulting to AT-SPI.")
+            return TypistBackend.ATSPI
+
     def _get_typist(self) -> BaseTypist:
         config = self._configuration_service.config
         backend = (
             TypistBackend(config.typist_backend)
             if config.typist_backend
-            else TypistBackend.ATSPI  # Default to AT-SPI
+            else self._get_default_backend()
         )
 
         if backend == TypistBackend.XDOTOOL:
-            self._logger.info("Using xdotool typist backend.")
+            self._logger.info("Using xdotool backend.")
             return XdotoolTypist()
         elif backend == TypistBackend.YDOTOOL:
-            self._logger.info("Using ydotool typist backend.")
+            self._logger.info("Using ydotool backend.")
             return YdotoolTypist()
-        else:
-            self._logger.info("Using AT-SPI typist backend.")
+        elif backend == TypistBackend.ATSPI:
+            self._logger.info("Using AT-SPI backend.")
             return AtSpiTypist()
+        else:
+            self._logger.error(f"Unsupported backend: {backend}")
+            raise ValueError(f"Unsupported backend: {backend}")
 
     def type_async(self, request: TypistRequest):
         self._logger.info("Typing.")
@@ -59,8 +82,7 @@ class TypistService(BaseService):
             result: TypistResponse = future.result()
             self.safe_emit(TYPIST_RESPONSE_SIGNAL, result.model_dump_json())
         except Exception as e:
-            self._logger.error(f"Error during typing: {e}")
-            response = TypistResponse(
-                success=False, message=f"Error during typing: {str(e)}"
-            )
+            message = f"Error during typing: {str(e)}"
+            self._logger.error(message)
+            response = TypistResponse(success=False, message=message)
             self.safe_emit(TYPIST_RESPONSE_SIGNAL, response.model_dump_json())

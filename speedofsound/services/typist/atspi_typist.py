@@ -5,9 +5,10 @@ framework for providing communication between assistive technologies (AT) and
 applications, like SOS. It is AFAICT the de facto standard for providing
 accessibility to free and open desktops.
 
-This is the default mechanism to enter text into the desktop, and it should work
-across desktop environments. Read the configuration documentation if you run
-into any issues and you want to switch to an alternative typing backend.
+I wanted to make this the default mechanism to enter text into the desktop, because
+in theory it should work across all desktop environments. However, in practice
+it seems to have some limitations, especially with non-ASCII characters and on
+Wayland (old but actual? https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/2958).
 
 Docs:
 https://gnome.pages.gitlab.gnome.org/at-spi2-core/libatspi/func.generate_keyboard_event.html
