@@ -1,9 +1,7 @@
 import riva.client
 
 from speedofsound.models import TranscriberType
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
 
 

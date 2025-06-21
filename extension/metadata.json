@@ -1,0 +1,10 @@
+{
+  "name": "Speed of Sound",
+  "description": "Type into any app at the speed of sound.",
+  "url": "https://www.speedofsound.io",
+  "uuid": "extension@speedofsound.io",
+  "settings-schema": "org.gnome.shell.extensions.speedofsound",
+  "shell-version": [
+    "46"
+  ]
+}

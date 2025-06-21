@@ -3,9 +3,7 @@ from gi.repository import GObject  # type: ignore
 from speedofsound.constants import RECORDER_RESPONSE_SIGNAL, VOLUME_LEVEL_SIGNAL
 from speedofsound.models import RecorderRequest, RecorderResponse
 from speedofsound.services.base_service import BaseService
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder
 
 
@@ -20,16 +18,15 @@ class RecorderService(BaseService):
     def __init__(
         self,
         configuration_service: ConfigurationService,
-        pyaudio_recorder: PyAudioRecorder,
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration_service
-        self._recorder = pyaudio_recorder
+        self._recorder = PyAudioRecorder()
         self._recorder.set_volume_callback(self._on_volume_level)
         self._logger.info("Initialized.")
 
     def shutdown(self):
-        pass
+        self._recorder.shutdown()
 
     def _on_volume_level(self, volume: float):
         """Handle volume level updates from the recorder."""

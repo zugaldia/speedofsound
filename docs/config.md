@@ -6,6 +6,8 @@ Speed of Sound uses a TOML configuration file located at `config.toml` in the pr
 cp config.example.toml config.toml
 ```
 
+It shows the basic settings needed to set up the application with Whisper as the Speech-to-Text backend. 
+
 ## General Settings
 
 ### Language Configuration
@@ -54,6 +56,7 @@ Choose your transcription provider:
 - `"openai"` - OpenAI GTP-4o and Whisper API (cloud)
 - `"elevenlabs"` - ElevenLabs Speech-to-Text (cloud)
 - `"race"` - Run multiple providers simultaneously (hybrid)
+
 
 ## Provider Configurations
 

@@ -5,9 +5,9 @@ from speedofsound.models import TypistRequest, TypistResponse
 from speedofsound.services.typist.base_typist import BaseTypist
 
 
-class XdotoolTypist(BaseTypist):
+class YdotoolTypist(BaseTypist):
     def __init__(self):
-        super().__init__(provider_name="xdotool")
+        super().__init__(provider_name="ydotool")
         self._logger.info("Initialized.")
 
     def shutdown(self):
@@ -26,6 +26,6 @@ class XdotoolTypist(BaseTypist):
         text = request.transcriber_response.get_text()
         quoted = shlex.quote(text)
         self._logger.debug(f"Typing text: {quoted}")
-        command = f"xdotool type -- {quoted}"
+        command = f"ydotool type {quoted}"
         success = self._execute_command(command)
         return TypistResponse(success=success)

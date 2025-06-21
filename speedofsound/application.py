@@ -2,23 +2,20 @@ import logging
 
 import gi
 
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
-from speedofsound.services.control.control_service import ControlService
-from speedofsound.services.control.joystick_control import JoystickControl
-from speedofsound.services.orchestrator.orchestrator_service import OrchestratorService
-from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder
-from speedofsound.services.recorder.recorder_service import RecorderService
-from speedofsound.services.transcriber.transcriber_service import TranscriberService
-from speedofsound.services.typist.typist_service import TypistService
-
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-
+gi.require_version("Atspi", "2.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
 from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
+from speedofsound.services.configuration import ConfigurationService  # noqa: E402
+from speedofsound.services.control import ControlService  # noqa: E402
+from speedofsound.services.control.joystick_control import JoystickControl  # noqa: E402
+from speedofsound.services.extension import ExtensionService  # noqa: E402
+from speedofsound.services.orchestrator import OrchestratorService  # noqa: E402
+from speedofsound.services.recorder import RecorderService  # noqa: E402
+from speedofsound.services.transcriber import TranscriberService  # noqa: E402
+from speedofsound.services.typist import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
 
@@ -71,17 +68,19 @@ class SosApplication(Adw.Application):
         )
         self._control_service = ControlService(joystick_control=self._joystick_control)
 
-        self._pyaudio_recorder = PyAudioRecorder()
         self._recorder_service = RecorderService(
             configuration_service=self._configuration_service,
-            pyaudio_recorder=self._pyaudio_recorder,
         )
 
         self._transcriber = TranscriberService(
             configuration_service=self._configuration_service,
         )
 
-        self._typist_service = TypistService()
+        self._typist_service = TypistService(
+            configuration_service=self._configuration_service
+        )
+
+        self._extension = ExtensionService()
 
         self._orchestrator = OrchestratorService(
             configuration_service=self._configuration_service,
@@ -89,13 +88,15 @@ class SosApplication(Adw.Application):
             recorder_service=self._recorder_service,
             transcriber_service=self._transcriber,
             typist_service=self._typist_service,
+            extension_service=self._extension,
         )
 
     def do_startup(self):
         Adw.Application.do_startup(self)
         self._logger.info("Starting up.")
-        self._create_action("quit", self.quit, ["<primary>q"])
         self._create_action("trigger", self._on_trigger_action)
+        self._create_action("show", self._on_show_action)
+        self._create_action("quit", self._on_quit_action, ["<primary>q"])
 
         try:
             # Poor man DI
@@ -114,8 +115,11 @@ class SosApplication(Adw.Application):
         )
 
     def do_activate(self):
-        self._logger.info("Activating.")
-        self._main_window.present()
+        self._main_window.hide()
+        self._logger.info(
+            "App is now running in the background, "
+            "the main window is intentionally hidden."
+        )
 
     def do_shutdown(self):
         self._logger.info("Shutting down.")
@@ -124,14 +128,21 @@ class SosApplication(Adw.Application):
         self._typist_service.shutdown()
         self._transcriber.shutdown()
         self._recorder_service.shutdown()
-        self._pyaudio_recorder.shutdown()
         self._control_service.shutdown()
         self._joystick_control.shutdown()
+        self._extension.shutdown()
         self._configuration_service.shutdown()
         Adw.Application.do_shutdown(self)
 
     def _on_trigger_action(self, action, param):
         self._orchestrator.triggered()
+
+    def _on_show_action(self, action, param):
+        if self._main_window:
+            self._main_window.present()
+
+    def _on_quit_action(self, action, param):
+        self.quit()
 
     def _create_action(self, name, callback, shortcuts=None):
         action = Gio.SimpleAction.new(name, None)

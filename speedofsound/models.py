@@ -47,6 +47,12 @@ class TranscriberType(StrEnum):
     RACE = "race"
 
 
+class TypistBackend(StrEnum):
+    XDOTOOL = "xdotool"
+    YDOTOOL = "ydotool"
+    ATSPI = "atspi"
+
+
 class NvidiaRivaConfig(BaseModel):
     """NVIDIA Riva transcriber configuration."""
 
@@ -113,6 +119,9 @@ class AppConfig(BaseModel):
 
     # Transcriber settings
     transcriber: str = TranscriberType.WHISPER.value
+
+    # Typist settings
+    typist_backend: Optional[str] = None
 
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()

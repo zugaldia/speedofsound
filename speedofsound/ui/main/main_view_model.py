@@ -1,6 +1,6 @@
 from speedofsound.constants import ORCHESTRATOR_EVENT_SIGNAL, VOLUME_LEVEL_SIGNAL
 from speedofsound.models import OrchestratorEvent
-from speedofsound.services.orchestrator.orchestrator_service import OrchestratorService
+from speedofsound.services.orchestrator import OrchestratorService
 from speedofsound.ui.base_view_model import BaseViewModel
 from speedofsound.ui.main.main_view_state import MainViewState
 
@@ -17,9 +17,6 @@ class MainViewModel(BaseViewModel):
 
     def shutdown(self):
         pass
-
-    def input_button_clicked(self):
-        self._orchestrator.triggered()
 
     def action_type(self):
         self._orchestrator.action_type()

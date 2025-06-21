@@ -6,9 +6,7 @@ from gi.repository import GObject  # type: ignore
 from speedofsound.constants import TRANSCRIBER_RESPONSE_SIGNAL
 from speedofsound.models import TranscriberRequest, TranscriberResponse, TranscriberType
 from speedofsound.services.base_service import BaseService
-from speedofsound.services.configuration.configuration_service import (
-    ConfigurationService,
-)
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis.base_transcriber import BaseTranscriber
 from speedofsound.services.transcriber.apis.elevenlabs_transcriber import (
     ElevenLabsTranscriber,
