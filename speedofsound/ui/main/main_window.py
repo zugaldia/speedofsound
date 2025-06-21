@@ -24,8 +24,10 @@ class MainWindow(Adw.ApplicationWindow):
         self.set_title(APPLICATION_NAME)
         self.set_default_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
         self.set_resizable(False)
-        # self.set_hide_on_close(True)  # TODO: Test this
         self._load_css()
+
+        # Same behavior as when we start typing
+        self.set_hide_on_close(True)
 
         toolbar_view = Adw.ToolbarView()
         self.set_content(toolbar_view)
@@ -84,7 +86,7 @@ class MainWindow(Adw.ApplicationWindow):
             self._input_widget.set_button_enabled(False)
             self._input_widget.set_pulsating(True)
         elif orchestrator_state == OrchestratorStage.TYPING:
-            self.minimize()
+            self.hide()
             self._input_widget.set_pulsating(False)
             self._view_model.action_type()
 

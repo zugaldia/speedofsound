@@ -115,8 +115,11 @@ class SosApplication(Adw.Application):
         )
 
     def do_activate(self):
-        self._logger.info("Activating.")
-        self._main_window.present()
+        self._main_window.hide()
+        self._logger.info(
+            "App is now running in the background, "
+            "the main window is intentionally hidden."
+        )
 
     def do_shutdown(self):
         self._logger.info("Shutting down.")
