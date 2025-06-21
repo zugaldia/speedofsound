@@ -123,30 +123,32 @@ export default class SosExtension extends Extension {
         }
     }
 
-    _showApp() {
-        Main.notify('TODO: Show app', 'Feature not implemented yet');
-    }
-
-    _quitApp() {
-        Main.notify('TODO: Quit app', 'Feature not implemented yet');
-    }
-
-    _trigger() {
+    _callAppAction(actionName) {
         try {
-            Main.notify('TODO: App triggered', 'Feature not implemented yet');
-
-            // Equivalent to scripts/trigger.sh
-            Gio.DBus.session.call(
+            const reply = Gio.DBus.session.call(
                 'io.speedofsound.App',
                 '/io/speedofsound/App',
                 'org.gtk.Actions',
                 'Activate',
-                new GLib.Variant('(sava{sv})', ['trigger', [], {}]),
+                new GLib.Variant('(sava{sv})', [actionName, [], {}]),
                 null, Gio.DBusCallFlags.NONE, -1, null
             );
+            console.log(`${actionName} action reply: ${reply}`);
         } catch (error) {
-            console.log(`Failed to trigger app: ${error.message}`);
+            console.log(`Failed to call ${actionName} action: ${error.message}`);
         }
+    }
+
+    _showApp() {
+        this._callAppAction('show');
+    }
+
+    _quitApp() {
+        this._callAppAction('quit');
+    }
+
+    _trigger() {
+        this._callAppAction('trigger');
     }
 
     disable() {

@@ -5,6 +5,8 @@
 APPLICATION_ID = "io.speedofsound.App"
 APPLICATION_NAME = "Speed of Sound"
 
+EXTENSION_SCHEMA = "org.gnome.shell.extensions.speedofsound"
+
 CONFIG_FILE = "config.toml"
 LOG_FILE = "speedofsound.log"
 

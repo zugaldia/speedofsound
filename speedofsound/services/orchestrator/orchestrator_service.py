@@ -27,6 +27,7 @@ from speedofsound.services.configuration.configuration_service import (
     ConfigurationService,
 )
 from speedofsound.services.control.control_service import ControlService
+from speedofsound.services.extension.extension_service import ExtensionService
 from speedofsound.services.recorder.recorder_service import RecorderService
 from speedofsound.services.transcriber.transcriber_service import TranscriberService
 from speedofsound.services.typist.typist_service import TypistService
@@ -48,6 +49,7 @@ class OrchestratorService(BaseService):
         recorder_service: RecorderService,
         transcriber_service: TranscriberService,
         typist_service: TypistService,
+        extension_service: ExtensionService,
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._stage = OrchestratorStage.INITIALIZING
@@ -69,6 +71,8 @@ class OrchestratorService(BaseService):
         self._typist = typist_service
         self._typist.connect(TYPIST_RESPONSE_SIGNAL, self._on_typist_response)
 
+        self._extension = extension_service
+
         self._send_event(OrchestratorStage.READY, "Ready.")
         self._logger.info("Initialized.")
 
@@ -82,6 +86,9 @@ class OrchestratorService(BaseService):
         success: bool = True,
     ):
         self._stage = stage
+        self._extension.set_app_status(stage)
+        if success is False and message is not None:
+            self._extension.set_app_error(message)
         event = OrchestratorEvent(stage=stage, success=success, message=message)
         self.safe_emit(ORCHESTRATOR_EVENT_SIGNAL, event.model_dump_json())
 

@@ -8,16 +8,17 @@ gi.require_version("Atspi", "2.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
 from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
-from speedofsound.services.configuration.configuration_service import (
+from speedofsound.services.configuration.configuration_service import (  # noqa: E402
     ConfigurationService,
 )
-from speedofsound.services.control.control_service import ControlService
-from speedofsound.services.control.joystick_control import JoystickControl
-from speedofsound.services.orchestrator.orchestrator_service import OrchestratorService
-from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder
-from speedofsound.services.recorder.recorder_service import RecorderService
-from speedofsound.services.transcriber.transcriber_service import TranscriberService
-from speedofsound.services.typist.typist_service import TypistService
+from speedofsound.services.control.control_service import ControlService  # noqa: E402
+from speedofsound.services.control.joystick_control import JoystickControl  # noqa: E402
+from speedofsound.services.extension.extension_service import ExtensionService  # noqa: E402
+from speedofsound.services.orchestrator.orchestrator_service import OrchestratorService  # noqa: E402
+from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder  # noqa: E402
+from speedofsound.services.recorder.recorder_service import RecorderService  # noqa: E402
+from speedofsound.services.transcriber.transcriber_service import TranscriberService  # noqa: E402
+from speedofsound.services.typist.typist_service import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
 
@@ -84,12 +85,15 @@ class SosApplication(Adw.Application):
             configuration_service=self._configuration_service
         )
 
+        self._extension = ExtensionService()
+
         self._orchestrator = OrchestratorService(
             configuration_service=self._configuration_service,
             control_service=self._control_service,
             recorder_service=self._recorder_service,
             transcriber_service=self._transcriber,
             typist_service=self._typist_service,
+            extension_service=self._extension,
         )
 
     def do_startup(self):
@@ -97,6 +101,7 @@ class SosApplication(Adw.Application):
         self._logger.info("Starting up.")
         self._create_action("quit", self.quit, ["<primary>q"])
         self._create_action("trigger", self._on_trigger_action)
+        self._create_action("show", self._on_show_action)
 
         try:
             # Poor man DI
@@ -131,11 +136,16 @@ class SosApplication(Adw.Application):
         self._pyaudio_recorder.shutdown()
         self._control_service.shutdown()
         self._joystick_control.shutdown()
+        self._extension.shutdown()
         self._configuration_service.shutdown()
         Adw.Application.do_shutdown(self)
 
     def _on_trigger_action(self, action, param):
         self._orchestrator.triggered()
+
+    def _on_show_action(self, action, param):
+        if self._main_window:
+            self._main_window.present()
 
     def _create_action(self, name, callback, shortcuts=None):
         action = Gio.SimpleAction.new(name, None)
