@@ -18,16 +18,15 @@ class RecorderService(BaseService):
     def __init__(
         self,
         configuration_service: ConfigurationService,
-        pyaudio_recorder: PyAudioRecorder,
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration_service
-        self._recorder = pyaudio_recorder
+        self._recorder = PyAudioRecorder()
         self._recorder.set_volume_callback(self._on_volume_level)
         self._logger.info("Initialized.")
 
     def shutdown(self):
-        pass
+        self._recorder.shutdown()
 
     def _on_volume_level(self, volume: float):
         """Handle volume level updates from the recorder."""

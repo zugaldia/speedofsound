@@ -14,9 +14,6 @@ from speedofsound.services.control.joystick_control import JoystickControl  # no
 from speedofsound.services.extension import ExtensionService  # noqa: E402
 from speedofsound.services.orchestrator import OrchestratorService  # noqa: E402
 from speedofsound.services.recorder import RecorderService  # noqa: E402
-from speedofsound.services.recorder.pyaudio_recorder import (  # noqa: E402
-    PyAudioRecorder,
-)
 from speedofsound.services.transcriber import TranscriberService  # noqa: E402
 from speedofsound.services.typist import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
@@ -71,10 +68,8 @@ class SosApplication(Adw.Application):
         )
         self._control_service = ControlService(joystick_control=self._joystick_control)
 
-        self._pyaudio_recorder = PyAudioRecorder()
         self._recorder_service = RecorderService(
             configuration_service=self._configuration_service,
-            pyaudio_recorder=self._pyaudio_recorder,
         )
 
         self._transcriber = TranscriberService(
@@ -133,7 +128,6 @@ class SosApplication(Adw.Application):
         self._typist_service.shutdown()
         self._transcriber.shutdown()
         self._recorder_service.shutdown()
-        self._pyaudio_recorder.shutdown()
         self._control_service.shutdown()
         self._joystick_control.shutdown()
         self._extension.shutdown()
