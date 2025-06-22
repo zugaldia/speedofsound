@@ -11,6 +11,7 @@ class GStreamerRecorder(BaseRecorder):
     def __init__(self) -> None:
         super().__init__(provider_name="gstreamer")
         Gst.init()
+        self._devices: List[MicrophoneDevice] = []
         self._pipeline: Optional[Gst.Pipeline] = None
         self._appsink: Optional[Gst.Element] = None
         self._audio_data: List[bytes] = []
@@ -28,7 +29,8 @@ class GStreamerRecorder(BaseRecorder):
             self._audio_data.clear()
 
     def get_input_devices(self) -> List[MicrophoneDevice]:
-        devices = []
+        if self._devices:
+            return self._devices
         monitor = Gst.DeviceMonitor.new()
         monitor.add_filter("Audio/Source", None)
         monitor.start()
@@ -42,9 +44,10 @@ class GStreamerRecorder(BaseRecorder):
                     device_name = device.get_properties().get_string("alsa.id")
                 if not device_name:
                     device_name = device.get_display_name()
-                devices.append(MicrophoneDevice(id=len(devices), name=device_name))
+                device_id = len(self._devices)
+                self._devices.append(MicrophoneDevice(id=device_id, name=device_name))
         monitor.stop()
-        return devices
+        return self._devices
 
     def is_recording(self) -> bool:
         with self._recording_lock:

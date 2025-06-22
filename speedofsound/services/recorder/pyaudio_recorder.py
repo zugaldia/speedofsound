@@ -10,6 +10,7 @@ from speedofsound.services.recorder.base_recorder import BaseRecorder
 class PyAudioRecorder(BaseRecorder):
     def __init__(self) -> None:
         super().__init__(provider_name="pyaudio")
+        self._devices: List[MicrophoneDevice] = []
         self._audio = pyaudio.PyAudio()
         self._stream: Optional[pyaudio.Stream] = None
         self._audio_data: List[bytes] = []
@@ -26,18 +27,15 @@ class PyAudioRecorder(BaseRecorder):
         self._audio_data.clear()
 
     def get_input_devices(self) -> List[MicrophoneDevice]:
-        devices = []
+        if self._devices:
+            return self._devices
         for i in range(self._audio.get_device_count()):
             device = self._audio.get_device_info_by_index(i)
             if device["maxInputChannels"] > 0:
-                devices.append(
-                    MicrophoneDevice(
-                        id=device["index"],
-                        name=device["name"],
-                    )
+                self._devices.append(
+                    MicrophoneDevice(id=device["index"], name=device["name"])
                 )
-
-        return devices
+        return self._devices
 
     def is_recording(self) -> bool:
         return self._stream is not None and self._stream.is_active()
