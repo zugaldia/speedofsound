@@ -67,6 +67,11 @@ class GStreamerRecorder(BaseRecorder):
                         device_name = all_devices[recorder_request.microphone_id].name
                         self._logger.info(f"Using device: {device_name}")
                         device_param = f"device={device_name} "
+                    else:
+                        self._logger.error(
+                            f"Invalid device ID {recorder_request.microphone_id}. "
+                            f"Using default device."
+                        )
             except Exception as e:
                 self._logger.error(f"Error getting device name: {e}")
 
