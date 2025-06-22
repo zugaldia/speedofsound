@@ -52,6 +52,8 @@ Choose how to activate voice input:
 
 For manual shortcuts and joystick setup, see the [trigger configuration guide](docs/trigger.md).
 
+Once activated, you can cancel the recording by pressing **Escape**. Recording will automatically stop after 60 seconds (configurable in `config.toml`, see below).
+
 ## Configuration
 
 Speed of Sound uses a `config.toml` file for all settings. Start by copying the example configuration:

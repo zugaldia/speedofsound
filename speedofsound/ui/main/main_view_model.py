@@ -21,6 +21,9 @@ class MainViewModel(BaseViewModel):
     def action_type(self):
         self._orchestrator.action_type()
 
+    def cancel_recording(self):
+        self._orchestrator.cancel_recording()
+
     def _on_orchestrator_event(
         self, service: OrchestratorService, encoded: str
     ) -> None:

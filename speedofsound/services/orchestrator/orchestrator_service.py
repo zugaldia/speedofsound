@@ -53,6 +53,7 @@ class OrchestratorService(BaseService):
         self._stage = OrchestratorStage.INITIALIZING
         self._configuration_service = configuration_service
         self._queued_typing: Optional[TypistRequest] = None
+        self._recording_cancelled = False
 
         self._control = control_service
         self._control.connect(CONTROL_EVENT_SIGNAL, self._on_control_event)
@@ -116,6 +117,7 @@ class OrchestratorService(BaseService):
             return
         self._send_event(OrchestratorStage.RECORDING, "Listening...")
         self._queued_typing = None
+        self._recording_cancelled = False
         self._recorder.start_recording()
 
     def _action_stop(self) -> None:
@@ -127,6 +129,12 @@ class OrchestratorService(BaseService):
     def action_type(self) -> None:
         if self._queued_typing:
             self._typist.type_async(self._queued_typing)
+
+    def cancel_recording(self) -> None:
+        if self._stage == OrchestratorStage.RECORDING:
+            self._logger.info("Canceling recording...")
+            self._recording_cancelled = True
+            self._recorder.stop_recording()
 
     #
     # Private API
@@ -159,6 +167,11 @@ class OrchestratorService(BaseService):
                     message=recorder_response.message,
                     success=recorder_response.success,
                 )
+
+            # If recording was cancelled, skip transcription and go directly to ready
+            if self._recording_cancelled:
+                self._recording_cancelled = False
+                return self._send_event(OrchestratorStage.READY)
 
             self._send_event(OrchestratorStage.TRANSCRIBING, "Transcribing...")
             self._transcriber.transcribe_async(

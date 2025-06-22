@@ -40,6 +40,7 @@ class MainWindow(Adw.ApplicationWindow):
         toolbar_view.set_content(self._input_widget)
 
         self._view_model = view_model
+        self._was_recording = False
         self._view_model.view_state.connect(
             "notify::status-text", self._on_status_text_changed
         )
@@ -49,6 +50,11 @@ class MainWindow(Adw.ApplicationWindow):
         self._view_model.view_state.connect(
             "notify::volume-level", self._on_volume_level_changed
         )
+
+        # Add keyboard event controller for escape key
+        key_controller = Gtk.EventControllerKey()
+        key_controller.connect("key-pressed", self._on_key_pressed)
+        self.add_controller(key_controller)
 
     def _load_css(self):
         default_display = Gdk.Display.get_default()
@@ -69,15 +75,28 @@ class MainWindow(Adw.ApplicationWindow):
         orchestrator_state = self._view_model.view_state.orchestrator_state
         if orchestrator_state == OrchestratorStage.READY:
             self._input_widget.set_volume(0.0)
+            if self._was_recording:
+                self.hide()
+                self._was_recording = False
         elif orchestrator_state == OrchestratorStage.RECORDING:
+            self._was_recording = True
             self.present()
         elif orchestrator_state == OrchestratorStage.TRANSCRIBING:
             self._input_widget.set_pulsating(True)
         elif orchestrator_state == OrchestratorStage.TYPING:
             self.hide()
             self._input_widget.set_pulsating(False)
+            self._was_recording = False
             self._view_model.action_type()
 
     def _on_volume_level_changed(self, view_state, param) -> None:
         volume_level = self._view_model.view_state.volume_level
         self._input_widget.set_volume(volume_level)
+
+    def _on_key_pressed(self, controller, keyval, keycode, state) -> bool:
+        if keyval == Gdk.KEY_Escape:
+            orchestrator_state = self._view_model.view_state.orchestrator_state
+            if orchestrator_state == OrchestratorStage.RECORDING:
+                self._view_model.cancel_recording()
+                return True
+        return False
