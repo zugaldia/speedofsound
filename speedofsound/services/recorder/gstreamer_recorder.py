@@ -61,11 +61,12 @@ class GStreamerRecorder(BaseRecorder):
 
             try:
                 # Custom device ID
-                if recorder_request.input_device is not None:
+                if recorder_request.microphone_id is not None:
                     all_devices = self.get_input_devices()
-                    device_name = all_devices[recorder_request.input_device].name
-                    self._logger.info(f"Using device: {device_name}")
-                    device_param = f"device={device_name} "
+                    if 0 <= recorder_request.microphone_id < len(all_devices):
+                        device_name = all_devices[recorder_request.microphone_id].name
+                        self._logger.info(f"Using device: {device_name}")
+                        device_param = f"device={device_name} "
             except Exception as e:
                 self._logger.error(f"Error getting device name: {e}")
 

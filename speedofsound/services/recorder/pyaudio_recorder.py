@@ -45,9 +45,9 @@ class PyAudioRecorder(BaseRecorder):
         self._logger.info(f"Recorder request: {recorder_request}")
         format = self._audio.get_format_from_width(recorder_request.sample_width)
         input_device_index = (
-            recorder_request.input_device
-            if recorder_request.input_device is not None
-            and recorder_request.input_device >= 0
+            recorder_request.microphone_id
+            if recorder_request.microphone_id is not None
+            and recorder_request.microphone_id >= 0
             else None
         )
 

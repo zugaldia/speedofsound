@@ -71,7 +71,7 @@ class RecorderService(BaseService):
     def start_recording(self):
         try:
             recorder_request = RecorderRequest()
-            recorder_request.input_device = self._configuration.config.microphone_id
+            recorder_request.microphone_id = self._configuration.config.microphone_id
             self._recorder.start_recording(recorder_request)
             timeout_seconds = self._configuration.config.recording_timeout_seconds
             self._timeout_id = GLib.timeout_add_seconds(

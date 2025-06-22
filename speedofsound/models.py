@@ -237,7 +237,7 @@ class RecorderRequest(BaseRequest):
     rate: int = 16000
     channels: int = 1
     sample_width: int = 2
-    input_device: Optional[int] = None
+    microphone_id: Optional[int] = None
     frames_per_buffer: int = 1024
 
 
