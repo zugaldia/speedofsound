@@ -6,9 +6,11 @@ Speed of Sound uses a TOML configuration file located at `config.toml` in the pr
 cp config.example.toml config.toml
 ```
 
-It shows the basic settings needed to set up the application with Whisper as the Speech-to-Text backend. 
+This shows the basic settings needed to set up the application with Whisper as the speech-to-text backend. 
 
 ## General Settings
+
+This document describes common settings you likely want to tweak. For other settings like joystick integration or typing backend configuration, see [`advanced.md`](advanced.md).
 
 ### Language Configuration
 
@@ -28,20 +30,6 @@ microphone_id = -1
 
 - `microphone_id`: Audio input device ID. Use `-1` for system default, or specify a device ID
 
-### Joystick/Gamepad Control
-
-This section is optional:
-
-```toml
-joystick_id = 0
-joystick_language_left = "en"
-joystick_language_right = "es"
-```
-
-- `joystick_id`: Joystick device ID (as detected by PyGame)
-- `joystick_language_left`: Language for left joystick button
-- `joystick_language_right`: Language for right joystick button
-
 ### Transcriber Selection
 
 ```toml
@@ -53,7 +41,7 @@ Choose your transcription provider:
 - `"nvidia_riva"` - NVIDIA Riva (local)
 - `"nvidia_nim"` - NVIDIA NIM (cloud)
 - `"google"` - Google Gemini (cloud)
-- `"openai"` - OpenAI GTP-4o and Whisper API (cloud)
+- `"openai"` - OpenAI GPT-4o and Whisper API (cloud)
 - `"elevenlabs"` - ElevenLabs Speech-to-Text (cloud)
 - `"race"` - Run multiple providers simultaneously (hybrid)
 
@@ -71,7 +59,7 @@ Each transcription provider has its own configuration section. For detailed setu
 ## Configuration Tips
 
 1. **Start Simple**: Begin with the default Whisper configuration for local processing
-2. **Multiple Providers**: You can enable multiple providers and use the "race" transcriber to run them simultaneously. This is helpful with cloud providers that have frequent outages or latency issues to ensure you always get a fast response. However, this transcriber is not limited to cloud - you can mix and match local and cloud providers
+2. **Multiple Providers**: Enable multiple providers and use the "race" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. You can mix and match both local and cloud providers
 3. **Language Detection**: Enable `language_auto` for automatic language detection, or set a specific language for better performance
 
 ## Example Configurations

@@ -62,6 +62,14 @@ cp config.example.toml config.toml
 
 The default configuration uses a local Whisper server for privacy-focused speech recognition. For additional providers and configuration options, see the [configuration documentation](docs/config.md).
 
+### ⚠️ Wayland Compatibility
+
+Wayland has stricter security restrictions than X11 for keyboard event simulation, which is required for voice typing functionality.
+
+Speed of Sound automatically detects your display server and selects the appropriate typing backend. On Wayland, we use `ydotool` instead of traditional X11 tools like `xdotool` or AT-SPI. However, `ydotool` may require additional configuration.
+
+**Troubleshooting**: If you see speech being transcribed but not typed into applications, see the [typist backend configuration guide](docs/advanced.md#typist-backend-selection). 
+
 ## Reporting Issues
 
 If you encounter any bugs, have feature requests, or need help with Speed of Sound, please open an issue on this repository:
