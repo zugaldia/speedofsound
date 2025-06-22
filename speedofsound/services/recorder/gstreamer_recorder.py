@@ -24,6 +24,8 @@ class GStreamerRecorder(BaseRecorder):
             if self._pipeline:
                 self._pipeline.set_state(Gst.State.NULL)
                 self._pipeline = None
+            self._appsink = None
+            self._audio_data.clear()
 
     def get_input_devices(self) -> List[MicrophoneDevice]:
         devices = []

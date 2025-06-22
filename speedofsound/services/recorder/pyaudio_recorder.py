@@ -1,5 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
-from typing import List, Optional, Tuple, Any
+from typing import Any, List, Optional, Tuple
 
 import pyaudio
 
@@ -12,7 +12,7 @@ class PyAudioRecorder(BaseRecorder):
         super().__init__(provider_name="pyaudio")
         self._audio = pyaudio.PyAudio()
         self._stream: Optional[pyaudio.Stream] = None
-        self._frames: List[bytes] = []
+        self._audio_data: List[bytes] = []
         self._buffer_count: int = 0
         self._executor = ThreadPoolExecutor()
         self._logger.info(f"PyAudio recorder v{pyaudio.__version__} initialized.")
@@ -23,6 +23,7 @@ class PyAudioRecorder(BaseRecorder):
             self._stream.stop_stream()
             self._stream.close()
         self._audio.terminate()
+        self._audio_data.clear()
 
     def get_input_devices(self) -> List[MicrophoneDevice]:
         devices = []
@@ -51,7 +52,7 @@ class PyAudioRecorder(BaseRecorder):
             else None
         )
 
-        self._frames = []
+        self._audio_data = []
         self._buffer_count = 0
         self._sample_width = recorder_request.sample_width
         self._stream = self._audio.open(
@@ -68,7 +69,7 @@ class PyAudioRecorder(BaseRecorder):
     def _stream_callback(
         self, in_data: bytes, frame_count: int, time_info: Any, status: int
     ) -> Tuple[None, int]:
-        self._frames.append(in_data)
+        self._audio_data.append(in_data)
         self._executor.submit(self._calculate_rms_volume, in_data)
         return (None, pyaudio.paContinue)
 
@@ -78,4 +79,4 @@ class PyAudioRecorder(BaseRecorder):
             self._stream.stop_stream()
             self._stream.close()
         self._stream = None
-        return b"".join(self._frames)
+        return b"".join(self._audio_data)
