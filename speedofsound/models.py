@@ -5,7 +5,7 @@ from enum import IntEnum, StrEnum
 from typing import Optional
 
 from gi.repository import GObject  # type: ignore
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from speedofsound.utils import get_uuid
 
@@ -116,6 +116,9 @@ class AppConfig(BaseModel):
     joystick_id: Optional[int] = None
     joystick_language_left: str = LANGUAGE_ENGLISH.id
     joystick_language_right: str = LANGUAGE_SPANISH.id
+
+    # Recording settings
+    recording_timeout_seconds: int = Field(default=60, ge=1, le=300)
 
     # Transcriber settings
     transcriber: str = TranscriberType.WHISPER.value

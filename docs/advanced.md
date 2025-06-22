@@ -40,6 +40,18 @@ ydotool type "Hello World"
 
 You should see "Hello World" typed in the current terminal window, confirming that `ydotool` is working correctly.
 
+## Recording Settings
+
+### Recording Timeout
+
+By default, recordings automatically stop after 60 seconds to prevent indefinitely long recordings. You can customize this timeout:
+
+```toml
+recording_timeout_seconds = 60
+```
+
+- `recording_timeout_seconds`: Maximum recording duration in seconds (default: 60, range: 1-300)
+
 ## Joystick/Gamepad Control
 
 If you have one or more joysticks connected to your system, you can use them to start and stop the app. You can also use left and right buttons to switch the input language.
