@@ -1,6 +1,6 @@
 # Speed of Sound GNOME Shell Extension
 
-This GNOME Shell extension provides a top bar indicator for the Speed of Sound (SOS) application.
+This GNOME Shell extension provides a top bar indicator for the Speed of Sound application.
 
 ## About top bar icons
 
@@ -8,9 +8,9 @@ As it turns out, top bar icons are a controversial topic in Linux these days :-)
 
 There is [a specification](https://www.freedesktop.org/wiki/Specifications/StatusNotifierItem/) but there's no consensus around it. This recent [discussion thread](https://gitlab.freedesktop.org/xdg/xdg-specs/-/issues/205) provides a good summary of where things stand. [This video](https://www.youtube.com/watch?v=02nFos3iHlo) also does a good job explaining the longer story and context.
 
-You can use SOS without a top bar icon, but we believe its usability improves significantly with one. This is because SOS isn't your typical desktop application: it runs in the background, its window only appears when triggered, and it needs to interact with any other application on your desktop. In other words, a top bar icon is the right pattern for this use case.
+You can use Speed of Sound without a top bar icon, but we believe its usability improves significantly with one. This is because Speed of Sound isn't your typical desktop application: it runs in the background, its window only appears when triggered, and it needs to interact with any other application on your desktop. In other words, a top bar icon is the right pattern for this use case.
 
-GNOME Shell extensions are currently the recommended way to add icons to the top bar, which is exactly what this extension does. Most of SOS' logic remains in the main application—this extension is minimal by design. It provides a visual color-coded indicator showing the application's status, surfaces error messages through desktop notifications, and offers basic interactions with the background application.
+GNOME Shell extensions are currently the recommended way to add icons to the top bar, which is exactly what this extension does. Most of Speed of Sound's logic remains in the main application—this extension is minimal by design. It provides a visual color-coded indicator showing the application's status, surfaces error messages through desktop notifications, and offers basic interactions with the background application.
 
 ## Features
 

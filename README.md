@@ -1,8 +1,8 @@
 # Speed of Sound
 
-Speed of Sound (SOS) provides voice typing for any Linux desktop application, powered by state-of-the-art speech recognition models, both local and cloud-based.
+Speed of Sound provides voice typing for any Linux desktop application, powered by state-of-the-art speech recognition models, both local and cloud-based.
 <div align="center">
-  <img src="assets/sos-listening.png" alt="SOS Screenshot">
+  <img src="assets/sos-listening.png" alt="Speed of Sound Screenshot">
 </div>
 
 ## Features
