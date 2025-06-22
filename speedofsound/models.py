@@ -5,7 +5,7 @@ from enum import IntEnum, StrEnum
 from typing import Optional
 
 from gi.repository import GObject  # type: ignore
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from speedofsound.utils import get_uuid
 
@@ -51,6 +51,11 @@ class TypistBackend(StrEnum):
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
     ATSPI = "atspi"
+
+
+class RecorderBackend(StrEnum):
+    PYAUDIO = "pyaudio"
+    GSTREAMER = "gstreamer"
 
 
 class NvidiaRivaConfig(BaseModel):
@@ -109,7 +114,7 @@ class AppConfig(BaseModel):
     language_auto: bool = True
     language: str = DEFAULT_LANGUAGE.id
 
-    microphone_id: int = -1
+    microphone_id: Optional[int] = None
 
     # Optional: This is the ID of the joystick as detected by PyGame.
     # The id argument must be a value from 0 to pygame.joystick.get_count() - 1.
@@ -117,8 +122,14 @@ class AppConfig(BaseModel):
     joystick_language_left: str = LANGUAGE_ENGLISH.id
     joystick_language_right: str = LANGUAGE_SPANISH.id
 
+    # Recording settings
+    recording_timeout_seconds: int = Field(default=60, ge=1, le=300)
+
     # Transcriber settings
     transcriber: str = TranscriberType.WHISPER.value
+
+    # Recorder settings
+    recorder_backend: str = RecorderBackend.GSTREAMER.value
 
     # Typist settings
     typist_backend: Optional[str] = None
@@ -226,7 +237,7 @@ class RecorderRequest(BaseRequest):
     rate: int = 16000
     channels: int = 1
     sample_width: int = 2
-    input_device: Optional[int] = None
+    microphone_id: Optional[int] = None
     frames_per_buffer: int = 1024
 
 

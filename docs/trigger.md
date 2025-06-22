@@ -1,6 +1,6 @@
 # Trigger Methods
 
-Besides the GNOME Shell Extension, Speed of Sound (SOS) provides two additional methods to activate voice input, each designed for different use cases and accessibility needs. Once activated, the application will capture your voice, transcribe it using your configured AI model, and type the result into the currently active window.
+Besides the GNOME Shell Extension, Speed of Sound provides two additional methods to activate voice input, each designed for different use cases and accessibility needs. Once activated, the application will capture your voice, transcribe it using your configured AI model, and type the result into the currently active window.
 
 ## Keyboard Shortcut
 

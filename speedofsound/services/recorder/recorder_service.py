@@ -1,9 +1,11 @@
-from gi.repository import GObject  # type: ignore
+from gi.repository import GLib, GObject  # type: ignore
 
 from speedofsound.constants import RECORDER_RESPONSE_SIGNAL, VOLUME_LEVEL_SIGNAL
-from speedofsound.models import RecorderRequest, RecorderResponse
+from speedofsound.models import RecorderBackend, RecorderRequest, RecorderResponse
 from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
+from speedofsound.services.recorder.base_recorder import BaseRecorder
+from speedofsound.services.recorder.gstreamer_recorder import GStreamerRecorder
 from speedofsound.services.recorder.pyaudio_recorder import PyAudioRecorder
 
 
@@ -21,12 +23,43 @@ class RecorderService(BaseService):
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration_service
-        self._recorder = PyAudioRecorder()
+        self._recorder: BaseRecorder = self._create_recorder()
+        devices = self._recorder.get_input_devices()
+        self._logger.info(f"Available input devices: {devices}")
         self._recorder.set_volume_callback(self._on_volume_level)
+        self._timeout_id: int | None = None
         self._logger.info("Initialized.")
 
+    def _create_recorder(self) -> BaseRecorder:
+        backend = RecorderBackend(self._configuration.config.recorder_backend)
+        self._logger.info(f"Creating recorder with backend: {backend}")
+        if backend == RecorderBackend.GSTREAMER:
+            return GStreamerRecorder()
+        elif backend == RecorderBackend.PYAUDIO:
+            return PyAudioRecorder()
+        else:
+            self._logger.warning(f"Unknown recorder {backend}, defaulting to GStreamer")
+            return GStreamerRecorder()
+
     def shutdown(self):
+        self._cancel_timeout()
         self._recorder.shutdown()
+
+    def _cancel_timeout(self):
+        """Cancel the recording timeout if active."""
+        if self._timeout_id is not None:
+            GLib.source_remove(self._timeout_id)
+            self._timeout_id = None
+
+    def _on_timeout(self) -> bool:
+        """Handle recording timeout."""
+        timeout_seconds = self._configuration.config.recording_timeout_seconds
+        self._logger.info(
+            f"Recording timeout reached ({timeout_seconds} seconds), stopping recording."
+        )
+        self._timeout_id = None
+        self.stop_recording()
+        return False
 
     def _on_volume_level(self, volume: float):
         """Handle volume level updates from the recorder."""
@@ -37,11 +70,16 @@ class RecorderService(BaseService):
 
     def start_recording(self):
         try:
-            # TODO: Set a limit on the recording time
             recorder_request = RecorderRequest()
-            recorder_request.input_device = self._configuration.config.microphone_id
+            recorder_request.microphone_id = self._configuration.config.microphone_id
             self._recorder.start_recording(recorder_request)
-            self._logger.info("Started recording.")
+            timeout_seconds = self._configuration.config.recording_timeout_seconds
+            self._timeout_id = GLib.timeout_add_seconds(
+                timeout_seconds, self._on_timeout
+            )
+            self._logger.info(
+                f"Started recording with {timeout_seconds}-second timeout."
+            )
         except Exception as e:
             self._logger.error(f"Error starting recording: {e}")
             response = RecorderResponse(
@@ -53,6 +91,7 @@ class RecorderService(BaseService):
 
     def stop_recording(self):
         try:
+            self._cancel_timeout()
             data = self._recorder.stop_recording()
             encoded = RecorderResponse.data_encode(data)
             recorder_result = RecorderResponse(

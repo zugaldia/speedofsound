@@ -1,8 +1,8 @@
 # Speed of Sound
 
-Speed of Sound (SOS) provides voice typing for any Linux desktop application, powered by state-of-the-art speech recognition models, both local and cloud-based.
+Speed of Sound provides voice typing for any Linux desktop application, powered by state-of-the-art speech recognition models, both local and cloud-based.
 <div align="center">
-  <img src="assets/sos-listening.png" alt="SOS Screenshot">
+  <img src="assets/sos-listening.png" alt="Speed of Sound Screenshot">
 </div>
 
 ## Features
@@ -52,6 +52,8 @@ Choose how to activate voice input:
 
 For manual shortcuts and joystick setup, see the [trigger configuration guide](docs/trigger.md).
 
+Once activated, you can cancel the recording by pressing **Escape**. Recording will automatically stop after 60 seconds (configurable in `config.toml`, see below).
+
 ## Configuration
 
 Speed of Sound uses a `config.toml` file for all settings. Start by copying the example configuration:
@@ -61,6 +63,14 @@ cp config.example.toml config.toml
 ```
 
 The default configuration uses a local Whisper server for privacy-focused speech recognition. For additional providers and configuration options, see the [configuration documentation](docs/config.md).
+
+### ⚠️ Wayland Compatibility
+
+Wayland has stricter security restrictions than X11 for keyboard event simulation, which is required for voice typing functionality.
+
+Speed of Sound automatically detects your display server and selects the appropriate typing backend. On Wayland, we use `ydotool` instead of traditional X11 tools like `xdotool` or AT-SPI. However, `ydotool` may require additional configuration.
+
+**Troubleshooting**: If you see speech being transcribed but not typed into applications, see the [typist backend configuration guide](docs/advanced.md#typist-backend-selection). 
 
 ## Reporting Issues
 
