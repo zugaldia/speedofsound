@@ -53,6 +53,11 @@ class TypistBackend(StrEnum):
     ATSPI = "atspi"
 
 
+class RecorderBackend(StrEnum):
+    PYAUDIO = "pyaudio"
+    GSTREAMER = "gstreamer"
+
+
 class NvidiaRivaConfig(BaseModel):
     """NVIDIA Riva transcriber configuration."""
 
@@ -122,6 +127,9 @@ class AppConfig(BaseModel):
 
     # Transcriber settings
     transcriber: str = TranscriberType.WHISPER.value
+
+    # Recorder settings
+    recorder_backend: str = RecorderBackend.GSTREAMER.value
 
     # Typist settings
     typist_backend: Optional[str] = None

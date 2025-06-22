@@ -1,34 +1,30 @@
-import audioop
-import typing
 from concurrent.futures import ThreadPoolExecutor
+from typing import List, Optional, Tuple, Any
 
 import pyaudio
 
 from speedofsound.models import MicrophoneDevice, RecorderRequest
-from speedofsound.services.base_provider import BaseProvider
+from speedofsound.services.recorder.base_recorder import BaseRecorder
 
 
-class PyAudioRecorder(BaseProvider):
-    def __init__(self):
+class PyAudioRecorder(BaseRecorder):
+    def __init__(self) -> None:
         super().__init__(provider_name="pyaudio")
         self._audio = pyaudio.PyAudio()
-        self._stream = None
-        self._frames = []
-        self._volume_callback = None
-        self._max_rms = 0.0
-        self._buffer_count = 0
+        self._stream: Optional[pyaudio.Stream] = None
+        self._frames: List[bytes] = []
+        self._buffer_count: int = 0
         self._executor = ThreadPoolExecutor()
-        self._sample_width = None
         self._logger.info(f"PyAudio recorder v{pyaudio.__version__} initialized.")
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         self._logger.info("Shutting down.")
         if self._stream:
             self._stream.stop_stream()
             self._stream.close()
         self._audio.terminate()
 
-    def get_input_devices(self) -> typing.List[MicrophoneDevice]:
+    def get_input_devices(self) -> List[MicrophoneDevice]:
         devices = []
         for i in range(self._audio.get_device_count()):
             device = self._audio.get_device_info_by_index(i)
@@ -44,10 +40,6 @@ class PyAudioRecorder(BaseProvider):
 
     def is_recording(self) -> bool:
         return self._stream is not None and self._stream.is_active()
-
-    def set_volume_callback(self, callback):
-        """Set callback function to receive volume level updates."""
-        self._volume_callback = callback
 
     def start_recording(self, recorder_request: RecorderRequest) -> None:
         self._logger.info(f"Recorder request: {recorder_request}")
@@ -73,23 +65,12 @@ class PyAudioRecorder(BaseProvider):
             stream_callback=self._stream_callback,
         )
 
-    def _stream_callback(self, in_data, frame_count, time_info, status):
+    def _stream_callback(
+        self, in_data: bytes, frame_count: int, time_info: Any, status: int
+    ) -> Tuple[None, int]:
         self._frames.append(in_data)
         self._executor.submit(self._calculate_rms_volume, in_data)
         return (None, pyaudio.paContinue)
-
-    def _calculate_rms_volume(self, audio_data: bytes):
-        """Calculate RMS volume from audio data, normalized to 0.0-1.0."""
-        if not self._volume_callback or not self._sample_width:
-            return 0.0
-        try:
-            rms = audioop.rms(audio_data, self._sample_width)
-            self._max_rms = max(self._max_rms, rms)
-            rms_normalized = rms / self._max_rms if self._max_rms > 0 else 0.0
-            self._volume_callback(rms_normalized)
-        except Exception as e:
-            self._logger.error(f"Error calculating RMS volume: {e}")
-            return 0.0
 
     def stop_recording(self) -> bytes:
         self._logger.info("Stopping.")

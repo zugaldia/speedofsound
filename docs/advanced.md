@@ -42,6 +42,26 @@ You should see "Hello World" typed in the current terminal window, confirming th
 
 ## Recording Settings
 
+### Recorder Backend Selection
+
+Speed of Sound supports multiple audio recording backends. By default, it uses GStreamer, which provides robust audio handling and is well-integrated with the Linux desktop environment.
+
+This setting is optional and normally you wouldn't need to change it:
+
+```toml
+recorder_backend = "gstreamer"
+```
+
+Available backends:
+- `"gstreamer"` - GStreamer-based recording (default)
+- `"pyaudio"` - PyAudio-based recording (fallback option)
+
+If you encounter audio recording issues, you can switch to PyAudio for troubleshooting:
+
+```toml
+recorder_backend = "pyaudio"
+```
+
 ### Recording Timeout
 
 By default, recordings automatically stop after 60 seconds to prevent indefinitely long recordings. You can customize this timeout:
