@@ -33,12 +33,14 @@ class GStreamerRecorder(BaseRecorder):
         for device in monitor.get_devices():
             device_class = device.get_device_class()
             if "Audio/Source" in device_class:
-                display_name = device.get_display_name()
-                device_name = device.get_properties().get_string("device.path")
+                device_name = device.get_properties().get_string("node.name")
                 if not device_name:
-                    device_name = display_name
+                    device_name = device.get_properties().get_string("node.description")
+                if not device_name:
+                    device_name = device.get_properties().get_string("alsa.id")
+                if not device_name:
+                    device_name = device.get_display_name()
                 devices.append(MicrophoneDevice(id=len(devices), name=device_name))
-
         monitor.stop()
         return devices
 
@@ -48,20 +50,27 @@ class GStreamerRecorder(BaseRecorder):
 
     def start_recording(self, recorder_request: RecorderRequest) -> None:
         self._logger.info(f"Recorder request: {recorder_request}")
-
         with self._recording_lock:
-            if self._is_recording:
-                self._logger.warning("Already recording, stopping current recording")
-                self._stop_recording_internal()
-
             self._audio_data = []
             self._sample_width = recorder_request.sample_width
 
             # Create pipeline
             format_map = {1: "S8", 2: "S16LE", 4: "S32LE"}
             audio_format = format_map.get(recorder_request.sample_width, "S16LE")
+            device_param = ""
+
+            try:
+                # Custom device ID
+                if recorder_request.input_device is not None:
+                    all_devices = self.get_input_devices()
+                    device_name = all_devices[recorder_request.input_device].name
+                    self._logger.info(f"Using device: {device_name}")
+                    device_param = f"device={device_name} "
+            except Exception as e:
+                self._logger.error(f"Error getting device name: {e}")
+
             pipeline_str = (
-                f"pulsesrc ! "
+                f"pulsesrc {device_param}! "
                 f"audio/x-raw,format={audio_format},"
                 f"channels={recorder_request.channels},"
                 f"rate={recorder_request.rate} ! "

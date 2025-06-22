@@ -114,7 +114,7 @@ class AppConfig(BaseModel):
     language_auto: bool = True
     language: str = DEFAULT_LANGUAGE.id
 
-    microphone_id: int = -1
+    microphone_id: Optional[int] = None
 
     # Optional: This is the ID of the joystick as detected by PyGame.
     # The id argument must be a value from 0 to pygame.joystick.get_count() - 1.

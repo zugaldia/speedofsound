@@ -24,10 +24,8 @@ class RecorderService(BaseService):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration_service
         self._recorder: BaseRecorder = self._create_recorder()
-
-        # devices = self._recorder.get_input_devices()
-        # self._logger.info(f"Available input devices: {devices}")
-
+        devices = self._recorder.get_input_devices()
+        self._logger.info(f"Available input devices: {devices}")
         self._recorder.set_volume_callback(self._on_volume_level)
         self._timeout_id: int | None = None
         self._logger.info("Initialized.")
