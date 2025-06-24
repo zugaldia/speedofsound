@@ -1,4 +1,13 @@
-from speedofsound.constants import ORCHESTRATOR_EVENT_SIGNAL, VOLUME_LEVEL_SIGNAL
+from typing import List
+
+from speedofsound.constants import (
+    LANGUAGE_NAME_SIGNAL,
+    MICROPHONE_NAME_SIGNAL,
+    MODEL_NAME_SIGNAL,
+    ORCHESTRATOR_EVENT_SIGNAL,
+    VOLUME_LEVEL_SIGNAL,
+    WORDS_PER_MINUTE_SIGNAL,
+)
 from speedofsound.models import OrchestratorEvent
 from speedofsound.services.orchestrator import OrchestratorService
 from speedofsound.ui.base_view_model import BaseViewModel
@@ -6,17 +15,32 @@ from speedofsound.ui.main.main_view_state import MainViewState
 
 
 class MainViewModel(BaseViewModel):
+    MAX_WPM_READINGS = 10
+
     def __init__(self, orchestrator: OrchestratorService):
         super().__init__()
         self.view_state = MainViewState()
+        self._words_per_minute_readings: List[float] = []
+
         self._orchestrator = orchestrator
+        self._orchestrator.connect(VOLUME_LEVEL_SIGNAL, self._on_volume_level)
+        self._orchestrator.connect(LANGUAGE_NAME_SIGNAL, self._on_language_name)
+        self._orchestrator.connect(MICROPHONE_NAME_SIGNAL, self._on_microphone_name)
+        self._orchestrator.connect(MODEL_NAME_SIGNAL, self._on_model_name)
+        self._orchestrator.connect(WORDS_PER_MINUTE_SIGNAL, self._on_words_per_minute)
         self._orchestrator.connect(
             ORCHESTRATOR_EVENT_SIGNAL, self._on_orchestrator_event
         )
-        self._orchestrator.connect(VOLUME_LEVEL_SIGNAL, self._on_volume_level)
 
     def shutdown(self):
-        pass
+        if self._orchestrator:
+            self._logger.info("Shutting down.")
+            self._orchestrator.disconnect_by_func(self._on_volume_level)
+            self._orchestrator.disconnect_by_func(self._on_language_name)
+            self._orchestrator.disconnect_by_func(self._on_microphone_name)
+            self._orchestrator.disconnect_by_func(self._on_model_name)
+            self._orchestrator.disconnect_by_func(self._on_words_per_minute)
+            self._orchestrator.disconnect_by_func(self._on_orchestrator_event)
 
     def action_type(self):
         self._orchestrator.action_type()
@@ -35,12 +59,40 @@ class MainViewModel(BaseViewModel):
                     self.view_state.status_text = event.message
                 else:
                     self.view_state.status_text = f"Error: {event.message}"
-                    self.logger.warning(
+                    self._logger.warning(
                         f"Orchestrator error in stage {event.stage}: {event.message}"
                     )
         except Exception as e:
-            self.logger.error(f"Error handling orchestrator event: {e}")
+            self._logger.error(f"Error handling orchestrator event: {e}")
 
     def _on_volume_level(self, service: OrchestratorService, volume: float) -> None:
         """Handle volume level updates from the orchestrator."""
         self.view_state.volume_level = volume
+
+    def _on_language_name(
+        self, service: OrchestratorService, language_name: str
+    ) -> None:
+        """Handle language name updates from the orchestrator."""
+        self.view_state.language_name = language_name
+
+    def _on_microphone_name(
+        self, service: OrchestratorService, microphone_name: str
+    ) -> None:
+        """Handle microphone name updates from the orchestrator."""
+        self.view_state.microphone_name = microphone_name
+
+    def _on_model_name(self, service: OrchestratorService, model_name: str) -> None:
+        """Handle model name updates from the orchestrator."""
+        self.view_state.model_name = model_name
+
+    def _on_words_per_minute(
+        self, service: OrchestratorService, words_per_minute: float
+    ) -> None:
+        """Handle words per minute updates from the orchestrator."""
+        if words_per_minute > 0:
+            self._words_per_minute_readings.append(words_per_minute)
+            if len(self._words_per_minute_readings) > self.MAX_WPM_READINGS:
+                self._words_per_minute_readings.pop(0)  # Remove oldest
+            self.view_state.words_per_minute = sum(
+                self._words_per_minute_readings
+            ) / len(self._words_per_minute_readings)
