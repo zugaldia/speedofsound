@@ -43,7 +43,7 @@ Choose your transcription provider:
 - `"google"` - Google Gemini (cloud)
 - `"openai"` - OpenAI GPT-4o and Whisper API (cloud)
 - `"elevenlabs"` - ElevenLabs Speech-to-Text (cloud)
-- `"race"` - Run multiple providers simultaneously (hybrid)
+- `"fastest"` - Run multiple providers simultaneously (hybrid)
 
 
 ## Provider Configurations
@@ -59,7 +59,7 @@ Each transcription provider has its own configuration section. For detailed setu
 ## Configuration Tips
 
 1. **Start Simple**: Begin with the default Whisper configuration for local processing
-2. **Multiple Providers**: Enable multiple providers and use the "race" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. You can mix and match both local and cloud providers
+2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. You can mix and match both local and cloud providers
 3. **Language Detection**: Enable `language_auto` for automatic language detection, or set a specific language for better performance
 
 ## Example Configurations
@@ -91,12 +91,12 @@ model = "whisper-1"
 ```
 See [OpenAI documentation](openai.md) for detailed setup.
 
-### Hybrid Setup (Race Mode)
+### Hybrid Setup (Fastest Mode)
 ```toml
 language_auto = true
 language = "en"
 microphone_id = -1
-transcriber = "race"
+transcriber = "fastest"
 
 [whisper]
 enabled = true
@@ -107,4 +107,4 @@ enabled = true
 api_key = "your-openai-api-key"
 model = "whisper-1"
 ```
-Race mode runs multiple providers simultaneously. See individual provider documentation for detailed configuration.
+Fastest mode runs multiple providers simultaneously. See individual provider documentation for detailed configuration.
