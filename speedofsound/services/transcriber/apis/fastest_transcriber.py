@@ -6,8 +6,8 @@ from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
 
 
-class RaceTranscriber(BaseTranscriber):
-    """Meta transcriber that races multiple providers and returns the fastest result."""
+class FastestTranscriber(BaseTranscriber):
+    """Meta transcriber that runs multiple providers and returns the fastest result."""
 
     def __init__(
         self,
@@ -15,7 +15,7 @@ class RaceTranscriber(BaseTranscriber):
         providers: List[BaseTranscriber],
     ):
         super().__init__(
-            provider_type=TranscriberType.RACE,
+            provider_type=TranscriberType.FASTEST,
             configuration_service=configuration_service,
         )
         self._providers: Dict[str, BaseTranscriber] = {
@@ -32,9 +32,9 @@ class RaceTranscriber(BaseTranscriber):
         return "Fastest"
 
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
-        """Race all providers and return the first successful result."""
+        """Run all providers and return the first successful result."""
         result = None
-        self._logger.info(f"Racing {len(self._providers)} transcribers.")
+        self._logger.info(f"Running {len(self._providers)} transcribers.")
         executor = concurrent.futures.ThreadPoolExecutor(
             max_workers=len(self._providers)
         )

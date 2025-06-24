@@ -3,7 +3,7 @@ from gi.repository import GLib, Gtk  # type: ignore
 from speedofsound.constants import DEFAULT_MARGIN, DEFAULT_SPACING
 
 
-class InputWidget(Gtk.Box):
+class ContentWidget(Gtk.Box):
     def __init__(self) -> None:
         super().__init__(
             orientation=Gtk.Orientation.VERTICAL,
@@ -28,13 +28,16 @@ class InputWidget(Gtk.Box):
         self.append(self._status_label)
 
     def set_status(self, status: str) -> None:
+        """Update the status label with the given text."""
         self._status_label.set_text(status)
 
     def set_volume(self, volume: float) -> None:
+        """Update the volume level in the progress bar."""
         if 0.0 <= volume <= 1.0:
             self._progress_bar.set_fraction(volume)
 
     def set_pulsating(self, active: bool) -> None:
+        """Set the progress bar to pulsate (transcribing) or not (recording)."""
         if active:
             if self._pulse_timeout_id is None:
                 self._pulse_timeout_id = GLib.timeout_add(150, self._pulse_progress_bar)

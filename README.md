@@ -1,15 +1,18 @@
 # Speed of Sound
 
-Speed of Sound provides voice typing for any Linux desktop application, powered by state-of-the-art speech recognition models, both local and cloud-based.
+Speed of Sound enables voice typing on the Linux desktop, allowing you to type at over 100 words per minute—more than double the average typing speed with a keyboard—and reduce the risk of repetitive strain injury (RSI).
+
+This is the app in action, typing into the Text Editor bundled with Ubuntu:
 <div align="center">
-  <img src="assets/sos-listening.png" alt="Speed of Sound Screenshot">
+  <img src="assets/sos-text-editor.gif" alt="Speed of Sound typing into the Text Editor">
+  <div>"<em>Using my voice, I can type at the speed of sound.</em>"</div>
 </div>
 
 ## Features
 
-- 🏠 **Local and Cloud Support** - Works with local models (Whisper, NVIDIA Riva) and cloud providers (ElevenLabs, Google Gemini, NVIDIA NIM, OpenAI)
-- 🖥️ **Cross-Platform Compatibility** - Supports both X11 and Wayland with pluggable backends (AT-SPI, `xdotool`, `ydotool`)
-- 🔌 **GNOME Shell Extension** - System-wide keyboard shortcuts and desktop notifications
+- 🏠 **Local and Cloud Options** - Works with local speech recognition models (like Whisper and NVIDIA Riva) as well as cloud providers (ElevenLabs, Google Gemini, NVIDIA NIM, and OpenAI)
+- 🖥️ **Cross-Platform Compatibility** - Supports both X11 and Wayland with pluggable typing backends (AT-SPI, `xdotool`, `ydotool`)
+- 🔌 **GNOME Shell Extension** - Provides a system-wide keyboard shortcut and desktop notifications
 - 🎨 **Modern UI** - Built with GNOME Adwaita design system, compatible with any desktop environment
 - 🎮 **Accessibility** - Joystick/gamepad control support
 
@@ -62,7 +65,15 @@ Speed of Sound uses a `config.toml` file for all settings. Start by copying the 
 cp config.example.toml config.toml
 ```
 
-The default configuration uses a local Whisper server for privacy-focused speech recognition. For additional providers and configuration options, see the [configuration documentation](docs/config.md).
+The default configuration uses a local Whisper server for speech recognition. For additional providers and configuration options, see the [configuration documentation](docs/config.md).
+
+### ⚠️ Privacy Considerations
+
+By default, Speed of Sound is preconfigured to work fully offline using Whisper without requiring an internet connection. When operating this way, no data leaves your computer—everything runs locally on your device. We don't collect metrics, analytics, or any sort of telemetry. And you don't need to take our word for it, the code is open source.
+
+However, if your machine lacks the processing power to run a speech recognition model locally or you need higher quality transcription from larger cloud-based models, cloud providers are also supported. The choice of which model to use is entirely yours. Keep in mind that while cloud providers are convenient to setup and typically inexpensive, your audio data is shared with third parties, so you should review their terms of service and privacy policies.
+
+> **Tip:** One common pattern is maintaining separate configuration files for different use cases. For example, you could have a `config-local.toml` for sensitive work where no data should leave your computer, and a `config-cloud.toml` for less sensitive situations like typing into public websites or generating public content.
 
 ### ⚠️ Wayland Compatibility
 
@@ -70,7 +81,7 @@ Wayland has stricter security restrictions than X11 for keyboard event simulatio
 
 Speed of Sound automatically detects your display server and selects the appropriate typing backend. On Wayland, we use `ydotool` instead of traditional X11 tools like `xdotool` or AT-SPI. However, `ydotool` may require additional configuration.
 
-**Troubleshooting**: If you see speech being transcribed but not typed into applications, see the [typist backend configuration guide](docs/advanced.md#typist-backend-selection). 
+> **Troubleshooting:** If you see speech being transcribed but not typed into applications, see the [typist backend configuration guide](docs/advanced.md#typist-backend-selection). 
 
 ## Reporting Issues
 
