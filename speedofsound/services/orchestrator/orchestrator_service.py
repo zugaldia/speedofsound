@@ -4,11 +4,15 @@ from gi.repository import GObject  # type: ignore
 
 from speedofsound.constants import (
     CONTROL_EVENT_SIGNAL,
+    LANGUAGE_NAME_SIGNAL,
+    MICROPHONE_NAME_SIGNAL,
+    MODEL_NAME_SIGNAL,
     ORCHESTRATOR_EVENT_SIGNAL,
     RECORDER_RESPONSE_SIGNAL,
     TRANSCRIBER_RESPONSE_SIGNAL,
     TYPIST_RESPONSE_SIGNAL,
     VOLUME_LEVEL_SIGNAL,
+    WORDS_PER_MINUTE_SIGNAL,
 )
 from speedofsound.models import (
     ControlEvent,
@@ -38,6 +42,10 @@ class OrchestratorService(BaseService):
     __gsignals__ = {
         ORCHESTRATOR_EVENT_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         VOLUME_LEVEL_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (float,)),
+        LANGUAGE_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        MICROPHONE_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        MODEL_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        WORDS_PER_MINUTE_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (float,)),
     }
 
     def __init__(
@@ -72,11 +80,32 @@ class OrchestratorService(BaseService):
 
         self._extension = extension_service
 
+        self._total_seconds = 0
+        self._total_words = 0
+        self._update_status_bar()
         self._send_event(OrchestratorStage.READY, "Ready.")
         self._logger.info("Initialized.")
 
     def shutdown(self):
         pass
+
+    def _update_status_bar(self):
+        self.safe_emit(
+            LANGUAGE_NAME_SIGNAL,
+            (
+                "auto"
+                if self._configuration_service.config.language_auto
+                else self._configuration_service.config.language
+            ),
+        )
+        self.safe_emit(
+            MICROPHONE_NAME_SIGNAL,
+            self._configuration_service.config.microphone_id or "default",
+        )
+        self.safe_emit(
+            MODEL_NAME_SIGNAL,
+            self._configuration_service.config.transcriber,
+        )
 
     def _send_event(
         self,
@@ -116,6 +145,8 @@ class OrchestratorService(BaseService):
             self._logger.warning("Already recording.")
             return
         self._send_event(OrchestratorStage.RECORDING, "Listening...")
+        self._total_seconds = 0
+        self._total_words = 0
         self._queued_typing = None
         self._recording_cancelled = False
         self._recorder.start_recording()
@@ -146,13 +177,15 @@ class OrchestratorService(BaseService):
             if control_event.button == JoystickButton.Left:
                 language_id = self._configuration_service.config.joystick_language_left
                 if not is_empty(language_id):
-                    self._logger.info(f"Language set to {language_id}.")
+                    self._configuration_service.config.language_auto = False
                     self._configuration_service.config.language = language_id
+                    self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.Right:
                 language_id = self._configuration_service.config.joystick_language_right
                 if not is_empty(language_id):
-                    self._logger.info(f"Language set to {language_id}.")
+                    self._configuration_service.config.language_auto = False
                     self._configuration_service.config.language = language_id
+                    self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.B:
                 self.triggered()
         except Exception as e:
@@ -173,6 +206,7 @@ class OrchestratorService(BaseService):
                 self._recording_cancelled = False
                 return self._send_event(OrchestratorStage.READY)
 
+            self._total_seconds = recorder_response.get_duration_seconds()
             self._send_event(OrchestratorStage.TRANSCRIBING, "Transcribing...")
             self._transcriber.transcribe_async(
                 request=TranscriberRequest(recorder_response=recorder_response)
@@ -187,6 +221,12 @@ class OrchestratorService(BaseService):
     def _on_volume_level(self, service, volume: float):
         """Handle volume level updates from the recorder."""
         self.safe_emit(VOLUME_LEVEL_SIGNAL, volume)
+
+    def _calculate_and_emit_wpm(self) -> None:
+        """Calculate and emit words per minute (WPM) with upper bound check."""
+        if self._total_seconds > 0 and self._total_words > 0:
+            wpm = 1.0 * self._total_words / (self._total_seconds / 60)
+            self.safe_emit(WORDS_PER_MINUTE_SIGNAL, min(wpm, 999.0))
 
     def _on_transcriber_response(self, service, encoded: str):
         try:
@@ -204,6 +244,9 @@ class OrchestratorService(BaseService):
                     message="Nothing to type, transcription is empty.",
                     success=False,
                 )
+
+            self._total_words = transcriber_response.get_total_words()
+            self._calculate_and_emit_wpm()
 
             self._queued_typing = TypistRequest(
                 transcriber_response=transcriber_response
