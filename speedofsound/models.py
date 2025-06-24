@@ -44,7 +44,7 @@ class TranscriberType(StrEnum):
     OPENAI = "openai"
 
     # Hybrid
-    RACE = "race"
+    FASTEST = "fastest"
 
 
 class TypistBackend(StrEnum):
@@ -275,6 +275,18 @@ class RecorderResponse(BaseResponse):
             wf.writeframes(RecorderResponse.data_decode(self.data))
         return path
 
+    def get_duration_seconds(self) -> float:
+        """Calculate the duration of the recording in seconds."""
+        if self.data is None:
+            return 0.0
+
+        raw_bytes = RecorderResponse.data_decode(self.data)
+        total_frames = len(raw_bytes) / (
+            self.recorder_request.channels * self.recorder_request.sample_width
+        )
+
+        return total_frames / self.recorder_request.rate
+
 
 #
 # Transcriber
@@ -282,7 +294,7 @@ class RecorderResponse(BaseResponse):
 
 
 # TODO: This could be a good place to add a list of supported languages
-# by model and implement the proper checks.
+# by model and implement the proper checks?
 class TranscriberModel(BaseModel):
     id: str
     name: str
@@ -305,7 +317,11 @@ class TranscriberResponse(BaseResponse):
 
     def get_text(self) -> str:
         # Add an extra space at the end to separate multiple sentences in the same paragraph.
-        return self.text + " " if not self.is_empty() else ""
+        return "" if self.is_empty() else self.text + " "
+
+    def get_total_words(self) -> int:
+        """Get the total number of words in the transcribed text."""
+        return 0 if self.is_empty() else len(self.text.split())
 
 
 #

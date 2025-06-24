@@ -7,20 +7,14 @@ from speedofsound.constants import TRANSCRIBER_RESPONSE_SIGNAL
 from speedofsound.models import TranscriberRequest, TranscriberResponse, TranscriberType
 from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
-from speedofsound.services.transcriber.apis.base_transcriber import BaseTranscriber
-from speedofsound.services.transcriber.apis.elevenlabs_transcriber import (
+from speedofsound.services.transcriber.apis import (
+    BaseTranscriber,
     ElevenLabsTranscriber,
-)
-from speedofsound.services.transcriber.apis.google_transcriber import GoogleTranscriber
-from speedofsound.services.transcriber.apis.nvidia_nim_transcriber import (
+    FastestTranscriber,
+    GoogleTranscriber,
     NvidiaNimTranscriber,
-)
-from speedofsound.services.transcriber.apis.nvidia_riva_transcriber import (
     NvidiaRivaTranscriber,
-)
-from speedofsound.services.transcriber.apis.openai_transcriber import OpenAiTranscriber
-from speedofsound.services.transcriber.apis.race_transcriber import RaceTranscriber
-from speedofsound.services.transcriber.apis.whisper_transcriber import (
+    OpenAiTranscriber,
     WhisperTranscriber,
 )
 
@@ -46,8 +40,8 @@ class TranscriberService(BaseService):
 
     def _setup_transcriber(self) -> BaseTranscriber:
         selected = TranscriberType(self._configuration.config.transcriber)
-        if selected == TranscriberType.RACE:
-            return self._get_race_transcriber()
+        if selected == TranscriberType.FASTEST:
+            return self._get_fastest_transcriber()
         else:
             return self._get_transcriber(selected)
 
@@ -69,7 +63,7 @@ class TranscriberService(BaseService):
             self._logger.error(message)
             raise RuntimeError(message)
 
-    def _get_race_transcriber(self) -> BaseTranscriber:
+    def _get_fastest_transcriber(self) -> BaseTranscriber:
         enabled_providers: List[BaseTranscriber] = []
         if self._configuration.config.whisper.enabled:
             enabled_providers.append(self._get_transcriber(TranscriberType.WHISPER))
@@ -90,7 +84,7 @@ class TranscriberService(BaseService):
                 self._logger.error(message)
                 raise RuntimeError(message)
 
-        return RaceTranscriber(
+        return FastestTranscriber(
             configuration_service=self._configuration,
             providers=enabled_providers,
         )
