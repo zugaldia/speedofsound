@@ -1,9 +1,10 @@
+import shutil
 import tomllib
 from pathlib import Path
 
 from pydantic import ValidationError
 
-from speedofsound.constants import CONFIG_FILE
+from speedofsound.constants import CONFIG_EXAMPLE_FILE, CONFIG_FILE
 from speedofsound.models import AppConfig
 from speedofsound.services.base_service import BaseService
 
@@ -20,10 +21,7 @@ class ConfigurationService(BaseService):
         """Load configuration from config.toml file."""
         config_path = Path(CONFIG_FILE)
         if not config_path.exists():
-            raise FileNotFoundError(
-                f"Configuration file {CONFIG_FILE} not found. "
-                f"Copy config.example.toml to {CONFIG_FILE} to get started."
-            )
+            self._create_default_config(config_path)
 
         try:
             with open(config_path, "rb") as f:
@@ -35,6 +33,21 @@ class ConfigurationService(BaseService):
             raise ValueError(f"Configuration validation error: {e}")
         except Exception as e:
             raise RuntimeError(f"Error loading configuration: {e}")
+
+    def _create_default_config(self, config_path: Path) -> None:
+        """Create default configuration by copying from example file."""
+        example_path = Path(CONFIG_EXAMPLE_FILE)
+        if not example_path.exists():
+            raise FileNotFoundError(
+                f"Example configuration file {example_path} not found. "
+                "Cannot create default configuration."
+            )
+
+        try:
+            shutil.copy(example_path, config_path)
+            self._logger.info(f"Created default configuration file: {CONFIG_FILE}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to create default configuration: {e}")
 
     @property
     def config(self) -> AppConfig:
