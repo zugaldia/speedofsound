@@ -10,6 +10,7 @@ from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import (
     BaseTranscriber,
     ElevenLabsTranscriber,
+    FasterWhisperTranscriber,
     FastestTranscriber,
     GoogleTranscriber,
     NvidiaNimTranscriber,
@@ -48,6 +49,8 @@ class TranscriberService(BaseService):
     def _get_transcriber(self, transcriber_type: TranscriberType) -> BaseTranscriber:
         if transcriber_type == TranscriberType.WHISPER:
             return WhisperTranscriber(configuration_service=self._configuration)
+        elif transcriber_type == TranscriberType.FASTER_WHISPER:
+            return FasterWhisperTranscriber(configuration_service=self._configuration)
         elif transcriber_type == TranscriberType.NVIDIA_RIVA:
             return NvidiaRivaTranscriber(configuration_service=self._configuration)
         elif transcriber_type == TranscriberType.NVIDIA_NIM:
@@ -67,6 +70,10 @@ class TranscriberService(BaseService):
         enabled_providers: List[BaseTranscriber] = []
         if self._configuration.config.whisper.enabled:
             enabled_providers.append(self._get_transcriber(TranscriberType.WHISPER))
+        if self._configuration.config.faster_whisper.enabled:
+            enabled_providers.append(
+                self._get_transcriber(TranscriberType.FASTER_WHISPER)
+            )
         if self._configuration.config.nvidia_riva.enabled:
             enabled_providers.append(self._get_transcriber(TranscriberType.NVIDIA_RIVA))
         if self._configuration.config.nvidia_nim.enabled:
