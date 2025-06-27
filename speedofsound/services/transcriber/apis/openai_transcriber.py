@@ -73,11 +73,7 @@ class OpenAiTranscriber(BaseTranscriber):
 
         # While Whisper allows "auto" for automatic language detection, I can't
         # find documentation that the OpenAI's cloud API does the same thing.
-        language = (
-            None
-            if config.language_auto or is_empty(config.language)
-            else config.language
-        )
+        language = config.language
 
         model_id = (
             config.openai.model

@@ -77,11 +77,7 @@ class NvidiaRivaTranscriber(BaseNvidiaTranscriber):
 
         # TODO: Is "multi" allowed for some models?
         # https://docs.nvidia.com/deeplearning/riva/user-guide/docs/asr/asr-overview.html#multilingual-models
-        language = (
-            None
-            if config.language_auto or is_empty(config.language)
-            else self._get_language_code(config.language)
-        )
+        language = self._get_language_code(config.language)
 
         model_id = (
             config.nvidia_riva.model if not is_empty(config.nvidia_riva.model) else None
