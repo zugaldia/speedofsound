@@ -8,6 +8,7 @@ APPLICATION_NAME = "Speed of Sound"
 EXTENSION_SCHEMA = "org.gnome.shell.extensions.speedofsound"
 
 CONFIG_FILE = "config.toml"
+CONFIG_EXAMPLE_FILE = "config.example.toml"
 LOG_FILE = "speedofsound.log"
 
 DEFAULT_SPACING = 10
