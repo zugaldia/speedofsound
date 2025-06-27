@@ -1,5 +1,5 @@
-transcriber = "whisper"
+transcriber = "faster_whisper"
 
-[whisper]
+[faster_whisper]
 enabled = true
-endpoint = "http://localhost:8080"
+model = "small"
