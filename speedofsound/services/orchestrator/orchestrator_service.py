@@ -92,11 +92,7 @@ class OrchestratorService(BaseService):
     def _update_status_bar(self):
         self.safe_emit(
             LANGUAGE_NAME_SIGNAL,
-            (
-                "auto"
-                if self._configuration_service.config.language_auto
-                else self._configuration_service.config.language
-            ),
+            self._configuration_service.config.language,
         )
         self.safe_emit(
             MICROPHONE_NAME_SIGNAL,
@@ -104,7 +100,7 @@ class OrchestratorService(BaseService):
         )
         self.safe_emit(
             MODEL_NAME_SIGNAL,
-            self._configuration_service.config.transcriber,
+            self._configuration_service.config.transcriber.replace("_", " "),
         )
 
     def _send_event(
@@ -177,13 +173,11 @@ class OrchestratorService(BaseService):
             if control_event.button == JoystickButton.Left:
                 language_id = self._configuration_service.config.joystick_language_left
                 if not is_empty(language_id):
-                    self._configuration_service.config.language_auto = False
                     self._configuration_service.config.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.Right:
                 language_id = self._configuration_service.config.joystick_language_right
                 if not is_empty(language_id):
-                    self._configuration_service.config.language_auto = False
                     self._configuration_service.config.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.B:

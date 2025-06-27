@@ -67,11 +67,7 @@ class ElevenLabsTranscriber(BaseTranscriber):
     def _transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         config = self._configuration_service.config
 
-        language = (
-            None
-            if config.language_auto or is_empty(config.language)
-            else config.language
-        )
+        language = config.language
         model_id = (
             config.elevenlabs.model
             if not is_empty(config.elevenlabs.model)

@@ -28,6 +28,17 @@ def get_config_dir() -> Path:
     return config_dir
 
 
+def get_subconfig_dir(subconfig_name: str) -> Path:
+    """
+    Returns the path to a subdirectory within the application's configuration directory.
+    The subdirectory will be created if it doesn't exist.
+    """
+    config_dir = get_config_dir()
+    subconfig_dir = config_dir / subconfig_name
+    subconfig_dir.mkdir(parents=True, exist_ok=True)
+    return subconfig_dir
+
+
 def is_empty(text):
     """Return True if the string is None, empty, or contains only whitespace."""
     return text is None or not text.strip()

@@ -2,7 +2,7 @@ import base64
 import io
 import wave
 from enum import IntEnum, StrEnum
-from typing import Optional
+from typing import Literal, Optional
 
 from gi.repository import GObject  # type: ignore
 from pydantic import BaseModel, Field
@@ -34,6 +34,7 @@ DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
 
 class TranscriberType(StrEnum):
     # Local
+    FASTER_WHISPER = "faster_whisper"
     WHISPER = "whisper"
     NVIDIA_RIVA = "nvidia_riva"
 
@@ -77,6 +78,14 @@ class NvidiaNimConfig(BaseModel):
     ssl: bool = True
 
 
+class FasterWhisperConfig(BaseModel):
+    """Faster Whisper transcriber configuration."""
+
+    enabled: bool = False
+    model: str = "small"
+    device: Literal["cpu", "cuda", "auto"] = "auto"
+
+
 class WhisperConfig(BaseModel):
     """Whisper transcriber configuration."""
 
@@ -111,7 +120,6 @@ class ElevenLabsConfig(BaseModel):
 class AppConfig(BaseModel):
     """Application configuration loaded from config.toml."""
 
-    language_auto: bool = True
     language: str = DEFAULT_LANGUAGE.id
 
     microphone_id: Optional[int] = None
@@ -137,6 +145,7 @@ class AppConfig(BaseModel):
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()
     nvidia_nim: NvidiaNimConfig = NvidiaNimConfig()
+    faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
     whisper: WhisperConfig = WhisperConfig()
     google: GoogleConfig = GoogleConfig()
     openai: OpenAIConfig = OpenAIConfig()

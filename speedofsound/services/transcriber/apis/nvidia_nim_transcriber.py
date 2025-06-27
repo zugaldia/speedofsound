@@ -119,11 +119,7 @@ class NvidiaNimTranscriber(BaseNvidiaTranscriber):
     def _transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         config = self._configuration_service.config
 
-        language = (
-            None
-            if config.language_auto or is_empty(config.language)
-            else self._get_language_code(config.language)
-        )
+        language = self._get_language_code(config.language)
 
         self._logger.info(f"Transcribing (language={language}).")
 

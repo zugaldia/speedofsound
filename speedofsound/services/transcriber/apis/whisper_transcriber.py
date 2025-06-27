@@ -63,11 +63,7 @@ class WhisperTranscriber(BaseTranscriber):
     def _transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         config = self._configuration_service.config
 
-        language = (
-            "auto"
-            if config.language_auto or is_empty(config.language)
-            else config.language
-        )
+        language = config.language
         endpoint = (
             config.whisper.endpoint
             if not is_empty(config.whisper.endpoint)
