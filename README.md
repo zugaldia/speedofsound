@@ -2,10 +2,9 @@
 
 Speed of Sound enables voice typing on the Linux desktop, allowing you to type at over 100 words per minute—more than double the average typing speed with a keyboard—and reduce the risk of repetitive strain injury (RSI).
 
-This is the app in action, typing into the Text Editor bundled with Ubuntu:
+This is the app in action, typing into Text Editor:
 <div align="center">
-  <img src="assets/sos-text-editor.gif" alt="Speed of Sound typing into the Text Editor">
-  <div>"<em>Using my voice, I can type at the speed of sound.</em>"</div>
+  <img src="assets/sos-text-editor.gif" alt="Speed of Sound typing into the GNOME Text Editor">
 </div>
 
 ## Features
@@ -35,6 +34,24 @@ pip3 install -r requirements.txt
 python3 launch.py
 ```
 
+## Configuration
+
+Speed of Sound uses a `config.toml` file for all settings. Start by copying the example configuration:
+
+```bash
+cp config.example.toml config.toml
+```
+
+The default configuration uses a local Whisper model for speech recognition. For additional providers and configuration options, see the [configuration documentation](docs/config.md).
+
+### ⚠️ Wayland Compatibility
+
+Wayland has stricter security restrictions than X11 for keyboard event simulation, which is required for voice typing functionality.
+
+Speed of Sound automatically detects your display server and selects the appropriate typing backend. On Wayland, we use `ydotool` instead of traditional X11-only tools like `xdotool` or AT-SPI. However, `ydotool` may require additional configuration.
+
+> **Troubleshooting:** If you see speech being transcribed but not typed into applications, see the [typist backend configuration guide](docs/advanced.md#typist-backend-selection). 
+
 ## GNOME Shell Extension
 
 Speed of Sound includes an optional GNOME Shell extension for enhanced functionality. The extension provides:
@@ -50,22 +67,12 @@ Speed of Sound includes an optional GNOME Shell extension for enhanced functiona
 Choose how to activate voice input:
 
 1. **GNOME Shell Extension** (Recommended) - Use `Super+Z` to start/stop voice typing from any application
-2. **Custom Keyboard Shortcut** - Set up a global shortcut without the extension
-3. **Joystick/Gamepad** - Use a connected controller for activation
+2. **Custom Keyboard Shortcut** - Alternatively, set up a global shortcut without the extension
+3. **Joystick/Gamepad** - Or use a connected controller for activation and language switching
 
-For manual shortcuts and joystick setup, see the [trigger configuration guide](docs/trigger.md).
+For keyboard shortcut and joystick setup, see the [trigger configuration guide](docs/trigger.md).
 
 Once activated, you can cancel the recording by pressing **Escape**. Recording will automatically stop after 60 seconds (configurable in `config.toml`, see below).
-
-## Configuration
-
-Speed of Sound uses a `config.toml` file for all settings. Start by copying the example configuration:
-
-```bash
-cp config.example.toml config.toml
-```
-
-The default configuration uses a local Whisper server for speech recognition. For additional providers and configuration options, see the [configuration documentation](docs/config.md).
 
 ### ⚠️ Privacy Considerations
 
@@ -74,14 +81,6 @@ By default, Speed of Sound is preconfigured to work fully offline using Whisper 
 However, if your machine lacks the processing power to run a speech recognition model locally or you need higher quality transcription from larger cloud-based models, cloud providers are also supported. The choice of which model to use is entirely yours. Keep in mind that while cloud providers are convenient to setup and typically inexpensive, your audio data is shared with third parties, so you should review their terms of service and privacy policies.
 
 > **Tip:** One common pattern is maintaining separate configuration files for different use cases. For example, you could have a `config-local.toml` for sensitive work where no data should leave your computer, and a `config-cloud.toml` for less sensitive situations like typing into public websites or generating public content.
-
-### ⚠️ Wayland Compatibility
-
-Wayland has stricter security restrictions than X11 for keyboard event simulation, which is required for voice typing functionality.
-
-Speed of Sound automatically detects your display server and selects the appropriate typing backend. On Wayland, we use `ydotool` instead of traditional X11 tools like `xdotool` or AT-SPI. However, `ydotool` may require additional configuration.
-
-> **Troubleshooting:** If you see speech being transcribed but not typed into applications, see the [typist backend configuration guide](docs/advanced.md#typist-backend-selection). 
 
 ## Reporting Issues
 

@@ -6,7 +6,7 @@ Speed of Sound uses a TOML configuration file located at `config.toml` in the pr
 cp config.example.toml config.toml
 ```
 
-This shows the basic settings needed to set up the application with Whisper as the speech-to-text backend. 
+The default setup uses Whisper for local transcriptions. It will automatically download the `small` model, which is the easiest way to get started as it runs on most hardware configurations.
 
 ## General Settings
 
@@ -15,20 +15,20 @@ This document describes common settings you likely want to tweak. For other sett
 ### Language Configuration
 
 ```toml
-language_auto = true
 language = "en"
 ```
 
-- `language_auto`: When `true`, automatically detects the language from audio input
-- `language`: Default language code (ISO 639-1 format, e.g.: "en" for English, "es" for Spanish)
+- `language`: Language code for transcription (ISO 639-1 format, e.g.: "en" for English, "es" for Spanish)
+
+Although some transcribers support automatic language detection, this is not currently supported by the application. A language value needs to be specified. If you need to frequently switch between two languages, you can [set up the joystick](advanced.md) to do so.
 
 ### Audio Input
 
 ```toml
-microphone_id = -1
+microphone_id = 0
 ```
 
-- `microphone_id`: Audio input device ID. Use `-1` for system default, or specify a device ID
+- `microphone_id`: Audio input device ID. Leave it unset to use the default device.
 
 ### Transcriber Selection
 
@@ -37,7 +37,8 @@ transcriber = "whisper"
 ```
 
 Choose your transcription provider:
-- `"whisper"` - Local Whisper server (default)
+- `"faster_whisper"` - OpenAI Whisper local model (default)
+- `"whisper"` - OpenAI Whisper local server
 - `"nvidia_riva"` - NVIDIA Riva (local)
 - `"nvidia_nim"` - NVIDIA NIM (cloud)
 - `"google"` - Google Gemini (cloud)
@@ -45,12 +46,11 @@ Choose your transcription provider:
 - `"elevenlabs"` - ElevenLabs Speech-to-Text (cloud)
 - `"fastest"` - Run multiple providers simultaneously (hybrid)
 
-
 ## Provider Configurations
 
 Each transcription provider has its own configuration section. For detailed setup instructions and configuration options, see the individual provider documentation:
 
-- **[Whisper](whisper.md)** - Local Whisper server (default, privacy-focused)
+- **[Whisper](whisper.md)** - Local Whisper options
 - **[NVIDIA](nvidia.md)** - NVIDIA Riva (local) and NVIDIA NIM (cloud)
 - **[Google](google.md)** - Google Speech-to-Text
 - **[OpenAI](openai.md)** - OpenAI Whisper API
@@ -60,28 +60,28 @@ Each transcription provider has its own configuration section. For detailed setu
 
 1. **Start Simple**: Begin with the default Whisper configuration for local processing
 2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. You can mix and match both local and cloud providers
-3. **Language Detection**: Enable `language_auto` for automatic language detection, or set a specific language for better performance
+3. **Language Setting**: Set the `language` field to specify the language for transcription
 
 ## Example Configurations
 
 ### Local-Only Setup (Whisper)
-```toml
-language_auto = true
-language = "en"
-microphone_id = -1
-transcriber = "whisper"
 
-[whisper]
+Similar to the default setup but using a larger `turbo` model.
+```toml
+language = "en"
+transcriber = "faster_whisper"
+
+[faster_whisper]
 enabled = true
-endpoint = "http://localhost:8080"
+model = "turbo"
 ```
 See [Whisper documentation](whisper.md) for detailed setup.
 
 ### Cloud Setup (OpenAI)
+Use a cloud Whisper service instead of running it locally:
+
 ```toml
-language_auto = true
 language = "en"
-microphone_id = -1
 transcriber = "openai"
 
 [openai]
@@ -89,22 +89,21 @@ enabled = true
 api_key = "your-openai-api-key"
 model = "whisper-1"
 ```
-See [OpenAI documentation](openai.md) for detailed setup.
 
 ### Hybrid Setup (Fastest Mode)
+Race two cloud providers and choose the fastest transcription:
+
 ```toml
-language_auto = true
 language = "en"
-microphone_id = -1
 transcriber = "fastest"
 
-[whisper]
+[google]
 enabled = true
-endpoint = "http://localhost:8080"
+api_key = "your-google-api-key"
+model = "gemini-2.5-flash-preview-05-20"
 
 [openai]
 enabled = true
 api_key = "your-openai-api-key"
 model = "whisper-1"
 ```
-Fastest mode runs multiple providers simultaneously. See individual provider documentation for detailed configuration.
