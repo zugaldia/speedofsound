@@ -19,7 +19,7 @@ class StatusColumn(Gtk.Box):
         self._label = Gtk.Label(label=default_text)
         self._label.set_halign(Gtk.Align.CENTER)
         self._label.set_ellipsize(Pango.EllipsizeMode.END)
-        self._label.set_max_width_chars(10)
+        self._label.set_max_width_chars(14)  # So that "faster_whisper" fits
         self._label.add_css_class("status-column-text")
         self.append(self._label)
 
