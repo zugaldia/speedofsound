@@ -33,7 +33,7 @@ microphone_id = 0
 ### Transcriber Selection
 
 ```toml
-transcriber = "whisper"
+transcriber = "faster_whisper"
 ```
 
 Choose your transcription provider:
@@ -58,9 +58,8 @@ Each transcription provider has its own configuration section. For detailed setu
 
 ## Configuration Tips
 
-1. **Start Simple**: Begin with the default Whisper configuration for local processing
-2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. You can mix and match both local and cloud providers
-3. **Language Setting**: Set the `language` field to specify the language for transcription
+1. **Start Simple**: Begin with the default Whisper configuration for local processing.
+2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. This is particularly useful with cloud providers but you can mix and match both local and cloud providers.
 
 ## Example Configurations
 
