@@ -49,9 +49,10 @@ class TranscriberType(StrEnum):
 
 
 class TypistBackend(StrEnum):
+    PYNPUT = "pynput"
+    ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
-    ATSPI = "atspi"
 
 
 class RecorderBackend(StrEnum):
@@ -117,6 +118,13 @@ class ElevenLabsConfig(BaseModel):
     model: str = ""
 
 
+class PynputConfig(BaseModel):
+    """Pynput typist configuration."""
+
+    backend: Optional[str] = None
+    delay: float = 0.2
+
+
 class AppConfig(BaseModel):
     """Application configuration loaded from config.toml."""
 
@@ -141,6 +149,7 @@ class AppConfig(BaseModel):
 
     # Typist settings
     typist_backend: Optional[str] = None
+    pynput: PynputConfig = PynputConfig()
 
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()

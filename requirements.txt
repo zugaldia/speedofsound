@@ -7,4 +7,5 @@ PyAudio==0.2.14
 pydantic==2.11.3
 pygame==2.6.1
 PyGObject==3.52.3
+pynput==1.8.1
 requests==2.32.3
