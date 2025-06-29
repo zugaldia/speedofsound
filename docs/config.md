@@ -8,6 +8,11 @@ cp config.example.toml config.toml
 
 The default setup uses Whisper for local transcriptions. It will automatically download the `small` model, which is the easiest way to get started as it runs on most hardware configurations.
 
+## Permissions
+
+$ sudo cp scripts/99-uinput.rules /etc/udev/rules.d/
+$ sudo udevadm control --reload-rules && sudo udevadm trigger
+
 ## General Settings
 
 This document describes common settings you likely want to tweak. For other settings like joystick integration or typing backend configuration, see [`advanced.md`](advanced.md).
