@@ -1,6 +1,6 @@
 import logging
 
-from gi.repository import Adw, Gdk, Gtk  # type: ignore
+from gi.repository import Adw, Gdk, GLib, Gtk  # type: ignore
 
 from speedofsound.constants import APPLICATION_NAME
 from speedofsound.models import OrchestratorStage
@@ -38,6 +38,9 @@ class MainWindow(Adw.ApplicationWindow):
 
         self._status_bar = StatusBar()
         toolbar_view.add_bottom_bar(self._status_bar)
+
+        # We trigger typing when the window confirms the hiding signal.
+        self.connect("hide", self._on_hide)
 
         self._view_model = view_model
         self._was_recording = False
@@ -79,6 +82,9 @@ class MainWindow(Adw.ApplicationWindow):
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
             )
 
+    def _on_hide(self, window) -> None:
+        GLib.idle_add(self._view_model.action_type)
+
     def _on_status_text_changed(self, view_state, param) -> None:
         status_text = self._view_model.view_state.status_text
         self._content_widget.set_status(status_text)
@@ -96,10 +102,10 @@ class MainWindow(Adw.ApplicationWindow):
         elif orchestrator_state == OrchestratorStage.TRANSCRIBING:
             self._content_widget.set_pulsating(True)
         elif orchestrator_state == OrchestratorStage.TYPING:
+            # We'll trigger the typing action in _on_hide()
             self.hide()
             self._content_widget.set_pulsating(False)
             self._was_recording = False
-            self._view_model.action_type()
 
     def _on_volume_level_changed(self, view_state, param) -> None:
         volume_level = self._view_model.view_state.volume_level
