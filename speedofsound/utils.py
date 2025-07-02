@@ -1,6 +1,7 @@
-import os
 import uuid
 from pathlib import Path
+
+from gi.repository import GLib  # type: ignore
 
 from speedofsound.constants import APPLICATION_ID
 
@@ -9,34 +10,38 @@ def get_uuid() -> str:
     return str(uuid.uuid4())
 
 
-def get_config_dir() -> Path:
+def get_cache_path() -> Path:
+    """
+    Returns the path to the application's cache directory.
+    The directory will be created if it doesn't exist.
+    Typically: /home/<user>/.cache/io.speedofsound.App
+    """
+    cache_path = Path(GLib.get_user_cache_dir()) / APPLICATION_ID
+    cache_path.mkdir(parents=True, exist_ok=True)
+    return cache_path
+
+
+def get_config_path() -> Path:
     """
     Returns the path to the application's configuration directory.
     The directory will be created if it doesn't exist.
-    For Linux (XDG compliant), this will be:
-    ~/.config/io.speedofsound.App/
+    Typically: /home/<user>/.config/io.speedofsound.App/
     """
 
-    xdg_config_home = os.environ.get("XDG_CONFIG_HOME")
-    if xdg_config_home:
-        base_config_dir = Path(xdg_config_home)
-    else:
-        base_config_dir = Path.home() / ".config"
-
-    config_dir = base_config_dir / APPLICATION_ID
-    config_dir.mkdir(parents=True, exist_ok=True)
-    return config_dir
+    config_path = Path(GLib.get_user_config_dir()) / APPLICATION_ID
+    config_path.mkdir(parents=True, exist_ok=True)
+    return config_path
 
 
-def get_subconfig_dir(subconfig_name: str) -> Path:
+def get_data_path() -> Path:
     """
-    Returns the path to a subdirectory within the application's configuration directory.
-    The subdirectory will be created if it doesn't exist.
+    Returns the path to the application's data directory.
+    The directory will be created if it doesn't exist.
+    Typically: /home/<user>/.local/share/io.speedofsound.App/
     """
-    config_dir = get_config_dir()
-    subconfig_dir = config_dir / subconfig_name
-    subconfig_dir.mkdir(parents=True, exist_ok=True)
-    return subconfig_dir
+    data_path = Path(GLib.get_user_data_dir()) / APPLICATION_ID
+    data_path.mkdir(parents=True, exist_ok=True)
+    return data_path
 
 
 def is_empty(text):

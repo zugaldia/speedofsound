@@ -7,7 +7,7 @@ from typing import Literal, Optional
 from gi.repository import GObject  # type: ignore
 from pydantic import BaseModel, Field
 
-from speedofsound.utils import get_uuid
+from speedofsound.utils import get_cache_path, get_uuid
 
 #
 # Language
@@ -284,8 +284,7 @@ class RecorderResponse(BaseResponse):
         return wav_file
 
     def save_tmp_file(self):
-        # TODO: Use tempfile module
-        path = "/tmp/speedofsound.wav"
+        path = str(get_cache_path() / "speedofsound.wav")
         with wave.open(path, "wb") as wf:
             wf.setnchannels(self.recorder_request.channels)
             wf.setframerate(self.recorder_request.rate)

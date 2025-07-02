@@ -10,7 +10,7 @@ from speedofsound.models import (
 from speedofsound.services.base_provider import BaseProvider
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.transcriber_prompts import PROMPTS
-from speedofsound.utils import get_config_dir, is_empty
+from speedofsound.utils import get_config_path, is_empty
 
 
 class BaseTranscriber(BaseProvider):
@@ -31,11 +31,11 @@ class BaseTranscriber(BaseProvider):
         language_id = DEFAULT_LANGUAGE.id if is_empty(language_id) else language_id
         base_prompt = PROMPTS[language_id]
 
-        config_dir = get_config_dir()
-        custom_prompt_path = config_dir / f"prompt_{language_id}.md"
+        custom_prompt_path = get_config_path() / f"prompt_{language_id}.md"
         if custom_prompt_path.exists():
             try:
                 custom_prompt_text = custom_prompt_path.read_text().strip()
+                self._logger.debug(f"Loaded custom prompt from {custom_prompt_path}")
             except Exception as e:
                 self._logger.warning(f"Failed to load custom prompt: {e}")
 
