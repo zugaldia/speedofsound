@@ -121,8 +121,8 @@ export default class SosExtension extends Extension {
     async _callAppAction(actionName) {
         try {
             const reply = await Gio.DBus.session.call(
-                'io.speedofsound.App',
-                '/io/speedofsound/App',
+                'io.speedofsound.app',
+                '/io/speedofsound/app',
                 'org.gtk.Actions',
                 'Activate',
                 new GLib.Variant('(sava{sv})', [actionName, [], {}]),
@@ -135,7 +135,7 @@ export default class SosExtension extends Extension {
         } catch (error) {
             // If the app is not running, a GDBus.Error will be thrown. E.g.:
             // Failed to call show action: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown:
-            // The name io.speedofsound.App was not provided by any .service files
+            // The name io.speedofsound.app was not provided by any .service files
             this._handleAppError(`Is the app running? ${error.message}`);
         }
     }

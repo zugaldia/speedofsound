@@ -19,10 +19,10 @@ class RecorderService(BaseService):
 
     def __init__(
         self,
-        configuration_service: ConfigurationService,
+        configuration: ConfigurationService,
     ):
         super().__init__(service_name=self.SERVICE_NAME)
-        self._configuration = configuration_service
+        self._configuration = configuration
         self._recorder: BaseRecorder = self._create_recorder()
         devices = self._recorder.get_input_devices()
         self._logger.info(f"Available input devices: {devices}")

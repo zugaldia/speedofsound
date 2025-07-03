@@ -90,6 +90,10 @@ class MainWindow(Adw.ApplicationWindow):
         self._content_widget.set_status(status_text)
 
     def _on_orchestrator_state_changed(self, view_state, param) -> None:
+        # Should we run as an application service? (--gapplication-service)
+        # I can't find good documentation on this, except that it seems to
+        # be supported explicitly by Flatpak:
+        # https://docs.flatpak.org/en/latest/conventions.html#d-bus-service-files
         orchestrator_state = self._view_model.view_state.orchestrator_state
         if orchestrator_state == OrchestratorStage.READY:
             self._content_widget.set_volume(0.0)
