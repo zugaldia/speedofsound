@@ -11,12 +11,12 @@ class FastestTranscriber(BaseTranscriber):
 
     def __init__(
         self,
-        configuration_service: ConfigurationService,
+        configuration: ConfigurationService,
         providers: List[BaseTranscriber],
     ):
         super().__init__(
             provider_type=TranscriberType.FASTEST,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
         self._providers: Dict[str, BaseTranscriber] = {
             provider._provider_name: provider for provider in providers

@@ -28,10 +28,10 @@ from speedofsound.utils import is_empty
 
 
 class WhisperTranscriber(BaseTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.WHISPER,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
         self._logger.info("Initialized.")

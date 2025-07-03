@@ -17,13 +17,13 @@ from speedofsound.utils import get_data_path, is_empty
 
 
 class FasterWhisperTranscriber(BaseTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.FASTER_WHISPER,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
-        model_name = configuration_service.config.faster_whisper.model
+        model_name = configuration.config.faster_whisper.model
         model_path = self._download_model(model_name)
         self._load_model(model_path)
         self._logger.info(f"v{faster_whisper_version} initialized.")
