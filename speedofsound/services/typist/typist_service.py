@@ -20,9 +20,9 @@ class TypistService(BaseService):
         TYPIST_RESPONSE_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
     }
 
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(service_name=self.SERVICE_NAME)
-        self._configuration = configuration_service
+        self._configuration = configuration
         self._executor = ThreadPoolExecutor(max_workers=1)
         self._typist: BaseTypist = self._get_typist()
         self._logger.info("Initialized.")
