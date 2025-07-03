@@ -1,5 +1,14 @@
+"""
+
+We store all content in XDG directories, which is generally a good practice,
+but it's also required to support the sandboxing of Flatpak and Snaps:
+https://docs.flatpak.org/en/latest/conventions.html#xdg-base-directories
+
+"""
+
 import uuid
 from pathlib import Path
+from typing import Optional
 
 from gi.repository import GLib  # type: ignore
 
@@ -10,11 +19,16 @@ def get_uuid() -> str:
     return str(uuid.uuid4())
 
 
+def is_empty(text: Optional[str]) -> bool:
+    """Return True if the string is None, empty, or contains only whitespace."""
+    return text is None or not text.strip()
+
+
 def get_cache_path() -> Path:
     """
     Returns the path to the application's cache directory.
     The directory will be created if it doesn't exist.
-    Typically: /home/<user>/.cache/io.speedofsound.App
+    Typically: /home/<user>/.cache/io.speedofsound.app
     """
     cache_path = Path(GLib.get_user_cache_dir()) / APPLICATION_ID
     cache_path.mkdir(parents=True, exist_ok=True)
@@ -25,7 +39,7 @@ def get_config_path() -> Path:
     """
     Returns the path to the application's configuration directory.
     The directory will be created if it doesn't exist.
-    Typically: /home/<user>/.config/io.speedofsound.App/
+    Typically: /home/<user>/.config/io.speedofsound.app/
     """
 
     config_path = Path(GLib.get_user_config_dir()) / APPLICATION_ID
@@ -37,13 +51,8 @@ def get_data_path() -> Path:
     """
     Returns the path to the application's data directory.
     The directory will be created if it doesn't exist.
-    Typically: /home/<user>/.local/share/io.speedofsound.App/
+    Typically: /home/<user>/.local/share/io.speedofsound.app/
     """
     data_path = Path(GLib.get_user_data_dir()) / APPLICATION_ID
     data_path.mkdir(parents=True, exist_ok=True)
     return data_path
-
-
-def is_empty(text):
-    """Return True if the string is None, empty, or contains only whitespace."""
-    return text is None or not text.strip()

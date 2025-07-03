@@ -319,10 +319,7 @@ class TranscriberModel(BaseModel):
 
 class TranscriberRequest(BaseRequest):
     recorder_response: RecorderResponse
-
-    # TODO: In addition to the name of the active app, another piece that
-    # could be interesting as context for multimodal models is a screenshot.
-    active_app: Optional[ActiveApplication] = None
+    prompt: str
 
 
 class TranscriberResponse(BaseResponse):

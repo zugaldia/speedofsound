@@ -2,7 +2,8 @@
 # General
 #
 
-APPLICATION_ID = "io.speedofsound.App"
+PROJECT_NAME = "speedofsound"
+APPLICATION_ID = "io.speedofsound.app"
 APPLICATION_NAME = "Speed of Sound"
 
 EXTENSION_SCHEMA = "org.gnome.shell.extensions.speedofsound"
