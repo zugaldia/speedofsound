@@ -1,7 +1,9 @@
 __pycache__/
+.flatpak-builder/
 .vscode/
-config.toml
 config-*.toml
+config.toml
+repo/
 speedofsound.log
 TODO.md
 venv/
