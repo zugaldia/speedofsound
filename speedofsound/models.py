@@ -55,11 +55,6 @@ class TypistBackend(StrEnum):
     YDOTOOL = "ydotool"
 
 
-class RecorderBackend(StrEnum):
-    PYAUDIO = "pyaudio"
-    GSTREAMER = "gstreamer"
-
-
 class NvidiaRivaConfig(BaseModel):
     """NVIDIA Riva transcriber configuration."""
 
@@ -130,8 +125,6 @@ class AppConfig(BaseModel):
 
     language: str = DEFAULT_LANGUAGE.id
 
-    microphone_id: Optional[int] = None
-
     # Optional: This is the ID of the joystick as detected by PyGame.
     # The id argument must be a value from 0 to pygame.joystick.get_count() - 1.
     joystick_id: Optional[int] = None
@@ -143,9 +136,6 @@ class AppConfig(BaseModel):
 
     # Transcriber settings
     transcriber: str = TranscriberType.WHISPER.value
-
-    # Recorder settings
-    recorder_backend: str = RecorderBackend.GSTREAMER.value
 
     # Typist settings
     typist_backend: Optional[str] = None
@@ -246,16 +236,10 @@ class ControlEvent(BaseEvent):
 #
 
 
-class MicrophoneDevice(BaseModel):
-    id: int
-    name: str
-
-
 class RecorderRequest(BaseRequest):
     rate: int = 16000
     channels: int = 1
     sample_width: int = 2
-    microphone_id: Optional[int] = None
     frames_per_buffer: int = 1024
 
 

@@ -102,22 +102,10 @@ class SystemVerification:
         recorder_service: RecorderService,
         transcriber_service: TranscriberService,
     ) -> int:
-        microphone_id = (
-            self._configuration._config.microphone_id
-            if self._configuration._config.microphone_id
-            else "default"
-        )
-
-        print(
-            f"We'll start recording in {COUNTDOWN_SECONDS} seconds "
-            f"(microphone: {microphone_id})."
-        )
+        print(f"We'll start recording in {COUNTDOWN_SECONDS} seconds.")
 
         self._countdown()
-        print(
-            f"Recording now for {RECORDING_SECONDS} seconds "
-            f"with {self._configuration._config.recorder_backend}, say something :-)"
-        )
+        print(f"Recording now for {RECORDING_SECONDS} seconds, say something :-)")
 
         recorder_service.start_recording()
         time.sleep(RECORDING_SECONDS)

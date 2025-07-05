@@ -22,7 +22,6 @@ DEFAULT_MARGIN = 20
 # Orchestrator
 ORCHESTRATOR_EVENT_SIGNAL = "orchestrator-event"
 LANGUAGE_NAME_SIGNAL = "language-name"
-MICROPHONE_NAME_SIGNAL = "microphone-name"
 MODEL_NAME_SIGNAL = "model-name"
 WORDS_PER_MINUTE_SIGNAL = "words-per-minute"
 

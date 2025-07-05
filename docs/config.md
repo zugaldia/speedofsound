@@ -29,11 +29,7 @@ Although some transcribers support automatic language detection, this is not cur
 
 ### Audio Input
 
-```toml
-microphone_id = 0
-```
-
-- `microphone_id`: Audio input device ID. Leave it unset to use the default device.
+The application uses your system's default microphone for recording. Setting a custom microphone is currently not supported.
 
 ### Transcriber Selection
 

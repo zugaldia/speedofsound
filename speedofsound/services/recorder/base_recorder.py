@@ -1,8 +1,7 @@
 import audioop
-import typing
 from abc import ABC, abstractmethod
 
-from speedofsound.models import MicrophoneDevice, RecorderRequest
+from speedofsound.models import RecorderRequest
 from speedofsound.services.base_provider import BaseProvider
 
 
@@ -15,10 +14,6 @@ class BaseRecorder(BaseProvider, ABC):
 
     @abstractmethod
     def shutdown(self) -> None:
-        pass
-
-    @abstractmethod
-    def get_input_devices(self) -> typing.List[MicrophoneDevice]:
         pass
 
     @abstractmethod

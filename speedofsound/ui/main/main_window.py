@@ -19,7 +19,6 @@ class MainWindow(Adw.ApplicationWindow):
         self._logger = logging.getLogger(__name__)
         self.set_title(APPLICATION_NAME)
         self.set_resizable(False)
-        self._load_css()
 
         # For consistency with the behavior where we hide the window when we
         # start typing or cancel transcription.
@@ -57,9 +56,6 @@ class MainWindow(Adw.ApplicationWindow):
             "notify::language-name", self._on_language_name_changed
         )
         self._view_model.view_state.connect(
-            "notify::microphone-name", self._on_microphone_name_changed
-        )
-        self._view_model.view_state.connect(
             "notify::model-name", self._on_model_name_changed
         )
         self._view_model.view_state.connect(
@@ -70,17 +66,6 @@ class MainWindow(Adw.ApplicationWindow):
         key_controller = Gtk.EventControllerKey()
         key_controller.connect("key-pressed", self._on_key_pressed)
         self.add_controller(key_controller)
-
-    def _load_css(self):
-        default_display = Gdk.Display.get_default()
-        if default_display:
-            css_provider = Gtk.CssProvider()
-            css_provider.load_from_path("speedofsound/data/style.css")
-            Gtk.StyleContext().add_provider_for_display(
-                default_display,
-                css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
-            )
 
     def _on_hide(self, window) -> None:
         GLib.idle_add(self._view_model.action_type)
@@ -118,10 +103,6 @@ class MainWindow(Adw.ApplicationWindow):
     def _on_language_name_changed(self, view_state, param) -> None:
         language_name = self._view_model.view_state.language_name
         self._status_bar.set_language_name(language_name)
-
-    def _on_microphone_name_changed(self, view_state, param) -> None:
-        microphone_name = self._view_model.view_state.microphone_name
-        self._status_bar.set_microphone_name(microphone_name)
 
     def _on_model_name_changed(self, view_state, param) -> None:
         model_name = self._view_model.view_state.model_name

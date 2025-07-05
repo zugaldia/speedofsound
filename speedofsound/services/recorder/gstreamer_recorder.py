@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from gi.repository import Gst  # type: ignore
 
-from speedofsound.models import MicrophoneDevice, RecorderRequest
+from speedofsound.models import RecorderRequest
 from speedofsound.services.recorder.base_recorder import BaseRecorder
 
 
@@ -11,7 +11,6 @@ class GStreamerRecorder(BaseRecorder):
     def __init__(self) -> None:
         super().__init__(provider_name="gstreamer")
         Gst.init()
-        self._devices: List[MicrophoneDevice] = []
         self._pipeline: Optional[Gst.Pipeline] = None
         self._appsink: Optional[Gst.Element] = None
         self._audio_data: List[bytes] = []
@@ -28,27 +27,6 @@ class GStreamerRecorder(BaseRecorder):
             self._appsink = None
             self._audio_data.clear()
 
-    def get_input_devices(self) -> List[MicrophoneDevice]:
-        if self._devices:
-            return self._devices
-        monitor = Gst.DeviceMonitor.new()
-        monitor.add_filter("Audio/Source", None)
-        monitor.start()
-        for device in monitor.get_devices():
-            device_class = device.get_device_class()
-            if "Audio/Source" in device_class:
-                device_name = device.get_properties().get_string("node.name")
-                if not device_name:
-                    device_name = device.get_properties().get_string("node.description")
-                if not device_name:
-                    device_name = device.get_properties().get_string("alsa.id")
-                if not device_name:
-                    device_name = device.get_display_name()
-                device_id = len(self._devices)
-                self._devices.append(MicrophoneDevice(id=device_id, name=device_name))
-        monitor.stop()
-        return self._devices
-
     def is_recording(self) -> bool:
         with self._recording_lock:
             return self._is_recording
@@ -62,26 +40,9 @@ class GStreamerRecorder(BaseRecorder):
             # Create pipeline
             format_map = {1: "S8", 2: "S16LE", 4: "S32LE"}
             audio_format = format_map.get(recorder_request.sample_width, "S16LE")
-            device_param = ""
-
-            try:
-                # Custom device ID
-                if recorder_request.microphone_id is not None:
-                    all_devices = self.get_input_devices()
-                    if 0 <= recorder_request.microphone_id < len(all_devices):
-                        device_name = all_devices[recorder_request.microphone_id].name
-                        self._logger.info(f"Using device: {device_name}")
-                        device_param = f"device={device_name} "
-                    else:
-                        self._logger.error(
-                            f"Invalid device ID {recorder_request.microphone_id}. "
-                            f"Using default device."
-                        )
-            except Exception as e:
-                self._logger.error(f"Error getting device name: {e}")
 
             pipeline_str = (
-                f"pulsesrc {device_param}! "
+                f"pulsesrc ! "
                 f"audio/x-raw,format={audio_format},"
                 f"channels={recorder_request.channels},"
                 f"rate={recorder_request.rate} ! "

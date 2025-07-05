@@ -2,7 +2,6 @@ from typing import List
 
 from speedofsound.constants import (
     LANGUAGE_NAME_SIGNAL,
-    MICROPHONE_NAME_SIGNAL,
     MODEL_NAME_SIGNAL,
     ORCHESTRATOR_EVENT_SIGNAL,
     VOLUME_LEVEL_SIGNAL,
@@ -25,7 +24,6 @@ class MainViewModel(BaseViewModel):
         self._orchestrator = orchestrator
         self._orchestrator.connect(VOLUME_LEVEL_SIGNAL, self._on_volume_level)
         self._orchestrator.connect(LANGUAGE_NAME_SIGNAL, self._on_language_name)
-        self._orchestrator.connect(MICROPHONE_NAME_SIGNAL, self._on_microphone_name)
         self._orchestrator.connect(MODEL_NAME_SIGNAL, self._on_model_name)
         self._orchestrator.connect(WORDS_PER_MINUTE_SIGNAL, self._on_words_per_minute)
         self._orchestrator.connect(
@@ -37,7 +35,6 @@ class MainViewModel(BaseViewModel):
             self._logger.info("Shutting down.")
             self._orchestrator.disconnect_by_func(self._on_volume_level)
             self._orchestrator.disconnect_by_func(self._on_language_name)
-            self._orchestrator.disconnect_by_func(self._on_microphone_name)
             self._orchestrator.disconnect_by_func(self._on_model_name)
             self._orchestrator.disconnect_by_func(self._on_words_per_minute)
             self._orchestrator.disconnect_by_func(self._on_orchestrator_event)
@@ -74,12 +71,6 @@ class MainViewModel(BaseViewModel):
     ) -> None:
         """Handle language name updates from the orchestrator."""
         self.view_state.language_name = language_name
-
-    def _on_microphone_name(
-        self, service: OrchestratorService, microphone_name: str
-    ) -> None:
-        """Handle microphone name updates from the orchestrator."""
-        self.view_state.microphone_name = microphone_name
 
     def _on_model_name(self, service: OrchestratorService, model_name: str) -> None:
         """Handle model name updates from the orchestrator."""

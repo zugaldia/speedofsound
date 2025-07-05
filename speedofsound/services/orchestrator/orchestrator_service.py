@@ -5,7 +5,6 @@ from gi.repository import GObject  # type: ignore
 from speedofsound.constants import (
     CONTROL_EVENT_SIGNAL,
     LANGUAGE_NAME_SIGNAL,
-    MICROPHONE_NAME_SIGNAL,
     MODEL_NAME_SIGNAL,
     ORCHESTRATOR_EVENT_SIGNAL,
     RECORDER_RESPONSE_SIGNAL,
@@ -44,7 +43,6 @@ class OrchestratorService(BaseService):
         ORCHESTRATOR_EVENT_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         VOLUME_LEVEL_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         LANGUAGE_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        MICROPHONE_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         MODEL_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         WORDS_PER_MINUTE_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (float,)),
     }
@@ -97,10 +95,6 @@ class OrchestratorService(BaseService):
         self.safe_emit(
             LANGUAGE_NAME_SIGNAL,
             self._configuration_service.config.language,
-        )
-        self.safe_emit(
-            MICROPHONE_NAME_SIGNAL,
-            self._configuration_service.config.microphone_id or "default",
         )
         self.safe_emit(
             MODEL_NAME_SIGNAL,
