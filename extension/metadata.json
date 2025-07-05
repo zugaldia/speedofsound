@@ -5,6 +5,8 @@
   "uuid": "extension@speedofsound.io",
   "settings-schema": "io.speedofsound.App",
   "shell-version": [
+    "46",
+    "47",
     "48"
   ]
 }
