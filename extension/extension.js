@@ -12,8 +12,8 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 const KEYBINDING_NAME = 'trigger-sos';
 const DEFAULT_COLOR = 'white';
 const ICON_NAME = 'sound-wave-symbolic';
-const SETTING_APP_STATUS = 'app-status';
-const SETTING_APP_ERROR = 'app-error';
+const SETTING_EXT_STATUS = 'extension-status';
+const SETTING_EXT_ERROR = 'extension-error';
 
 const ALLOWED_COLORS = [
     'red', 'blue', 'green', 'yellow', 'orange',
@@ -78,11 +78,11 @@ export default class SosExtension extends Extension {
     _setupSettings() {
         this._settings = this.getSettings();
         this._settingsChangedId = this._settings.connect('changed', (settings, key) => {
-            if (key === SETTING_APP_STATUS) {
+            if (key === SETTING_EXT_STATUS) {
                 const color = settings.get_string(key);
                 console.log(`App status changed to: ${color}`);
                 this._updateAppStatus(color);
-            } else if (key === SETTING_APP_ERROR) {
+            } else if (key === SETTING_EXT_ERROR) {
                 const error = settings.get_string(key);
                 this._handleAppError(error);
             } else {
@@ -121,8 +121,8 @@ export default class SosExtension extends Extension {
     async _callAppAction(actionName) {
         try {
             const reply = await Gio.DBus.session.call(
-                'io.speedofsound.app',
-                '/io/speedofsound/app',
+                'io.speedofsound.App',
+                '/io/speedofsound/App',
                 'org.gtk.Actions',
                 'Activate',
                 new GLib.Variant('(sava{sv})', [actionName, [], {}]),
@@ -135,7 +135,7 @@ export default class SosExtension extends Extension {
         } catch (error) {
             // If the app is not running, a GDBus.Error will be thrown. E.g.:
             // Failed to call show action: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown:
-            // The name io.speedofsound.app was not provided by any .service files
+            // The name io.speedofsound.App was not provided by any .service files
             this._handleAppError(`Is the app running? ${error.message}`);
         }
     }
