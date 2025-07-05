@@ -21,10 +21,10 @@ from speedofsound.utils import is_empty
 
 
 class NvidiaNimTranscriber(BaseNvidiaTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.NVIDIA_NIM,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
         self._client = None

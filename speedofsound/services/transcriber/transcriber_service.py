@@ -27,10 +27,10 @@ class TranscriberService(BaseService):
         TRANSCRIBER_RESPONSE_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
     }
 
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(service_name=self.SERVICE_NAME)
         self._executor = ThreadPoolExecutor(max_workers=1)
-        self._configuration = configuration_service
+        self._configuration = configuration
         self._transcriber: BaseTranscriber = self._setup_transcriber()
         self._logger.info("Initialized.")
 
@@ -48,19 +48,19 @@ class TranscriberService(BaseService):
 
     def _get_transcriber(self, transcriber_type: TranscriberType) -> BaseTranscriber:
         if transcriber_type == TranscriberType.WHISPER:
-            return WhisperTranscriber(configuration_service=self._configuration)
+            return WhisperTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.FASTER_WHISPER:
-            return FasterWhisperTranscriber(configuration_service=self._configuration)
+            return FasterWhisperTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.NVIDIA_RIVA:
-            return NvidiaRivaTranscriber(configuration_service=self._configuration)
+            return NvidiaRivaTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.NVIDIA_NIM:
-            return NvidiaNimTranscriber(configuration_service=self._configuration)
+            return NvidiaNimTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.ELEVENLABS:
-            return ElevenLabsTranscriber(configuration_service=self._configuration)
+            return ElevenLabsTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.GOOGLE:
-            return GoogleTranscriber(configuration_service=self._configuration)
+            return GoogleTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.OPENAI:
-            return OpenAiTranscriber(configuration_service=self._configuration)
+            return OpenAiTranscriber(configuration=self._configuration)
         else:
             message = f"Unsupported transcriber type: {transcriber_type}"
             self._logger.error(message)
@@ -92,7 +92,7 @@ class TranscriberService(BaseService):
                 raise RuntimeError(message)
 
         return FastestTranscriber(
-            configuration_service=self._configuration,
+            configuration=self._configuration,
             providers=enabled_providers,
         )
 

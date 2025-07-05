@@ -27,7 +27,7 @@ lint: lint-gjs lint-shell
 test-schema:
 	glib-compile-schemas --dry-run schemas/
 
-pack-extension: test-schema
+pack-extension:
 	rm -f extension@speedofsound.io.shell-extension.zip
 	gnome-extensions pack .
 

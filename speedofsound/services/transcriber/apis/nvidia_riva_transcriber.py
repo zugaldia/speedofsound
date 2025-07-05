@@ -23,10 +23,10 @@ from speedofsound.utils import is_empty
 
 
 class NvidiaRivaTranscriber(BaseNvidiaTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.NVIDIA_RIVA,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
         self._client = None

@@ -1,10 +1,12 @@
 {
   "name": "Speed of Sound",
-  "description": "Type into any app at the speed of sound.",
+  "description": "Voice typing for the Linux desktop.",
   "url": "https://www.speedofsound.io",
   "uuid": "extension@speedofsound.io",
-  "settings-schema": "org.gnome.shell.extensions.speedofsound",
+  "settings-schema": "io.speedofsound.App",
   "shell-version": [
-    "46"
+    "46",
+    "47",
+    "48"
   ]
 }

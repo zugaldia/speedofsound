@@ -7,7 +7,7 @@ from typing import Literal, Optional
 from gi.repository import GObject  # type: ignore
 from pydantic import BaseModel, Field
 
-from speedofsound.utils import get_uuid
+from speedofsound.utils import get_cache_path, get_uuid
 
 #
 # Language
@@ -49,14 +49,10 @@ class TranscriberType(StrEnum):
 
 
 class TypistBackend(StrEnum):
+    PYNPUT = "pynput"
+    ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
-    ATSPI = "atspi"
-
-
-class RecorderBackend(StrEnum):
-    PYAUDIO = "pyaudio"
-    GSTREAMER = "gstreamer"
 
 
 class NvidiaRivaConfig(BaseModel):
@@ -117,12 +113,17 @@ class ElevenLabsConfig(BaseModel):
     model: str = ""
 
 
+class PynputConfig(BaseModel):
+    """Pynput typist configuration."""
+
+    backend: Optional[str] = None
+    delay: float = 0.2
+
+
 class AppConfig(BaseModel):
     """Application configuration loaded from config.toml."""
 
     language: str = DEFAULT_LANGUAGE.id
-
-    microphone_id: Optional[int] = None
 
     # Optional: This is the ID of the joystick as detected by PyGame.
     # The id argument must be a value from 0 to pygame.joystick.get_count() - 1.
@@ -136,11 +137,9 @@ class AppConfig(BaseModel):
     # Transcriber settings
     transcriber: str = TranscriberType.WHISPER.value
 
-    # Recorder settings
-    recorder_backend: str = RecorderBackend.GSTREAMER.value
-
     # Typist settings
     typist_backend: Optional[str] = None
+    pynput: PynputConfig = PynputConfig()
 
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()
@@ -237,16 +236,10 @@ class ControlEvent(BaseEvent):
 #
 
 
-class MicrophoneDevice(BaseModel):
-    id: int
-    name: str
-
-
 class RecorderRequest(BaseRequest):
     rate: int = 16000
     channels: int = 1
     sample_width: int = 2
-    microphone_id: Optional[int] = None
     frames_per_buffer: int = 1024
 
 
@@ -275,8 +268,7 @@ class RecorderResponse(BaseResponse):
         return wav_file
 
     def save_tmp_file(self):
-        # TODO: Use tempfile module
-        path = "/tmp/speedofsound.wav"
+        path = str(get_cache_path() / "speedofsound.wav")
         with wave.open(path, "wb") as wf:
             wf.setnchannels(self.recorder_request.channels)
             wf.setframerate(self.recorder_request.rate)
@@ -311,10 +303,7 @@ class TranscriberModel(BaseModel):
 
 class TranscriberRequest(BaseRequest):
     recorder_response: RecorderResponse
-
-    # TODO: In addition to the name of the active app, another piece that
-    # could be interesting as context for multimodal models is a screenshot.
-    active_app: Optional[ActiveApplication] = None
+    prompt: str
 
 
 class TranscriberResponse(BaseResponse):

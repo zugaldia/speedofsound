@@ -8,6 +8,11 @@ cp config.example.toml config.toml
 
 The default setup uses Whisper for local transcriptions. It will automatically download the `small` model, which is the easiest way to get started as it runs on most hardware configurations.
 
+## Permissions
+
+$ sudo cp scripts/99-uinput.rules /etc/udev/rules.d/
+$ sudo udevadm control --reload-rules && sudo udevadm trigger
+
 ## General Settings
 
 This document describes common settings you likely want to tweak. For other settings like joystick integration or typing backend configuration, see [`advanced.md`](advanced.md).
@@ -24,16 +29,12 @@ Although some transcribers support automatic language detection, this is not cur
 
 ### Audio Input
 
-```toml
-microphone_id = 0
-```
-
-- `microphone_id`: Audio input device ID. Leave it unset to use the default device.
+The application uses your system's default microphone for recording. Setting a custom microphone is currently not supported.
 
 ### Transcriber Selection
 
 ```toml
-transcriber = "whisper"
+transcriber = "faster_whisper"
 ```
 
 Choose your transcription provider:
@@ -58,9 +59,8 @@ Each transcription provider has its own configuration section. For detailed setu
 
 ## Configuration Tips
 
-1. **Start Simple**: Begin with the default Whisper configuration for local processing
-2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. You can mix and match both local and cloud providers
-3. **Language Setting**: Set the `language` field to specify the language for transcription
+1. **Start Simple**: Begin with the default Whisper configuration for local processing.
+2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. This is particularly useful with cloud providers but you can mix and match both local and cloud providers.
 
 ## Example Configurations
 

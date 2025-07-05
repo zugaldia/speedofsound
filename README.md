@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/logo-square-512.png" width="250" alt="Speed of Sound logo">
+</div>
+
 # Speed of Sound
 
 Speed of Sound enables voice typing on the Linux desktop, allowing you to type at over 100 words per minute—more than double the average typing speed with a keyboard—and reduce the risk of repetitive strain injury (RSI).

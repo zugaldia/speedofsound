@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:gnome="http://api.gnome.org/doap-extensions#"
+  xmlns="http://usefulinc.com/ns/doap#">
+
+  <name>Speed of Sound</name>
+  <shortdesc xml:lang="en">Voice typing for the Linux desktop</shortdesc>
+  <description xml:lang="en">
+    Speed of Sound enables voice typing on the Linux desktop,
+    allowing you to type at over 100 words per minute—more
+    than double the average typing speed with a keyboard—and
+    reduce the risk of repetitive strain injury (RSI).
+  </description>
+
+  <homepage rdf:resource="https://www.speedofsound.io" />
+  <bug-database rdf:resource="https://github.com/zugaldia/speedofsound/issues" />
+
+  <programming-language>Python</programming-language>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Antonio Zugaldia</foaf:name>
+      <foaf:mbox rdf:resource="mailto:antonio@zugaldia.com" />
+      <foaf:account>
+        <foaf:OnlineAccount>
+          <foaf:accountServiceHomepage rdf:resource="https://github.com" />
+          <foaf:accountName>zugaldia</foaf:accountName>
+        </foaf:OnlineAccount>
+      </foaf:account>
+    </foaf:Person>
+  </maintainer>
+
+</Project>

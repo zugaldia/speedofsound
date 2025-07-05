@@ -14,6 +14,5 @@ class MainViewState(BaseViewState):
     volume_level = GObject.Property(type=float, default=0.0)
 
     language_name = GObject.Property(type=str, default="")
-    microphone_name = GObject.Property(type=str, default="")
     model_name = GObject.Property(type=str, default="")
     words_per_minute = GObject.Property(type=float, default=0.0)

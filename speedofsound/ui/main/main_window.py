@@ -1,6 +1,6 @@
 import logging
 
-from gi.repository import Adw, Gdk, Gtk  # type: ignore
+from gi.repository import Adw, Gdk, GLib, Gtk  # type: ignore
 
 from speedofsound.constants import APPLICATION_NAME
 from speedofsound.models import OrchestratorStage
@@ -19,7 +19,6 @@ class MainWindow(Adw.ApplicationWindow):
         self._logger = logging.getLogger(__name__)
         self.set_title(APPLICATION_NAME)
         self.set_resizable(False)
-        self._load_css()
 
         # For consistency with the behavior where we hide the window when we
         # start typing or cancel transcription.
@@ -39,6 +38,9 @@ class MainWindow(Adw.ApplicationWindow):
         self._status_bar = StatusBar()
         toolbar_view.add_bottom_bar(self._status_bar)
 
+        # We trigger typing when the window confirms the hiding signal.
+        self.connect("hide", self._on_hide)
+
         self._view_model = view_model
         self._was_recording = False
         self._view_model.view_state.connect(
@@ -54,9 +56,6 @@ class MainWindow(Adw.ApplicationWindow):
             "notify::language-name", self._on_language_name_changed
         )
         self._view_model.view_state.connect(
-            "notify::microphone-name", self._on_microphone_name_changed
-        )
-        self._view_model.view_state.connect(
             "notify::model-name", self._on_model_name_changed
         )
         self._view_model.view_state.connect(
@@ -68,22 +67,18 @@ class MainWindow(Adw.ApplicationWindow):
         key_controller.connect("key-pressed", self._on_key_pressed)
         self.add_controller(key_controller)
 
-    def _load_css(self):
-        default_display = Gdk.Display.get_default()
-        if default_display:
-            css_provider = Gtk.CssProvider()
-            css_provider.load_from_path("speedofsound/data/style.css")
-            Gtk.StyleContext().add_provider_for_display(
-                default_display,
-                css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
-            )
+    def _on_hide(self, window) -> None:
+        GLib.idle_add(self._view_model.action_type)
 
     def _on_status_text_changed(self, view_state, param) -> None:
         status_text = self._view_model.view_state.status_text
         self._content_widget.set_status(status_text)
 
     def _on_orchestrator_state_changed(self, view_state, param) -> None:
+        # Should we run as an application service? (--gapplication-service)
+        # I can't find good documentation on this, except that it seems to
+        # be supported explicitly by Flatpak:
+        # https://docs.flatpak.org/en/latest/conventions.html#d-bus-service-files
         orchestrator_state = self._view_model.view_state.orchestrator_state
         if orchestrator_state == OrchestratorStage.READY:
             self._content_widget.set_volume(0.0)
@@ -96,10 +91,10 @@ class MainWindow(Adw.ApplicationWindow):
         elif orchestrator_state == OrchestratorStage.TRANSCRIBING:
             self._content_widget.set_pulsating(True)
         elif orchestrator_state == OrchestratorStage.TYPING:
+            # We'll trigger the typing action in _on_hide()
             self.hide()
             self._content_widget.set_pulsating(False)
             self._was_recording = False
-            self._view_model.action_type()
 
     def _on_volume_level_changed(self, view_state, param) -> None:
         volume_level = self._view_model.view_state.volume_level
@@ -108,10 +103,6 @@ class MainWindow(Adw.ApplicationWindow):
     def _on_language_name_changed(self, view_state, param) -> None:
         language_name = self._view_model.view_state.language_name
         self._status_bar.set_language_name(language_name)
-
-    def _on_microphone_name_changed(self, view_state, param) -> None:
-        microphone_name = self._view_model.view_state.microphone_name
-        self._status_bar.set_microphone_name(microphone_name)
 
     def _on_model_name_changed(self, view_state, param) -> None:
         model_name = self._view_model.view_state.model_name

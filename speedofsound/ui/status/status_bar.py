@@ -24,11 +24,6 @@ class StatusBar(Gtk.Box):
             DEFAULT_TEXT,
         )
 
-        self._microphone_column = StatusColumn(
-            "audio-input-microphone-symbolic",
-            DEFAULT_TEXT,
-        )
-
         self._model_column = StatusColumn(
             "sound-wave-symbolic",
             DEFAULT_TEXT,
@@ -40,17 +35,12 @@ class StatusBar(Gtk.Box):
         )
 
         self.append(self._language_column)
-        self.append(self._microphone_column)
         self.append(self._model_column)
         self.append(self._words_per_minute_column)
 
     def set_language_name(self, language_name: str) -> None:
         """Update the language name display."""
         self._language_column.set_text(language_name or DEFAULT_TEXT)
-
-    def set_microphone_name(self, microphone_name: str) -> None:
-        """Update the microphone name display."""
-        self._microphone_column.set_text(microphone_name or DEFAULT_TEXT)
 
     def set_model_name(self, model_name: str) -> None:
         """Update the model name display."""

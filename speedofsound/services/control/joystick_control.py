@@ -10,9 +10,9 @@ from speedofsound.services.configuration import ConfigurationService
 
 
 class JoystickControl(BaseProvider):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(provider_name="joystick")
-        self._configuration = configuration_service
+        self._configuration = configuration
         self._callback = None
         self._joystick = None
         self._is_running = False
