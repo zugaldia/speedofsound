@@ -86,3 +86,16 @@ ostree-commit:
 		--canonical-permissions \
 		--branch=screenshots/$(flatpak --default-arch) \
 		builddir/files/share/app-info/media
+
+#
+# Snap
+#
+
+snap-clean:
+	snapcraft clean
+
+snap-pack: snap-clean
+	snapcraft pack --output=snap/
+
+snap-install:
+	snap install snap/speedofsound_0.1_amd64.snap --dangerous
