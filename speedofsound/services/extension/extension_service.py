@@ -4,8 +4,8 @@ from speedofsound.constants import EXTENSION_SCHEMA
 from speedofsound.models import OrchestratorStage
 from speedofsound.services.base_service import BaseService
 
-SETTING_APP_STATUS = "app-status"
-SETTING_APP_ERROR = "app-error"
+SETTING_EXT_STATUS = "extension-status"
+SETTING_EXT_ERROR = "extension-error"
 
 
 class ExtensionService(BaseService):
@@ -48,15 +48,15 @@ class ExtensionService(BaseService):
         elif stage == OrchestratorStage.TYPING:
             color = "green"
 
-        self._settings.set_string(SETTING_APP_STATUS, color)
+        self._settings.set_string(SETTING_EXT_STATUS, color)
         self._logger.info(f"App status updated: {stage.name}/{color}.")
 
     def set_app_error(self, error_message: str):
         if self._settings is None:
             return
 
-        self._settings.set_string(SETTING_APP_STATUS, "red")
-        self._settings.set_string(SETTING_APP_ERROR, error_message)
+        self._settings.set_string(SETTING_EXT_STATUS, "red")
+        self._settings.set_string(SETTING_EXT_ERROR, error_message)
         self._logger.error(f"App error updated: {error_message}")
 
     def shutdown(self):

@@ -28,7 +28,7 @@ def get_cache_path() -> Path:
     """
     Returns the path to the application's cache directory.
     The directory will be created if it doesn't exist.
-    Typically: /home/<user>/.cache/io.speedofsound.app
+    Typically: /home/<user>/.cache/io.speedofsound.App
     """
     cache_path = Path(GLib.get_user_cache_dir()) / APPLICATION_ID
     cache_path.mkdir(parents=True, exist_ok=True)
@@ -39,7 +39,7 @@ def get_config_path() -> Path:
     """
     Returns the path to the application's configuration directory.
     The directory will be created if it doesn't exist.
-    Typically: /home/<user>/.config/io.speedofsound.app/
+    Typically: /home/<user>/.config/io.speedofsound.App/
     """
 
     config_path = Path(GLib.get_user_config_dir()) / APPLICATION_ID
@@ -51,7 +51,7 @@ def get_data_path() -> Path:
     """
     Returns the path to the application's data directory.
     The directory will be created if it doesn't exist.
-    Typically: /home/<user>/.local/share/io.speedofsound.app/
+    Typically: /home/<user>/.local/share/io.speedofsound.App/
     """
     data_path = Path(GLib.get_user_data_dir()) / APPLICATION_ID
     data_path.mkdir(parents=True, exist_ok=True)
