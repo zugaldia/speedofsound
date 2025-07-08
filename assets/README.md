@@ -10,6 +10,13 @@ Original icon generated with ChatGPT 4o with the following prompt:
 
 Basic adjustments to center and square the logo made with GIMP.
 
+## SVG
+
+The original PNG file was transformed into an SVG using Inkscape.
+- Trace Bitmap -> Multicolor
+- Detection mode: Colors
+- Remove background: Yes
+
 ## Web files
 
 Generated with [IconKitchen](https://icon.kitchen):
