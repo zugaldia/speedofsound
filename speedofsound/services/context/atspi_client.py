@@ -10,11 +10,7 @@ class AtspiClient(BaseProvider):
     def __init__(self):
         super().__init__(provider_name="atspi")
         self._active_app: Optional[ActiveApplication] = None
-
-        # FIXME: Disabled due to Atspi unstability issues
-        # self._desktop = Atspi.get_desktop(0)
-        self._desktop = None
-
+        self._desktop = Atspi.get_desktop(0)
         self._logger.info("Initialized.")
 
     def shutdown(self):
