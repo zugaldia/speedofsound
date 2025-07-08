@@ -1,38 +1,28 @@
+"""
+
+We use this service to communicate with the extension. The way we do this is
+via GSettings. I'm not sure this is the most idiomatic way to have a GNOME app
+communicating with an extension, but I want the extension to eventually be
+able to modify application settings anyway, and hence this approach.
+
+"""
+
+from typing import Optional
+
 from gi.repository import Gio  # type: ignore
 
-from speedofsound.constants import EXTENSION_SCHEMA
+from speedofsound.constants import SETTING_EXT_ERROR, SETTING_EXT_STATUS
 from speedofsound.models import OrchestratorStage
 from speedofsound.services.base_service import BaseService
-
-SETTING_EXT_STATUS = "extension-status"
-SETTING_EXT_ERROR = "extension-error"
 
 
 class ExtensionService(BaseService):
     SERVICE_NAME = "extension"
 
-    def __init__(self):
+    def __init__(self, settings: Optional[Gio.Settings] = None):
         super().__init__(service_name=self.SERVICE_NAME)
-        self._settings = None
-        self._setup_settings()
+        self._settings = settings
         self._logger.info("Initialized.")
-
-    def _setup_settings(self):
-        try:
-            source = Gio.SettingsSchemaSource.get_default()
-            if source is None:
-                self._logger.error("No system schema source found.")
-                return
-            result = source.lookup(schema_id=EXTENSION_SCHEMA, recursive=True)
-            if result is None:
-                self._logger.error(
-                    "Extension schema not found, did you install the extension? "
-                    "See https://github.com/zugaldia/speedofsound/blob/main/README.md for instructions."
-                )
-                return
-            self._settings = Gio.Settings.new(schema_id=EXTENSION_SCHEMA)
-        except Exception as e:
-            self._logger.error(f"Failed to initialize: {e}")
 
     def set_app_status(self, stage: OrchestratorStage):
         if self._settings is None:
