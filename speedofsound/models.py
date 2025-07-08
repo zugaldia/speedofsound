@@ -120,6 +120,12 @@ class PynputConfig(BaseModel):
     delay: float = 0.2
 
 
+class ContextConfig(BaseModel):
+    """Context service configuration."""
+
+    include_application: bool = False
+
+
 class AppConfig(BaseModel):
     """Application configuration loaded from config.toml."""
 
@@ -140,6 +146,9 @@ class AppConfig(BaseModel):
     # Typist settings
     typist_backend: Optional[str] = None
     pynput: PynputConfig = PynputConfig()
+
+    # Context settings
+    context: ContextConfig = ContextConfig()
 
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()

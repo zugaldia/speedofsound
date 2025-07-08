@@ -32,14 +32,16 @@ class ContextService(BaseService):
     def __init__(self, configuration: ConfigurationService):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration
-        self._atspi_client = AtspiClient()
-        self._logger.info("Initialized.")
+        self._atspi_client = None
+        if self._configuration.config.context.include_application:
+            self._atspi_client = AtspiClient()
+            self._logger.info("Initialized with ATSPI client.")
 
     def shutdown(self):
         pass
 
     def _get_application_prompt(self, language_id: str) -> Optional[str]:
-        if self._atspi_client.active_app is None:
+        if self._atspi_client is None or self._atspi_client.active_app is None:
             return None
         application_prompt = APPLICATION_PROMPT.get(
             language_id, APPLICATION_PROMPT["default"]
@@ -67,6 +69,8 @@ class ContextService(BaseService):
 
     def update_active_app(self):
         """Update the active application."""
+        if self._atspi_client is None:
+            return
         try:
             self._atspi_client.update_active_app()
         except Exception as e:
