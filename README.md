@@ -21,6 +21,8 @@ This is the app in action, typing into Text Editor:
 
 ## Launch the App
 
+> **Flatpak and Snap support** Support for both is well underway. If you are familiar with either, please review and provide feedback on the current setup. The plan is to submit the app to Flathub and Snapcraft soon™.
+
 Clone the repository, install dependencies, and launch the application:
 
 ```bash

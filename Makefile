@@ -10,6 +10,9 @@ run-dark:
 run-local:
 	PYTHONPATH=$(HOME)/.local/lib/python3/dist-packages:$$PYTHONPATH speedofsound
 
+test-trigger:
+	./scripts/trigger.sh
+
 lint:
 	ruff check speedofsound/
 
@@ -18,6 +21,9 @@ format-check:
 
 format-diff:
 	ruff format --diff speedofsound/
+
+test-schema:
+	glib-compile-schemas --dry-run --strict data/
 
 #
 # Meson build
