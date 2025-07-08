@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 import gi
 
@@ -8,7 +9,11 @@ gi.require_version("Atspi", "2.0")
 gi.require_version("Gst", "1.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
-from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
+from speedofsound.constants import (  # noqa: E402
+    APPLICATION_ID,
+    LOG_FILE,
+    SETTING_SHOW_WELCOME,
+)
 from speedofsound.services.configuration import ConfigurationService  # noqa: E402
 from speedofsound.services.context import ContextService  # noqa: E402
 from speedofsound.services.control import ControlService  # noqa: E402
@@ -20,6 +25,7 @@ from speedofsound.services.transcriber import TranscriberService  # noqa: E402
 from speedofsound.services.typist import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
+from speedofsound.ui.welcome.welcome_window import WelcomeWindow  # noqa: E402
 
 
 class SosApplication(Adw.Application):
@@ -32,6 +38,8 @@ class SosApplication(Adw.Application):
         self._setup_logging()
         self._logger = logging.getLogger(__name__)
         self._logger.info("Initialized.")
+
+        self._settings: Optional[Gio.Settings] = None
 
     def _setup_logging(self):
         """Setup logging to both console and file."""
@@ -62,7 +70,23 @@ class SosApplication(Adw.Application):
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
 
+    def _get_settings(self) -> Optional[Gio.Settings]:
+        try:
+            source = Gio.SettingsSchemaSource.get_default()
+            if source is None:
+                self._logger.error("System source schema not found.")
+                return None
+            result = source.lookup(schema_id=APPLICATION_ID, recursive=True)
+            if result is None:
+                self._logger.error("Application schema not found.")
+                return None
+            return Gio.Settings.new(schema_id=APPLICATION_ID)
+        except Exception as e:
+            self._logger.error(f"Failed to initialize settings: {e}")
+            return None
+
     def _do_manual_di(self):
+        self._settings = self._get_settings()
         self._configuration = ConfigurationService()
         self._context = ContextService(configuration=self._configuration)
         self._joystick_control = JoystickControl(configuration=self._configuration)
@@ -70,7 +94,7 @@ class SosApplication(Adw.Application):
         self._recorder = RecorderService(configuration=self._configuration)
         self._transcriber = TranscriberService(configuration=self._configuration)
         self._typist = TypistService(configuration=self._configuration)
-        self._extension = ExtensionService()
+        self._extension = ExtensionService(settings=self._settings)
         self._orchestrator = OrchestratorService(
             configuration=self._configuration,
             context=self._context,
@@ -102,11 +126,11 @@ class SosApplication(Adw.Application):
         )
 
     def do_activate(self):
-        self._main_window.hide()
-        self._logger.info(
-            "App is now running in the background, "
-            "the main window is intentionally hidden."
-        )
+        # Start dismissed
+        self._main_window.dismiss()
+        if self._settings and self._settings.get_boolean(SETTING_SHOW_WELCOME):
+            welcome_window = WelcomeWindow(application=self, settings=self._settings)
+            welcome_window.present()
 
     def do_shutdown(self):
         self._logger.info("Shutting down.")

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="speedofsound">
-	<schema id="io.speedofsound.App" path="/io/speedofsound/App/">
-		<key name="trigger-sos" type="as">
+    <schema id="io.speedofsound.App" path="/io/speedofsound/App/">
+        <key name="trigger-sos" type="as">
             <default><![CDATA[['<Super>z']]]></default>
             <summary>Trigger the app</summary>
             <description>Start or stop voice typing.</description>
@@ -12,5 +12,8 @@
         <key name="extension-error" type="s">
             <default>""</default>
         </key>
-	</schema>
+        <key name="show-welcome" type="b">
+            <default>true</default>
+        </key>
+    </schema>
 </schemalist>

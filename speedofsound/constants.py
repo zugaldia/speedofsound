@@ -6,14 +6,20 @@ PROJECT_NAME = "speedofsound"
 APPLICATION_ID = "io.speedofsound.App"
 APPLICATION_NAME = "Speed of Sound"
 
-EXTENSION_SCHEMA = "org.gnome.shell.extensions.speedofsound"
-
 CONFIG_FILE = "config.toml"
 CONFIG_EXAMPLE_FILE = "config.example.toml"
 LOG_FILE = "speedofsound.log"
 
 DEFAULT_SPACING = 10
 DEFAULT_MARGIN = 20
+
+#
+# Settings
+#
+
+SETTING_SHOW_WELCOME = "show-welcome"
+SETTING_EXT_STATUS = "extension-status"
+SETTING_EXT_ERROR = "extension-error"
 
 #
 # Signals
