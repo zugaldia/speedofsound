@@ -11,6 +11,7 @@ from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
 from speedofsound.constants import (  # noqa: E402
     APPLICATION_ID,
+    APPLICATION_NAME,
     LOG_FILE,
     SETTING_SHOW_WELCOME,
 )
@@ -29,7 +30,7 @@ from speedofsound.ui.welcome.welcome_window import WelcomeWindow  # noqa: E402
 
 
 class SosApplication(Adw.Application):
-    def __init__(self):
+    def __init__(self, version: str):
         super().__init__(
             application_id=APPLICATION_ID,
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
@@ -37,7 +38,7 @@ class SosApplication(Adw.Application):
 
         self._setup_logging()
         self._logger = logging.getLogger(__name__)
-        self._logger.info("Initialized.")
+        self._logger.info(f"Initialized version {version} of {APPLICATION_NAME}.")
 
         self._settings: Optional[Gio.Settings] = None
 

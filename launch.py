@@ -31,7 +31,7 @@ def main() -> int:
         return verifier.verify_speech()
 
     # Launch the app
-    app = SosApplication()
+    app = SosApplication(version="dev")
     return app.run(sys.argv)
 
 

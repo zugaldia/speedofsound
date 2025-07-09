@@ -1,3 +1,5 @@
+# This is the source of truth for the version number.
+# Currently requires manually updating snap/snapcraft.yaml too.
 project(
   'speedofsound',
   version: '0.1.0',

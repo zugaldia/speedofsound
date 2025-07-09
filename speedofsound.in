@@ -46,7 +46,6 @@ if __name__ == '__main__':
     resource = Gio.Resource.load(os.path.join(pkgdatadir, 'io.speedofsound.App.gresource'))
     resource._register()
 
-    # TODO: Use VERSION
     from speedofsound.application import SosApplication
-    app = SosApplication()
+    app = SosApplication(version=VERSION)
     sys.exit(app.run(sys.argv))
