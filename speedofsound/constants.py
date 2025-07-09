@@ -2,12 +2,10 @@
 # General
 #
 
-PROJECT_NAME = "speedofsound"
 APPLICATION_ID = "io.speedofsound.App"
 APPLICATION_NAME = "Speed of Sound"
 
 CONFIG_FILE = "config.toml"
-CONFIG_EXAMPLE_FILE = "config.example.toml"
 LOG_FILE = "speedofsound.log"
 
 DEFAULT_SPACING = 10
