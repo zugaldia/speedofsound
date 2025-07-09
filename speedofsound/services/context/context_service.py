@@ -33,6 +33,7 @@ class ContextService(BaseService):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration
         self._atspi_client = None
+        self._user_prompt_cache = {}
         if self._configuration.config.context.include_application:
             self._atspi_client = AtspiClient()
             self._logger.info("Initialized with ATSPI client.")
@@ -52,12 +53,19 @@ class ContextService(BaseService):
         )
 
     def _get_user_prompt(self, language_id: str) -> Optional[str]:
+        if language_id in self._user_prompt_cache:
+            return self._user_prompt_cache[language_id]
+
         custom_prompt_path = get_config_path() / f"prompt_{language_id}.md"
         if custom_prompt_path.exists():
             try:
-                return custom_prompt_path.read_text().strip()
+                prompt = custom_prompt_path.read_text().strip()
+                self._user_prompt_cache[language_id] = prompt
+                return prompt
             except Exception as e:
                 self._logger.warning(f"Failed to load custom prompt: {e}")
+
+        self._user_prompt_cache[language_id] = None
         return None
 
     def get_prompt(self, language_id: str) -> str:
