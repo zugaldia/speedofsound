@@ -13,6 +13,15 @@ run-local:
 test-trigger:
 	./scripts/trigger.sh
 
+test:
+	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 pytest tests/ -v -p pytest_cov -p pytest_mock
+
+test-coverage:
+	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 pytest tests/ --cov=speedofsound --cov-report=html --cov-report=term -p pytest_cov -p pytest_mock
+
+test-watch:
+	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 pytest-watch tests/ -p pytest_cov -p pytest_mock
+
 lint:
 	ruff check speedofsound/
 
