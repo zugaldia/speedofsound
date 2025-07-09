@@ -10,6 +10,8 @@ The default setup uses Whisper for local transcriptions. It will automatically d
 
 ## Permissions
 
+# https://snapcraft.io/docs/uinput-interface
+$ sudo usermod -aG input $USER
 $ sudo cp scripts/99-uinput.rules /etc/udev/rules.d/
 $ sudo udevadm control --reload-rules && sudo udevadm trigger
 
