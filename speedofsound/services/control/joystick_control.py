@@ -22,10 +22,14 @@ class JoystickControl(BaseProvider):
             self._logger.info("No joystick ID configured, skipping initialization.")
             return
 
-        pygame.init()
-        pygame.joystick.init()
-        self._setup_joystick(joystick_id)
-        self._logger.info("Initialized.")
+        try:
+            pygame.init()
+            pygame.joystick.init()
+            self._setup_joystick(joystick_id)
+            self._logger.info("Initialized.")
+        except Exception as e:
+            self._is_running = False
+            self._logger.error(f"Failed to initialize joystick: {e}")
 
     def set_callback(self, callback: Callable):
         self._callback = callback
