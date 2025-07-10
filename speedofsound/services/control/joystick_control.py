@@ -45,6 +45,10 @@ class JoystickControl(BaseProvider):
 
     def _setup_joystick(self, joystick_id: int):
         devices = self._get_joystick_devices()
+        if len(devices) == 0:
+            self._logger.error("No joystick devices found.")
+            return
+
         names = [device.name for device in devices]
         self._logger.debug(f"Found {len(devices)} joystick device(s): {names}")
         if joystick_id < 0 or joystick_id >= len(devices):
