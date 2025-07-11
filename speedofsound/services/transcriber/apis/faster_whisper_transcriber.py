@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Optional
 
 from faster_whisper import WhisperModel
@@ -12,23 +13,28 @@ from speedofsound.models import (
 )
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
-from speedofsound.utils import get_subconfig_dir, is_empty
+from speedofsound.utils import get_data_path, is_empty
 
 
 class FasterWhisperTranscriber(BaseTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.FASTER_WHISPER,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
-        model_name = configuration_service.config.faster_whisper.model
+        model_name = configuration.config.faster_whisper.model
         model_path = self._download_model(model_name)
         self._load_model(model_path)
         self._logger.info(f"v{faster_whisper_version} initialized.")
 
     def shutdown(self):
         pass
+
+    def _get_data_path(self, model_name: str) -> Path:
+        data_path = get_data_path() / self._provider_name / model_name
+        data_path.mkdir(parents=True, exist_ok=True)
+        return data_path
 
     def _download_model(self, model_name: str):
         """Download the Whisper model if it is not already available."""
@@ -38,14 +44,11 @@ class FasterWhisperTranscriber(BaseTranscriber):
                 f"Available models: {available_models()}"
             )
 
-        subconfig_dir = get_subconfig_dir(TranscriberType.FASTER_WHISPER.value)
-        model_dir = subconfig_dir / model_name
-        model_dir.mkdir(parents=True, exist_ok=True)
-        output_path = str(model_dir)
-        self._logger.info(f"Checking for {model_name} in {output_path}")
+        output_dir = str(self._get_data_path(model_name))
+        self._logger.info(f"Checking for {model_name} in {output_dir}")
 
         # This does nothing if the model has already been downloaded
-        model_path = download_model(size_or_id=model_name, output_dir=output_path)
+        model_path = download_model(size_or_id=model_name, output_dir=output_dir)
         return model_path
 
     def _get_and_check_language(self) -> Optional[str]:

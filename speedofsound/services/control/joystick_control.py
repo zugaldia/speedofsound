@@ -10,9 +10,9 @@ from speedofsound.services.configuration import ConfigurationService
 
 
 class JoystickControl(BaseProvider):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(provider_name="joystick")
-        self._configuration = configuration_service
+        self._configuration = configuration
         self._callback = None
         self._joystick = None
         self._is_running = False
@@ -22,10 +22,14 @@ class JoystickControl(BaseProvider):
             self._logger.info("No joystick ID configured, skipping initialization.")
             return
 
-        pygame.init()
-        pygame.joystick.init()
-        self._setup_joystick(joystick_id)
-        self._logger.info("Initialized.")
+        try:
+            pygame.init()
+            pygame.joystick.init()
+            self._setup_joystick(joystick_id)
+            self._logger.info("Initialized.")
+        except Exception as e:
+            self._is_running = False
+            self._logger.error(f"Failed to initialize joystick: {e}")
 
     def set_callback(self, callback: Callable):
         self._callback = callback
@@ -45,6 +49,10 @@ class JoystickControl(BaseProvider):
 
     def _setup_joystick(self, joystick_id: int):
         devices = self._get_joystick_devices()
+        if len(devices) == 0:
+            self._logger.error("No joystick devices found.")
+            return
+
         names = [device.name for device in devices]
         self._logger.debug(f"Found {len(devices)} joystick device(s): {names}")
         if joystick_id < 0 or joystick_id >= len(devices):

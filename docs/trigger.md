@@ -1,12 +1,14 @@
-# Trigger Methods
+# Set up how to trigger the app
 
-Besides the GNOME Shell Extension, Speed of Sound provides two additional methods to activate voice input, each designed for different use cases and accessibility needs. Once activated, the application will capture your voice, transcribe it using your configured AI model, and type the result into the currently active window.
+Speed of Sound runs in the background waiting to be triggered when you want to start voice typing. You can set up a keyboard shortcut and/or a joystick as triggers.
 
-## Keyboard Shortcut
+## Keyboard shortcut (using the Extension)
 
-A keyboard shortcut allows you to activate voice input from any application without switching windows.
+If you install the provided GNOME Shell extension, the extension will automatically set up `Super+Z` as a global keyboard shortcut to trigger Speed of Sound.
 
-### GNOME System Settings
+Read [`extension/README.md`](../extension/README.md) for installation instructions.
+
+## Keyboard shortcut (using System Settings)
 
 To set up a keyboard shortcut:
 
@@ -28,18 +30,24 @@ chmod +x /path/to/speedofsound/scripts/trigger.sh
 
 Once configured, press your keyboard shortcut from any application to activate voice input.
 
-## Joystick/Gamepad
+## Joystick
 
-Joystick/gamepad control provides enhanced accessibility for users who prefer physical button controls or need hands-free activation.
+If you have a joystick connected to your system, you can use it to trigger the application and switch the language for voice typing.
 
 ### Basic Controls
-- **B button**: Start/stop voice recording and transcription
-- **Left button**: Switch to English (configurable)
-- **Right button**: Switch to Spanish (configurable)
+- **B button**: Start/stop the app
+- **Left button**: Switch to English for input (configurable)
+- **Right button**: Switch to Spanish for input (configurable)
 
 ### Configuration
 Configure joystick settings in `config.toml`:
-- **joystick_id**: Specify which controller to use (if multiple connected), default is `0`
-- **joystick_language_left/right**: Customize language assignments
 
-For detailed configuration options, see the [configuration documentation](config.md).
+```toml
+joystick_id = 0
+joystick_language_left = "en"
+joystick_language_right = "es"
+```
+
+- `joystick_id`: Joystick device ID (as detected by PyGame)
+- `joystick_language_left`: Language for left joystick button
+- `joystick_language_right`: Language for right joystick button

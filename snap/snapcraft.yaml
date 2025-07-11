@@ -1,0 +1,48 @@
+name: speedofsound
+license: MIT
+version: "0.1"
+grade: stable
+adopt-info: speedofsound
+
+summary: Voice typing for the Linux desktop
+description: |
+  Speed of Sound enables voice typing on the Linux desktop,
+  allowing you to type at over 100 words per minute—more
+  than double the average typing speed with a keyboard—and
+  reduce the risk of repetitive strain injury (RSI).
+
+base: core24
+confinement: strict
+
+apps:
+  speedofsound:
+    extensions: [gnome]
+    command: usr/bin/speedofsound
+    desktop: usr/share/applications/io.speedofsound.App.desktop
+    common-id: io.speedofsound.App.desktop
+    plugs:
+      - audio-record
+
+parts:
+  speedofsound-python:
+    plugin: python
+    source: .
+    python-requirements: [requirements.txt]
+  speedofsound-meson:
+    after: [speedofsound-python]
+    plugin: meson
+    source: .
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+    build-environment:
+      - PYTHONPATH: $CRAFT_STAGE/lib/python3.12/site-packages:$CRAFT_STAGE/usr/lib/python3/dist-packages:$CRAFT_STAGE/lib/python3/dist-packages:$PYTHONPATH
+    stage-packages:
+      - python3
+    parse-info: [usr/share/metainfo/io.speedofsound.App.metainfo.xml]
+
+slots:
+  speedofsound:
+    interface: dbus
+    bus: session
+    name: io.speedofsound.App

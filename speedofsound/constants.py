@@ -5,14 +5,19 @@
 APPLICATION_ID = "io.speedofsound.App"
 APPLICATION_NAME = "Speed of Sound"
 
-EXTENSION_SCHEMA = "org.gnome.shell.extensions.speedofsound"
-
 CONFIG_FILE = "config.toml"
-CONFIG_EXAMPLE_FILE = "config.example.toml"
 LOG_FILE = "speedofsound.log"
 
 DEFAULT_SPACING = 10
 DEFAULT_MARGIN = 20
+
+#
+# Settings
+#
+
+SETTING_SHOW_WELCOME = "show-welcome"
+SETTING_EXT_STATUS = "extension-status"
+SETTING_EXT_ERROR = "extension-error"
 
 #
 # Signals
@@ -21,7 +26,6 @@ DEFAULT_MARGIN = 20
 # Orchestrator
 ORCHESTRATOR_EVENT_SIGNAL = "orchestrator-event"
 LANGUAGE_NAME_SIGNAL = "language-name"
-MICROPHONE_NAME_SIGNAL = "microphone-name"
 MODEL_NAME_SIGNAL = "model-name"
 WORDS_PER_MINUTE_SIGNAL = "words-per-minute"
 

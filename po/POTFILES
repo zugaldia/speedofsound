@@ -1,0 +1,12 @@
+data/io.speedofsound.App.desktop.in
+data/io.speedofsound.App.metainfo.xml.in
+data/io.speedofsound.App.gschema.xml
+speedofsound/application.py
+speedofsound/ui/base_view_model.py
+speedofsound/ui/base_view_state.py
+speedofsound/ui/main/main_view_state.py
+speedofsound/ui/main/main_window.py
+speedofsound/ui/main/main_view_model.py
+speedofsound/ui/status/status_bar.py
+speedofsound/ui/status/status_column.py
+speedofsound/ui/content/content_widget.py

@@ -1,7 +1,11 @@
 __pycache__/
+.coverage
+.flatpak-builder/
+.pytest_cache/
 .vscode/
-config.toml
-config-*.toml
+config*.toml
+htmlcov/
+repo/
 speedofsound.log
 TODO.md
 venv/

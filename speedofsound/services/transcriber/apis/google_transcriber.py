@@ -19,10 +19,10 @@ from speedofsound.utils import is_empty
 
 
 class GoogleTranscriber(BaseTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.GOOGLE,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
         self._client = None
@@ -84,23 +84,24 @@ class GoogleTranscriber(BaseTranscriber):
             mime_type="audio/wav",
         )
 
-        # TODO: This requires an additional round trip to the server but
-        # would allow larger files. The inline audio method is limited to 20MB.
+        # Note: There is an additional API that Gemini provides to unlock
+        # larger audios that we are intentionally not using. This is because
+        # our recordings are by design short, and in fact, we have a 60
+        # seconds limit by default. It also makes our responses faster
+        # because it saves one trip. Inline audio is limited to 20MB.
         # https://ai.google.dev/gemini-api/docs/audio#upload-audio
+        # https://ai.google.dev/gemini-api/docs/files#delete-uploaded
         # audio_file = self._client.files.upload(
         #     file=request.recorder_response.get_file_like_object(),
         #     config={"mime_type": "audio/wav"},
         # )
 
-        # TODO: Stream response
+        # TODO: Stream response?
         self._ensure_client()
-        prompt = self.get_prompt(language)
         response = self._client.models.generate_content(
             model=model_id,
-            contents=[prompt, audio_file],
+            contents=[request.prompt, audio_file],
         )
 
-        # TODO: Delete uploaded file?
-        # https://ai.google.dev/gemini-api/docs/files#delete-uploaded
         self._logger.info(f"Transcription completed: {response.text}")
         return TranscriberResponse(text=response.text)

@@ -1,12 +1,20 @@
-import shutil
 import tomllib
 from pathlib import Path
 
 from pydantic import ValidationError
 
-from speedofsound.constants import CONFIG_EXAMPLE_FILE, CONFIG_FILE
+from speedofsound.constants import CONFIG_FILE
 from speedofsound.models import AppConfig
 from speedofsound.services.base_service import BaseService
+from speedofsound.utils import get_config_path
+
+DEFAULT_CONFIG = """
+transcriber = "faster_whisper"
+
+[faster_whisper]
+enabled = true
+model = "small"
+"""
 
 
 class ConfigurationService(BaseService):
@@ -19,7 +27,7 @@ class ConfigurationService(BaseService):
 
     def _load_configuration(self) -> AppConfig:
         """Load configuration from config.toml file."""
-        config_path = Path(CONFIG_FILE)
+        config_path = get_config_path() / CONFIG_FILE
         if not config_path.exists():
             self._create_default_config(config_path)
 
@@ -27,7 +35,7 @@ class ConfigurationService(BaseService):
             with open(config_path, "rb") as f:
                 config_data = tomllib.load(f)
             config = AppConfig(**config_data)
-            self._logger.info(f"Configuration loaded from {CONFIG_FILE}")
+            self._logger.info(f"Configuration loaded from {config_path}")
             return config
         except ValidationError as e:
             raise ValueError(f"Configuration validation error: {e}")
@@ -36,16 +44,12 @@ class ConfigurationService(BaseService):
 
     def _create_default_config(self, config_path: Path) -> None:
         """Create default configuration by copying from example file."""
-        example_path = Path(CONFIG_EXAMPLE_FILE)
-        if not example_path.exists():
-            raise FileNotFoundError(
-                f"Example configuration file {example_path} not found. "
-                "Cannot create default configuration."
-            )
+        self._logger.warning(f"Config file not found at {config_path}.")
+        self._logger.info("Creating default config using (local) Faster Whisper.")
 
         try:
-            shutil.copy(example_path, config_path)
-            self._logger.info(f"Created default configuration file: {CONFIG_FILE}")
+            with open(config_path, "w") as f:
+                f.write(DEFAULT_CONFIG)
         except Exception as e:
             raise RuntimeError(f"Failed to create default configuration: {e}")
 

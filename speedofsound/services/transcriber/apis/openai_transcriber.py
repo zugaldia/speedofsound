@@ -18,10 +18,10 @@ from speedofsound.utils import is_empty
 
 
 class OpenAiTranscriber(BaseTranscriber):
-    def __init__(self, configuration_service: ConfigurationService):
+    def __init__(self, configuration: ConfigurationService):
         super().__init__(
             provider_type=TranscriberType.OPENAI,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
         self._client = None
@@ -84,12 +84,11 @@ class OpenAiTranscriber(BaseTranscriber):
         self._logger.info(f"Transcribing (language={language}, model={model_id}).")
 
         self._ensure_client()
-        prompt = self.get_prompt(language)
         transcription = self._client.audio.transcriptions.create(
             file=request.recorder_response.get_file_like_object(),
             model=model_id,
             language=language,
-            prompt=prompt,
+            prompt=request.prompt,
             temperature=0.0,
         )
 

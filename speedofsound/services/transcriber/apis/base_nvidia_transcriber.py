@@ -9,11 +9,11 @@ class BaseNvidiaTranscriber(BaseTranscriber):
     def __init__(
         self,
         provider_type: TranscriberType,
-        configuration_service: ConfigurationService,
+        configuration: ConfigurationService,
     ):
         super().__init__(
             provider_type=provider_type,
-            configuration_service=configuration_service,
+            configuration=configuration,
         )
 
     def _get_models_config(self):

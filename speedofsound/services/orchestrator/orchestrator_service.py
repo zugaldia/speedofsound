@@ -5,7 +5,6 @@ from gi.repository import GObject  # type: ignore
 from speedofsound.constants import (
     CONTROL_EVENT_SIGNAL,
     LANGUAGE_NAME_SIGNAL,
-    MICROPHONE_NAME_SIGNAL,
     MODEL_NAME_SIGNAL,
     ORCHESTRATOR_EVENT_SIGNAL,
     RECORDER_RESPONSE_SIGNAL,
@@ -28,6 +27,7 @@ from speedofsound.models import (
 )
 from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
+from speedofsound.services.context import ContextService
 from speedofsound.services.control import ControlService
 from speedofsound.services.extension import ExtensionService
 from speedofsound.services.recorder import RecorderService
@@ -43,42 +43,44 @@ class OrchestratorService(BaseService):
         ORCHESTRATOR_EVENT_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         VOLUME_LEVEL_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         LANGUAGE_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        MICROPHONE_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         MODEL_NAME_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         WORDS_PER_MINUTE_SIGNAL: (GObject.SignalFlags.RUN_FIRST, None, (float,)),
     }
 
     def __init__(
         self,
-        configuration_service: ConfigurationService,
-        control_service: ControlService,
-        recorder_service: RecorderService,
-        transcriber_service: TranscriberService,
-        typist_service: TypistService,
-        extension_service: ExtensionService,
+        configuration: ConfigurationService,
+        context: ContextService,
+        control: ControlService,
+        recorder: RecorderService,
+        transcriber: TranscriberService,
+        typist: TypistService,
+        extension: ExtensionService,
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._stage = OrchestratorStage.INITIALIZING
-        self._configuration_service = configuration_service
         self._queued_typing: Optional[TypistRequest] = None
         self._recording_cancelled = False
 
-        self._control = control_service
+        self._configuration_service = configuration
+        self._context = context
+
+        self._control = control
         self._control.connect(CONTROL_EVENT_SIGNAL, self._on_control_event)
 
-        self._recorder = recorder_service
+        self._recorder = recorder
         self._recorder.connect(RECORDER_RESPONSE_SIGNAL, self._on_recorder_response)
         self._recorder.connect(VOLUME_LEVEL_SIGNAL, self._on_volume_level)
 
-        self._transcriber = transcriber_service
+        self._transcriber = transcriber
         self._transcriber.connect(
             TRANSCRIBER_RESPONSE_SIGNAL, self._on_transcriber_response
         )
 
-        self._typist = typist_service
+        self._typist = typist
         self._typist.connect(TYPIST_RESPONSE_SIGNAL, self._on_typist_response)
 
-        self._extension = extension_service
+        self._extension = extension
 
         self._total_seconds = 0
         self._total_words = 0
@@ -93,10 +95,6 @@ class OrchestratorService(BaseService):
         self.safe_emit(
             LANGUAGE_NAME_SIGNAL,
             self._configuration_service.config.language,
-        )
-        self.safe_emit(
-            MICROPHONE_NAME_SIGNAL,
-            self._configuration_service.config.microphone_id or "default",
         )
         self.safe_emit(
             MODEL_NAME_SIGNAL,
@@ -140,6 +138,10 @@ class OrchestratorService(BaseService):
         if self._recorder.is_recording():
             self._logger.warning("Already recording.")
             return
+
+        # Update the active app before we present our own
+        self._context.update_active_app()
+
         self._send_event(OrchestratorStage.RECORDING, "Listening...")
         self._total_seconds = 0
         self._total_words = 0
@@ -203,7 +205,12 @@ class OrchestratorService(BaseService):
             self._total_seconds = recorder_response.get_duration_seconds()
             self._send_event(OrchestratorStage.TRANSCRIBING, "Transcribing...")
             self._transcriber.transcribe_async(
-                request=TranscriberRequest(recorder_response=recorder_response)
+                request=TranscriberRequest(
+                    recorder_response=recorder_response,
+                    prompt=self._context.get_prompt(
+                        self._configuration_service.config.language
+                    ),
+                )
             )
         except Exception as e:
             self._send_event(

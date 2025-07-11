@@ -1,6 +1,6 @@
 # Whisper Configuration
 
-There are two supported ways to run Whisper locally. By default we recommend using the `faster_whisper` provider that automatically downloads the right model files for you.
+There are two supported ways to run Whisper locally. By default, we recommend using the `faster_whisper` provider that automatically downloads the right model files for you.
 
 However, if you want to run a local Whisper server, for example, on a different machine in your local network, that setup is also supported. 
 
@@ -42,8 +42,8 @@ model = "small"
 
 Notes:
 - `.en` models are English only.
-- Distil models are a "distilled" version of Whisper that is reportedly 6 times faster, 49% smaller, and performs within 1% word error rate (WER) on out-of-distribution evaluation sets. It's a popular Whisper flavor in the [Open ASR Leaderboard](https://huggingface.co/spaces/hf-audio/open_asr_leaderboard).
-- Turbo is a recent finetuned version of `large-v3` with less decoding layers. As a result, the model is faster at the expense of a minor quality degradation.
+- Distil models are a "distilled" version of Whisper that is reportedly 6 times faster, 49% smaller, and performs within 1% word error rate (WER) on out-of-distribution evaluation sets. It's a popular Whisper flavor on the [Open ASR Leaderboard](https://huggingface.co/spaces/hf-audio/open_asr_leaderboard).
+- Turbo is a recent fine-tuned version of `large-v3` with fewer decoding layers. As a result, the model is faster at the expense of a minor quality degradation.
 - Latest model list [available here](https://github.com/SYSTRAN/faster-whisper/blob/master/faster_whisper/utils.py).
 
 ## Whisper Server Configuration

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+	<id>io.speedofsound.App</id>
+	<name>Speed of Sound</name>
+	<summary>Voice typing for the Linux desktop</summary>
+	<url type="homepage">https://www.speedofsound.io</url>
+
+	<metadata_license>MIT</metadata_license>
+	<project_license>MIT</project_license>
+	<content_rating type="oars-1.1" />
+
+	<supports>
+		<control>pointing</control>
+		<control>keyboard</control>
+		<control>gamepad</control>
+	</supports>
+
+	<developer id="com.zugaldia">
+		<name>Antonio Zugaldia</name>
+	</developer>
+
+	<description>
+		<p>Speed of Sound enables voice typing on the Linux desktop,
+			allowing you to type at over 100 words per minute—more
+			than double the average typing speed with a keyboard—and
+			reduce the risk of repetitive strain injury (RSI).</p>
+	</description>
+
+	<launchable type="desktop-id">io.speedofsound.App.desktop</launchable>
+
+</component>

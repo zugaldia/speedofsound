@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 import gi
 
@@ -8,8 +9,14 @@ gi.require_version("Atspi", "2.0")
 gi.require_version("Gst", "1.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
-from speedofsound.constants import APPLICATION_ID, LOG_FILE  # noqa: E402
+from speedofsound.constants import (  # noqa: E402
+    APPLICATION_ID,
+    APPLICATION_NAME,
+    LOG_FILE,
+    SETTING_SHOW_WELCOME,
+)
 from speedofsound.services.configuration import ConfigurationService  # noqa: E402
+from speedofsound.services.context import ContextService  # noqa: E402
 from speedofsound.services.control import ControlService  # noqa: E402
 from speedofsound.services.control.joystick_control import JoystickControl  # noqa: E402
 from speedofsound.services.extension import ExtensionService  # noqa: E402
@@ -19,10 +26,11 @@ from speedofsound.services.transcriber import TranscriberService  # noqa: E402
 from speedofsound.services.typist import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
+from speedofsound.ui.welcome.welcome_window import WelcomeWindow  # noqa: E402
 
 
 class SosApplication(Adw.Application):
-    def __init__(self):
+    def __init__(self, version: str):
         super().__init__(
             application_id=APPLICATION_ID,
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
@@ -30,7 +38,9 @@ class SosApplication(Adw.Application):
 
         self._setup_logging()
         self._logger = logging.getLogger(__name__)
-        self._logger.info("Initialized.")
+        self._logger.info(f"Initialized version {version} of {APPLICATION_NAME}.")
+
+        self._settings: Optional[Gio.Settings] = None
 
     def _setup_logging(self):
         """Setup logging to both console and file."""
@@ -61,35 +71,39 @@ class SosApplication(Adw.Application):
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
 
-    def _setup_services_di(self):
-        self._configuration_service = ConfigurationService()
+    def _get_settings(self) -> Optional[Gio.Settings]:
+        try:
+            source = Gio.SettingsSchemaSource.get_default()
+            if source is None:
+                self._logger.error("System source schema not found.")
+                return None
+            result = source.lookup(schema_id=APPLICATION_ID, recursive=True)
+            if result is None:
+                self._logger.error("Application schema not found.")
+                return None
+            return Gio.Settings.new(schema_id=APPLICATION_ID)
+        except Exception as e:
+            self._logger.error(f"Failed to initialize settings: {e}")
+            return None
 
-        self._joystick_control = JoystickControl(
-            configuration_service=self._configuration_service
-        )
-        self._control_service = ControlService(joystick_control=self._joystick_control)
-
-        self._recorder_service = RecorderService(
-            configuration_service=self._configuration_service,
-        )
-
-        self._transcriber = TranscriberService(
-            configuration_service=self._configuration_service,
-        )
-
-        self._typist_service = TypistService(
-            configuration_service=self._configuration_service
-        )
-
-        self._extension = ExtensionService()
-
+    def _do_manual_di(self):
+        self._settings = self._get_settings()
+        self._configuration = ConfigurationService()
+        self._context = ContextService(configuration=self._configuration)
+        self._joystick_control = JoystickControl(configuration=self._configuration)
+        self._control = ControlService(joystick_control=self._joystick_control)
+        self._recorder = RecorderService(configuration=self._configuration)
+        self._transcriber = TranscriberService(configuration=self._configuration)
+        self._typist = TypistService(configuration=self._configuration)
+        self._extension = ExtensionService(settings=self._settings)
         self._orchestrator = OrchestratorService(
-            configuration_service=self._configuration_service,
-            control_service=self._control_service,
-            recorder_service=self._recorder_service,
-            transcriber_service=self._transcriber,
-            typist_service=self._typist_service,
-            extension_service=self._extension,
+            configuration=self._configuration,
+            context=self._context,
+            control=self._control,
+            recorder=self._recorder,
+            transcriber=self._transcriber,
+            typist=self._typist,
+            extension=self._extension,
         )
 
     def do_startup(self):
@@ -100,39 +114,36 @@ class SosApplication(Adw.Application):
         self._create_action("quit", self._on_quit_action, ["<primary>q"])
 
         try:
-            # Poor man DI
-            self._setup_services_di()
+            self._do_manual_di()  # Poor man DI
         except Exception as e:
             self._logger.error(f"Startup failed: {e}")
             self.quit()
 
-        # View models
-        self._main_view_model = MainViewModel(orchestrator=self._orchestrator)
-
         # Main window
+        self._main_view_model = MainViewModel(orchestrator=self._orchestrator)
         self._main_window = MainWindow(
             application=self,
             view_model=self._main_view_model,
         )
 
     def do_activate(self):
-        self._main_window.hide()
-        self._logger.info(
-            "App is now running in the background, "
-            "the main window is intentionally hidden."
-        )
+        # Start dismissed
+        self._main_window.dismiss()
+        if self._settings and self._settings.get_boolean(SETTING_SHOW_WELCOME):
+            welcome_window = WelcomeWindow(application=self, settings=self._settings)
+            welcome_window.present()
 
     def do_shutdown(self):
         self._logger.info("Shutting down.")
         self._main_view_model.shutdown()
         self._orchestrator.shutdown()
-        self._typist_service.shutdown()
+        self._typist.shutdown()
         self._transcriber.shutdown()
-        self._recorder_service.shutdown()
-        self._control_service.shutdown()
+        self._recorder.shutdown()
+        self._control.shutdown()
         self._joystick_control.shutdown()
         self._extension.shutdown()
-        self._configuration_service.shutdown()
+        self._configuration.shutdown()
         Adw.Application.do_shutdown(self)
 
     def _on_trigger_action(self, action, param):

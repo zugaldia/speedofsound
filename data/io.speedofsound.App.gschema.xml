@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist>
-    <schema id="org.gnome.shell.extensions.speedofsound"
-        path="/org/gnome/shell/extensions/speedofsound/">
+<schemalist gettext-domain="speedofsound">
+    <schema id="io.speedofsound.App" path="/io/speedofsound/App/">
         <key name="trigger-sos" type="as">
             <default><![CDATA[['<Super>z']]]></default>
             <summary>Trigger the app</summary>
             <description>Start or stop voice typing.</description>
         </key>
-        <key name="app-status" type="s">
+        <key name="extension-status" type="s">
             <default>"white"</default>
         </key>
-        <key name="app-error" type="s">
+        <key name="extension-error" type="s">
             <default>""</default>
+        </key>
+        <key name="show-welcome" type="b">
+            <default>true</default>
         </key>
     </schema>
 </schemalist>

@@ -4,7 +4,7 @@ NVIDIA provides both hosted and self-hosted approaches to their speech recogniti
 
 ## NVIDIA Riva (Local)
 
-In this setup, you need to create a local NVIDIA Riva server. One popular method to achieve this is using NVIDIA Jetson hardware, which are relatively affordable (compared to desktop/server GPUs) and are designed for edge AI use cases like robotics.
+In this setup, you need to create a local NVIDIA Riva server. One popular method to achieve this is using NVIDIA Jetson hardware, which is relatively affordable (compared to desktop/server GPUs) and designed for edge AI use cases like robotics.
 
 To configure a local NVIDIA Riva server for speech recognition, follow the instructions on the [NVIDIA Riva ASR Quick Start Guide](https://docs.nvidia.com/deeplearning/riva/user-guide/docs/quick-start-guide/asr.html).
 
@@ -19,8 +19,8 @@ ssl = false
 ```
 
 - `enabled`: Enable NVIDIA Riva transcription
-- `model`: RIVA model identifier (optional, defaults to reasonable choice)
-- `endpoint`: RIVA server endpoint URL
+- `model`: Riva model identifier (optional, defaults to reasonable choice)
+- `endpoint`: Riva server endpoint URL
 - `ssl`: Use SSL/TLS for connection
 
 ### Setup
