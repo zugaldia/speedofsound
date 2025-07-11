@@ -8,8 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 You should run both after making changes to the codebase (also checked by CI):
 
 ```bash
-make lint         # Run ruff linter on speedofsound/
-make format-check # Run ruff format check on speedofsound/
+make test         # Run pytests
+make lint         # Run ruff linter
+make format-check # Run ruff format check
 ```
 
 ## Code Style
@@ -20,7 +21,7 @@ make format-check # Run ruff format check on speedofsound/
 
 ## Architecture Overview
 - Speed of Sound is a GTK4-based Linux desktop application
-- It has service-oriented architecture developed with Python.
+- It has a service-oriented architecture developed with Python.
 - The UI follows the Model-View-ViewModel (MVVM) pattern.
 
 ### Core Services Pattern
@@ -28,9 +29,13 @@ All services inherit from `BaseService` (base_service.py) which provides:
 - GObject-based signal support for event-driven communication
 - Lifecycle management (init/shutdown)
 
+When creating a new service:
+- Create a new package folder under `speedofsound/services`.
+- Do manual dependency injection in the application file.
+
 ### Service Hierarchy
-1. **ConfigurationService**: Manages app configuration (input devices, model selection)
-2. **OrchestratorService**: Coordinates between UI and speech recognizer
+1. **ConfigurationService**: Manages app configuration
+2. **OrchestratorService**: Coordinates between UI, speech recognizer, and typist
 
 ### UI Framework
 - GTK4 with Adwaita design system
@@ -39,5 +44,5 @@ All services inherit from `BaseService` (base_service.py) which provides:
 - Main window components in `speedofsound/ui/main/`
 
 ## Debugging
-- Check `speedofsound.log` in the project root for detailed debugging information
+- Check `speedofsound.log` in the project root for detailed execution logs
 - The log file contains all DEBUG level messages while console shows only INFO and above

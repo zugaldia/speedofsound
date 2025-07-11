@@ -1,25 +1,12 @@
-# Configuration
+# Configure the app
 
-Speed of Sound uses a TOML configuration file located at `config.toml` in the project root. Copy the example configuration to get started:
+Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
-```bash
-cp config.example.toml config.toml
-```
+This file is created under your user config folder, which is typically under `~/.config/io.speedofsound.App/config.toml`. 
 
-The default setup uses Whisper for local transcriptions. It will automatically download the `small` model, which is the easiest way to get started as it runs on most hardware configurations.
+## Input Language
 
-## Permissions
-
-# https://snapcraft.io/docs/uinput-interface
-$ sudo usermod -aG input $USER
-$ sudo cp scripts/99-uinput.rules /etc/udev/rules.d/
-$ sudo udevadm control --reload-rules && sudo udevadm trigger
-
-## General Settings
-
-This document describes common settings you likely want to tweak. For other settings like joystick integration or typing backend configuration, see [`advanced.md`](advanced.md).
-
-### Language Configuration
+Although some transcribers support automatic language detection, this is not currently supported by the application. An input language value must be specified. 
 
 ```toml
 language = "en"
@@ -27,85 +14,52 @@ language = "en"
 
 - `language`: Language code for transcription (ISO 639-1 format, e.g.: "en" for English, "es" for Spanish)
 
-Although some transcribers support automatic language detection, this is not currently supported by the application. A language value needs to be specified. If you need to frequently switch between two languages, you can [set up the joystick](advanced.md) to do so.
+If you need to frequently switch between two input languages, you can set up the joystick to do so. See the joystick section on the [`trigger.md`](trigger.md) page for details. 
 
-### Audio Input
+## Transcription Provider
 
-The application uses your system's default microphone for recording. Setting a custom microphone is currently not supported.
+By default, Speed of Sound uses a local Whisper model for all transcriptions. However, other providers are supported. See their individual pages for provider-specific instructions:
 
-### Transcriber Selection
+- **[ElevenLabs](providers/elevenlabs.md)** - ElevenLabs Speech-to-Text model
+- **[Google](providers/google.md)** - Google Gemini Multimodal transcriptions
+- **[NVIDIA](providers/nvidia.md)** - NVIDIA Riva (local) and NVIDIA NIM (cloud)
+- **[OpenAI](providers/openai.md)** - OpenAI Whisper API and GPT-4o
+- **[Whisper](providers/whisper.md)** - Local Whisper options
 
-```toml
-transcriber = "faster_whisper"
-```
+### Fastest Provider
 
-Choose your transcription provider:
-- `"faster_whisper"` - OpenAI Whisper local model (default)
-- `"whisper"` - OpenAI Whisper local server
-- `"nvidia_riva"` - NVIDIA Riva (local)
-- `"nvidia_nim"` - NVIDIA NIM (cloud)
-- `"google"` - Google Gemini (cloud)
-- `"openai"` - OpenAI GPT-4o and Whisper API (cloud)
-- `"elevenlabs"` - ElevenLabs Speech-to-Text (cloud)
-- `"fastest"` - Run multiple providers simultaneously (hybrid)
-
-## Provider Configurations
-
-Each transcription provider has its own configuration section. For detailed setup instructions and configuration options, see the individual provider documentation:
-
-- **[Whisper](whisper.md)** - Local Whisper options
-- **[NVIDIA](nvidia.md)** - NVIDIA Riva (local) and NVIDIA NIM (cloud)
-- **[Google](google.md)** - Google Speech-to-Text
-- **[OpenAI](openai.md)** - OpenAI Whisper API
-- **[ElevenLabs](elevenlabs.md)** - ElevenLabs Speech-to-Text
-
-## Configuration Tips
-
-1. **Start Simple**: Begin with the default Whisper configuration for local processing.
-2. **Multiple Providers**: Enable multiple providers and use the "fastest" transcriber to run them simultaneously. This ensures fast responses when cloud providers experience outages or latency issues. This is particularly useful with cloud providers but you can mix and match both local and cloud providers.
-
-## Example Configurations
-
-### Local-Only Setup (Whisper)
-
-Similar to the default setup but using a larger `turbo` model.
-```toml
-language = "en"
-transcriber = "faster_whisper"
-
-[faster_whisper]
-enabled = true
-model = "turbo"
-```
-See [Whisper documentation](whisper.md) for detailed setup.
-
-### Cloud Setup (OpenAI)
-Use a cloud Whisper service instead of running it locally:
+In addition to the providers mentioned above, Speed of Sound provides a meta-provider called `fastest`. When this provider is selected, it will simultaneously send your audio to all enabled providers and use the transcription from whichever provider responds first.
 
 ```toml
-language = "en"
-transcriber = "openai"
-
-[openai]
-enabled = true
-api_key = "your-openai-api-key"
-model = "whisper-1"
+transcriber = fastest
 ```
 
-### Hybrid Setup (Fastest Mode)
-Race two cloud providers and choose the fastest transcription:
+This provider is particularly helpful if you opt to use cloud providers. Cloud providers experience outages and latency issues. By enabling multiple cloud providers with this meta provider, you increase the speed and reliability of the application.
+
+## (Optional) Context settings
+
+You can supply additional context to some providers to improve the transcription. For example, you can decide to include the name of the active application or provide a custom prompt.
+
+See [`context.md`](context.md) for details. 
+
+## (Optional) Typist settings
+
+By default, Speed of Sound uses pynput to emulate a virtual keyboard. Under the hood, this uses the kernel `uinput` module, which works across all window systems.
+
+Read [`input.md`](input.md) for details. 
+
+## (Optional) Recording settings
+
+By default, recordings automatically stop after 60 seconds to prevent indefinitely long recordings. You can customize this timeout:
 
 ```toml
-language = "en"
-transcriber = "fastest"
-
-[google]
-enabled = true
-api_key = "your-google-api-key"
-model = "gemini-2.5-flash-preview-05-20"
-
-[openai]
-enabled = true
-api_key = "your-openai-api-key"
-model = "whisper-1"
+recording_timeout_seconds = 60
 ```
+
+- `recording_timeout_seconds`: Maximum recording duration in seconds (default: 60, range: 1-300)
+
+## (Optional) Joystick settings
+
+If you have a joystick connected to your system, you can use it to trigger the application and to switch the language for voice typing.
+
+See the joystick section on the [`trigger.md`](trigger.md) document for details. 
