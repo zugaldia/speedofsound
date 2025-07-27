@@ -150,6 +150,9 @@ class AppConfig(BaseModel):
     # Context settings
     context: ContextConfig = ContextConfig()
 
+    # Clipboard settings
+    copy_to_clipboard: bool = False
+
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()
     nvidia_nim: NvidiaNimConfig = NvidiaNimConfig()

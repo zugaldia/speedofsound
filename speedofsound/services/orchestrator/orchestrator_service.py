@@ -1,6 +1,6 @@
 from typing import Optional
 
-from gi.repository import GObject  # type: ignore
+from gi.repository import Gdk, GObject  # type: ignore
 
 from speedofsound.constants import (
     CONTROL_EVENT_SIGNAL,
@@ -84,12 +84,33 @@ class OrchestratorService(BaseService):
 
         self._total_seconds = 0
         self._total_words = 0
+
+        self._clipboard: Optional[Gdk.Clipboard] = None
+        self._setup_clipboard()
+
         self._update_status_bar()
         self._send_event(OrchestratorStage.READY, "Ready.")
         self._logger.info("Initialized.")
 
     def shutdown(self):
         pass
+
+    def _setup_clipboard(self):
+        if not self._configuration_service.config.copy_to_clipboard:
+            return
+
+        display = Gdk.Display.get_default()
+        if display is None:
+            self._logger.warning(
+                "Failed to get default GDK display, copy to clipboard will not work."
+            )
+            return
+
+        self._clipboard = display.get_clipboard()
+        if self._clipboard is None:
+            self._logger.warning(
+                "Failed to get GNOME clipboard, copy to clipboard will not work."
+            )
 
     def _update_status_bar(self):
         self.safe_emit(
@@ -164,6 +185,15 @@ class OrchestratorService(BaseService):
             self._logger.info("Canceling recording...")
             self._recording_cancelled = True
             self._recorder.stop_recording()
+
+    def copy_to_clipboard(self, text: str) -> None:
+        try:
+            if self._clipboard is None:
+                return
+            self._clipboard.set(text)
+            self._logger.info(f"Copied {len(text)} characters to clipboard")
+        except Exception as e:
+            self._logger.error(f"Error copying to clipboard: {e}")
 
     #
     # Private API
@@ -248,6 +278,9 @@ class OrchestratorService(BaseService):
 
             self._total_words = transcriber_response.get_total_words()
             self._calculate_and_emit_wpm()
+
+            if self._configuration_service.config.copy_to_clipboard:
+                self.copy_to_clipboard(transcriber_response.get_text())
 
             self._queued_typing = TypistRequest(
                 transcriber_response=transcriber_response
