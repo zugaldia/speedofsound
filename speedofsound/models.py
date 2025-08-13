@@ -101,6 +101,7 @@ class OpenAIConfig(BaseModel):
     """OpenAI transcriber configuration."""
 
     enabled: bool = False
+    base_url: Optional[str] = None
     api_key: str = ""
     model: str = ""
 
@@ -315,6 +316,7 @@ class TranscriberModel(BaseModel):
 
 class TranscriberRequest(BaseRequest):
     recorder_response: RecorderResponse
+    simple_prompt: str
     prompt: str
 
 

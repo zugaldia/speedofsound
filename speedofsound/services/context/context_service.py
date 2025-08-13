@@ -22,7 +22,11 @@ from typing import Optional
 from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.context.atspi_client import AtspiClient
-from speedofsound.services.context.prompts import APPLICATION_PROMPT, SYSTEM_PROMPT
+from speedofsound.services.context.prompts import (
+    APPLICATION_PROMPT,
+    SIMPLE_PROMPT,
+    SYSTEM_PROMPT,
+)
 from speedofsound.utils import get_config_path
 
 
@@ -40,6 +44,10 @@ class ContextService(BaseService):
 
     def shutdown(self):
         pass
+
+    def get_simple_prompt(self, language_id: str) -> str:
+        simple_prompt = SIMPLE_PROMPT.get(language_id, SIMPLE_PROMPT["default"])
+        return simple_prompt.strip()
 
     def _get_application_prompt(self, language_id: str) -> Optional[str]:
         if self._atspi_client is None or self._atspi_client.active_app is None:

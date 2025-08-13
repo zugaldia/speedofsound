@@ -237,6 +237,9 @@ class OrchestratorService(BaseService):
             self._transcriber.transcribe_async(
                 request=TranscriberRequest(
                     recorder_response=recorder_response,
+                    simple_prompt=self._context.get_simple_prompt(
+                        self._configuration_service.config.language
+                    ),
                     prompt=self._context.get_prompt(
                         self._configuration_service.config.language
                     ),
