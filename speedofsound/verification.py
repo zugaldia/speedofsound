@@ -81,12 +81,8 @@ class SystemVerification:
         recorder_service = None
         transcriber_service = None
         try:
-            recorder_service = RecorderService(
-                configuration=self._configuration
-            )
-            transcriber_service = TranscriberService(
-                configuration=self._configuration
-            )
+            recorder_service = RecorderService(configuration=self._configuration)
+            transcriber_service = TranscriberService(configuration=self._configuration)
             return self._verify_speech(recorder_service, transcriber_service)
         except Exception as e:
             print(f"Speech verification failed: {e}")
