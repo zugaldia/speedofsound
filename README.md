@@ -14,7 +14,7 @@ Here's the app in action, typing into Text Editor:
 ## Features
 
 - 🏠 **Local and Cloud Options** - Works with local speech recognition models (like Whisper and NVIDIA Riva) as well as cloud providers (ElevenLabs, Google Gemini, NVIDIA NIM, and OpenAI)
-- 🖥️ **Cross-Platform Compatibility** - Supports both X11 and Wayland with pluggable typing backends (`uinput`, AT-SPI, `xdotool`, `ydotool`)
+- 🖥️ **Cross-Platform Compatibility** - Supports both X11 and Wayland with pluggable typing backends (AT-SPI, `xdotool`, `ydotool`)
 - 🔌 **GNOME Shell Extension** - Provides a status indicator and system-wide keyboard shortcut
 - 🎨 **Modern UI** - Built with the GNOME Adwaita design system, compatible with any desktop environment
 - 🎮 **Accessibility** - Joystick/gamepad control support

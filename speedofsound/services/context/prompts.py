@@ -12,6 +12,12 @@ https://platform.openai.com/docs/guides/speech-to-text#prompting
 # English
 #
 
+# Some local LLMs need simplified prompts for chat completions transcriptions.
+# https://huggingface.co/ibm-granite/granite-speech-3.3-2b#usage-with-vllm
+SIMPLE_PROMPT_EN = """
+Can you transcribe the speech into a written format?
+""".strip()
+
 SYSTEM_PROMPT_EN = """
 # Goal
 Generate a transcription of the speech.
@@ -33,6 +39,10 @@ adjust the transcription to match the application's context and tone.
 # Spanish
 #
 
+SIMPLE_PROMPT_ES = """
+¿Puedes transcribir el discurso a un formato escrito?
+""".strip()
+
 SYSTEM_PROMPT_ES = """
 # Objetivo
 Genera una transcripción del habla.
@@ -53,6 +63,12 @@ ajusta la transcripción para que coincida con el contexto y tono de la aplicaci
 #
 # Mapping of languages to prompts
 #
+
+SIMPLE_PROMPT = {
+    "default": SIMPLE_PROMPT_EN,
+    "en": SIMPLE_PROMPT_EN,
+    "es": SIMPLE_PROMPT_ES,
+}
 
 SYSTEM_PROMPT = {
     "default": SYSTEM_PROMPT_EN,

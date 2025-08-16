@@ -1,14 +1,18 @@
 from concurrent.futures import Future, ThreadPoolExecutor
 
-from gi.repository import GObject  # type: ignore
+from gi.repository import Gdk, GObject  # type: ignore
 
 from speedofsound.constants import TYPIST_RESPONSE_SIGNAL
-from speedofsound.models import TypistBackend, TypistRequest, TypistResponse
+from speedofsound.models import (
+    DisplayServer,
+    TypistBackend,
+    TypistRequest,
+    TypistResponse,
+)
 from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.typist.atspi_typist import AtSpiTypist
 from speedofsound.services.typist.base_typist import BaseTypist
-from speedofsound.services.typist.pynput_typist import PynputTypist
 from speedofsound.services.typist.xdotool_typist import XdotoolTypist
 from speedofsound.services.typist.ydotool_typist import YdotoolTypist
 
@@ -32,26 +36,58 @@ class TypistService(BaseService):
         self._executor.shutdown(wait=True)
         self._typist.shutdown()
 
+    def _detect_display_server(self) -> DisplayServer:
+        """Detect if running on X11 or Wayland using GTK/GDK."""
+        try:
+            display = Gdk.Display.get_default()
+            if display is None:
+                self._logger.warning("No display found.")
+                return DisplayServer.UNKNOWN
+
+            # Replace with a type check, but GdkWayland isn't found
+            display_type = str(type(display))
+            if "Wayland" in display_type:
+                return DisplayServer.WAYLAND
+            elif "X11" in display_type:
+                return DisplayServer.X11
+            else:
+                self._logger.warning(f"Unknown display type: {display_type}")
+                return DisplayServer.UNKNOWN
+        except Exception as e:
+            self._logger.warning(f"Failed to detect display server: {e}")
+            return DisplayServer.UNKNOWN
+
     def _get_typist(self) -> BaseTypist:
         config = self._configuration.config
-        backend = (
-            TypistBackend(config.typist_backend)
-            if config.typist_backend
-            else TypistBackend.PYNPUT
-        )
+
+        if config.typist_backend:
+            # User override - respect their choice
+            backend = TypistBackend(config.typist_backend)
+        else:
+            # Auto-detect based on display server
+            display_server = self._detect_display_server()
+            if display_server == DisplayServer.WAYLAND:
+                backend = TypistBackend.YDOTOOL
+                self._logger.info("Detected Wayland, using ydotool backend.")
+            elif display_server == DisplayServer.X11:
+                backend = TypistBackend.XDOTOOL
+                self._logger.info("Detected X11, using xdotool backend.")
+            else:
+                # Default to xdotool for unknown
+                backend = TypistBackend.XDOTOOL
+                self._logger.info(
+                    "Unknown display server, defaulting to xdotool backend."
+                )
 
         if backend == TypistBackend.ATSPI:
-            self._logger.info("Using AT-SPI backend.")
             return AtSpiTypist()
         elif backend == TypistBackend.XDOTOOL:
-            self._logger.info("Using xdotool backend.")
             return XdotoolTypist()
         elif backend == TypistBackend.YDOTOOL:
-            self._logger.info("Using ydotool backend.")
             return YdotoolTypist()
         else:
-            self._logger.info("Defaulting to pynput backend.")
-            return PynputTypist(config.pynput)
+            self._logger.warning(f"Unknown backend {backend}, defaulting to xdotool.")
+            return XdotoolTypist()
 
     def type_async(self, request: TypistRequest):
         self._logger.info("Typing.")

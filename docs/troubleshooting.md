@@ -20,4 +20,4 @@ To verify that the virtual keyboard is configured correctly:
 python launch.py --verify-keyboard
 ```
 
-This command will test the virtual keyboard functionality and `uinput` permissions to ensure the application can simulate keyboard input on your system.
+This command will test the virtual keyboard functionality to ensure the application can simulate keyboard input on your system.

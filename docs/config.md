@@ -44,7 +44,7 @@ See [`context.md`](context.md) for details.
 
 ## (Optional) Typist settings
 
-By default, Speed of Sound uses pynput to emulate a virtual keyboard. Under the hood, this uses the kernel `uinput` module, which works across all window systems.
+By default, Speed of Sound uses xdotool to emulate a virtual keyboard. Other options include `ydotool` and `atspi`.
 
 Read [`input.md`](input.md) for details. 
 

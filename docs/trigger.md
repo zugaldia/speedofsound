@@ -2,6 +2,8 @@
 
 Speed of Sound runs in the background waiting to be triggered when you want to start voice typing. You can set up a keyboard shortcut and/or a joystick as triggers.
 
+> ⚠️ **Important**: You MUST configure at least one trigger method below for Speed of Sound to work. The app runs as a background service and cannot be activated without a keyboard shortcut or joystick trigger.
+
 ## Keyboard shortcut (using the Extension)
 
 If you install the provided GNOME Shell extension, the extension will automatically set up `Super+Z` as a global keyboard shortcut to trigger Speed of Sound.

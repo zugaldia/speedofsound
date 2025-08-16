@@ -5,8 +5,15 @@ Documentation on `docs/openai.md` needs to be updated when this file is modified
 """
 
 from openai import OpenAI
+from openai.types.chat import (
+    ChatCompletionContentPartInputAudioParam,
+    ChatCompletionContentPartTextParam,
+    ChatCompletionUserMessageParam,
+)
+from openai.types.chat.chat_completion_content_part_input_audio_param import InputAudio
 
 from speedofsound.models import (
+    RecorderResponse,
     TranscriberModel,
     TranscriberRequest,
     TranscriberResponse,
@@ -53,16 +60,24 @@ class OpenAiTranscriber(BaseTranscriber):
     def is_ready(self) -> bool:
         return self._configuration_service.config.openai.enabled
 
-    def _ensure_client(self):
+    def _get_client(self) -> OpenAI:
         if self._client:
-            return
+            return self._client
 
+        base_url = self._configuration_service.config.openai.base_url
         api_key = self._configuration_service.config.openai.api_key
-        self._client = OpenAI(api_key=api_key)
+        self._client = OpenAI(base_url=base_url, api_key=api_key)
+        return self._client
 
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         try:
-            return self._transcribe(request)
+            base_url = self._configuration_service.config.openai.base_url
+            if base_url and base_url.startswith("http://localhost"):
+                # VLLM models are not compatible with the OpenAI's
+                # audio.transcriptions.create() method.
+                return self._transcribe_completions(request)
+            else:
+                return self._transcribe(request)
         except Exception as e:
             message = f"OpenAI transcription failed: {e}"
             self._logger.error(message)
@@ -82,9 +97,8 @@ class OpenAiTranscriber(BaseTranscriber):
         )
 
         self._logger.info(f"Transcribing (language={language}, model={model_id}).")
-
-        self._ensure_client()
-        transcription = self._client.audio.transcriptions.create(
+        client = self._get_client()
+        transcription = client.audio.transcriptions.create(
             file=request.recorder_response.get_file_like_object(),
             model=model_id,
             language=language,
@@ -92,5 +106,45 @@ class OpenAiTranscriber(BaseTranscriber):
             temperature=0.0,
         )
 
-        self._logger.info(f"Transcription completed: {transcription.text}")
         return TranscriberResponse(text=transcription.text)
+
+    def _transcribe_completions(
+        self, request: TranscriberRequest
+    ) -> TranscriberResponse:
+        config = self._configuration_service.config
+
+        model_id = (
+            config.openai.model
+            if not is_empty(config.openai.model)
+            else self.get_available_models()[0].id
+        )
+
+        wav_file = request.recorder_response.get_file_like_object()
+        wav_data = RecorderResponse.data_encode(wav_file.read())
+
+        self._logger.info(f"Transcribing with completions (model={model_id}).")
+        client = self._get_client()
+        transcription = client.chat.completions.create(
+            model=model_id,
+            messages=[
+                ChatCompletionUserMessageParam(
+                    role="user",
+                    content=[
+                        ChatCompletionContentPartTextParam(
+                            type="text",
+                            text=request.simple_prompt,
+                        ),
+                        ChatCompletionContentPartInputAudioParam(
+                            type="input_audio",
+                            input_audio=InputAudio(format="wav", data=wav_data),
+                        ),
+                    ],
+                )
+            ],
+            # Params from
+            # https://huggingface.co/ibm-granite/granite-speech-3.3-2b#usage-with-vllm
+            temperature=0.2,
+            max_tokens=64,
+        )
+
+        return TranscriberResponse(text=transcription.choices[0].message.content)

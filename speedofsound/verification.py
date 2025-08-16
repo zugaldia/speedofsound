@@ -38,7 +38,7 @@ class SystemVerification:
         """Verify virtual keyboard configuration and functionality."""
         typist_service = None
         try:
-            typist_service = TypistService(configuration_service=self._configuration)
+            typist_service = TypistService(configuration=self._configuration)
             return self._verify_keyboard(typist_service)
         except Exception as e:
             print(f"Keyboard verification failed: {e}")
@@ -81,12 +81,8 @@ class SystemVerification:
         recorder_service = None
         transcriber_service = None
         try:
-            recorder_service = RecorderService(
-                configuration_service=self._configuration
-            )
-            transcriber_service = TranscriberService(
-                configuration_service=self._configuration
-            )
+            recorder_service = RecorderService(configuration=self._configuration)
+            transcriber_service = TranscriberService(configuration=self._configuration)
             return self._verify_speech(recorder_service, transcriber_service)
         except Exception as e:
             print(f"Speech verification failed: {e}")

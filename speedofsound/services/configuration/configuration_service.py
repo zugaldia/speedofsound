@@ -14,7 +14,7 @@ transcriber = "faster_whisper"
 [faster_whisper]
 enabled = true
 model = "small"
-"""
+""".strip()
 
 
 class ConfigurationService(BaseService):

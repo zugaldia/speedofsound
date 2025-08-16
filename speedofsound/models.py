@@ -48,8 +48,13 @@ class TranscriberType(StrEnum):
     FASTEST = "fastest"
 
 
+class DisplayServer(StrEnum):
+    X11 = "x11"
+    WAYLAND = "wayland"
+    UNKNOWN = "unknown"
+
+
 class TypistBackend(StrEnum):
-    PYNPUT = "pynput"
     ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
@@ -101,6 +106,7 @@ class OpenAIConfig(BaseModel):
     """OpenAI transcriber configuration."""
 
     enabled: bool = False
+    base_url: Optional[str] = None
     api_key: str = ""
     model: str = ""
 
@@ -111,13 +117,6 @@ class ElevenLabsConfig(BaseModel):
     enabled: bool = False
     api_key: str = ""
     model: str = ""
-
-
-class PynputConfig(BaseModel):
-    """Pynput typist configuration."""
-
-    backend: Optional[str] = None
-    delay: float = 0.2
 
 
 class ContextConfig(BaseModel):
@@ -145,10 +144,12 @@ class AppConfig(BaseModel):
 
     # Typist settings
     typist_backend: Optional[str] = None
-    pynput: PynputConfig = PynputConfig()
 
     # Context settings
     context: ContextConfig = ContextConfig()
+
+    # Clipboard settings
+    copy_to_clipboard: bool = False
 
     # Provider configurations
     nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()
@@ -312,6 +313,7 @@ class TranscriberModel(BaseModel):
 
 class TranscriberRequest(BaseRequest):
     recorder_response: RecorderResponse
+    simple_prompt: str
     prompt: str
 
 

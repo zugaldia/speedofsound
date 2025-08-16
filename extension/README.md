@@ -10,19 +10,26 @@ This GNOME Shell extension provides a top bar indicator for the Speed of Sound a
 
 ## Installation
 
-This extension is not yet available on the [GNOME Extensions website](https://extensions.gnome.org/), so installation must be done manually:
+This extension is not yet available on the [GNOME Extensions website](https://extensions.gnome.org/), so installation must be done manually.
 
-1. **Pack the extension:**
+**Important:** All commands must be run from the `extension/` directory.
+
+1. **Navigate to the extension directory:**
+   ```bash
+   cd extension/
+   ```
+
+2. **Pack the extension:**
    ```bash
    make pack-extension
    ```
 
-2. **Install the extension:**
+3. **Install the extension:**
    ```bash
    make install-extension
    ```
 
-3. **Enable the extension:**
+4. **Enable the extension:**
    ```bash
    make enable-extension
    ```
@@ -31,7 +38,7 @@ You might need to restart your GNOME session for the extension to become availab
 
 ### Development
 
-For development and testing:
+For development and testing (run from the `extension/` directory):
 
 - **Disable the extension:** `make disable-extension`
 - **Lint the code:** `make lint`
