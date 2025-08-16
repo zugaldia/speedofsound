@@ -12,7 +12,7 @@ git clone git@github.com:zugaldia/speedofsound.git
 cd speedofsound
 
 # Install system dependencies
-sudo apt install python3 python3-pip meson ninja-build gettext libgirepository-2.0-dev
+sudo apt install python3 python3-pip python3-dev gcc pkg-config meson ninja-build gettext libgirepository-2.0-dev libcairo2-dev gir1.2-gtk-4.0
 ```
 
 ## Using Meson (recommended)
@@ -36,6 +36,12 @@ source ~/.bashrc
 ## Using Python
 
 This method is preferred for development and contributing to the application. After completing the prerequisites above, set up the Python development environment:
+
+### Install PyGObject and GTK
+
+Before we can run the application we need to install PyGObject, GTK and their dependencies. Follow the instructions for your platform on https://pygobject.gnome.org/getting_started.html
+
+### Set up the development environment
 
 ```bash
 python3 -m venv venv
