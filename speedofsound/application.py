@@ -3,10 +3,11 @@ from typing import Optional
 
 import gi
 
-gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 gi.require_version("Atspi", "2.0")
+gi.require_version("Gdk", "4.0")
 gi.require_version("Gst", "1.0")
+gi.require_version("Gtk", "4.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
 from speedofsound.constants import (  # noqa: E402

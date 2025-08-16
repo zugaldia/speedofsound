@@ -48,8 +48,13 @@ class TranscriberType(StrEnum):
     FASTEST = "fastest"
 
 
+class DisplayServer(StrEnum):
+    X11 = "x11"
+    WAYLAND = "wayland"
+    UNKNOWN = "unknown"
+
+
 class TypistBackend(StrEnum):
-    PYNPUT = "pynput"
     ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
@@ -114,13 +119,6 @@ class ElevenLabsConfig(BaseModel):
     model: str = ""
 
 
-class PynputConfig(BaseModel):
-    """Pynput typist configuration."""
-
-    backend: Optional[str] = None
-    delay: float = 0.2
-
-
 class ContextConfig(BaseModel):
     """Context service configuration."""
 
@@ -146,7 +144,6 @@ class AppConfig(BaseModel):
 
     # Typist settings
     typist_backend: Optional[str] = None
-    pynput: PynputConfig = PynputConfig()
 
     # Context settings
     context: ContextConfig = ContextConfig()

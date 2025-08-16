@@ -37,7 +37,6 @@ pyasn1_modules==0.4.2
 pydantic==2.11.3
 pydantic_core==2.33.1
 pygame==2.6.1
-pynput==1.8.1
 python-xlib==0.33
 PyYAML==6.0.2
 requests==2.32.3

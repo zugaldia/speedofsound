@@ -26,8 +26,7 @@ py_installation = python.find_installation(
     'openai',
     'pydantic',
     'pygame',
-    'pynput',
-    'requests',
+        'requests',
     'riva', # nvidia-riva-client imports as riva
   ],
   required: false,

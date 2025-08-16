@@ -1,55 +1,43 @@
 # Configure virtual keyboard permissions
 
-Speed of Sound emulates a keyboard to type into any desktop application. By default, Speed of Sound uses `pynput` to emulate a virtual keyboard. Under the hood, this uses the kernel `uinput` module, which works across Wayland and X11 sessions.
+Speed of Sound emulates a keyboard to type into any desktop application. The app automatically detects your display server and selects the appropriate typing backend:
+- **X11 sessions**: Uses `xdotool`
+- **Wayland sessions**: Uses `ydotool`
 
-The trade-off, however, is the need for additional user permissions to be able to use this subsystem:
+The following sections explain how to install and configure these tools. 
 
-## System Configuration
+## Installation Requirements
 
-You will need to do two things:
-
-First, you need to add your user to the input group.
-
+### For X11 users
+**xdotool**: Usually pre-installed and doesn't require any additional permissions or setup. If not available, install with:
 ```bash
-$ sudo usermod -aG input $USER
+sudo apt install xdotool
 ```
 
-Second, you need to add the provided udev rules to your system so that this input group can access the uinput subsystem. 
+### For Wayland users
+**ydotool**: Requires installation and configuration:
 
 ```bash
-$ sudo cp /path/to/scripts/99-uinput.rules /etc/udev/rules.d/
-$ sudo udevadm control --reload-rules && sudo udevadm trigger
+# Install ydotool
+sudo apt install ydotool
+
+# Grant necessary permissions
+sudo chmod +s $(which ydotool)
 ```
 
-Once you have completed these steps, you will need to logout/login (or reboot) for the changes to take effect.
+**Security Note**: The `chmod +s` command grants elevated privileges to `ydotool`. This is required for Wayland's security model but should be applied carefully. Consider your system's security requirements before applying this change.
 
-You can verify your configuration is working correctly by running the keyboard verification test. See [`troubleshooting.md`](troubleshooting.md) for more details.
+## Typing Backends
 
-## Alternative Backends (advanced)
+Speed of Sound provides several typing backends that can be configured based on your system requirements.
 
-Besides `pynput`, Speed of Sound provides other typing backends that might be better suited for your system.
-
-Generally, you will not want to change this setting, particularly under Wayland which has stricter security restrictions, but there is a bit more flexibility under X11. 
+Most users don't need to configure this manually - the app automatically selects the correct backend. Only override this setting if you experience typing issues or want to use a specific backend:
 
 ```toml
 typist_backend = "xdotool"
 ```
 
 Available backends:
-- `"pynput"` - This is the default.
-- `"xdotool"` - Uses the `xdotool` command (valid for X11 sessions)
-- `"ydotool"` - Uses the `ydotool` command (valid for both Wayland and X11 sessions)
-- `"atspi"` - GTK accessibility API (X11 only)
-
-### Installation Requirements
-
-- [`xdotool`](https://github.com/jordansissel/xdotool) - tends to work out of the box
-- [`ydotool`](https://github.com/ReimuNotMoe/ydotool) - requires additional user permissions for input access
-
-Due to Wayland's security model, `ydotool` requires elevated permissions to access input devices. One solution is to set the setuid bit, allowing any user to run it with the necessary privileges:
-
-```bash
-sudo chmod +s $(which ydotool)
-```
-
-**Security Note**: Setting the setuid bit should be done carefully and intentionally, as it grants elevated privileges to all users on the system. The instructions here are provided as a guide, but ultimately it is the user's responsibility to configure their system appropriately for their security requirements.
+- `"xdotool"` - Default for X11. Uses the `xdotool` command (X11 only)
+- `"ydotool"` - Default for Wayland. Uses the `ydotool` command (works on both Wayland and X11)
+- `"atspi"` - Uses GTK accessibility API (X11 only)
