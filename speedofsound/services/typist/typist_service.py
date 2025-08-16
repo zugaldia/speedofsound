@@ -44,6 +44,7 @@ class TypistService(BaseService):
                 self._logger.warning("No display found.")
                 return DisplayServer.UNKNOWN
 
+            # Replace with a type check, but GdkWayland isn't found
             display_type = str(type(display))
             if "Wayland" in display_type:
                 return DisplayServer.WAYLAND
