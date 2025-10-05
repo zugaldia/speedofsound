@@ -4,7 +4,7 @@ You can supply additional context to some providers to improve the transcription
 
 ## Custom prompts
 
-You can provide language-specific custom prompts to improve transcription quality with providers like OpenAI and Google Gemini. These prompts are automatically loaded and included in the transcription context.
+You can provide language-specific custom prompts to improve transcription quality with providers like OpenAI. These prompts are automatically loaded and included in the transcription context.
 
 ### Setup
 
@@ -12,7 +12,7 @@ Create a markdown file in your configuration directory with the naming pattern `
 
 You decide the content of this file with any information that is useful to your use case. An example based on real use is provided below. It's recommended that this file not be too long to keep requests fast and the context relevant.
 
-> **Note:** Not all transcription providers support this feature. Currently, only Google and OpenAI models take advantage of this additional prompt. 
+> **Note:** Custom prompts are currently supported by OpenAI models only. Faster Whisper does not use custom prompts. 
 
 ### Usage
 

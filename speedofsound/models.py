@@ -16,7 +16,7 @@ from speedofsound.utils import get_cache_path, get_uuid
 
 class Language(BaseModel):
     # The ID is the ISO 639-1 code for the language, which is used by
-    # e.g. Whisper, ElevenLabs, and OpenAI Transcriptions API.
+    # e.g. Whisper and OpenAI Transcriptions API.
     # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
     id: str
     name: str
@@ -35,13 +35,8 @@ DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
 class TranscriberType(StrEnum):
     # Local
     FASTER_WHISPER = "faster_whisper"
-    WHISPER = "whisper"
-    NVIDIA_RIVA = "nvidia_riva"
 
     # Cloud
-    NVIDIA_NIM = "nvidia_nim"
-    ELEVENLABS = "elevenlabs"
-    GOOGLE = "google"
     OPENAI = "openai"
 
     # Hybrid
@@ -60,25 +55,6 @@ class TypistBackend(StrEnum):
     YDOTOOL = "ydotool"
 
 
-class NvidiaRivaConfig(BaseModel):
-    """NVIDIA Riva transcriber configuration."""
-
-    enabled: bool = False
-    model: str = ""
-    endpoint: str = ""
-    ssl: bool = False
-
-
-class NvidiaNimConfig(BaseModel):
-    """NVIDIA NIM transcriber configuration."""
-
-    enabled: bool = False
-    api_key: str = ""
-    model: str = ""
-    endpoint: str = ""
-    ssl: bool = True
-
-
 class FasterWhisperConfig(BaseModel):
     """Faster Whisper transcriber configuration."""
 
@@ -87,34 +63,11 @@ class FasterWhisperConfig(BaseModel):
     device: Literal["cpu", "cuda", "auto"] = "auto"
 
 
-class WhisperConfig(BaseModel):
-    """Whisper transcriber configuration."""
-
-    enabled: bool = False
-    endpoint: str = ""
-
-
-class GoogleConfig(BaseModel):
-    """Google transcriber configuration."""
-
-    enabled: bool = False
-    api_key: str = ""
-    model: str = ""
-
-
 class OpenAIConfig(BaseModel):
     """OpenAI transcriber configuration."""
 
     enabled: bool = False
     base_url: Optional[str] = None
-    api_key: str = ""
-    model: str = ""
-
-
-class ElevenLabsConfig(BaseModel):
-    """ElevenLabs transcriber configuration."""
-
-    enabled: bool = False
     api_key: str = ""
     model: str = ""
 
@@ -140,7 +93,7 @@ class AppConfig(BaseModel):
     recording_timeout_seconds: int = Field(default=60, ge=1, le=300)
 
     # Transcriber settings
-    transcriber: str = TranscriberType.WHISPER.value
+    transcriber: str = TranscriberType.FASTER_WHISPER.value
 
     # Typist settings
     typist_backend: Optional[str] = None
@@ -152,13 +105,8 @@ class AppConfig(BaseModel):
     copy_to_clipboard: bool = False
 
     # Provider configurations
-    nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()
-    nvidia_nim: NvidiaNimConfig = NvidiaNimConfig()
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
-    whisper: WhisperConfig = WhisperConfig()
-    google: GoogleConfig = GoogleConfig()
     openai: OpenAIConfig = OpenAIConfig()
-    elevenlabs: ElevenLabsConfig = ElevenLabsConfig()
 
 
 #

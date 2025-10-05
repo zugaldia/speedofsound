@@ -1,6 +1,6 @@
 # Configure the app
 
-Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Whisper model for speech recognition. It will also automatically download the right model files for local usage.
+Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
 This file is created under your user config folder, which is typically under `~/.config/io.speedofsound.App/config.toml`. 
 
@@ -16,25 +16,39 @@ language = "en"
 
 If you need to frequently switch between two input languages, you can set up the joystick to do so. See the joystick section on the [`trigger.md`](trigger.md) page for details. 
 
-## Transcription Provider
+## Transcription Options
 
-By default, Speed of Sound uses a local Whisper model for all transcriptions. However, other providers are supported. See their individual pages for provider-specific instructions:
+Speed of Sound offers three transcription options:
 
-- **[ElevenLabs](providers/elevenlabs.md)** - ElevenLabs Speech-to-Text model
-- **[Google](providers/google.md)** - Google Gemini Multimodal transcriptions
-- **[NVIDIA](providers/nvidia.md)** - NVIDIA Riva (local) and NVIDIA NIM (cloud)
-- **[OpenAI](providers/openai.md)** - OpenAI Whisper API and GPT-4o
-- **[Whisper](providers/whisper.md)** - Local Whisper options
+### 1. Faster Whisper (Default)
 
-### Fastest Provider
-
-In addition to the providers mentioned above, Speed of Sound provides a meta-provider called `fastest`. When this provider is selected, it will simultaneously send your audio to all enabled providers and use the transcription from whichever provider responds first.
+Local transcription running entirely on your device. No internet connection required, and your audio data never leaves your computer.
 
 ```toml
-transcriber = fastest
+transcriber = "faster_whisper"
 ```
 
-This provider is particularly helpful if you opt to use cloud providers. Cloud providers experience outages and latency issues. By enabling multiple cloud providers with this meta provider, you increase the speed and reliability of the application.
+See **[Faster Whisper configuration](providers/whisper.md)** for detailed setup instructions.
+
+### 2. OpenAI
+
+Cloud-based transcription using OpenAI's Whisper and GPT-4o models. Requires an API key and internet connection.
+
+```toml
+transcriber = "openai"
+```
+
+See **[OpenAI configuration](providers/openai.md)** for detailed setup instructions.
+
+### 3. Fastest (Meta-Transcriber)
+
+Runs both local (Faster Whisper) and cloud (OpenAI) transcription simultaneously, using whichever responds first. This option provides maximum speed and reliability by combining the benefits of both approaches.
+
+```toml
+transcriber = "fastest"
+```
+
+This option requires both Faster Whisper and OpenAI to be enabled in your configuration. It's particularly useful for ensuring consistent performance even when cloud services experience latency or outages.
 
 ## (Optional) Context settings
 

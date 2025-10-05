@@ -19,7 +19,6 @@ python = import('python')
 py_installation = python.find_installation(
   'python3',
   modules: [
-    'elevenlabs',
     'faster_whisper',
     'gi', # PyGObject imports as gi
     'google.genai', # google-genai package imports as google.genai
@@ -27,7 +26,6 @@ py_installation = python.find_installation(
     'pydantic',
     'pygame',
     'requests',
-    'riva', # nvidia-riva-client imports as riva
   ],
   required: false,
 )

@@ -9,14 +9,9 @@ from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import (
     BaseTranscriber,
-    ElevenLabsTranscriber,
     FasterWhisperTranscriber,
     FastestTranscriber,
-    GoogleTranscriber,
-    NvidiaNimTranscriber,
-    NvidiaRivaTranscriber,
     OpenAiTranscriber,
-    WhisperTranscriber,
 )
 
 
@@ -47,18 +42,8 @@ class TranscriberService(BaseService):
             return self._get_transcriber(selected)
 
     def _get_transcriber(self, transcriber_type: TranscriberType) -> BaseTranscriber:
-        if transcriber_type == TranscriberType.WHISPER:
-            return WhisperTranscriber(configuration=self._configuration)
-        elif transcriber_type == TranscriberType.FASTER_WHISPER:
+        if transcriber_type == TranscriberType.FASTER_WHISPER:
             return FasterWhisperTranscriber(configuration=self._configuration)
-        elif transcriber_type == TranscriberType.NVIDIA_RIVA:
-            return NvidiaRivaTranscriber(configuration=self._configuration)
-        elif transcriber_type == TranscriberType.NVIDIA_NIM:
-            return NvidiaNimTranscriber(configuration=self._configuration)
-        elif transcriber_type == TranscriberType.ELEVENLABS:
-            return ElevenLabsTranscriber(configuration=self._configuration)
-        elif transcriber_type == TranscriberType.GOOGLE:
-            return GoogleTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.OPENAI:
             return OpenAiTranscriber(configuration=self._configuration)
         else:
@@ -68,20 +53,10 @@ class TranscriberService(BaseService):
 
     def _get_fastest_transcriber(self) -> BaseTranscriber:
         enabled_providers: List[BaseTranscriber] = []
-        if self._configuration.config.whisper.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.WHISPER))
         if self._configuration.config.faster_whisper.enabled:
             enabled_providers.append(
                 self._get_transcriber(TranscriberType.FASTER_WHISPER)
             )
-        if self._configuration.config.nvidia_riva.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.NVIDIA_RIVA))
-        if self._configuration.config.nvidia_nim.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.NVIDIA_NIM))
-        if self._configuration.config.elevenlabs.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.ELEVENLABS))
-        if self._configuration.config.google.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.GOOGLE))
         if self._configuration.config.openai.enabled:
             enabled_providers.append(self._get_transcriber(TranscriberType.OPENAI))
 
