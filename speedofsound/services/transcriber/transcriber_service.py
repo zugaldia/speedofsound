@@ -11,7 +11,6 @@ from speedofsound.services.transcriber.apis import (
     BaseTranscriber,
     FasterWhisperTranscriber,
     FastestTranscriber,
-    GoogleTranscriber,
     OpenAiTranscriber,
 )
 
@@ -45,8 +44,6 @@ class TranscriberService(BaseService):
     def _get_transcriber(self, transcriber_type: TranscriberType) -> BaseTranscriber:
         if transcriber_type == TranscriberType.FASTER_WHISPER:
             return FasterWhisperTranscriber(configuration=self._configuration)
-        elif transcriber_type == TranscriberType.GOOGLE:
-            return GoogleTranscriber(configuration=self._configuration)
         elif transcriber_type == TranscriberType.OPENAI:
             return OpenAiTranscriber(configuration=self._configuration)
         else:
@@ -60,8 +57,6 @@ class TranscriberService(BaseService):
             enabled_providers.append(
                 self._get_transcriber(TranscriberType.FASTER_WHISPER)
             )
-        if self._configuration.config.google.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.GOOGLE))
         if self._configuration.config.openai.enabled:
             enabled_providers.append(self._get_transcriber(TranscriberType.OPENAI))
 

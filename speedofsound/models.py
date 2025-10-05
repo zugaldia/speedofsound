@@ -37,7 +37,6 @@ class TranscriberType(StrEnum):
     FASTER_WHISPER = "faster_whisper"
 
     # Cloud
-    GOOGLE = "google"
     OPENAI = "openai"
 
     # Hybrid
@@ -62,14 +61,6 @@ class FasterWhisperConfig(BaseModel):
     enabled: bool = False
     model: str = "small"
     device: Literal["cpu", "cuda", "auto"] = "auto"
-
-
-class GoogleConfig(BaseModel):
-    """Google transcriber configuration."""
-
-    enabled: bool = False
-    api_key: str = ""
-    model: str = ""
 
 
 class OpenAIConfig(BaseModel):
@@ -115,7 +106,6 @@ class AppConfig(BaseModel):
 
     # Provider configurations
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
-    google: GoogleConfig = GoogleConfig()
     openai: OpenAIConfig = OpenAIConfig()
 
 
