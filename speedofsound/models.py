@@ -36,10 +36,8 @@ class TranscriberType(StrEnum):
     # Local
     FASTER_WHISPER = "faster_whisper"
     WHISPER = "whisper"
-    NVIDIA_RIVA = "nvidia_riva"
 
     # Cloud
-    NVIDIA_NIM = "nvidia_nim"
     ELEVENLABS = "elevenlabs"
     GOOGLE = "google"
     OPENAI = "openai"
@@ -58,25 +56,6 @@ class TypistBackend(StrEnum):
     ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
-
-
-class NvidiaRivaConfig(BaseModel):
-    """NVIDIA Riva transcriber configuration."""
-
-    enabled: bool = False
-    model: str = ""
-    endpoint: str = ""
-    ssl: bool = False
-
-
-class NvidiaNimConfig(BaseModel):
-    """NVIDIA NIM transcriber configuration."""
-
-    enabled: bool = False
-    api_key: str = ""
-    model: str = ""
-    endpoint: str = ""
-    ssl: bool = True
 
 
 class FasterWhisperConfig(BaseModel):
@@ -152,8 +131,6 @@ class AppConfig(BaseModel):
     copy_to_clipboard: bool = False
 
     # Provider configurations
-    nvidia_riva: NvidiaRivaConfig = NvidiaRivaConfig()
-    nvidia_nim: NvidiaNimConfig = NvidiaNimConfig()
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
     whisper: WhisperConfig = WhisperConfig()
     google: GoogleConfig = GoogleConfig()

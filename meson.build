@@ -27,7 +27,6 @@ py_installation = python.find_installation(
     'pydantic',
     'pygame',
     'requests',
-    'riva', # nvidia-riva-client imports as riva
   ],
   required: false,
 )

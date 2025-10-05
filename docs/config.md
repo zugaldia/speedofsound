@@ -22,7 +22,6 @@ By default, Speed of Sound uses a local Whisper model for all transcriptions. Ho
 
 - **[ElevenLabs](providers/elevenlabs.md)** - ElevenLabs Speech-to-Text model
 - **[Google](providers/google.md)** - Google Gemini Multimodal transcriptions
-- **[NVIDIA](providers/nvidia.md)** - NVIDIA Riva (local) and NVIDIA NIM (cloud)
 - **[OpenAI](providers/openai.md)** - OpenAI Whisper API and GPT-4o
 - **[Whisper](providers/whisper.md)** - Local Whisper options
 

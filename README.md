@@ -13,7 +13,7 @@ Here's the app in action, typing into Text Editor:
 
 ## Features
 
-- 🏠 **Local and Cloud Options** - Works with local speech recognition models (like Whisper and NVIDIA Riva) as well as cloud providers (ElevenLabs, Google Gemini, NVIDIA NIM, and OpenAI)
+- 🏠 **Local and Cloud Options** - Works with local speech recognition models (like Whisper) as well as cloud providers (ElevenLabs, Google Gemini, and OpenAI)
 - 🖥️ **Cross-Platform Compatibility** - Supports both X11 and Wayland with pluggable typing backends (AT-SPI, `xdotool`, `ydotool`)
 - 🔌 **GNOME Shell Extension** - Provides a status indicator and system-wide keyboard shortcut
 - 🎨 **Modern UI** - Built with the GNOME Adwaita design system, compatible with any desktop environment
@@ -49,7 +49,7 @@ Read [`extension/README.md`](extension/README.md) for installation instructions.
 
 Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
-Besides Whisper, Speed of Sound supports other providers including ElevenLabs Scribe, Google Gemini, NVIDIA NIM, and OpenAI GPT-4o. 
+Besides Whisper, Speed of Sound supports other providers including ElevenLabs Scribe, Google Gemini, and OpenAI GPT-4o. 
 
 Read [`docs/config.md`](docs/config.md) for additional configuration options.
 

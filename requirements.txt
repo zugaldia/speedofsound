@@ -1,7 +1,6 @@
 elevenlabs==1.57.0
 faster-whisper==1.1.1
 google-genai==1.12.1
-nvidia-riva-client==2.19.0
 openai==1.76.0
 pycairo==1.28.0
 pydantic==2.11.3
