@@ -1,6 +1,6 @@
 # Configure the app
 
-Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Whisper model for speech recognition. It will also automatically download the right model files for local usage.
+Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
 This file is created under your user config folder, which is typically under `~/.config/io.speedofsound.App/config.toml`. 
 
@@ -18,11 +18,11 @@ If you need to frequently switch between two input languages, you can set up the
 
 ## Transcription Provider
 
-By default, Speed of Sound uses a local Whisper model for all transcriptions. However, other providers are supported. See their individual pages for provider-specific instructions:
+By default, Speed of Sound uses a local Faster Whisper model for all transcriptions. However, other providers are supported. See their individual pages for provider-specific instructions:
 
+- **[Faster Whisper](providers/whisper.md)** - Local Faster Whisper implementation
 - **[Google](providers/google.md)** - Google Gemini Multimodal transcriptions
 - **[OpenAI](providers/openai.md)** - OpenAI Whisper API and GPT-4o
-- **[Whisper](providers/whisper.md)** - Local Whisper options
 
 ### Fastest Provider
 

@@ -35,7 +35,6 @@ DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
 class TranscriberType(StrEnum):
     # Local
     FASTER_WHISPER = "faster_whisper"
-    WHISPER = "whisper"
 
     # Cloud
     GOOGLE = "google"
@@ -63,13 +62,6 @@ class FasterWhisperConfig(BaseModel):
     enabled: bool = False
     model: str = "small"
     device: Literal["cpu", "cuda", "auto"] = "auto"
-
-
-class WhisperConfig(BaseModel):
-    """Whisper transcriber configuration."""
-
-    enabled: bool = False
-    endpoint: str = ""
 
 
 class GoogleConfig(BaseModel):
@@ -110,7 +102,7 @@ class AppConfig(BaseModel):
     recording_timeout_seconds: int = Field(default=60, ge=1, le=300)
 
     # Transcriber settings
-    transcriber: str = TranscriberType.WHISPER.value
+    transcriber: str = TranscriberType.FASTER_WHISPER.value
 
     # Typist settings
     typist_backend: Optional[str] = None
@@ -123,7 +115,6 @@ class AppConfig(BaseModel):
 
     # Provider configurations
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
-    whisper: WhisperConfig = WhisperConfig()
     google: GoogleConfig = GoogleConfig()
     openai: OpenAIConfig = OpenAIConfig()
 

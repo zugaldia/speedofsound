@@ -7,9 +7,6 @@ from speedofsound.services.transcriber.apis.fastest_transcriber import (
 )
 from speedofsound.services.transcriber.apis.google_transcriber import GoogleTranscriber
 from speedofsound.services.transcriber.apis.openai_transcriber import OpenAiTranscriber
-from speedofsound.services.transcriber.apis.whisper_transcriber import (
-    WhisperTranscriber,
-)
 
 __all__ = [
     "BaseTranscriber",
@@ -17,7 +14,6 @@ __all__ = [
     "FasterWhisperTranscriber",
     "GoogleTranscriber",
     "OpenAiTranscriber",
-    "WhisperTranscriber",
     # Meta
     "FastestTranscriber",
 ]
