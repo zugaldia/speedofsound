@@ -104,6 +104,9 @@ class AppConfig(BaseModel):
     # Clipboard settings
     copy_to_clipboard: bool = False
 
+    # Benchmark settings
+    save_transcriptions: bool = False
+
     # Provider configurations
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
     openai: OpenAIConfig = OpenAIConfig()

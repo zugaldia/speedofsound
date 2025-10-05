@@ -16,6 +16,7 @@ from speedofsound.constants import (  # noqa: E402
     LOG_FILE,
     SETTING_SHOW_WELCOME,
 )
+from speedofsound.services.benchmark import BenchmarkService  # noqa: E402
 from speedofsound.services.configuration import ConfigurationService  # noqa: E402
 from speedofsound.services.context import ContextService  # noqa: E402
 from speedofsound.services.control import ControlService  # noqa: E402
@@ -97,6 +98,7 @@ class SosApplication(Adw.Application):
         self._transcriber = TranscriberService(configuration=self._configuration)
         self._typist = TypistService(configuration=self._configuration)
         self._extension = ExtensionService(settings=self._settings)
+        self._benchmark = BenchmarkService(configuration=self._configuration)
         self._orchestrator = OrchestratorService(
             configuration=self._configuration,
             context=self._context,
@@ -105,6 +107,7 @@ class SosApplication(Adw.Application):
             transcriber=self._transcriber,
             typist=self._typist,
             extension=self._extension,
+            benchmark=self._benchmark,
         )
 
     def do_startup(self):
@@ -144,6 +147,7 @@ class SosApplication(Adw.Application):
         self._control.shutdown()
         self._joystick_control.shutdown()
         self._extension.shutdown()
+        self._benchmark.shutdown()
         self._configuration.shutdown()
         Adw.Application.do_shutdown(self)
 
