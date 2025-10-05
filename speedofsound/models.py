@@ -40,6 +40,7 @@ class TranscriberType(StrEnum):
     OPENAI = "openai"
 
     # Hybrid
+    FALLBACK = "fallback"
     FASTEST = "fastest"
 
 
@@ -70,6 +71,12 @@ class OpenAIConfig(BaseModel):
     base_url: Optional[str] = None
     api_key: str = ""
     model: str = ""
+
+
+class FallbackConfig(BaseModel):
+    """Fallback transcriber configuration."""
+
+    timeout_seconds: float = Field(default=2.0, ge=0.1, le=10.0)
 
 
 class ContextConfig(BaseModel):
@@ -110,6 +117,7 @@ class AppConfig(BaseModel):
     # Provider configurations
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
     openai: OpenAIConfig = OpenAIConfig()
+    fallback: FallbackConfig = FallbackConfig()
 
 
 #

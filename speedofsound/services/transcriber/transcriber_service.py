@@ -9,6 +9,7 @@ from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import (
     BaseTranscriber,
+    FallbackTranscriber,
     FasterWhisperTranscriber,
     FastestTranscriber,
     OpenAiTranscriber,
@@ -38,6 +39,8 @@ class TranscriberService(BaseService):
         selected = TranscriberType(self._configuration.config.transcriber)
         if selected == TranscriberType.FASTEST:
             return self._get_fastest_transcriber()
+        elif selected == TranscriberType.FALLBACK:
+            return self._get_fallback_transcriber()
         else:
             return self._get_transcriber(selected)
 
@@ -69,6 +72,23 @@ class TranscriberService(BaseService):
         return FastestTranscriber(
             configuration=self._configuration,
             providers=enabled_providers,
+        )
+
+    def _get_fallback_transcriber(self) -> BaseTranscriber:
+        required_providers: List[BaseTranscriber] = [
+            self._get_transcriber(TranscriberType.OPENAI),
+            self._get_transcriber(TranscriberType.FASTER_WHISPER),
+        ]
+
+        for provider in required_providers:
+            if not provider.is_ready():
+                message = f"Transcriber provider {provider.get_name()} is not ready."
+                self._logger.error(message)
+                raise RuntimeError(message)
+
+        return FallbackTranscriber(
+            configuration=self._configuration,
+            providers=required_providers,
         )
 
     def transcribe_async(self, request: TranscriberRequest):

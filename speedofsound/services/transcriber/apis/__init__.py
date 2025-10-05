@@ -1,4 +1,7 @@
 from speedofsound.services.transcriber.apis.base_transcriber import BaseTranscriber
+from speedofsound.services.transcriber.apis.fallback_transcriber import (
+    FallbackTranscriber,
+)
 from speedofsound.services.transcriber.apis.faster_whisper_transcriber import (
     FasterWhisperTranscriber,
 )
@@ -13,5 +16,6 @@ __all__ = [
     "FasterWhisperTranscriber",
     "OpenAiTranscriber",
     # Meta
+    "FallbackTranscriber",
     "FastestTranscriber",
 ]
