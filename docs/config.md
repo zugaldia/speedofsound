@@ -40,15 +40,18 @@ transcriber = "openai"
 
 See **[OpenAI configuration](providers/openai.md)** for detailed setup instructions.
 
-### 3. Fastest (Meta-Transcriber)
+### 3. Fallback (Meta-Transcriber)
 
-Runs both local (Faster Whisper) and cloud (OpenAI) transcription simultaneously, using whichever responds first. This option provides maximum speed and reliability by combining the benefits of both approaches.
+Uses a timeout-based approach to ensure fast transcriptions. It starts with OpenAI for speed, but automatically falls back to local Faster Whisper if the cloud service doesn't respond within the configured timeout. This option provides a good balance between speed and reliability.
 
 ```toml
-transcriber = "fastest"
+transcriber = "fallback"
+
+[fallback]
+timeout_seconds = 2.0  # Default timeout in seconds (range: 0.1-10.0)
 ```
 
-This option requires both Faster Whisper and OpenAI to be enabled in your configuration. It's particularly useful for ensuring consistent performance even when cloud services experience latency or outages.
+This option requires both OpenAI and Faster Whisper to be enabled in your configuration. It's particularly useful for ensuring consistent performance even when cloud services experience latency or outages.
 
 ## (Optional) Context settings
 

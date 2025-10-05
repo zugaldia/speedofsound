@@ -9,8 +9,8 @@ from speedofsound.services.base_service import BaseService
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import (
     BaseTranscriber,
+    FallbackTranscriber,
     FasterWhisperTranscriber,
-    FastestTranscriber,
     OpenAiTranscriber,
 )
 
@@ -36,8 +36,8 @@ class TranscriberService(BaseService):
 
     def _setup_transcriber(self) -> BaseTranscriber:
         selected = TranscriberType(self._configuration.config.transcriber)
-        if selected == TranscriberType.FASTEST:
-            return self._get_fastest_transcriber()
+        if selected == TranscriberType.FALLBACK:
+            return self._get_fallback_transcriber()
         else:
             return self._get_transcriber(selected)
 
@@ -51,24 +51,21 @@ class TranscriberService(BaseService):
             self._logger.error(message)
             raise RuntimeError(message)
 
-    def _get_fastest_transcriber(self) -> BaseTranscriber:
-        enabled_providers: List[BaseTranscriber] = []
-        if self._configuration.config.faster_whisper.enabled:
-            enabled_providers.append(
-                self._get_transcriber(TranscriberType.FASTER_WHISPER)
-            )
-        if self._configuration.config.openai.enabled:
-            enabled_providers.append(self._get_transcriber(TranscriberType.OPENAI))
+    def _get_fallback_transcriber(self) -> BaseTranscriber:
+        required_providers: List[BaseTranscriber] = [
+            self._get_transcriber(TranscriberType.OPENAI),
+            self._get_transcriber(TranscriberType.FASTER_WHISPER),
+        ]
 
-        for provider in enabled_providers:
+        for provider in required_providers:
             if not provider.is_ready():
                 message = f"Transcriber provider {provider.get_name()} is not ready."
                 self._logger.error(message)
                 raise RuntimeError(message)
 
-        return FastestTranscriber(
+        return FallbackTranscriber(
             configuration=self._configuration,
-            providers=enabled_providers,
+            providers=required_providers,
         )
 
     def transcribe_async(self, request: TranscriberRequest):

@@ -26,6 +26,7 @@ from speedofsound.models import (
     TypistResponse,
 )
 from speedofsound.services.base_service import BaseService
+from speedofsound.services.benchmark import BenchmarkService
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.context import ContextService
 from speedofsound.services.control import ControlService
@@ -56,11 +57,13 @@ class OrchestratorService(BaseService):
         transcriber: TranscriberService,
         typist: TypistService,
         extension: ExtensionService,
+        benchmark: BenchmarkService,
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._stage = OrchestratorStage.INITIALIZING
         self._queued_typing: Optional[TypistRequest] = None
         self._recording_cancelled = False
+        self._last_transcriber_request: Optional[TranscriberRequest] = None
 
         self._configuration_service = configuration
         self._context = context
@@ -81,6 +84,7 @@ class OrchestratorService(BaseService):
         self._typist.connect(TYPIST_RESPONSE_SIGNAL, self._on_typist_response)
 
         self._extension = extension
+        self._benchmark = benchmark
 
         self._total_seconds = 0
         self._total_words = 0
@@ -234,17 +238,16 @@ class OrchestratorService(BaseService):
 
             self._total_seconds = recorder_response.get_duration_seconds()
             self._send_event(OrchestratorStage.TRANSCRIBING, "Transcribing...")
-            self._transcriber.transcribe_async(
-                request=TranscriberRequest(
-                    recorder_response=recorder_response,
-                    simple_prompt=self._context.get_simple_prompt(
-                        self._configuration_service.config.language
-                    ),
-                    prompt=self._context.get_prompt(
-                        self._configuration_service.config.language
-                    ),
-                )
+            self._last_transcriber_request = TranscriberRequest(
+                recorder_response=recorder_response,
+                simple_prompt=self._context.get_simple_prompt(
+                    self._configuration_service.config.language
+                ),
+                prompt=self._context.get_prompt(
+                    self._configuration_service.config.language
+                ),
             )
+            self._transcriber.transcribe_async(request=self._last_transcriber_request)
         except Exception as e:
             self._send_event(
                 stage=OrchestratorStage.READY,
@@ -265,6 +268,12 @@ class OrchestratorService(BaseService):
     def _on_transcriber_response(self, service, encoded: str):
         try:
             transcriber_response = TranscriberResponse.model_validate_json(encoded)
+
+            if self._last_transcriber_request:
+                self._benchmark.save_transcription(
+                    self._last_transcriber_request, transcriber_response
+                )
+
             if not transcriber_response.success:
                 return self._send_event(
                     stage=OrchestratorStage.READY,
