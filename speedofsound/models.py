@@ -41,7 +41,6 @@ class TranscriberType(StrEnum):
 
     # Hybrid
     FALLBACK = "fallback"
-    FASTEST = "fastest"
 
 
 class DisplayServer(StrEnum):
