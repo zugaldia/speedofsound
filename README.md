@@ -13,7 +13,7 @@ Here's the app in action, typing into Text Editor:
 
 ## Features
 
-- 🏠 **Local and Cloud Options** - Works with local speech recognition models (like Faster Whisper) as well as cloud providers (OpenAI)
+- 🏠 **Local and Cloud Options** - Works with local speech recognition (Faster Whisper), cloud providers (OpenAI), or both simultaneously for fastest results
 - 🖥️ **Cross-Platform Compatibility** - Supports both X11 and Wayland with pluggable typing backends (AT-SPI, `xdotool`, `ydotool`)
 - 🔌 **GNOME Shell Extension** - Provides a status indicator and system-wide keyboard shortcut
 - 🎨 **Modern UI** - Built with the GNOME Adwaita design system, compatible with any desktop environment
@@ -49,9 +49,12 @@ Read [`extension/README.md`](extension/README.md) for installation instructions.
 
 Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
-Besides Faster Whisper, Speed of Sound supports other providers including OpenAI GPT-4o. 
+Speed of Sound offers three transcription options:
+1. **Faster Whisper** (default) - Local transcription running entirely on your device
+2. **OpenAI** - Cloud-based transcription using OpenAI's Whisper and GPT-4o models
+3. **Fastest** - Meta-transcriber that runs both local and cloud in parallel, using whichever responds first
 
-Read [`docs/config.md`](docs/config.md) for additional configuration options.
+Read [`docs/config.md`](docs/config.md) for configuration details.
 
 ## Usage Instructions
 
