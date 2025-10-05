@@ -2,7 +2,7 @@
     "name": "python3-package-installation",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} --no-build-isolation annotated-types anyio av cachetools certifi charset-normalizer coloredlogs ctranslate2 distro elevenlabs evdev faster-whisper filelock flatbuffers fsspec google-auth google-genai grpcio grpcio-tools h11 hf-xet httpcore httpx huggingface-hub humanfriendly idna jiter mpmath numpy onnxruntime openai packaging protobuf pyasn1 pyasn1_modules pydantic pydantic_core pygame python-xlib PyYAML requests rsa setuptools six sniffio sympy tokenizers tqdm typing-inspection typing_extensions urllib3 websockets"
+        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} --no-build-isolation annotated-types anyio av cachetools certifi charset-normalizer coloredlogs ctranslate2 distro evdev faster-whisper filelock flatbuffers fsspec google-auth google-genai grpcio grpcio-tools h11 hf-xet httpcore httpx huggingface-hub humanfriendly idna jiter mpmath numpy onnxruntime openai packaging protobuf pyasn1 pyasn1_modules pydantic pydantic_core pygame python-xlib PyYAML requests rsa setuptools six sniffio sympy tokenizers tqdm typing-inspection typing_extensions urllib3 websockets"
     ],
     "sources": [
         {
@@ -98,11 +98,6 @@
             "type": "file",
             "url": "https://files.pythonhosted.org/packages/12/b3/231ffd4ab1fc9d679809f356cebee130ac7daa00d6d6f3206dd4fd137e9e/distro-1.9.0-py3-none-any.whl",
             "sha256": "7bffd925d65168f85027d8da9af6bddab658135b840670a223589bc0c8ef02b2"
-        },
-        {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/22/64/cc14a8264a1589b48558d764d084fff12a432162519ab4e750ecc1cdbc90/elevenlabs-1.57.0-py3-none-any.whl",
-            "sha256": "95d5fb7b403757700a1db2858ae0bd2a90fd6042a43b5c7ceb32301508658d39"
         },
         {
             "type": "file",

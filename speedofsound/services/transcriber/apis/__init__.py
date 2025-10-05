@@ -1,7 +1,4 @@
 from speedofsound.services.transcriber.apis.base_transcriber import BaseTranscriber
-from speedofsound.services.transcriber.apis.elevenlabs_transcriber import (
-    ElevenLabsTranscriber,
-)
 from speedofsound.services.transcriber.apis.faster_whisper_transcriber import (
     FasterWhisperTranscriber,
 )
@@ -17,7 +14,6 @@ from speedofsound.services.transcriber.apis.whisper_transcriber import (
 __all__ = [
     "BaseTranscriber",
     # Direct integrations
-    "ElevenLabsTranscriber",
     "FasterWhisperTranscriber",
     "GoogleTranscriber",
     "OpenAiTranscriber",

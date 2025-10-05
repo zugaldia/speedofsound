@@ -20,7 +20,6 @@ If you need to frequently switch between two input languages, you can set up the
 
 By default, Speed of Sound uses a local Whisper model for all transcriptions. However, other providers are supported. See their individual pages for provider-specific instructions:
 
-- **[ElevenLabs](providers/elevenlabs.md)** - ElevenLabs Speech-to-Text model
 - **[Google](providers/google.md)** - Google Gemini Multimodal transcriptions
 - **[OpenAI](providers/openai.md)** - OpenAI Whisper API and GPT-4o
 - **[Whisper](providers/whisper.md)** - Local Whisper options

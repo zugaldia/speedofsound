@@ -16,7 +16,7 @@ from speedofsound.utils import get_cache_path, get_uuid
 
 class Language(BaseModel):
     # The ID is the ISO 639-1 code for the language, which is used by
-    # e.g. Whisper, ElevenLabs, and OpenAI Transcriptions API.
+    # e.g. Whisper and OpenAI Transcriptions API.
     # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
     id: str
     name: str
@@ -38,7 +38,6 @@ class TranscriberType(StrEnum):
     WHISPER = "whisper"
 
     # Cloud
-    ELEVENLABS = "elevenlabs"
     GOOGLE = "google"
     OPENAI = "openai"
 
@@ -90,14 +89,6 @@ class OpenAIConfig(BaseModel):
     model: str = ""
 
 
-class ElevenLabsConfig(BaseModel):
-    """ElevenLabs transcriber configuration."""
-
-    enabled: bool = False
-    api_key: str = ""
-    model: str = ""
-
-
 class ContextConfig(BaseModel):
     """Context service configuration."""
 
@@ -135,7 +126,6 @@ class AppConfig(BaseModel):
     whisper: WhisperConfig = WhisperConfig()
     google: GoogleConfig = GoogleConfig()
     openai: OpenAIConfig = OpenAIConfig()
-    elevenlabs: ElevenLabsConfig = ElevenLabsConfig()
 
 
 #
