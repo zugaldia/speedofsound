@@ -12,8 +12,5 @@
         <key name="extension-error" type="s">
             <default>""</default>
         </key>
-        <key name="show-welcome" type="b">
-            <default>true</default>
-        </key>
     </schema>
 </schemalist>

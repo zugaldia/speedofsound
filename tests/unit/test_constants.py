@@ -12,7 +12,6 @@ from speedofsound.constants import (
     RECORDER_RESPONSE_SIGNAL,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
-    SETTING_SHOW_WELCOME,
     TRANSCRIBER_RESPONSE_SIGNAL,
     TYPIST_RESPONSE_SIGNAL,
     VOLUME_LEVEL_SIGNAL,
@@ -58,7 +57,6 @@ class TestSettingConstants:
 
     def test_setting_constants_are_strings(self):
         settings = [
-            SETTING_SHOW_WELCOME,
             SETTING_EXT_STATUS,
             SETTING_EXT_ERROR,
         ]
@@ -67,13 +65,11 @@ class TestSettingConstants:
             assert len(setting) > 0
 
     def test_setting_values(self):
-        assert SETTING_SHOW_WELCOME == "show-welcome"
         assert SETTING_EXT_STATUS == "extension-status"
         assert SETTING_EXT_ERROR == "extension-error"
 
     def test_setting_naming_convention(self):
         settings = [
-            SETTING_SHOW_WELCOME,
             SETTING_EXT_STATUS,
             SETTING_EXT_ERROR,
         ]
@@ -159,7 +155,6 @@ class TestConstantsUniqueness:
 
     def test_setting_constants_are_unique(self):
         settings = [
-            SETTING_SHOW_WELCOME,
             SETTING_EXT_STATUS,
             SETTING_EXT_ERROR,
         ]

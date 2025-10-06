@@ -15,7 +15,6 @@ DEFAULT_MARGIN = 20
 # Settings
 #
 
-SETTING_SHOW_WELCOME = "show-welcome"
 SETTING_EXT_STATUS = "extension-status"
 SETTING_EXT_ERROR = "extension-error"
 

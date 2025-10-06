@@ -14,7 +14,6 @@ from speedofsound.constants import (  # noqa: E402
     APPLICATION_ID,
     APPLICATION_NAME,
     LOG_FILE,
-    SETTING_SHOW_WELCOME,
 )
 from speedofsound.services.benchmark import BenchmarkService  # noqa: E402
 from speedofsound.services.configuration import ConfigurationService  # noqa: E402
@@ -28,7 +27,6 @@ from speedofsound.services.transcriber import TranscriberService  # noqa: E402
 from speedofsound.services.typist import TypistService  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
-from speedofsound.ui.welcome.welcome_window import WelcomeWindow  # noqa: E402
 
 
 class SosApplication(Adw.Application):
@@ -131,11 +129,7 @@ class SosApplication(Adw.Application):
         )
 
     def do_activate(self):
-        # Start dismissed
-        self._main_window.dismiss()
-        if self._settings and self._settings.get_boolean(SETTING_SHOW_WELCOME):
-            welcome_window = WelcomeWindow(application=self, settings=self._settings)
-            welcome_window.present()
+        self._main_window.present()
 
     def do_shutdown(self):
         self._logger.info("Shutting down.")
