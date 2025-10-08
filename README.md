@@ -79,9 +79,9 @@ However, if your machine lacks the processing power to run a speech recognition 
 
 ## Troubleshooting
 
-You can test your audio and transcription settings from the terminal using the included `launch.py` utility.
+Speed of Sound includes a dashboard window to test your voice typing setup. Use it to verify your microphone, speech recognition, and virtual keyboard configuration.
 
-Read [`docs/troubleshooting.md`](docs/troubleshooting.md) for instructions.
+Read [`docs/troubleshooting.md`](docs/troubleshooting.md) for more details.
 
 ### Reporting Issues
 

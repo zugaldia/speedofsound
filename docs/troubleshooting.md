@@ -1,23 +1,11 @@
 # Troubleshooting
 
-You can test your audio and transcription settings from the terminal using the included `launch.py` utility.
+## Testing Your Setup
 
-## Testing the Transcription System
+Speed of Sound includes a dashboard window to test your voice typing setup. When you launch the application, use the test interface to verify that:
 
-To verify that speech recognition is working correctly:
+1. Your microphone is working correctly
+2. Speech recognition is transcribing your voice accurately
+3. The virtual keyboard is typing into applications as expected
 
-```bash
-python launch.py --verify-speech
-```
-
-This command will test your microphone and speech recognition configuration without launching the full GUI application. It will check if the system can properly capture and transcribe audio input.
-
-## Testing the Typing System
-
-To verify that the virtual keyboard is configured correctly:
-
-```bash
-python launch.py --verify-keyboard
-```
-
-This command will test the virtual keyboard functionality to ensure the application can simulate keyboard input on your system.
+If the test fails, check your configuration in the Preferences menu or refer to the setup documentation.
