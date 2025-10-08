@@ -26,7 +26,7 @@ class BenchmarkService(BaseService):
     def save_transcription(
         self, request: TranscriberRequest, response: TranscriberResponse
     ) -> None:
-        if not self._configuration.config.save_transcriptions:
+        if not self._configuration.save_transcriptions:
             return
         if not response.success:
             self._logger.debug("Skipping failed transcription")

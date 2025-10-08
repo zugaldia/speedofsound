@@ -21,5 +21,16 @@
             <summary>Extension error message</summary>
             <description>Internal setting used to communicate error messages to the optional GNOME Shell extension. The extension uses this to display desktop notifications when errors occur.</description>
         </key>
+        <key name="save-transcriptions" type="b">
+            <default>false</default>
+            <summary>Save transcriptions for benchmarking</summary>
+            <description>Save audio recordings and transcriptions to disk for benchmarking and analysis purposes.</description>
+        </key>
+        <key name="recording-timeout-seconds" type="i">
+            <default>60</default>
+            <range min="1" max="300"/>
+            <summary>Recording timeout</summary>
+            <description>Maximum recording duration in seconds before transcription starts automatically.</description>
+        </key>
     </schema>
 </schemalist>

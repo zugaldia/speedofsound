@@ -11,9 +11,13 @@ from speedofsound.constants import (
     DEFAULT_COPY_TO_CLIPBOARD,
     DEFAULT_EXT_ERROR,
     DEFAULT_EXT_STATUS,
+    DEFAULT_RECORDING_TIMEOUT_SECONDS,
+    DEFAULT_SAVE_TRANSCRIPTIONS,
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
+    SETTING_RECORDING_TIMEOUT_SECONDS,
+    SETTING_SAVE_TRANSCRIPTIONS,
 )
 from speedofsound.models import AppConfig
 from speedofsound.services.base_service import BaseService
@@ -133,6 +137,22 @@ class ConfigurationService(BaseService):
         """Set the extension error message."""
         if self._settings is not None and self.has_key(SETTING_EXT_ERROR):
             self._settings.set_string(SETTING_EXT_ERROR, error)
+
+    @property
+    def save_transcriptions(self) -> bool:
+        """Get the save transcriptions setting from GSettings or fallback to default constant."""
+        if self._settings is not None and self.has_key(SETTING_SAVE_TRANSCRIPTIONS):
+            return self._settings.get_boolean(SETTING_SAVE_TRANSCRIPTIONS)
+        return DEFAULT_SAVE_TRANSCRIPTIONS
+
+    @property
+    def recording_timeout_seconds(self) -> int:
+        """Get the recording timeout setting from GSettings or fallback to default constant."""
+        if self._settings is not None and self.has_key(
+            SETTING_RECORDING_TIMEOUT_SECONDS
+        ):
+            return self._settings.get_int(SETTING_RECORDING_TIMEOUT_SECONDS)
+        return DEFAULT_RECORDING_TIMEOUT_SECONDS
 
     def shutdown(self):
         pass

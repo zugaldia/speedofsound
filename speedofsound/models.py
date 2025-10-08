@@ -95,9 +95,6 @@ class AppConfig(BaseModel):
     joystick_language_left: str = LANGUAGE_ENGLISH.id
     joystick_language_right: str = LANGUAGE_SPANISH.id
 
-    # Recording settings
-    recording_timeout_seconds: int = Field(default=60, ge=1, le=300)
-
     # Transcriber settings
     transcriber: str = TranscriberType.FASTER_WHISPER.value
 
@@ -106,9 +103,6 @@ class AppConfig(BaseModel):
 
     # Context settings
     context: ContextConfig = ContextConfig()
-
-    # Benchmark settings
-    save_transcriptions: bool = False
 
     # Provider configurations
     faster_whisper: FasterWhisperConfig = FasterWhisperConfig()

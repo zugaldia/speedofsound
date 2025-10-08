@@ -28,6 +28,8 @@ DASHBOARD_WINDOW_DEFAULT_HEIGHT = 600
 SETTING_EXT_STATUS = "extension-status"
 SETTING_EXT_ERROR = "extension-error"
 SETTING_COPY_TO_CLIPBOARD = "copy-to-clipboard"
+SETTING_SAVE_TRANSCRIPTIONS = "save-transcriptions"
+SETTING_RECORDING_TIMEOUT_SECONDS = "recording-timeout-seconds"
 
 #
 # Default values (consistent with gschema.xml)
@@ -36,6 +38,8 @@ SETTING_COPY_TO_CLIPBOARD = "copy-to-clipboard"
 DEFAULT_COPY_TO_CLIPBOARD = False
 DEFAULT_EXT_STATUS = "white"
 DEFAULT_EXT_ERROR = ""
+DEFAULT_SAVE_TRANSCRIPTIONS = False
+DEFAULT_RECORDING_TIMEOUT_SECONDS = 60
 
 #
 # Actions
