@@ -27,6 +27,15 @@ DASHBOARD_WINDOW_DEFAULT_HEIGHT = 600
 
 SETTING_EXT_STATUS = "extension-status"
 SETTING_EXT_ERROR = "extension-error"
+SETTING_COPY_TO_CLIPBOARD = "copy-to-clipboard"
+
+#
+# Default values (consistent with gschema.xml)
+#
+
+DEFAULT_COPY_TO_CLIPBOARD = False
+DEFAULT_EXT_STATUS = "white"
+DEFAULT_EXT_ERROR = ""
 
 #
 # Actions
