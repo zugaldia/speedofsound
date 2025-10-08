@@ -6,11 +6,20 @@
             <summary>Trigger the app</summary>
             <description>Start or stop voice typing.</description>
         </key>
+        <key name="copy-to-clipboard" type="b">
+            <default>false</default>
+            <summary>Copy transcription to clipboard</summary>
+            <description>Automatically copy the transcribed text to the clipboard.</description>
+        </key>
         <key name="extension-status" type="s">
             <default>"white"</default>
+            <summary>Extension status indicator</summary>
+            <description>Internal setting used to communicate the application status to the optional GNOME Shell extension. The extension uses this to adjust the icon color in the top bar.</description>
         </key>
         <key name="extension-error" type="s">
             <default>""</default>
+            <summary>Extension error message</summary>
+            <description>Internal setting used to communicate error messages to the optional GNOME Shell extension. The extension uses this to display desktop notifications when errors occur.</description>
         </key>
     </schema>
 </schemalist>
