@@ -4,6 +4,13 @@
 
 APPLICATION_ID = "io.speedofsound.App"
 APPLICATION_NAME = "Speed of Sound"
+APPLICATION_VERSION = "1.0.0"
+APPLICATION_DEVELOPER = "Antonio Zugaldia"
+APPLICATION_WEBSITE = "https://github.com/zugaldia/speedofsound"
+APPLICATION_ISSUE_URL = "https://github.com/zugaldia/speedofsound/issues"
+APPLICATION_DOCUMENTATION_URL = (
+    "https://github.com/zugaldia/speedofsound/blob/main/README.md"
+)
 
 CONFIG_FILE = "config.toml"
 LOG_FILE = "speedofsound.log"
@@ -11,12 +18,26 @@ LOG_FILE = "speedofsound.log"
 DEFAULT_SPACING = 10
 DEFAULT_MARGIN = 20
 
+DASHBOARD_WINDOW_DEFAULT_WIDTH = 800
+DASHBOARD_WINDOW_DEFAULT_HEIGHT = 600
+
 #
 # Settings
 #
 
 SETTING_EXT_STATUS = "extension-status"
 SETTING_EXT_ERROR = "extension-error"
+
+#
+# Actions
+#
+
+ACTION_PREFERENCES = "preferences"
+ACTION_DOCUMENTATION = "documentation"
+ACTION_ABOUT = "about"
+ACTION_TRIGGER = "trigger"
+ACTION_SHOW = "show"
+ACTION_QUIT = "quit"
 
 #
 # Signals
