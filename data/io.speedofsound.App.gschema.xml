@@ -32,5 +32,10 @@
             <summary>Recording timeout</summary>
             <description>Maximum recording duration in seconds before transcription starts automatically.</description>
         </key>
+        <key name="language" type="s">
+            <default>"en"</default>
+            <summary>Transcription language</summary>
+            <description>ISO 639-1 language code for speech recognition.</description>
+        </key>
     </schema>
 </schemalist>

@@ -11,11 +11,13 @@ from speedofsound.constants import (
     DEFAULT_COPY_TO_CLIPBOARD,
     DEFAULT_EXT_ERROR,
     DEFAULT_EXT_STATUS,
+    DEFAULT_LANGUAGE,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
     DEFAULT_SAVE_TRANSCRIPTIONS,
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
+    SETTING_LANGUAGE,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
 )
@@ -105,54 +107,77 @@ class ConfigurationService(BaseService):
             return False
         return self._schema.has_key(key)
 
+    def _get_boolean(self, key: str, default: bool) -> bool:
+        """Get a boolean setting from GSettings or fallback to default."""
+        if self._settings is not None and self.has_key(key):
+            return self._settings.get_boolean(key)
+        return default
+
+    def _get_string(self, key: str, default: str) -> str:
+        """Get a string setting from GSettings or fallback to default."""
+        if self._settings is not None and self.has_key(key):
+            return self._settings.get_string(key)
+        return default
+
+    def _set_string(self, key: str, value: str) -> None:
+        """Set a string setting in GSettings."""
+        if self._settings is not None and self.has_key(key):
+            self._settings.set_string(key, value)
+
+    def _get_int(self, key: str, default: int) -> int:
+        """Get an integer setting from GSettings or fallback to default."""
+        if self._settings is not None and self.has_key(key):
+            return self._settings.get_int(key)
+        return default
+
     @property
     def copy_to_clipboard(self) -> bool:
         """Get the copy to clipboard setting from GSettings or fallback to default constant."""
-        if self._settings is not None and self.has_key(SETTING_COPY_TO_CLIPBOARD):
-            return self._settings.get_boolean(SETTING_COPY_TO_CLIPBOARD)
-        return DEFAULT_COPY_TO_CLIPBOARD
+        return self._get_boolean(SETTING_COPY_TO_CLIPBOARD, DEFAULT_COPY_TO_CLIPBOARD)
 
     @property
     def extension_status(self) -> str:
         """Get the extension status indicator."""
-        if self._settings is not None and self.has_key(SETTING_EXT_STATUS):
-            return self._settings.get_string(SETTING_EXT_STATUS)
-        return DEFAULT_EXT_STATUS
+        return self._get_string(SETTING_EXT_STATUS, DEFAULT_EXT_STATUS)
 
     @extension_status.setter
     def extension_status(self, status: str) -> None:
         """Set the extension status indicator."""
-        if self._settings is not None and self.has_key(SETTING_EXT_STATUS):
-            self._settings.set_string(SETTING_EXT_STATUS, status)
+        self._set_string(SETTING_EXT_STATUS, status)
 
     @property
     def extension_error(self) -> str:
         """Get the extension error message."""
-        if self._settings is not None and self.has_key(SETTING_EXT_ERROR):
-            return self._settings.get_string(SETTING_EXT_ERROR)
-        return DEFAULT_EXT_ERROR
+        return self._get_string(SETTING_EXT_ERROR, DEFAULT_EXT_ERROR)
 
     @extension_error.setter
     def extension_error(self, error: str) -> None:
         """Set the extension error message."""
-        if self._settings is not None and self.has_key(SETTING_EXT_ERROR):
-            self._settings.set_string(SETTING_EXT_ERROR, error)
+        self._set_string(SETTING_EXT_ERROR, error)
 
     @property
     def save_transcriptions(self) -> bool:
         """Get the save transcriptions setting from GSettings or fallback to default constant."""
-        if self._settings is not None and self.has_key(SETTING_SAVE_TRANSCRIPTIONS):
-            return self._settings.get_boolean(SETTING_SAVE_TRANSCRIPTIONS)
-        return DEFAULT_SAVE_TRANSCRIPTIONS
+        return self._get_boolean(
+            SETTING_SAVE_TRANSCRIPTIONS, DEFAULT_SAVE_TRANSCRIPTIONS
+        )
 
     @property
     def recording_timeout_seconds(self) -> int:
         """Get the recording timeout setting from GSettings or fallback to default constant."""
-        if self._settings is not None and self.has_key(
-            SETTING_RECORDING_TIMEOUT_SECONDS
-        ):
-            return self._settings.get_int(SETTING_RECORDING_TIMEOUT_SECONDS)
-        return DEFAULT_RECORDING_TIMEOUT_SECONDS
+        return self._get_int(
+            SETTING_RECORDING_TIMEOUT_SECONDS, DEFAULT_RECORDING_TIMEOUT_SECONDS
+        )
+
+    @property
+    def language(self) -> str:
+        """Get the language setting from GSettings or fallback to default constant."""
+        return self._get_string(SETTING_LANGUAGE, DEFAULT_LANGUAGE)
+
+    @language.setter
+    def language(self, language: str) -> None:
+        """Set the language setting."""
+        self._set_string(SETTING_LANGUAGE, language)
 
     def shutdown(self):
         pass

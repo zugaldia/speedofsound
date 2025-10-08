@@ -119,7 +119,7 @@ class OrchestratorService(BaseService):
     def _update_status_bar(self):
         self.safe_emit(
             LANGUAGE_NAME_SIGNAL,
-            self._configuration_service.config.language,
+            self._configuration_service.language,
         )
         self.safe_emit(
             MODEL_NAME_SIGNAL,
@@ -209,12 +209,12 @@ class OrchestratorService(BaseService):
             if control_event.button == JoystickButton.Left:
                 language_id = self._configuration_service.config.joystick_language_left
                 if not is_empty(language_id):
-                    self._configuration_service.config.language = language_id
+                    self._configuration_service.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.Right:
                 language_id = self._configuration_service.config.joystick_language_right
                 if not is_empty(language_id):
-                    self._configuration_service.config.language = language_id
+                    self._configuration_service.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.B:
                 self.triggered()
@@ -241,11 +241,9 @@ class OrchestratorService(BaseService):
             self._last_transcriber_request = TranscriberRequest(
                 recorder_response=recorder_response,
                 simple_prompt=self._context.get_simple_prompt(
-                    self._configuration_service.config.language
+                    self._configuration_service.language
                 ),
-                prompt=self._context.get_prompt(
-                    self._configuration_service.config.language
-                ),
+                prompt=self._context.get_prompt(self._configuration_service.language),
             )
             self._transcriber.transcribe_async(request=self._last_transcriber_request)
         except Exception as e:

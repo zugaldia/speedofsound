@@ -40,7 +40,7 @@ class BenchmarkService(BaseService):
             entry = BenchmarkEntry(
                 session_id=session_id,
                 timestamp=datetime.now(),
-                language=self._configuration.config.language,
+                language=self._configuration.language,
                 transcriber=self._configuration.config.transcriber,
                 audio_file_path=str(audio_path),
                 duration_seconds=request.recorder_response.get_duration_seconds(),

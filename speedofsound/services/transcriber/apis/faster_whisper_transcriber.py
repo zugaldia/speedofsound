@@ -53,13 +53,13 @@ class FasterWhisperTranscriber(BaseTranscriber):
 
     def _get_and_check_language(self) -> Optional[str]:
         """Get and check the language configuration."""
-        config = self._configuration_service.config
-        if config.language not in self._model.supported_languages:
+        language = self._configuration_service.language
+        if language not in self._model.supported_languages:
             raise ValueError(
-                f"Language {config.language} is not supported by the model. "
+                f"Language {language} is not supported by the model. "
                 f"Supported languages: {self._model.supported_languages}"
             )
-        return config.language
+        return language
 
     def _load_model(self, model_path: str):
         """Load the Whisper model."""
