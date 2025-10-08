@@ -7,5 +7,10 @@ class PreferencesViewModel(BaseViewModel):
         super().__init__()
         self._configuration = configuration
 
+    @property
+    def configuration(self) -> ConfigurationService:
+        """Get the ConfigurationService instance."""
+        return self._configuration
+
     def shutdown(self) -> None:
         self._logger.info("Shutting down")
