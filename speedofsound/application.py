@@ -139,6 +139,7 @@ class SosApplication(Adw.Application):
         self._dashboard_window = DashboardWindow(
             application=self,
             view_model=self._dashboard_view_model,
+            configuration=self._configuration,
         )
 
     def do_activate(self):

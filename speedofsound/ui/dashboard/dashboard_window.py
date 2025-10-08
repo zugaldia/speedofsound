@@ -20,7 +20,9 @@ from speedofsound.constants import (
     DEFAULT_MARGIN,
     DEFAULT_SPACING,
 )
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.ui.dashboard.dashboard_view_model import DashboardViewModel
+from speedofsound.ui.preferences import PreferencesViewModel, PreferencesWindow
 
 USER_INSTRUCTIONS = """
 <b>Test your voice typing setup</b>\n
@@ -41,6 +43,7 @@ class DashboardWindow(Adw.ApplicationWindow):
         self,
         application: Adw.Application,
         view_model: DashboardViewModel,
+        configuration: ConfigurationService,
     ) -> None:
         super().__init__(application=application)
         self._logger = logging.getLogger(__name__)
@@ -53,6 +56,7 @@ class DashboardWindow(Adw.ApplicationWindow):
 
         self._view_model = view_model
         self._application = application
+        self._configuration = configuration
         self._setup_actions()
 
         toolbar_view = Adw.ToolbarView()
@@ -139,6 +143,9 @@ class DashboardWindow(Adw.ApplicationWindow):
         self, action: Gio.SimpleAction, parameter: None
     ) -> None:
         self._logger.info("Preferences menu item clicked")
+        preferences_view_model = PreferencesViewModel(configuration=self._configuration)
+        preferences_window = PreferencesWindow(view_model=preferences_view_model)
+        preferences_window.present(self)
 
     def _on_documentation_activated(
         self, action: Gio.SimpleAction, parameter: None
