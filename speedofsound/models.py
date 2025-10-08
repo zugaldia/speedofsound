@@ -107,9 +107,6 @@ class AppConfig(BaseModel):
     # Context settings
     context: ContextConfig = ContextConfig()
 
-    # Clipboard settings
-    copy_to_clipboard: bool = False
-
     # Benchmark settings
     save_transcriptions: bool = False
 

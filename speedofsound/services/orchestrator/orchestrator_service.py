@@ -100,7 +100,7 @@ class OrchestratorService(BaseService):
         pass
 
     def _setup_clipboard(self):
-        if not self._configuration_service.config.copy_to_clipboard:
+        if not self._configuration_service.copy_to_clipboard:
             return
 
         display = Gdk.Display.get_default()
@@ -291,7 +291,7 @@ class OrchestratorService(BaseService):
             self._total_words = transcriber_response.get_total_words()
             self._calculate_and_emit_wpm()
 
-            if self._configuration_service.config.copy_to_clipboard:
+            if self._configuration_service.copy_to_clipboard:
                 self.copy_to_clipboard(transcriber_response.get_text())
 
             self._queued_typing = TypistRequest(
