@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 import gi
 
@@ -46,8 +45,6 @@ class SosApplication(Adw.Application):
         self._logger.info(f"Initialized version {version} of {APPLICATION_NAME}.")
         self._logger.info(f"Adwaita version: {Adw.VERSION_S}")
 
-        self._settings: Optional[Gio.Settings] = None
-
     def _setup_logging(self):
         """Setup logging to both console and file."""
         root_logger = logging.getLogger()
@@ -77,23 +74,7 @@ class SosApplication(Adw.Application):
         file_handler.setFormatter(file_formatter)
         root_logger.addHandler(file_handler)
 
-    def _get_settings(self) -> Optional[Gio.Settings]:
-        try:
-            source = Gio.SettingsSchemaSource.get_default()
-            if source is None:
-                self._logger.error("System source schema not found.")
-                return None
-            result = source.lookup(schema_id=APPLICATION_ID, recursive=True)
-            if result is None:
-                self._logger.error("Application schema not found.")
-                return None
-            return Gio.Settings.new(schema_id=APPLICATION_ID)
-        except Exception as e:
-            self._logger.error(f"Failed to initialize settings: {e}")
-            return None
-
     def _do_manual_di(self):
-        self._settings = self._get_settings()
         self._configuration = ConfigurationService()
         self._context = ContextService(configuration=self._configuration)
         self._joystick_control = JoystickControl(configuration=self._configuration)
@@ -101,7 +82,7 @@ class SosApplication(Adw.Application):
         self._recorder = RecorderService(configuration=self._configuration)
         self._transcriber = TranscriberService(configuration=self._configuration)
         self._typist = TypistService(configuration=self._configuration)
-        self._extension = ExtensionService(settings=self._settings)
+        self._extension = ExtensionService(configuration=self._configuration)
         self._benchmark = BenchmarkService(configuration=self._configuration)
         self._orchestrator = OrchestratorService(
             configuration=self._configuration,
