@@ -11,6 +11,9 @@ gi.require_version("Gtk", "4.0")
 from gi.repository import Adw, Gio  # type: ignore  # noqa: E402
 
 from speedofsound.constants import (  # noqa: E402
+    ACTION_QUIT,
+    ACTION_SHOW,
+    ACTION_TRIGGER,
     APPLICATION_ID,
     APPLICATION_NAME,
     LOG_FILE,
@@ -25,6 +28,8 @@ from speedofsound.services.orchestrator import OrchestratorService  # noqa: E402
 from speedofsound.services.recorder import RecorderService  # noqa: E402
 from speedofsound.services.transcriber import TranscriberService  # noqa: E402
 from speedofsound.services.typist import TypistService  # noqa: E402
+from speedofsound.ui.dashboard.dashboard_view_model import DashboardViewModel  # noqa: E402
+from speedofsound.ui.dashboard.dashboard_window import DashboardWindow  # noqa: E402
 from speedofsound.ui.main.main_view_model import MainViewModel  # noqa: E402
 from speedofsound.ui.main.main_window import MainWindow  # noqa: E402
 
@@ -39,6 +44,7 @@ class SosApplication(Adw.Application):
         self._setup_logging()
         self._logger = logging.getLogger(__name__)
         self._logger.info(f"Initialized version {version} of {APPLICATION_NAME}.")
+        self._logger.info(f"Adwaita version: {Adw.VERSION_S}")
 
         self._settings: Optional[Gio.Settings] = None
 
@@ -111,9 +117,9 @@ class SosApplication(Adw.Application):
     def do_startup(self):
         Adw.Application.do_startup(self)
         self._logger.info("Starting up.")
-        self._create_action("trigger", self._on_trigger_action)
-        self._create_action("show", self._on_show_action)
-        self._create_action("quit", self._on_quit_action, ["<primary>q"])
+        self._create_action(ACTION_TRIGGER, self._on_trigger_action)
+        self._create_action(ACTION_SHOW, self._on_show_action)
+        self._create_action(ACTION_QUIT, self._on_quit_action, ["<primary>q"])
 
         try:
             self._do_manual_di()  # Poor man DI
@@ -128,12 +134,21 @@ class SosApplication(Adw.Application):
             view_model=self._main_view_model,
         )
 
+        # Dashboard window
+        self._dashboard_view_model = DashboardViewModel()
+        self._dashboard_window = DashboardWindow(
+            application=self,
+            view_model=self._dashboard_view_model,
+        )
+
     def do_activate(self):
-        self._main_window.present()
+        self._main_window.dismiss()
+        self._dashboard_window.present()
 
     def do_shutdown(self):
         self._logger.info("Shutting down.")
         self._main_view_model.shutdown()
+        self._dashboard_view_model.shutdown()
         self._orchestrator.shutdown()
         self._typist.shutdown()
         self._transcriber.shutdown()
