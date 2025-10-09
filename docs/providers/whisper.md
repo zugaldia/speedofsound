@@ -2,18 +2,18 @@
 
 [Faster Whisper](https://github.com/SYSTRAN/faster-whisper) is a reimplementation of OpenAI's original Whisper project. This implementation is reportedly up to 4 times faster (hence its name) and supports both CPU and GPU inference.
 
-```toml
-transcriber = "faster_whisper"
+Configure Faster Whisper in the Preferences window under the "Transcriber" tab, or via command line:
 
-[faster_whisper]
-enabled = true
-device = "auto"
-model = "small"
+```bash
+gsettings set io.speedofsound.App transcriber "faster_whisper"
+gsettings set io.speedofsound.App faster-whisper-enabled true
+gsettings set io.speedofsound.App faster-whisper-device "auto"
+gsettings set io.speedofsound.App faster-whisper-model "small"
 ```
 
-- `enabled`: Enable Faster Whisper transcription
-- `device`: CPU vs NVIDIA GPU inference, one of "cpu", "cuda", or "auto"
-- `model`: Whisper model name (see table below)
+- `faster-whisper-enabled`: Enable Faster Whisper transcription
+- `faster-whisper-device`: CPU vs NVIDIA GPU inference, one of "cpu", "cuda", or "auto"
+- `faster-whisper-model`: Whisper model name (see table below)
 
 | Model Name | Category | Size |
 |------------|----------|------|

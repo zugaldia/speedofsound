@@ -1,13 +1,9 @@
-import tomllib
-from pathlib import Path
 from typing import List, Optional
 
 from gi.repository import Gio, GObject  # type: ignore
-from pydantic import ValidationError
 
 from speedofsound.constants import (
     APPLICATION_ID,
-    CONFIG_FILE,
     DEFAULT_COPY_TO_CLIPBOARD,
     DEFAULT_EXT_ERROR,
     DEFAULT_EXT_STATUS,
@@ -15,6 +11,7 @@ from speedofsound.constants import (
     DEFAULT_FASTER_WHISPER_DEVICE,
     DEFAULT_FASTER_WHISPER_ENABLED,
     DEFAULT_FASTER_WHISPER_MODEL,
+    DEFAULT_INCLUDE_APPLICATION_NAME,
     DEFAULT_JOYSTICK_ID,
     DEFAULT_JOYSTICK_LANGUAGE_LEFT,
     DEFAULT_JOYSTICK_LANGUAGE_RIGHT,
@@ -35,6 +32,7 @@ from speedofsound.constants import (
     SETTING_FASTER_WHISPER_DEVICE,
     SETTING_FASTER_WHISPER_ENABLED,
     SETTING_FASTER_WHISPER_MODEL,
+    SETTING_INCLUDE_APPLICATION_NAME,
     SETTING_JOYSTICK_ID,
     SETTING_JOYSTICK_LANGUAGE_LEFT,
     SETTING_JOYSTICK_LANGUAGE_RIGHT,
@@ -48,13 +46,8 @@ from speedofsound.constants import (
     SETTING_SAVE_TRANSCRIPTIONS,
     SETTING_TYPIST_BACKEND,
 )
-from speedofsound.models import AppConfig, JoystickDevice, TranscriberModel
+from speedofsound.models import JoystickDevice, TranscriberModel
 from speedofsound.services.base_service import BaseService
-from speedofsound.utils import get_config_path
-
-DEFAULT_CONFIG = """
-transcriber = "faster_whisper"
-""".strip()
 
 
 class ConfigurationService(BaseService):
@@ -72,7 +65,6 @@ class ConfigurationService(BaseService):
         super().__init__(service_name=self.SERVICE_NAME)
         self._schema: Optional[Gio.SettingsSchema] = None
         self._settings: Optional[Gio.Settings] = self._initialize_settings()
-        self._config: AppConfig = self._load_configuration()
         self._available_joystick_devices: List[JoystickDevice] = []
         self._available_faster_whisper_models: List[TranscriberModel] = []
         self._available_openai_models: List[TranscriberModel] = []
@@ -80,23 +72,6 @@ class ConfigurationService(BaseService):
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
         )
-
-    def _load_configuration(self) -> AppConfig:
-        """Load configuration from config.toml file."""
-        config_path = get_config_path() / CONFIG_FILE
-        if not config_path.exists():
-            self._create_default_config(config_path)
-
-        try:
-            with open(config_path, "rb") as f:
-                config_data = tomllib.load(f)
-            config = AppConfig(**config_data)
-            self._logger.info(f"Configuration loaded from {config_path}")
-            return config
-        except ValidationError as e:
-            raise ValueError(f"Configuration validation error: {e}")
-        except Exception as e:
-            raise RuntimeError(f"Error loading configuration: {e}")
 
     def _initialize_settings(self) -> Optional[Gio.Settings]:
         """Initialize GSettings for the application."""
@@ -115,17 +90,6 @@ class ConfigurationService(BaseService):
             self._logger.error(f"Failed to initialize settings: {e}")
             return None
 
-    def _create_default_config(self, config_path: Path) -> None:
-        """Create default configuration by copying from example file."""
-        self._logger.warning(f"Config file not found at {config_path}.")
-        self._logger.info("Creating default config using (local) Faster Whisper.")
-
-        try:
-            with open(config_path, "w") as f:
-                f.write(DEFAULT_CONFIG)
-        except Exception as e:
-            raise RuntimeError(f"Failed to create default configuration: {e}")
-
     def _setup_settings_handlers(self) -> None:
         """Setup handlers for GSettings changes."""
         if self._settings is None:
@@ -138,11 +102,6 @@ class ConfigurationService(BaseService):
                 self.safe_emit(PREFERRED_TRANSCRIBER_CHANGED_SIGNAL, new_value)
 
         self._settings.connect("changed", on_settings_changed)
-
-    @property
-    def config(self) -> AppConfig:
-        """Get the current configuration."""
-        return self._config
 
     @property
     def settings(self) -> Optional[Gio.Settings]:
@@ -415,6 +374,13 @@ class ConfigurationService(BaseService):
     def preferred_transcriber(self, value: str) -> None:
         """Set the preferred transcriber."""
         self._set_string(SETTING_PREFERRED_TRANSCRIBER, value)
+
+    @property
+    def include_application_name(self) -> bool:
+        """Get the include application name setting from GSettings or fallback to default constant."""
+        return self._get_boolean(
+            SETTING_INCLUDE_APPLICATION_NAME, DEFAULT_INCLUDE_APPLICATION_NAME
+        )
 
     def shutdown(self):
         pass

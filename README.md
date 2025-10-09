@@ -47,7 +47,7 @@ Read [`extension/README.md`](extension/README.md) for installation instructions.
 
 ### (Optional) Step 5: Configure the app
 
-Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
+Speed of Sound uses GSettings for all user-facing settings, accessible through the Preferences window in the application. When you first launch the application, it will use default settings with a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
 Speed of Sound offers three transcription options:
 1. **Faster Whisper** (default) - Local transcription running entirely on your device
@@ -74,8 +74,6 @@ You can cancel typing by pressing **Escape** when the app is listening. Also, no
 By default, Speed of Sound is preconfigured to work fully offline using Faster Whisper without requiring an internet connection. When operating this way, no data leaves your computer—everything runs locally on your device. We don't collect metrics, analytics, or any sort of telemetry. And you don't need to take our word for it—the code is open source.
 
 However, if your machine lacks the processing power to run a speech recognition model locally or you need higher-quality transcriptions from larger cloud-based models, cloud providers are also supported. The choice of which model to use is entirely yours. Keep in mind that while cloud providers are convenient to set up and typically inexpensive, your audio data is shared with third parties, so you should review their terms of service and privacy policies.
-
-> ℹ️ **Tip:** One common pattern is maintaining separate configuration files for different use cases. For example, you could have a `config-local.toml` for sensitive work where no data should leave your computer, and a `config-cloud.toml` for less sensitive situations like typing into public websites or generating public content. Before starting the app, you would `cp` the right one under `~/.config/io.speedofsound.App/config.toml`.
 
 ## Troubleshooting
 

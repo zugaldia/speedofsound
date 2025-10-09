@@ -33,14 +33,9 @@ DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
 
 
 class TranscriberType(StrEnum):
-    # Local
-    FASTER_WHISPER = "faster_whisper"
-
-    # Cloud
-    OPENAI = "openai"
-
-    # Hybrid
-    FALLBACK = "fallback"
+    FASTER_WHISPER = "faster_whisper"  # Local
+    OPENAI = "openai"  # Cloud
+    FALLBACK = "fallback"  # Hybrid
 
 
 class DisplayServer(StrEnum):
@@ -53,19 +48,6 @@ class TypistBackend(StrEnum):
     ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
-
-
-class ContextConfig(BaseModel):
-    """Context service configuration."""
-
-    include_application: bool = False
-
-
-class AppConfig(BaseModel):
-    """Application configuration loaded from config.toml."""
-
-    # Context settings
-    context: ContextConfig = ContextConfig()
 
 
 #

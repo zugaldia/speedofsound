@@ -1,7 +1,6 @@
 from speedofsound.constants import (
     APPLICATION_ID,
     APPLICATION_NAME,
-    CONFIG_FILE,
     CONTROL_EVENT_SIGNAL,
     DEFAULT_MARGIN,
     DEFAULT_SPACING,
@@ -32,11 +31,6 @@ class TestGeneralConstants:
         assert APPLICATION_NAME == "Speed of Sound"
         assert isinstance(APPLICATION_NAME, str)
         assert len(APPLICATION_NAME) > 0
-
-    def test_config_files(self):
-        assert CONFIG_FILE == "config.toml"
-        assert isinstance(CONFIG_FILE, str)
-        assert CONFIG_FILE.endswith(".toml")
 
     def test_log_file(self):
         assert LOG_FILE == "speedofsound.log"

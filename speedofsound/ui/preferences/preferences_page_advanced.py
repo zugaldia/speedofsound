@@ -1,6 +1,7 @@
 from gi.repository import Adw  # type: ignore
 
 from speedofsound.constants import (
+    SETTING_INCLUDE_APPLICATION_NAME,
     SETTING_JOYSTICK_ID,
     SETTING_JOYSTICK_LANGUAGE_LEFT,
     SETTING_JOYSTICK_LANGUAGE_RIGHT,
@@ -21,6 +22,20 @@ class PreferencesPageAdvanced(PreferencesPageBase):
         self._logger.info("Advanced preferences page initialized")
 
     def _build_ui(self) -> None:
+        context_group = Adw.PreferencesGroup()
+        context_group.set_title("Context")
+        context_group.set_description("Configure context information for transcription")
+
+        include_app_switch = Adw.SwitchRow()
+        include_app_switch.set_title("Include Application Context")
+        include_app_switch.set_subtitle(
+            "Include active application and window information in transcription prompts"
+        )
+        self.bind_boolean_setting(SETTING_INCLUDE_APPLICATION_NAME, include_app_switch)
+        context_group.add(include_app_switch)
+
+        self.add(context_group)
+
         recording_group = Adw.PreferencesGroup()
         recording_group.set_title("Recording")
         recording_group.set_description("Configure recording behavior")

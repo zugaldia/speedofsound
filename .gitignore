@@ -3,7 +3,6 @@ __pycache__/
 .flatpak-builder/
 .pytest_cache/
 .vscode/
-config*.toml
 htmlcov/
 repo/
 speedofsound.log

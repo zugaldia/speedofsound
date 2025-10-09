@@ -12,7 +12,6 @@ APPLICATION_DOCUMENTATION_URL = (
     "https://github.com/zugaldia/speedofsound/blob/main/README.md"
 )
 
-CONFIG_FILE = "config.toml"
 LOG_FILE = "speedofsound.log"
 
 DEFAULT_SPACING = 10
@@ -44,6 +43,7 @@ SETTING_OPENAI_MODEL = "openai-model"
 SETTING_FALLBACK_TIMEOUT_SECONDS = "fallback-timeout-seconds"
 SETTING_TYPIST_BACKEND = "typist-backend"
 SETTING_PREFERRED_TRANSCRIBER = "preferred-transcriber"
+SETTING_INCLUDE_APPLICATION_NAME = "include-application-name"
 
 #
 # Default values (consistent with gschema.xml)
@@ -68,6 +68,7 @@ DEFAULT_OPENAI_MODEL = "gpt-4o-transcribe"
 DEFAULT_FALLBACK_TIMEOUT_SECONDS = 2.0
 DEFAULT_TYPIST_BACKEND = "auto"
 DEFAULT_PREFERRED_TRANSCRIBER = "faster_whisper"
+DEFAULT_INCLUDE_APPLICATION_NAME = False
 
 #
 # Actions

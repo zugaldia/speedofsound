@@ -111,5 +111,10 @@
             <summary>Preferred transcriber</summary>
             <description>The transcriber to use for speech recognition: faster_whisper, openai, or fallback.</description>
         </key>
+        <key name="include-application-name" type="b">
+            <default>false</default>
+            <summary>Include application context</summary>
+            <description>Include active application and window information in transcription prompts to improve accuracy.</description>
+        </key>
     </schema>
 </schemalist>
