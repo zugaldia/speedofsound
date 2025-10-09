@@ -27,10 +27,9 @@ class PreferencesPageAdvanced(PreferencesPageBase):
         timeout_spin = Adw.SpinRow.new_with_range(1, 300, 1)
         timeout_spin.set_title("Recording Timeout")
         timeout_spin.set_subtitle("Maximum recording duration in seconds")
-
         self.bind_int_setting(SETTING_RECORDING_TIMEOUT_SECONDS, timeout_spin)
-
         recording_group.add(timeout_spin)
+
         self.add(recording_group)
 
         benchmarking_group = Adw.PreferencesGroup()

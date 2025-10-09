@@ -55,15 +55,6 @@ class TypistBackend(StrEnum):
     YDOTOOL = "ydotool"
 
 
-class OpenAIConfig(BaseModel):
-    """OpenAI transcriber configuration."""
-
-    enabled: bool = False
-    base_url: Optional[str] = None
-    api_key: str = ""
-    model: str = ""
-
-
 class FallbackConfig(BaseModel):
     """Fallback transcriber configuration."""
 
@@ -89,7 +80,6 @@ class AppConfig(BaseModel):
     context: ContextConfig = ContextConfig()
 
     # Provider configurations
-    openai: OpenAIConfig = OpenAIConfig()
     fallback: FallbackConfig = FallbackConfig()
 
 

@@ -37,6 +37,10 @@ SETTING_JOYSTICK_LANGUAGE_RIGHT = "joystick-language-right"
 SETTING_FASTER_WHISPER_ENABLED = "faster-whisper-enabled"
 SETTING_FASTER_WHISPER_MODEL = "faster-whisper-model"
 SETTING_FASTER_WHISPER_DEVICE = "faster-whisper-device"
+SETTING_OPENAI_ENABLED = "openai-enabled"
+SETTING_OPENAI_BASE_URL = "openai-base-url"
+SETTING_OPENAI_API_KEY = "openai-api-key"
+SETTING_OPENAI_MODEL = "openai-model"
 
 #
 # Default values (consistent with gschema.xml)
@@ -54,6 +58,10 @@ DEFAULT_JOYSTICK_LANGUAGE_RIGHT = "es"
 DEFAULT_FASTER_WHISPER_ENABLED = False
 DEFAULT_FASTER_WHISPER_MODEL = "small"
 DEFAULT_FASTER_WHISPER_DEVICE = "auto"
+DEFAULT_OPENAI_ENABLED = False
+DEFAULT_OPENAI_BASE_URL = ""
+DEFAULT_OPENAI_API_KEY = ""
+DEFAULT_OPENAI_MODEL = "gpt-4o-transcribe"
 
 #
 # Actions

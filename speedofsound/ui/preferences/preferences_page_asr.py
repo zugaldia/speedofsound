@@ -4,6 +4,10 @@ from speedofsound.constants import (
     SETTING_FASTER_WHISPER_DEVICE,
     SETTING_FASTER_WHISPER_ENABLED,
     SETTING_FASTER_WHISPER_MODEL,
+    SETTING_OPENAI_API_KEY,
+    SETTING_OPENAI_BASE_URL,
+    SETTING_OPENAI_ENABLED,
+    SETTING_OPENAI_MODEL,
 )
 from speedofsound.ui.preferences.preferences_page_base import PreferencesPageBase
 from speedofsound.ui.preferences.preferences_view_model import PreferencesViewModel
@@ -66,3 +70,40 @@ class PreferencesPageAsr(PreferencesPageBase):
         faster_whisper_group.add(device_combo)
 
         self.add(faster_whisper_group)
+
+        openai_group = Adw.PreferencesGroup()
+        openai_group.set_title("OpenAI")
+        openai_group.set_description("Configure cloud-based OpenAI transcriber")
+
+        openai_enabled_switch = Adw.SwitchRow()
+        openai_enabled_switch.set_title("Enable OpenAI")
+        openai_enabled_switch.set_subtitle("Use OpenAI API for transcription")
+        self.bind_boolean_setting(SETTING_OPENAI_ENABLED, openai_enabled_switch)
+        openai_group.add(openai_enabled_switch)
+
+        base_url_entry = Adw.EntryRow()
+        base_url_entry.set_title("Base URL")
+        self.bind_entry_setting(SETTING_OPENAI_BASE_URL, base_url_entry)
+        openai_group.add(base_url_entry)
+
+        api_key_entry = Adw.PasswordEntryRow()
+        api_key_entry.set_title("API Key")
+        self.bind_entry_setting(SETTING_OPENAI_API_KEY, api_key_entry)
+        openai_group.add(api_key_entry)
+
+        available_models = self._view_model.configuration.available_openai_models
+        if available_models:
+            model_options = [(model.name, model.id) for model in available_models]
+            model_combo = self.create_combo_row(
+                title="Model",
+                setting_key=SETTING_OPENAI_MODEL,
+                options=model_options,
+                get_current_value=lambda: self._view_model.configuration.openai_model,
+                set_value=lambda value: setattr(
+                    self._view_model.configuration, "openai_model", value
+                ),
+                subtitle="Select the OpenAI model to use",
+            )
+            openai_group.add(model_combo)
+
+        self.add(openai_group)

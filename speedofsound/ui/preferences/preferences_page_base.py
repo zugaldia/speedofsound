@@ -64,6 +64,25 @@ class PreferencesPageBase(Adw.PreferencesPage):
                 f"GSettings key '{setting_key}' not available, widget will not be functional"
             )
 
+    def bind_entry_setting(
+        self, setting_key: str, widget: Adw.EntryRow | Adw.PasswordEntryRow
+    ) -> None:
+        """Bind a string GSettings key to an entry widget with fallback handling."""
+        configuration = self._view_model.configuration
+        settings = configuration.settings
+        if settings is not None and configuration.has_key(setting_key):
+            settings.bind(
+                setting_key,
+                widget,
+                "text",
+                Gio.SettingsBindFlags.DEFAULT,
+            )
+        else:
+            widget.set_sensitive(False)
+            self._logger.warning(
+                f"GSettings key '{setting_key}' not available, widget will not be functional"
+            )
+
     def create_combo_row(
         self,
         title: str,

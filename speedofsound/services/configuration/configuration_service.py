@@ -18,6 +18,10 @@ from speedofsound.constants import (
     DEFAULT_JOYSTICK_LANGUAGE_LEFT,
     DEFAULT_JOYSTICK_LANGUAGE_RIGHT,
     DEFAULT_LANGUAGE,
+    DEFAULT_OPENAI_API_KEY,
+    DEFAULT_OPENAI_BASE_URL,
+    DEFAULT_OPENAI_ENABLED,
+    DEFAULT_OPENAI_MODEL,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
     DEFAULT_SAVE_TRANSCRIPTIONS,
     SETTING_COPY_TO_CLIPBOARD,
@@ -30,6 +34,10 @@ from speedofsound.constants import (
     SETTING_JOYSTICK_LANGUAGE_LEFT,
     SETTING_JOYSTICK_LANGUAGE_RIGHT,
     SETTING_LANGUAGE,
+    SETTING_OPENAI_API_KEY,
+    SETTING_OPENAI_BASE_URL,
+    SETTING_OPENAI_ENABLED,
+    SETTING_OPENAI_MODEL,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
 )
@@ -52,6 +60,7 @@ class ConfigurationService(BaseService):
         self._config: AppConfig = self._load_configuration()
         self._available_joystick_devices: List[JoystickDevice] = []
         self._available_faster_whisper_models: List[TranscriberModel] = []
+        self._available_openai_models: List[TranscriberModel] = []
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
         )
@@ -145,6 +154,11 @@ class ConfigurationService(BaseService):
             return self._settings.get_int(key)
         return default
 
+    def _set_int(self, key: str, value: int) -> None:
+        """Set an integer setting in GSettings."""
+        if self._settings is not None and self.has_key(key):
+            self._settings.set_int(key, value)
+
     @property
     def copy_to_clipboard(self) -> bool:
         """Get the copy to clipboard setting from GSettings or fallback to default constant."""
@@ -183,6 +197,11 @@ class ConfigurationService(BaseService):
         return self._get_int(
             SETTING_RECORDING_TIMEOUT_SECONDS, DEFAULT_RECORDING_TIMEOUT_SECONDS
         )
+
+    @recording_timeout_seconds.setter
+    def recording_timeout_seconds(self, value: int) -> None:
+        """Set the recording timeout setting."""
+        self._set_int(SETTING_RECORDING_TIMEOUT_SECONDS, value)
 
     @property
     def language(self) -> str:
@@ -272,6 +291,56 @@ class ConfigurationService(BaseService):
         self._logger.info(
             f"Updated available Faster Whisper models: {len(models)} found."
         )
+
+    @property
+    def available_openai_models(self) -> List[TranscriberModel]:
+        """Get the list of available OpenAI models detected at runtime."""
+        return self._available_openai_models
+
+    def set_available_openai_models(self, models: List[TranscriberModel]) -> None:
+        """Set the list of available OpenAI models."""
+        self._available_openai_models = models
+        self._logger.info(f"Updated available OpenAI models: {len(models)} found.")
+
+    @property
+    def openai_enabled(self) -> bool:
+        """Get the OpenAI enabled setting from GSettings or fallback to default constant."""
+        return self._get_boolean(SETTING_OPENAI_ENABLED, DEFAULT_OPENAI_ENABLED)
+
+    @openai_enabled.setter
+    def openai_enabled(self, value: bool) -> None:
+        """Set the OpenAI enabled setting."""
+        self._set_boolean(SETTING_OPENAI_ENABLED, value)
+
+    @property
+    def openai_base_url(self) -> str:
+        """Get the OpenAI base URL from GSettings or fallback to default constant."""
+        return self._get_string(SETTING_OPENAI_BASE_URL, DEFAULT_OPENAI_BASE_URL)
+
+    @openai_base_url.setter
+    def openai_base_url(self, value: str) -> None:
+        """Set the OpenAI base URL."""
+        self._set_string(SETTING_OPENAI_BASE_URL, value)
+
+    @property
+    def openai_api_key(self) -> str:
+        """Get the OpenAI API key from GSettings or fallback to default constant."""
+        return self._get_string(SETTING_OPENAI_API_KEY, DEFAULT_OPENAI_API_KEY)
+
+    @openai_api_key.setter
+    def openai_api_key(self, value: str) -> None:
+        """Set the OpenAI API key."""
+        self._set_string(SETTING_OPENAI_API_KEY, value)
+
+    @property
+    def openai_model(self) -> str:
+        """Get the OpenAI model from GSettings or fallback to default constant."""
+        return self._get_string(SETTING_OPENAI_MODEL, DEFAULT_OPENAI_MODEL)
+
+    @openai_model.setter
+    def openai_model(self, value: str) -> None:
+        """Set the OpenAI model."""
+        self._set_string(SETTING_OPENAI_MODEL, value)
 
     def shutdown(self):
         pass

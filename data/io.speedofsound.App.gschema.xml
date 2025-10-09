@@ -68,5 +68,25 @@
             <summary>Faster Whisper device</summary>
             <description>The device to use for Faster Whisper: cpu, cuda, or auto.</description>
         </key>
+        <key name="openai-enabled" type="b">
+            <default>false</default>
+            <summary>Enable OpenAI</summary>
+            <description>Enable or disable the OpenAI transcriber.</description>
+        </key>
+        <key name="openai-base-url" type="s">
+            <default>""</default>
+            <summary>OpenAI base URL</summary>
+            <description>Optional custom base URL for OpenAI API (leave empty for default).</description>
+        </key>
+        <key name="openai-api-key" type="s">
+            <default>""</default>
+            <summary>OpenAI API key</summary>
+            <description>API key for OpenAI transcription service.</description>
+        </key>
+        <key name="openai-model" type="s">
+            <default>"gpt-4o-transcribe"</default>
+            <summary>OpenAI model</summary>
+            <description>The OpenAI model to use for transcription.</description>
+        </key>
     </schema>
 </schemalist>
