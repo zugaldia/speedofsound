@@ -11,6 +11,9 @@ from speedofsound.constants import (
     DEFAULT_COPY_TO_CLIPBOARD,
     DEFAULT_EXT_ERROR,
     DEFAULT_EXT_STATUS,
+    DEFAULT_FASTER_WHISPER_DEVICE,
+    DEFAULT_FASTER_WHISPER_ENABLED,
+    DEFAULT_FASTER_WHISPER_MODEL,
     DEFAULT_JOYSTICK_ID,
     DEFAULT_JOYSTICK_LANGUAGE_LEFT,
     DEFAULT_JOYSTICK_LANGUAGE_RIGHT,
@@ -20,6 +23,9 @@ from speedofsound.constants import (
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
+    SETTING_FASTER_WHISPER_DEVICE,
+    SETTING_FASTER_WHISPER_ENABLED,
+    SETTING_FASTER_WHISPER_MODEL,
     SETTING_JOYSTICK_ID,
     SETTING_JOYSTICK_LANGUAGE_LEFT,
     SETTING_JOYSTICK_LANGUAGE_RIGHT,
@@ -27,16 +33,12 @@ from speedofsound.constants import (
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
 )
-from speedofsound.models import AppConfig, JoystickDevice
+from speedofsound.models import AppConfig, JoystickDevice, TranscriberModel
 from speedofsound.services.base_service import BaseService
 from speedofsound.utils import get_config_path
 
 DEFAULT_CONFIG = """
 transcriber = "faster_whisper"
-
-[faster_whisper]
-enabled = true
-model = "small"
 """.strip()
 
 
@@ -49,6 +51,7 @@ class ConfigurationService(BaseService):
         self._settings: Optional[Gio.Settings] = self._initialize_settings()
         self._config: AppConfig = self._load_configuration()
         self._available_joystick_devices: List[JoystickDevice] = []
+        self._available_faster_whisper_models: List[TranscriberModel] = []
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
         )
@@ -119,6 +122,11 @@ class ConfigurationService(BaseService):
         if self._settings is not None and self.has_key(key):
             return self._settings.get_boolean(key)
         return default
+
+    def _set_boolean(self, key: str, value: bool) -> None:
+        """Set a boolean setting in GSettings."""
+        if self._settings is not None and self.has_key(key):
+            self._settings.set_boolean(key, value)
 
     def _get_string(self, key: str, default: str) -> str:
         """Get a string setting from GSettings or fallback to default."""
@@ -206,6 +214,42 @@ class ConfigurationService(BaseService):
         )
 
     @property
+    def faster_whisper_enabled(self) -> bool:
+        """Get the Faster Whisper enabled setting from GSettings or fallback to default constant."""
+        return self._get_boolean(
+            SETTING_FASTER_WHISPER_ENABLED, DEFAULT_FASTER_WHISPER_ENABLED
+        )
+
+    @faster_whisper_enabled.setter
+    def faster_whisper_enabled(self, value: bool) -> None:
+        """Set the Faster Whisper enabled setting."""
+        self._set_boolean(SETTING_FASTER_WHISPER_ENABLED, value)
+
+    @property
+    def faster_whisper_model(self) -> str:
+        """Get the Faster Whisper model from GSettings or fallback to default constant."""
+        return self._get_string(
+            SETTING_FASTER_WHISPER_MODEL, DEFAULT_FASTER_WHISPER_MODEL
+        )
+
+    @faster_whisper_model.setter
+    def faster_whisper_model(self, value: str) -> None:
+        """Set the Faster Whisper model."""
+        self._set_string(SETTING_FASTER_WHISPER_MODEL, value)
+
+    @property
+    def faster_whisper_device(self) -> str:
+        """Get the Faster Whisper device from GSettings or fallback to default constant."""
+        return self._get_string(
+            SETTING_FASTER_WHISPER_DEVICE, DEFAULT_FASTER_WHISPER_DEVICE
+        )
+
+    @faster_whisper_device.setter
+    def faster_whisper_device(self, value: str) -> None:
+        """Set the Faster Whisper device."""
+        self._set_string(SETTING_FASTER_WHISPER_DEVICE, value)
+
+    @property
     def available_joystick_devices(self) -> List[JoystickDevice]:
         """Get the list of available joystick devices detected at runtime."""
         return self._available_joystick_devices
@@ -214,6 +258,20 @@ class ConfigurationService(BaseService):
         """Set the list of available joystick devices."""
         self._available_joystick_devices = devices
         self._logger.info(f"Updated available joystick devices: {len(devices)} found.")
+
+    @property
+    def available_faster_whisper_models(self) -> List[TranscriberModel]:
+        """Get the list of available Faster Whisper models detected at runtime."""
+        return self._available_faster_whisper_models
+
+    def set_available_faster_whisper_models(
+        self, models: List[TranscriberModel]
+    ) -> None:
+        """Set the list of available Faster Whisper models."""
+        self._available_faster_whisper_models = models
+        self._logger.info(
+            f"Updated available Faster Whisper models: {len(models)} found."
+        )
 
     def shutdown(self):
         pass

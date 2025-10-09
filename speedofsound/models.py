@@ -2,7 +2,7 @@ import base64
 import io
 import wave
 from enum import IntEnum, StrEnum
-from typing import Literal, Optional
+from typing import Optional
 
 from gi.repository import GObject  # type: ignore
 from pydantic import BaseModel, Field
@@ -55,14 +55,6 @@ class TypistBackend(StrEnum):
     YDOTOOL = "ydotool"
 
 
-class FasterWhisperConfig(BaseModel):
-    """Faster Whisper transcriber configuration."""
-
-    enabled: bool = False
-    model: str = "small"
-    device: Literal["cpu", "cuda", "auto"] = "auto"
-
-
 class OpenAIConfig(BaseModel):
     """OpenAI transcriber configuration."""
 
@@ -97,7 +89,6 @@ class AppConfig(BaseModel):
     context: ContextConfig = ContextConfig()
 
     # Provider configurations
-    faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
     openai: OpenAIConfig = OpenAIConfig()
     fallback: FallbackConfig = FallbackConfig()
 

@@ -53,5 +53,20 @@
             <summary>Right joystick button language</summary>
             <description>ISO 639-1 language code for the right joystick button.</description>
         </key>
+        <key name="faster-whisper-enabled" type="b">
+            <default>false</default>
+            <summary>Enable Faster Whisper</summary>
+            <description>Enable or disable the Faster Whisper transcriber.</description>
+        </key>
+        <key name="faster-whisper-model" type="s">
+            <default>"small"</default>
+            <summary>Faster Whisper model</summary>
+            <description>The Faster Whisper model to use for transcription.</description>
+        </key>
+        <key name="faster-whisper-device" type="s">
+            <default>"auto"</default>
+            <summary>Faster Whisper device</summary>
+            <description>The device to use for Faster Whisper: cpu, cuda, or auto.</description>
+        </key>
     </schema>
 </schemalist>

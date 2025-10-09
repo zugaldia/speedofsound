@@ -34,6 +34,9 @@ SETTING_LANGUAGE = "language"
 SETTING_JOYSTICK_ID = "joystick-id"
 SETTING_JOYSTICK_LANGUAGE_LEFT = "joystick-language-left"
 SETTING_JOYSTICK_LANGUAGE_RIGHT = "joystick-language-right"
+SETTING_FASTER_WHISPER_ENABLED = "faster-whisper-enabled"
+SETTING_FASTER_WHISPER_MODEL = "faster-whisper-model"
+SETTING_FASTER_WHISPER_DEVICE = "faster-whisper-device"
 
 #
 # Default values (consistent with gschema.xml)
@@ -48,6 +51,9 @@ DEFAULT_LANGUAGE = "en"
 DEFAULT_JOYSTICK_ID = -1
 DEFAULT_JOYSTICK_LANGUAGE_LEFT = "en"
 DEFAULT_JOYSTICK_LANGUAGE_RIGHT = "es"
+DEFAULT_FASTER_WHISPER_ENABLED = False
+DEFAULT_FASTER_WHISPER_MODEL = "small"
+DEFAULT_FASTER_WHISPER_DEVICE = "auto"
 
 #
 # Actions
