@@ -140,7 +140,7 @@ class DashboardWindow(Adw.ApplicationWindow):
         self._application.add_action(about_action)
 
     def _on_preferences_activated(
-        self, action: Gio.SimpleAction, parameter: None
+        self, _action: Gio.SimpleAction, _parameter: None
     ) -> None:
         self._logger.info("Preferences menu item clicked")
         preferences_view_model = PreferencesViewModel(configuration=self._configuration)
@@ -148,11 +148,11 @@ class DashboardWindow(Adw.ApplicationWindow):
         preferences_window.present(self)
 
     def _on_documentation_activated(
-        self, action: Gio.SimpleAction, parameter: None
+        self, _action: Gio.SimpleAction, _parameter: None
     ) -> None:
         Gtk.show_uri(self, APPLICATION_DOCUMENTATION_URL, 0)
 
-    def _on_about_activated(self, action: Gio.SimpleAction, parameter: None) -> None:
+    def _on_about_activated(self, _action: Gio.SimpleAction, _parameter: None) -> None:
         about_dialog = Adw.AboutDialog()
         about_dialog.set_application_name(APPLICATION_NAME)
         about_dialog.set_application_icon(APPLICATION_ID)
@@ -163,10 +163,10 @@ class DashboardWindow(Adw.ApplicationWindow):
         about_dialog.set_issue_url(APPLICATION_ISSUE_URL)
         about_dialog.present(self)
 
-    def _on_test_button_clicked(self, button: Gtk.Button) -> None:
+    def _on_test_button_clicked(self, _button: Gtk.Button) -> None:
         self._text_view.grab_focus()
         self._application.activate_action(ACTION_TRIGGER)
 
-    def _on_close_request(self, window: Adw.ApplicationWindow) -> bool:
+    def _on_close_request(self, _window: Adw.ApplicationWindow) -> bool:
         self._application.activate_action(ACTION_QUIT)
         return False

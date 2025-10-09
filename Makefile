@@ -31,6 +31,9 @@ format-check:
 format-diff:
 	ruff format --diff speedofsound/
 
+vulture:
+	vulture speedofsound/ --min-confidence 80
+
 test-schema:
 	glib-compile-schemas --dry-run --strict data/
 

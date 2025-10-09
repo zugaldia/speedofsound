@@ -142,14 +142,14 @@ class SosApplication(Adw.Application):
         self._configuration.shutdown()
         Adw.Application.do_shutdown(self)
 
-    def _on_trigger_action(self, action, param):
+    def _on_trigger_action(self, _action, _param):
         self._orchestrator.triggered()
 
-    def _on_show_action(self, action, param):
+    def _on_show_action(self, _action, _param):
         if self._main_window:
             self._main_window.present()
 
-    def _on_quit_action(self, action, param):
+    def _on_quit_action(self, _action, _param):
         self.quit()
 
     def _create_action(self, name, callback, shortcuts=None):

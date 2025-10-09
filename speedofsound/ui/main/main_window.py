@@ -80,14 +80,14 @@ class MainWindow(Adw.ApplicationWindow):
         # self.minimize()
         self.hide()
 
-    def _on_dismissed(self, window) -> None:
+    def _on_dismissed(self, _window) -> None:
         GLib.idle_add(self._view_model.action_type)
 
-    def _on_status_text_changed(self, view_state, param) -> None:
+    def _on_status_text_changed(self, _view_state, _param) -> None:
         status_text = self._view_model.view_state.status_text
         self._content_widget.set_status(status_text)
 
-    def _on_orchestrator_state_changed(self, view_state, param) -> None:
+    def _on_orchestrator_state_changed(self, _view_state, _param) -> None:
         # Should we run as an application service? (--gapplication-service)
         # I can't find good documentation on this, except that it seems to
         # be supported explicitly by Flatpak:
@@ -109,23 +109,23 @@ class MainWindow(Adw.ApplicationWindow):
             self._content_widget.set_pulsating(False)
             self._was_recording = False
 
-    def _on_volume_level_changed(self, view_state, param) -> None:
+    def _on_volume_level_changed(self, _view_state, _param) -> None:
         volume_level = self._view_model.view_state.volume_level
         self._content_widget.set_volume(volume_level)
 
-    def _on_language_name_changed(self, view_state, param) -> None:
+    def _on_language_name_changed(self, _view_state, _param) -> None:
         language_name = self._view_model.view_state.language_name
         self._status_bar.set_language_name(language_name)
 
-    def _on_model_name_changed(self, view_state, param) -> None:
+    def _on_model_name_changed(self, _view_state, _param) -> None:
         model_name = self._view_model.view_state.model_name
         self._status_bar.set_model_name(model_name)
 
-    def _on_words_per_minute_changed(self, view_state, param) -> None:
+    def _on_words_per_minute_changed(self, _view_state, _param) -> None:
         words_per_minute = self._view_model.view_state.words_per_minute
         self._status_bar.set_words_per_minute(words_per_minute)
 
-    def _on_key_pressed(self, controller, keyval, keycode, state) -> bool:
+    def _on_key_pressed(self, _controller, keyval, _keycode, _state) -> bool:
         if keyval == Gdk.KEY_Escape:
             orchestrator_state = self._view_model.view_state.orchestrator_state
             if orchestrator_state == OrchestratorStage.RECORDING:

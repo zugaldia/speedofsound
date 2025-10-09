@@ -203,7 +203,7 @@ class OrchestratorService(BaseService):
     # Private API
     #
 
-    def _on_control_event(self, service, encoded: str):
+    def _on_control_event(self, _service, encoded: str):
         try:
             control_event = ControlEvent.model_validate_json(encoded)
             if control_event.button == JoystickButton.Left:
@@ -221,7 +221,7 @@ class OrchestratorService(BaseService):
         except Exception as e:
             self._logger.error(f"Error handling control event: {e}")
 
-    def _on_recorder_response(self, service, encoded: str):
+    def _on_recorder_response(self, _service, encoded: str):
         try:
             recorder_response = RecorderResponse.model_validate_json(encoded)
             if not recorder_response.success:
@@ -253,7 +253,7 @@ class OrchestratorService(BaseService):
                 success=False,
             )
 
-    def _on_volume_level(self, service, volume: float):
+    def _on_volume_level(self, _service, volume: float):
         """Handle volume level updates from the recorder."""
         self.safe_emit(VOLUME_LEVEL_SIGNAL, volume)
 
@@ -263,7 +263,7 @@ class OrchestratorService(BaseService):
             wpm = 1.0 * self._total_words / (self._total_seconds / 60)
             self.safe_emit(WORDS_PER_MINUTE_SIGNAL, min(wpm, 999.0))
 
-    def _on_transcriber_response(self, service, encoded: str):
+    def _on_transcriber_response(self, _service, encoded: str):
         try:
             transcriber_response = TranscriberResponse.model_validate_json(encoded)
 
@@ -303,7 +303,7 @@ class OrchestratorService(BaseService):
                 success=False,
             )
 
-    def _on_typist_response(self, service, encoded: str):
+    def _on_typist_response(self, _service, encoded: str):
         try:
             typist_response = TypistResponse.model_validate_json(encoded)
             if not typist_response.success:
