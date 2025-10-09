@@ -207,12 +207,12 @@ class OrchestratorService(BaseService):
         try:
             control_event = ControlEvent.model_validate_json(encoded)
             if control_event.button == JoystickButton.Left:
-                language_id = self._configuration_service.config.joystick_language_left
+                language_id = self._configuration_service.joystick_language_left
                 if not is_empty(language_id):
                     self._configuration_service.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.Right:
-                language_id = self._configuration_service.config.joystick_language_right
+                language_id = self._configuration_service.joystick_language_right
                 if not is_empty(language_id):
                     self._configuration_service.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)

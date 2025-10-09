@@ -1,6 +1,6 @@
 import tomllib
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 from gi.repository import Gio  # type: ignore
 from pydantic import ValidationError
@@ -11,17 +11,23 @@ from speedofsound.constants import (
     DEFAULT_COPY_TO_CLIPBOARD,
     DEFAULT_EXT_ERROR,
     DEFAULT_EXT_STATUS,
+    DEFAULT_JOYSTICK_ID,
+    DEFAULT_JOYSTICK_LANGUAGE_LEFT,
+    DEFAULT_JOYSTICK_LANGUAGE_RIGHT,
     DEFAULT_LANGUAGE,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
     DEFAULT_SAVE_TRANSCRIPTIONS,
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
+    SETTING_JOYSTICK_ID,
+    SETTING_JOYSTICK_LANGUAGE_LEFT,
+    SETTING_JOYSTICK_LANGUAGE_RIGHT,
     SETTING_LANGUAGE,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
 )
-from speedofsound.models import AppConfig
+from speedofsound.models import AppConfig, JoystickDevice
 from speedofsound.services.base_service import BaseService
 from speedofsound.utils import get_config_path
 
@@ -42,6 +48,7 @@ class ConfigurationService(BaseService):
         self._schema: Optional[Gio.SettingsSchema] = None
         self._settings: Optional[Gio.Settings] = self._initialize_settings()
         self._config: AppConfig = self._load_configuration()
+        self._available_joystick_devices: List[JoystickDevice] = []
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
         )
@@ -178,6 +185,35 @@ class ConfigurationService(BaseService):
     def language(self, language: str) -> None:
         """Set the language setting."""
         self._set_string(SETTING_LANGUAGE, language)
+
+    @property
+    def joystick_id(self) -> int:
+        """Get the joystick ID setting from GSettings or fallback to default constant."""
+        return self._get_int(SETTING_JOYSTICK_ID, DEFAULT_JOYSTICK_ID)
+
+    @property
+    def joystick_language_left(self) -> str:
+        """Get the joystick left button language from GSettings or fallback to default constant."""
+        return self._get_string(
+            SETTING_JOYSTICK_LANGUAGE_LEFT, DEFAULT_JOYSTICK_LANGUAGE_LEFT
+        )
+
+    @property
+    def joystick_language_right(self) -> str:
+        """Get the joystick right button language from GSettings or fallback to default constant."""
+        return self._get_string(
+            SETTING_JOYSTICK_LANGUAGE_RIGHT, DEFAULT_JOYSTICK_LANGUAGE_RIGHT
+        )
+
+    @property
+    def available_joystick_devices(self) -> List[JoystickDevice]:
+        """Get the list of available joystick devices detected at runtime."""
+        return self._available_joystick_devices
+
+    def set_available_joystick_devices(self, devices: List[JoystickDevice]) -> None:
+        """Set the list of available joystick devices."""
+        self._available_joystick_devices = devices
+        self._logger.info(f"Updated available joystick devices: {len(devices)} found.")
 
     def shutdown(self):
         pass

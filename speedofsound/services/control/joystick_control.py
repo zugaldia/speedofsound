@@ -17,24 +17,27 @@ class JoystickControl(BaseProvider):
         self._joystick = None
         self._is_running = False
 
-        joystick_id = self._configuration.config.joystick_id
-        if joystick_id is None:
-            self._logger.info("No joystick ID configured, skipping initialization.")
-            return
-
         try:
             pygame.init()
             pygame.joystick.init()
-            self._setup_joystick(joystick_id)
+            devices = self._scan_joystick_devices()
+            self._configuration.set_available_joystick_devices(devices)
+            joystick_id = self._configuration.joystick_id
+            if joystick_id < 0:
+                # Valid joystick values are 0 to pygame.joystick.get_count() - 1
+                self._logger.info("No joystick ID configured, skipping initialization.")
+                return
+            self._setup_joystick(joystick_id, devices)
             self._logger.info("Initialized.")
         except Exception as e:
             self._is_running = False
+            self._configuration.set_available_joystick_devices([])
             self._logger.error(f"Failed to initialize joystick: {e}")
 
     def set_callback(self, callback: Callable):
         self._callback = callback
 
-    def _get_joystick_devices(self) -> typing.List[JoystickDevice]:
+    def _scan_joystick_devices(self) -> typing.List[JoystickDevice]:
         devices = []
         for i in range(pygame.joystick.get_count()):
             device = pygame.joystick.Joystick(i)
@@ -44,11 +47,9 @@ class JoystickControl(BaseProvider):
                     name=device.get_name(),
                 )
             )
-
         return devices
 
-    def _setup_joystick(self, joystick_id: int):
-        devices = self._get_joystick_devices()
+    def _setup_joystick(self, joystick_id: int, devices: typing.List[JoystickDevice]):
         if len(devices) == 0:
             self._logger.error("No joystick devices found.")
             return

@@ -31,6 +31,9 @@ SETTING_COPY_TO_CLIPBOARD = "copy-to-clipboard"
 SETTING_SAVE_TRANSCRIPTIONS = "save-transcriptions"
 SETTING_RECORDING_TIMEOUT_SECONDS = "recording-timeout-seconds"
 SETTING_LANGUAGE = "language"
+SETTING_JOYSTICK_ID = "joystick-id"
+SETTING_JOYSTICK_LANGUAGE_LEFT = "joystick-language-left"
+SETTING_JOYSTICK_LANGUAGE_RIGHT = "joystick-language-right"
 
 #
 # Default values (consistent with gschema.xml)
@@ -42,6 +45,9 @@ DEFAULT_EXT_ERROR = ""
 DEFAULT_SAVE_TRANSCRIPTIONS = False
 DEFAULT_RECORDING_TIMEOUT_SECONDS = 60
 DEFAULT_LANGUAGE = "en"
+DEFAULT_JOYSTICK_ID = -1
+DEFAULT_JOYSTICK_LANGUAGE_LEFT = "en"
+DEFAULT_JOYSTICK_LANGUAGE_RIGHT = "es"
 
 #
 # Actions

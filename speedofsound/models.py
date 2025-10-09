@@ -87,12 +87,6 @@ class ContextConfig(BaseModel):
 class AppConfig(BaseModel):
     """Application configuration loaded from config.toml."""
 
-    # Optional: This is the ID of the joystick as detected by PyGame.
-    # The id argument must be a value from 0 to pygame.joystick.get_count() - 1.
-    joystick_id: Optional[int] = None
-    joystick_language_left: str = LANGUAGE_ENGLISH.id
-    joystick_language_right: str = LANGUAGE_SPANISH.id
-
     # Transcriber settings
     transcriber: str = TranscriberType.FASTER_WHISPER.value
 

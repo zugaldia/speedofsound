@@ -37,5 +37,21 @@
             <summary>Transcription language</summary>
             <description>ISO 639-1 language code for speech recognition.</description>
         </key>
+        <key name="joystick-id" type="i">
+            <default>-1</default>
+            <range min="-1" max="99"/>
+            <summary>Joystick device ID</summary>
+            <description>ID of the joystick device to use for triggering. -1 means no joystick configured.</description>
+        </key>
+        <key name="joystick-language-left" type="s">
+            <default>"en"</default>
+            <summary>Left joystick button language</summary>
+            <description>ISO 639-1 language code for the left joystick button.</description>
+        </key>
+        <key name="joystick-language-right" type="s">
+            <default>"es"</default>
+            <summary>Right joystick button language</summary>
+            <description>ISO 639-1 language code for the right joystick button.</description>
+        </key>
     </schema>
 </schemalist>

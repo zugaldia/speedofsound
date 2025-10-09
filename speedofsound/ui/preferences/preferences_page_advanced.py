@@ -1,6 +1,9 @@
 from gi.repository import Adw  # type: ignore
 
 from speedofsound.constants import (
+    SETTING_JOYSTICK_ID,
+    SETTING_JOYSTICK_LANGUAGE_LEFT,
+    SETTING_JOYSTICK_LANGUAGE_RIGHT,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
 )
@@ -48,3 +51,51 @@ class PreferencesPageAdvanced(PreferencesPageBase):
 
         benchmarking_group.add(save_transcriptions_switch)
         self.add(benchmarking_group)
+
+        joystick_group = Adw.PreferencesGroup()
+        joystick_group.set_title("Joystick")
+        joystick_group.set_description("Configure joystick trigger settings")
+
+        joystick_combo = self.create_joystick_combo(
+            "Joystick Device", SETTING_JOYSTICK_ID
+        )
+        joystick_group.add(joystick_combo)
+
+        joystick_left_combo = self.create_language_combo(
+            "Left Button Language", SETTING_JOYSTICK_LANGUAGE_LEFT
+        )
+        joystick_group.add(joystick_left_combo)
+
+        joystick_right_combo = self.create_language_combo(
+            "Right Button Language", SETTING_JOYSTICK_LANGUAGE_RIGHT
+        )
+        joystick_group.add(joystick_right_combo)
+
+        self.add(joystick_group)
+
+    def create_joystick_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
+        """Create a joystick device combo row for the given setting key."""
+        available_devices = self._view_model.configuration.available_joystick_devices
+
+        options = [("No joystick", -1)]
+        for device in available_devices:
+            options.append((device.name, device.id))
+
+        def get_current():
+            return getattr(
+                self._view_model.configuration, setting_key.replace("-", "_")
+            )
+
+        def set_value(value):
+            settings = self._view_model.configuration.settings
+            if settings:
+                settings.set_int(setting_key, value)
+
+        return self.create_combo_row(
+            title=title,
+            setting_key=setting_key,
+            options=options,
+            get_current_value=get_current,
+            set_value=set_value,
+            subtitle="Requires application restart to take effect",
+        )

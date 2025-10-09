@@ -8,4 +8,5 @@ htmlcov/
 repo/
 speedofsound.log
 TODO.md
+MIGRATION.md
 venv/
