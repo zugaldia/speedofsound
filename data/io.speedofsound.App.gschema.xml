@@ -14,23 +14,29 @@
         <key name="extension-status" type="s">
             <default>"white"</default>
             <summary>Extension status indicator</summary>
-            <description>Internal setting used to communicate the application status to the optional GNOME Shell extension. The extension uses this to adjust the icon color in the top bar.</description>
+            <description>Internal setting used to communicate the application status to the optional
+                GNOME Shell extension. The extension uses this to adjust the icon color in the top
+                bar.</description>
         </key>
         <key name="extension-error" type="s">
             <default>""</default>
             <summary>Extension error message</summary>
-            <description>Internal setting used to communicate error messages to the optional GNOME Shell extension. The extension uses this to display desktop notifications when errors occur.</description>
+            <description>Internal setting used to communicate error messages to the optional GNOME
+                Shell extension. The extension uses this to display desktop notifications when
+                errors occur.</description>
         </key>
         <key name="save-transcriptions" type="b">
             <default>false</default>
             <summary>Save transcriptions for benchmarking</summary>
-            <description>Save audio recordings and transcriptions to disk for benchmarking and analysis purposes.</description>
+            <description>Save audio recordings and transcriptions to disk for benchmarking and
+                analysis purposes.</description>
         </key>
         <key name="recording-timeout-seconds" type="i">
             <default>60</default>
-            <range min="1" max="300"/>
+            <range min="1" max="300" />
             <summary>Recording timeout</summary>
-            <description>Maximum recording duration in seconds before transcription starts automatically.</description>
+            <description>Maximum recording duration in seconds before transcription starts
+                automatically.</description>
         </key>
         <key name="language" type="s">
             <default>"en"</default>
@@ -39,9 +45,10 @@
         </key>
         <key name="joystick-id" type="i">
             <default>-1</default>
-            <range min="-1" max="99"/>
+            <range min="-1" max="99" />
             <summary>Joystick device ID</summary>
-            <description>ID of the joystick device to use for triggering. -1 means no joystick configured.</description>
+            <description>ID of the joystick device to use for triggering. -1 means no joystick
+                configured.</description>
         </key>
         <key name="joystick-language-left" type="s">
             <default>"en"</default>
@@ -90,9 +97,14 @@
         </key>
         <key name="fallback-timeout-seconds" type="d">
             <default>2.0</default>
-            <range min="0.1" max="10.0"/>
+            <range min="0.1" max="10.0" />
             <summary>Fallback timeout</summary>
             <description>Timeout in seconds before falling back from cloud to local transcription.</description>
+        </key>
+        <key name="typist-backend" type="s">
+            <default>"auto"</default>
+            <summary>Typist backend</summary>
+            <description>Backend to use for typing text: auto, atspi, xdotool, or ydotool.</description>
         </key>
     </schema>
 </schemalist>

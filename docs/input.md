@@ -31,13 +31,12 @@ sudo chmod +s $(which ydotool)
 
 Speed of Sound provides several typing backends that can be configured based on your system requirements.
 
-Most users don't need to configure this manually - the app automatically selects the correct backend. Only override this setting if you experience typing issues or want to use a specific backend:
-
-```toml
-typist_backend = "xdotool"
-```
+Most users don't need to configure this manually - the app automatically selects the correct backend based on your display server. You can change the backend in the application preferences under **Advanced → Typist → Typist Backend**.
 
 Available backends:
-- `"xdotool"` - Default for X11. Uses the `xdotool` command (X11 only)
-- `"ydotool"` - Default for Wayland. Uses the `ydotool` command (works on both Wayland and X11)
-- `"atspi"` - Uses GTK accessibility API (X11 only)
+- `"Auto"` - **(Default)** Automatically detects display server and selects the appropriate backend
+- `"xdotool"` - Uses the `xdotool` command (X11 only)
+- `"ydotool"` - Uses the `ydotool` command (works on both Wayland and X11)
+- `"AT-SPI"` - Uses GTK accessibility API (X11 only)
+
+Only change this setting if you experience typing issues or want to use a specific backend. Note that changing this setting requires an application restart to take effect.

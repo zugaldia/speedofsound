@@ -25,6 +25,7 @@ from speedofsound.constants import (
     DEFAULT_OPENAI_MODEL,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
     DEFAULT_SAVE_TRANSCRIPTIONS,
+    DEFAULT_TYPIST_BACKEND,
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
@@ -42,6 +43,7 @@ from speedofsound.constants import (
     SETTING_OPENAI_MODEL,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
+    SETTING_TYPIST_BACKEND,
 )
 from speedofsound.models import AppConfig, JoystickDevice, TranscriberModel
 from speedofsound.services.base_service import BaseService
@@ -366,6 +368,16 @@ class ConfigurationService(BaseService):
     def fallback_timeout_seconds(self, value: float) -> None:
         """Set the fallback timeout."""
         self._set_double(SETTING_FALLBACK_TIMEOUT_SECONDS, value)
+
+    @property
+    def typist_backend(self) -> str:
+        """Get the typist backend from GSettings or fallback to default constant."""
+        return self._get_string(SETTING_TYPIST_BACKEND, DEFAULT_TYPIST_BACKEND)
+
+    @typist_backend.setter
+    def typist_backend(self, value: str) -> None:
+        """Set the typist backend."""
+        self._set_string(SETTING_TYPIST_BACKEND, value)
 
     def shutdown(self):
         pass

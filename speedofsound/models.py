@@ -67,9 +67,6 @@ class AppConfig(BaseModel):
     # Transcriber settings
     transcriber: str = TranscriberType.FASTER_WHISPER.value
 
-    # Typist settings
-    typist_backend: Optional[str] = None
-
     # Context settings
     context: ContextConfig = ContextConfig()
 

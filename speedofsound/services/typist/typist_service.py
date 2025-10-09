@@ -58,12 +58,9 @@ class TypistService(BaseService):
             return DisplayServer.UNKNOWN
 
     def _get_typist(self) -> BaseTypist:
-        config = self._configuration.config
+        typist_backend = self._configuration.typist_backend
 
-        if config.typist_backend:
-            # User override - respect their choice
-            backend = TypistBackend(config.typist_backend)
-        else:
+        if typist_backend == "auto":
             # Auto-detect based on display server
             display_server = self._detect_display_server()
             if display_server == DisplayServer.WAYLAND:
@@ -78,6 +75,10 @@ class TypistService(BaseService):
                 self._logger.info(
                     "Unknown display server, defaulting to xdotool backend."
                 )
+        else:
+            # User override - respect their choice
+            backend = TypistBackend(typist_backend)
+            self._logger.info(f"Using user-configured backend: {backend}")
 
         if backend == TypistBackend.ATSPI:
             return AtSpiTypist()

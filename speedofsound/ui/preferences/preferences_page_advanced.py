@@ -6,6 +6,7 @@ from speedofsound.constants import (
     SETTING_JOYSTICK_LANGUAGE_RIGHT,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
+    SETTING_TYPIST_BACKEND,
 )
 from speedofsound.ui.preferences.preferences_page_base import PreferencesPageBase
 from speedofsound.ui.preferences.preferences_view_model import PreferencesViewModel
@@ -51,6 +52,17 @@ class PreferencesPageAdvanced(PreferencesPageBase):
         benchmarking_group.add(save_transcriptions_switch)
         self.add(benchmarking_group)
 
+        typist_group = Adw.PreferencesGroup()
+        typist_group.set_title("Typist")
+        typist_group.set_description("Configure text typing behavior")
+
+        typist_backend_combo = self.create_typist_backend_combo(
+            "Typist Backend", SETTING_TYPIST_BACKEND
+        )
+        typist_group.add(typist_backend_combo)
+
+        self.add(typist_group)
+
         joystick_group = Adw.PreferencesGroup()
         joystick_group.set_title("Joystick")
         joystick_group.set_description("Configure joystick trigger settings")
@@ -89,6 +101,34 @@ class PreferencesPageAdvanced(PreferencesPageBase):
             settings = self._view_model.configuration.settings
             if settings:
                 settings.set_int(setting_key, value)
+
+        return self.create_combo_row(
+            title=title,
+            setting_key=setting_key,
+            options=options,
+            get_current_value=get_current,
+            set_value=set_value,
+            subtitle="Requires application restart to take effect",
+        )
+
+    def create_typist_backend_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
+        """Create a typist backend combo row for the given setting key."""
+        options = [
+            ("Auto", "auto"),
+            ("AT-SPI", "atspi"),
+            ("xdotool", "xdotool"),
+            ("ydotool", "ydotool"),
+        ]
+
+        def get_current():
+            return getattr(
+                self._view_model.configuration, setting_key.replace("-", "_")
+            )
+
+        def set_value(value):
+            settings = self._view_model.configuration.settings
+            if settings:
+                settings.set_string(setting_key, value)
 
         return self.create_combo_row(
             title=title,
