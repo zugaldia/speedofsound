@@ -64,9 +64,6 @@ class ContextConfig(BaseModel):
 class AppConfig(BaseModel):
     """Application configuration loaded from config.toml."""
 
-    # Transcriber settings
-    transcriber: str = TranscriberType.FASTER_WHISPER.value
-
     # Context settings
     context: ContextConfig = ContextConfig()
 

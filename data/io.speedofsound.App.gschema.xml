@@ -106,5 +106,10 @@
             <summary>Typist backend</summary>
             <description>Backend to use for typing text: auto, atspi, xdotool, or ydotool.</description>
         </key>
+        <key name="preferred-transcriber" type="s">
+            <default>"faster_whisper"</default>
+            <summary>Preferred transcriber</summary>
+            <description>The transcriber to use for speech recognition: faster_whisper, openai, or fallback.</description>
+        </key>
     </schema>
 </schemalist>

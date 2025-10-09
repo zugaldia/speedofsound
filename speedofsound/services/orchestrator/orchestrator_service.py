@@ -7,6 +7,7 @@ from speedofsound.constants import (
     LANGUAGE_NAME_SIGNAL,
     MODEL_NAME_SIGNAL,
     ORCHESTRATOR_EVENT_SIGNAL,
+    PREFERRED_TRANSCRIBER_CHANGED_SIGNAL,
     RECORDER_RESPONSE_SIGNAL,
     TRANSCRIBER_RESPONSE_SIGNAL,
     TYPIST_RESPONSE_SIGNAL,
@@ -66,6 +67,9 @@ class OrchestratorService(BaseService):
         self._last_transcriber_request: Optional[TranscriberRequest] = None
 
         self._configuration_service = configuration
+        self._configuration_service.connect(
+            PREFERRED_TRANSCRIBER_CHANGED_SIGNAL, self._on_preferred_transcriber_changed
+        )
         self._context = context
 
         self._control = control
@@ -123,7 +127,7 @@ class OrchestratorService(BaseService):
         )
         self.safe_emit(
             MODEL_NAME_SIGNAL,
-            self._configuration_service.config.transcriber.replace("_", " "),
+            self._configuration_service.preferred_transcriber.replace("_", " "),
         )
 
     def _send_event(
@@ -202,6 +206,12 @@ class OrchestratorService(BaseService):
     #
     # Private API
     #
+
+    def _on_preferred_transcriber_changed(
+        self, _service, transcriber_name: str
+    ) -> None:
+        """Handle preferred transcriber change from configuration service."""
+        self.safe_emit(MODEL_NAME_SIGNAL, transcriber_name.replace("_", " "))
 
     def _on_control_event(self, _service, encoded: str):
         try:

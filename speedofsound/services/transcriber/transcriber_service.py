@@ -35,7 +35,7 @@ class TranscriberService(BaseService):
         self._executor.shutdown(wait=True)
 
     def _setup_transcriber(self) -> BaseTranscriber:
-        selected = TranscriberType(self._configuration.config.transcriber)
+        selected = TranscriberType(self._configuration.preferred_transcriber)
         if selected == TranscriberType.FALLBACK:
             return self._get_fallback_transcriber()
         else:

@@ -9,6 +9,7 @@ from speedofsound.constants import (
     SETTING_OPENAI_BASE_URL,
     SETTING_OPENAI_ENABLED,
     SETTING_OPENAI_MODEL,
+    SETTING_PREFERRED_TRANSCRIBER,
 )
 from speedofsound.ui.preferences.preferences_page_base import PreferencesPageBase
 from speedofsound.ui.preferences.preferences_view_model import PreferencesViewModel
@@ -23,6 +24,30 @@ class PreferencesPageAsr(PreferencesPageBase):
         self._logger.info("Speech Recognition preferences page initialized")
 
     def _build_ui(self) -> None:
+        general_group = Adw.PreferencesGroup()
+        general_group.set_title("General")
+        general_group.set_description("Configure general ASR settings")
+
+        transcriber_options = [
+            ("Faster Whisper", "faster_whisper"),
+            ("OpenAI", "openai"),
+            ("Fallback", "fallback"),
+        ]
+
+        transcriber_combo = self.create_combo_row(
+            title="Preferred Transcriber",
+            setting_key=SETTING_PREFERRED_TRANSCRIBER,
+            options=transcriber_options,
+            get_current_value=lambda: self._view_model.configuration.preferred_transcriber,
+            set_value=lambda value: setattr(
+                self._view_model.configuration, "preferred_transcriber", value
+            ),
+            subtitle="Select the transcriber to use for speech recognition",
+        )
+        general_group.add(transcriber_combo)
+
+        self.add(general_group)
+
         faster_whisper_group = Adw.PreferencesGroup()
         faster_whisper_group.set_title("Faster Whisper")
         faster_whisper_group.set_description(

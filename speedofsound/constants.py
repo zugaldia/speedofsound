@@ -43,6 +43,7 @@ SETTING_OPENAI_API_KEY = "openai-api-key"
 SETTING_OPENAI_MODEL = "openai-model"
 SETTING_FALLBACK_TIMEOUT_SECONDS = "fallback-timeout-seconds"
 SETTING_TYPIST_BACKEND = "typist-backend"
+SETTING_PREFERRED_TRANSCRIBER = "preferred-transcriber"
 
 #
 # Default values (consistent with gschema.xml)
@@ -66,6 +67,7 @@ DEFAULT_OPENAI_API_KEY = ""
 DEFAULT_OPENAI_MODEL = "gpt-4o-transcribe"
 DEFAULT_FALLBACK_TIMEOUT_SECONDS = 2.0
 DEFAULT_TYPIST_BACKEND = "auto"
+DEFAULT_PREFERRED_TRANSCRIBER = "faster_whisper"
 
 #
 # Actions
@@ -81,6 +83,9 @@ ACTION_QUIT = "quit"
 #
 # Signals
 #
+
+# Configuration
+PREFERRED_TRANSCRIBER_CHANGED_SIGNAL = "preferred-transcriber-changed"
 
 # Orchestrator
 ORCHESTRATOR_EVENT_SIGNAL = "orchestrator-event"

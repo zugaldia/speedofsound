@@ -2,7 +2,7 @@ import tomllib
 from pathlib import Path
 from typing import List, Optional
 
-from gi.repository import Gio  # type: ignore
+from gi.repository import Gio, GObject  # type: ignore
 from pydantic import ValidationError
 
 from speedofsound.constants import (
@@ -23,9 +23,11 @@ from speedofsound.constants import (
     DEFAULT_OPENAI_BASE_URL,
     DEFAULT_OPENAI_ENABLED,
     DEFAULT_OPENAI_MODEL,
+    DEFAULT_PREFERRED_TRANSCRIBER,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
     DEFAULT_SAVE_TRANSCRIPTIONS,
     DEFAULT_TYPIST_BACKEND,
+    PREFERRED_TRANSCRIBER_CHANGED_SIGNAL,
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
@@ -41,6 +43,7 @@ from speedofsound.constants import (
     SETTING_OPENAI_BASE_URL,
     SETTING_OPENAI_ENABLED,
     SETTING_OPENAI_MODEL,
+    SETTING_PREFERRED_TRANSCRIBER,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
     SETTING_TYPIST_BACKEND,
@@ -57,6 +60,14 @@ transcriber = "faster_whisper"
 class ConfigurationService(BaseService):
     SERVICE_NAME = "configuration"
 
+    __gsignals__ = {
+        PREFERRED_TRANSCRIBER_CHANGED_SIGNAL: (
+            GObject.SignalFlags.RUN_FIRST,
+            None,
+            (str,),
+        ),
+    }
+
     def __init__(self):
         super().__init__(service_name=self.SERVICE_NAME)
         self._schema: Optional[Gio.SettingsSchema] = None
@@ -65,6 +76,7 @@ class ConfigurationService(BaseService):
         self._available_joystick_devices: List[JoystickDevice] = []
         self._available_faster_whisper_models: List[TranscriberModel] = []
         self._available_openai_models: List[TranscriberModel] = []
+        self._setup_settings_handlers()
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
         )
@@ -113,6 +125,19 @@ class ConfigurationService(BaseService):
                 f.write(DEFAULT_CONFIG)
         except Exception as e:
             raise RuntimeError(f"Failed to create default configuration: {e}")
+
+    def _setup_settings_handlers(self) -> None:
+        """Setup handlers for GSettings changes."""
+        if self._settings is None:
+            return
+
+        def on_settings_changed(_settings: Gio.Settings, key: str) -> None:
+            if key == SETTING_PREFERRED_TRANSCRIBER:
+                new_value = self.preferred_transcriber
+                self._logger.info(f"Preferred transcriber changed to: {new_value}")
+                self.safe_emit(PREFERRED_TRANSCRIBER_CHANGED_SIGNAL, new_value)
+
+        self._settings.connect("changed", on_settings_changed)
 
     @property
     def config(self) -> AppConfig:
@@ -378,6 +403,18 @@ class ConfigurationService(BaseService):
     def typist_backend(self, value: str) -> None:
         """Set the typist backend."""
         self._set_string(SETTING_TYPIST_BACKEND, value)
+
+    @property
+    def preferred_transcriber(self) -> str:
+        """Get the preferred transcriber from GSettings or fallback to default constant."""
+        return self._get_string(
+            SETTING_PREFERRED_TRANSCRIBER, DEFAULT_PREFERRED_TRANSCRIBER
+        )
+
+    @preferred_transcriber.setter
+    def preferred_transcriber(self, value: str) -> None:
+        """Set the preferred transcriber."""
+        self._set_string(SETTING_PREFERRED_TRANSCRIBER, value)
 
     def shutdown(self):
         pass
