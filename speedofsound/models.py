@@ -5,7 +5,7 @@ from enum import IntEnum, StrEnum
 from typing import Optional
 
 from gi.repository import GObject  # type: ignore
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from speedofsound.utils import get_cache_path, get_uuid
 
@@ -55,12 +55,6 @@ class TypistBackend(StrEnum):
     YDOTOOL = "ydotool"
 
 
-class FallbackConfig(BaseModel):
-    """Fallback transcriber configuration."""
-
-    timeout_seconds: float = Field(default=2.0, ge=0.1, le=10.0)
-
-
 class ContextConfig(BaseModel):
     """Context service configuration."""
 
@@ -78,9 +72,6 @@ class AppConfig(BaseModel):
 
     # Context settings
     context: ContextConfig = ContextConfig()
-
-    # Provider configurations
-    fallback: FallbackConfig = FallbackConfig()
 
 
 #

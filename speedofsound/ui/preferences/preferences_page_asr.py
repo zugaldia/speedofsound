@@ -1,6 +1,7 @@
 from gi.repository import Adw  # type: ignore
 
 from speedofsound.constants import (
+    SETTING_FALLBACK_TIMEOUT_SECONDS,
     SETTING_FASTER_WHISPER_DEVICE,
     SETTING_FASTER_WHISPER_ENABLED,
     SETTING_FASTER_WHISPER_MODEL,
@@ -107,3 +108,18 @@ class PreferencesPageAsr(PreferencesPageBase):
             openai_group.add(model_combo)
 
         self.add(openai_group)
+
+        fallback_group = Adw.PreferencesGroup()
+        fallback_group.set_title("Fallback")
+        fallback_group.set_description(
+            "Configure timeout for fallback transcriber (cloud to local)"
+        )
+
+        timeout_spin = Adw.SpinRow.new_with_range(0.1, 10.0, 0.1)
+        timeout_spin.set_title("Timeout")
+        timeout_spin.set_subtitle("Seconds before falling back to local transcription")
+        timeout_spin.set_digits(1)
+        self.bind_double_setting(SETTING_FALLBACK_TIMEOUT_SECONDS, timeout_spin)
+        fallback_group.add(timeout_spin)
+
+        self.add(fallback_group)

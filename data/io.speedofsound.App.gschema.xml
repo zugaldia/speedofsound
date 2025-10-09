@@ -88,5 +88,11 @@
             <summary>OpenAI model</summary>
             <description>The OpenAI model to use for transcription.</description>
         </key>
+        <key name="fallback-timeout-seconds" type="d">
+            <default>2.0</default>
+            <range min="0.1" max="10.0"/>
+            <summary>Fallback timeout</summary>
+            <description>Timeout in seconds before falling back from cloud to local transcription.</description>
+        </key>
     </schema>
 </schemalist>

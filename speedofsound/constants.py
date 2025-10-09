@@ -41,6 +41,7 @@ SETTING_OPENAI_ENABLED = "openai-enabled"
 SETTING_OPENAI_BASE_URL = "openai-base-url"
 SETTING_OPENAI_API_KEY = "openai-api-key"
 SETTING_OPENAI_MODEL = "openai-model"
+SETTING_FALLBACK_TIMEOUT_SECONDS = "fallback-timeout-seconds"
 
 #
 # Default values (consistent with gschema.xml)
@@ -62,6 +63,7 @@ DEFAULT_OPENAI_ENABLED = False
 DEFAULT_OPENAI_BASE_URL = ""
 DEFAULT_OPENAI_API_KEY = ""
 DEFAULT_OPENAI_MODEL = "gpt-4o-transcribe"
+DEFAULT_FALLBACK_TIMEOUT_SECONDS = 2.0
 
 #
 # Actions

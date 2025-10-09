@@ -11,6 +11,7 @@ from speedofsound.constants import (
     DEFAULT_COPY_TO_CLIPBOARD,
     DEFAULT_EXT_ERROR,
     DEFAULT_EXT_STATUS,
+    DEFAULT_FALLBACK_TIMEOUT_SECONDS,
     DEFAULT_FASTER_WHISPER_DEVICE,
     DEFAULT_FASTER_WHISPER_ENABLED,
     DEFAULT_FASTER_WHISPER_MODEL,
@@ -27,6 +28,7 @@ from speedofsound.constants import (
     SETTING_COPY_TO_CLIPBOARD,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
+    SETTING_FALLBACK_TIMEOUT_SECONDS,
     SETTING_FASTER_WHISPER_DEVICE,
     SETTING_FASTER_WHISPER_ENABLED,
     SETTING_FASTER_WHISPER_MODEL,
@@ -158,6 +160,17 @@ class ConfigurationService(BaseService):
         """Set an integer setting in GSettings."""
         if self._settings is not None and self.has_key(key):
             self._settings.set_int(key, value)
+
+    def _get_double(self, key: str, default: float) -> float:
+        """Get a double setting from GSettings or fallback to default."""
+        if self._settings is not None and self.has_key(key):
+            return self._settings.get_double(key)
+        return default
+
+    def _set_double(self, key: str, value: float) -> None:
+        """Set a double setting in GSettings."""
+        if self._settings is not None and self.has_key(key):
+            self._settings.set_double(key, value)
 
     @property
     def copy_to_clipboard(self) -> bool:
@@ -341,6 +354,18 @@ class ConfigurationService(BaseService):
     def openai_model(self, value: str) -> None:
         """Set the OpenAI model."""
         self._set_string(SETTING_OPENAI_MODEL, value)
+
+    @property
+    def fallback_timeout_seconds(self) -> float:
+        """Get the fallback timeout from GSettings or fallback to default constant."""
+        return self._get_double(
+            SETTING_FALLBACK_TIMEOUT_SECONDS, DEFAULT_FALLBACK_TIMEOUT_SECONDS
+        )
+
+    @fallback_timeout_seconds.setter
+    def fallback_timeout_seconds(self, value: float) -> None:
+        """Set the fallback timeout."""
+        self._set_double(SETTING_FALLBACK_TIMEOUT_SECONDS, value)
 
     def shutdown(self):
         pass

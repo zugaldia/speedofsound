@@ -33,7 +33,7 @@ class FallbackTranscriber(BaseTranscriber):
 
         self._primary = self._providers[TranscriberType.OPENAI]
         self._fallback = self._providers[TranscriberType.FASTER_WHISPER]
-        self._timeout = configuration.config.fallback.timeout_seconds
+        self._timeout = configuration.fallback_timeout_seconds
         self._logger.info(
             f"Initialized with primary={self._primary.get_name()}, "
             f"fallback={self._fallback.get_name()}, "
