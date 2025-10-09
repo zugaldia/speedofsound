@@ -10,24 +10,6 @@ from pydantic import BaseModel
 from speedofsound.utils import get_cache_path, get_uuid
 
 #
-# Language
-#
-
-
-class Language(BaseModel):
-    # The ID is the ISO 639-1 code for the language, which is used by
-    # e.g. Whisper and OpenAI Transcriptions API.
-    # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
-    id: str
-    name: str
-
-
-LANGUAGE_ENGLISH = Language(id="en", name="English")
-LANGUAGE_SPANISH = Language(id="es", name="Spanish")
-DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
-
-
-#
 # Configuration
 #
 
