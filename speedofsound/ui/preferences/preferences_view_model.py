@@ -13,4 +13,4 @@ class PreferencesViewModel(BaseViewModel):
         return self._configuration
 
     def shutdown(self) -> None:
-        self._logger.info("Shutting down")
+        pass

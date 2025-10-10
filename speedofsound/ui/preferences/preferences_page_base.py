@@ -1,17 +1,22 @@
 import logging
 from typing import Any, Callable, List, Optional, Tuple
 
-from gi.repository import Adw, Gio, Gtk  # type: ignore
+from gi.repository import Adw, Gio, GObject, Gtk  # type: ignore
 
 from speedofsound.languages import LANGUAGES
-from speedofsound.ui.preferences.preferences_view_model import PreferencesViewModel
+from speedofsound.models import TypistBackend
+from speedofsound.ui.preferences import PreferencesViewModel
 
 
 class PreferencesPageBase(Adw.PreferencesPage):
-    def __init__(self, view_model: PreferencesViewModel):
+    def __init__(self, view_model: PreferencesViewModel) -> None:
         super().__init__()
-        self._view_model = view_model
-        self._logger = logging.getLogger(self.__class__.__name__)
+        self._view_model: PreferencesViewModel = view_model
+        self._logger: logging.Logger = logging.getLogger(self.__class__.__name__)
+
+    def _setting_key_to_attr(self, setting_key: str) -> str:
+        """Convert GSettings key format (kebab-case) to Python attribute name (snake_case)."""
+        return setting_key.replace("-", "_")
 
     def bind_boolean_setting(self, setting_key: str, widget: Adw.SwitchRow) -> None:
         """Bind a boolean GSettings key to a switch widget with fallback handling."""
@@ -56,23 +61,6 @@ class PreferencesPageBase(Adw.PreferencesPage):
                 setting_key,
                 widget,
                 "value",
-                Gio.SettingsBindFlags.DEFAULT,
-            )
-        else:
-            widget.set_sensitive(False)
-            self._logger.warning(
-                f"GSettings key '{setting_key}' not available, widget will not be functional"
-            )
-
-    def bind_string_setting(self, setting_key: str, widget: Adw.ComboRow) -> None:
-        """Bind a string GSettings key to a combo widget with fallback handling."""
-        configuration = self._view_model.configuration
-        settings = configuration.settings
-        if settings is not None and configuration.has_key(setting_key):
-            settings.bind(
-                setting_key,
-                widget,
-                "selected-id",
                 Gio.SettingsBindFlags.DEFAULT,
             )
         else:
@@ -133,10 +121,9 @@ class PreferencesPageBase(Adw.PreferencesPage):
         string_list = Gtk.StringList()
         for display_name, _ in options:
             string_list.append(display_name)
-
         combo.set_model(string_list)
 
-        def on_changed(widget, _pspec):
+        def on_changed(widget: Adw.ComboRow, _pspec: GObject.ParamSpec) -> None:
             selected_index = widget.get_selected()
             if selected_index < 0 or selected_index >= len(options):
                 return
@@ -154,7 +141,6 @@ class PreferencesPageBase(Adw.PreferencesPage):
                 self._logger.info(f"{setting_key} changed to: {value}")
 
         combo.connect("notify::selected", on_changed)
-
         current_value = get_current_value()
         for i, (display_name, value) in enumerate(options):
             if value == current_value:
@@ -167,26 +153,85 @@ class PreferencesPageBase(Adw.PreferencesPage):
 
     def create_language_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
         """Create a language combo row for the given setting key."""
-        options = [(name, code) for name, code in LANGUAGES.items()]
-
-        def get_current():
-            return getattr(
-                self._view_model.configuration, setting_key.replace("-", "_")
-            )
-
-        def set_value(value):
-            settings = self._view_model.configuration.settings
-            if settings:
-                settings.set_string(setting_key, value)
-
-        def format_display(name, code):
-            return f"{name} ({code})"
+        attr_name: str = self._setting_key_to_attr(setting_key)
+        options: List[Tuple[str, str]] = [
+            (name, code) for name, code in LANGUAGES.items()
+        ]
 
         return self.create_combo_row(
             title=title,
             setting_key=setting_key,
             options=options,
-            get_current_value=get_current,
-            set_value=set_value,
-            format_display=format_display,
+            get_current_value=lambda: getattr(
+                self._view_model.configuration, attr_name
+            ),
+            set_value=lambda value: setattr(
+                self._view_model.configuration, attr_name, value
+            ),
+            format_display=lambda name, code: f"{name} ({code})",
+        )
+
+    def create_microphone_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
+        """Create a microphone device combo row for the given setting key."""
+        attr_name: str = self._setting_key_to_attr(setting_key)
+        available_devices = self._view_model.configuration.available_microphone_devices
+        options: List[Tuple[str, str]] = [("Default microphone", "")]
+        for device in available_devices:
+            options.append((device.display_name, device.device_name))
+
+        return self.create_combo_row(
+            title=title,
+            setting_key=setting_key,
+            options=options,
+            get_current_value=lambda: getattr(
+                self._view_model.configuration, attr_name
+            ),
+            set_value=lambda value: setattr(
+                self._view_model.configuration, attr_name, value
+            ),
+            subtitle="Select the microphone to use for recording",
+        )
+
+    def create_joystick_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
+        """Create a joystick device combo row for the given setting key."""
+        attr_name: str = self._setting_key_to_attr(setting_key)
+        available_devices = self._view_model.configuration.available_joystick_devices
+        options: List[Tuple[str, int]] = [("No joystick", -1)]
+        for device in available_devices:
+            options.append((device.name, device.id))
+
+        return self.create_combo_row(
+            title=title,
+            setting_key=setting_key,
+            options=options,
+            get_current_value=lambda: getattr(
+                self._view_model.configuration, attr_name
+            ),
+            set_value=lambda value: setattr(
+                self._view_model.configuration, attr_name, value
+            ),
+            subtitle="Requires application restart to take effect",
+        )
+
+    def create_typist_backend_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
+        """Create a typist backend combo row for the given setting key."""
+        attr_name: str = self._setting_key_to_attr(setting_key)
+        options: List[Tuple[str, str]] = [
+            ("Auto", TypistBackend.AUTO.value),
+            ("AT-SPI", TypistBackend.ATSPI.value),
+            ("xdotool", TypistBackend.XDOTOOL.value),
+            ("ydotool", TypistBackend.YDOTOOL.value),
+        ]
+
+        return self.create_combo_row(
+            title=title,
+            setting_key=setting_key,
+            options=options,
+            get_current_value=lambda: getattr(
+                self._view_model.configuration, attr_name
+            ),
+            set_value=lambda value: setattr(
+                self._view_model.configuration, attr_name, value
+            ),
+            subtitle="Mechanism to simulate typing into applications. Auto should normally be adequate. Requires application restart to take effect.",
         )

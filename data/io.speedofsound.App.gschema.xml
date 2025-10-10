@@ -60,11 +60,6 @@
             <summary>Right joystick button language</summary>
             <description>ISO 639-1 language code for the right joystick button.</description>
         </key>
-        <key name="faster-whisper-enabled" type="b">
-            <default>false</default>
-            <summary>Enable Faster Whisper</summary>
-            <description>Enable or disable the Faster Whisper transcriber.</description>
-        </key>
         <key name="faster-whisper-model" type="s">
             <default>"small"</default>
             <summary>Faster Whisper model</summary>
@@ -74,11 +69,6 @@
             <default>"auto"</default>
             <summary>Faster Whisper device</summary>
             <description>The device to use for Faster Whisper: cpu, cuda, or auto.</description>
-        </key>
-        <key name="openai-enabled" type="b">
-            <default>false</default>
-            <summary>Enable OpenAI</summary>
-            <description>Enable or disable the OpenAI transcriber.</description>
         </key>
         <key name="openai-base-url" type="s">
             <default>""</default>
@@ -115,6 +105,11 @@
             <default>false</default>
             <summary>Include application context</summary>
             <description>Include active application and window information in transcription prompts to improve accuracy.</description>
+        </key>
+        <key name="microphone-device" type="s">
+            <default>""</default>
+            <summary>Microphone device</summary>
+            <description>GStreamer device name for audio input. Empty string uses the default microphone.</description>
         </key>
     </schema>
 </schemalist>

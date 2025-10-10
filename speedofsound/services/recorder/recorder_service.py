@@ -21,7 +21,7 @@ class RecorderService(BaseService):
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration
-        self._recorder = GStreamerRecorder()
+        self._recorder = GStreamerRecorder(configuration)
         self._recorder.set_volume_callback(self._on_volume_level)
         self._timeout_id: int | None = None
         self._logger.info("Initialized.")

@@ -59,9 +59,6 @@ class OpenAiTranscriber(BaseTranscriber):
             ),
         ]
 
-    def is_ready(self) -> bool:
-        return self._configuration_service.openai_enabled
-
     def _get_client(self) -> OpenAI:
         if self._client:
             return self._client

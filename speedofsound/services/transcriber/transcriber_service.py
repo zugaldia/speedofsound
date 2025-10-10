@@ -52,16 +52,20 @@ class TranscriberService(BaseService):
             raise RuntimeError(message)
 
     def _get_fallback_transcriber(self) -> BaseTranscriber:
+        if not self._configuration.is_fallback_available():
+            message = (
+                "Fallback transcriber requires both OpenAI and FasterWhisper "
+                "providers to be properly configured. "
+                f"OpenAI available: {self._configuration.is_openai_available()}, "
+                f"FasterWhisper available: {self._configuration.is_faster_whisper_available()}"
+            )
+            self._logger.error(message)
+            raise RuntimeError(message)
+
         required_providers: List[BaseTranscriber] = [
             self._get_transcriber(TranscriberType.OPENAI),
             self._get_transcriber(TranscriberType.FASTER_WHISPER),
         ]
-
-        for provider in required_providers:
-            if not provider.is_ready():
-                message = f"Transcriber provider {provider.get_name()} is not ready."
-                self._logger.error(message)
-                raise RuntimeError(message)
 
         return FallbackTranscriber(
             configuration=self._configuration,

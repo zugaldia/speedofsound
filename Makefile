@@ -32,7 +32,7 @@ format-diff:
 	ruff format --diff speedofsound/
 
 vulture:
-	vulture speedofsound/ --min-confidence 80
+	vulture speedofsound/
 
 test-schema:
 	glib-compile-schemas --dry-run --strict data/

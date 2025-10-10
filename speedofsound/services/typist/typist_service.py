@@ -60,7 +60,7 @@ class TypistService(BaseService):
     def _get_typist(self) -> BaseTypist:
         typist_backend = self._configuration.typist_backend
 
-        if typist_backend == "auto":
+        if typist_backend == TypistBackend.AUTO:
             # Auto-detect based on display server
             display_server = self._detect_display_server()
             if display_server == DisplayServer.WAYLAND:

@@ -98,10 +98,6 @@ class FasterWhisperTranscriber(BaseTranscriber):
             for model_name in available_models()
         ]
 
-    def is_ready(self) -> bool:
-        """Check if the transcriber is ready to process requests."""
-        return self._configuration_service.faster_whisper_enabled
-
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         """Transcribe audio content from the request."""
         audio = request.recorder_response.get_file_like_object()

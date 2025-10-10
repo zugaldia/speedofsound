@@ -9,16 +9,15 @@ from speedofsound.constants import (
     DEFAULT_EXT_STATUS,
     DEFAULT_FALLBACK_TIMEOUT_SECONDS,
     DEFAULT_FASTER_WHISPER_DEVICE,
-    DEFAULT_FASTER_WHISPER_ENABLED,
     DEFAULT_FASTER_WHISPER_MODEL,
     DEFAULT_INCLUDE_APPLICATION_NAME,
     DEFAULT_JOYSTICK_ID,
     DEFAULT_JOYSTICK_LANGUAGE_LEFT,
     DEFAULT_JOYSTICK_LANGUAGE_RIGHT,
     DEFAULT_LANGUAGE,
+    DEFAULT_MICROPHONE_DEVICE,
     DEFAULT_OPENAI_API_KEY,
     DEFAULT_OPENAI_BASE_URL,
-    DEFAULT_OPENAI_ENABLED,
     DEFAULT_OPENAI_MODEL,
     DEFAULT_PREFERRED_TRANSCRIBER,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
@@ -30,23 +29,22 @@ from speedofsound.constants import (
     SETTING_EXT_STATUS,
     SETTING_FALLBACK_TIMEOUT_SECONDS,
     SETTING_FASTER_WHISPER_DEVICE,
-    SETTING_FASTER_WHISPER_ENABLED,
     SETTING_FASTER_WHISPER_MODEL,
     SETTING_INCLUDE_APPLICATION_NAME,
     SETTING_JOYSTICK_ID,
     SETTING_JOYSTICK_LANGUAGE_LEFT,
     SETTING_JOYSTICK_LANGUAGE_RIGHT,
     SETTING_LANGUAGE,
+    SETTING_MICROPHONE_DEVICE,
     SETTING_OPENAI_API_KEY,
     SETTING_OPENAI_BASE_URL,
-    SETTING_OPENAI_ENABLED,
     SETTING_OPENAI_MODEL,
     SETTING_PREFERRED_TRANSCRIBER,
     SETTING_RECORDING_TIMEOUT_SECONDS,
     SETTING_SAVE_TRANSCRIPTIONS,
     SETTING_TYPIST_BACKEND,
 )
-from speedofsound.models import JoystickDevice, TranscriberModel
+from speedofsound.models import AudioDevice, JoystickDevice, TranscriberModel
 from speedofsound.services.base_service import BaseService
 
 
@@ -68,6 +66,7 @@ class ConfigurationService(BaseService):
         self._available_joystick_devices: List[JoystickDevice] = []
         self._available_faster_whisper_models: List[TranscriberModel] = []
         self._available_openai_models: List[TranscriberModel] = []
+        self._available_microphone_devices: List[AudioDevice] = []
         self._setup_settings_handlers()
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
@@ -163,6 +162,11 @@ class ConfigurationService(BaseService):
         """Get the copy to clipboard setting from GSettings or fallback to default constant."""
         return self._get_boolean(SETTING_COPY_TO_CLIPBOARD, DEFAULT_COPY_TO_CLIPBOARD)
 
+    @copy_to_clipboard.setter
+    def copy_to_clipboard(self, value: bool) -> None:
+        """Set the copy to clipboard setting."""
+        self._set_boolean(SETTING_COPY_TO_CLIPBOARD, value)
+
     @property
     def extension_status(self) -> str:
         """Get the extension status indicator."""
@@ -189,6 +193,11 @@ class ConfigurationService(BaseService):
         return self._get_boolean(
             SETTING_SAVE_TRANSCRIPTIONS, DEFAULT_SAVE_TRANSCRIPTIONS
         )
+
+    @save_transcriptions.setter
+    def save_transcriptions(self, value: bool) -> None:
+        """Set the save transcriptions setting."""
+        self._set_boolean(SETTING_SAVE_TRANSCRIPTIONS, value)
 
     @property
     def recording_timeout_seconds(self) -> int:
@@ -217,12 +226,22 @@ class ConfigurationService(BaseService):
         """Get the joystick ID setting from GSettings or fallback to default constant."""
         return self._get_int(SETTING_JOYSTICK_ID, DEFAULT_JOYSTICK_ID)
 
+    @joystick_id.setter
+    def joystick_id(self, value: int) -> None:
+        """Set the joystick ID setting."""
+        self._set_int(SETTING_JOYSTICK_ID, value)
+
     @property
     def joystick_language_left(self) -> str:
         """Get the joystick left button language from GSettings or fallback to default constant."""
         return self._get_string(
             SETTING_JOYSTICK_LANGUAGE_LEFT, DEFAULT_JOYSTICK_LANGUAGE_LEFT
         )
+
+    @joystick_language_left.setter
+    def joystick_language_left(self, value: str) -> None:
+        """Set the joystick left button language."""
+        self._set_string(SETTING_JOYSTICK_LANGUAGE_LEFT, value)
 
     @property
     def joystick_language_right(self) -> str:
@@ -231,17 +250,10 @@ class ConfigurationService(BaseService):
             SETTING_JOYSTICK_LANGUAGE_RIGHT, DEFAULT_JOYSTICK_LANGUAGE_RIGHT
         )
 
-    @property
-    def faster_whisper_enabled(self) -> bool:
-        """Get the Faster Whisper enabled setting from GSettings or fallback to default constant."""
-        return self._get_boolean(
-            SETTING_FASTER_WHISPER_ENABLED, DEFAULT_FASTER_WHISPER_ENABLED
-        )
-
-    @faster_whisper_enabled.setter
-    def faster_whisper_enabled(self, value: bool) -> None:
-        """Set the Faster Whisper enabled setting."""
-        self._set_boolean(SETTING_FASTER_WHISPER_ENABLED, value)
+    @joystick_language_right.setter
+    def joystick_language_right(self, value: str) -> None:
+        """Set the joystick right button language."""
+        self._set_string(SETTING_JOYSTICK_LANGUAGE_RIGHT, value)
 
     @property
     def faster_whisper_model(self) -> str:
@@ -300,16 +312,6 @@ class ConfigurationService(BaseService):
         """Set the list of available OpenAI models."""
         self._available_openai_models = models
         self._logger.info(f"Updated available OpenAI models: {len(models)} found.")
-
-    @property
-    def openai_enabled(self) -> bool:
-        """Get the OpenAI enabled setting from GSettings or fallback to default constant."""
-        return self._get_boolean(SETTING_OPENAI_ENABLED, DEFAULT_OPENAI_ENABLED)
-
-    @openai_enabled.setter
-    def openai_enabled(self, value: bool) -> None:
-        """Set the OpenAI enabled setting."""
-        self._set_boolean(SETTING_OPENAI_ENABLED, value)
 
     @property
     def openai_base_url(self) -> str:
@@ -381,6 +383,45 @@ class ConfigurationService(BaseService):
         return self._get_boolean(
             SETTING_INCLUDE_APPLICATION_NAME, DEFAULT_INCLUDE_APPLICATION_NAME
         )
+
+    @include_application_name.setter
+    def include_application_name(self, value: bool) -> None:
+        """Set the include application name setting."""
+        self._set_boolean(SETTING_INCLUDE_APPLICATION_NAME, value)
+
+    @property
+    def microphone_device(self) -> str:
+        """Get the microphone device from GSettings or fallback to default constant."""
+        return self._get_string(SETTING_MICROPHONE_DEVICE, DEFAULT_MICROPHONE_DEVICE)
+
+    @microphone_device.setter
+    def microphone_device(self, value: str) -> None:
+        """Set the microphone device."""
+        self._set_string(SETTING_MICROPHONE_DEVICE, value)
+
+    @property
+    def available_microphone_devices(self) -> List[AudioDevice]:
+        """Get the list of available microphone devices detected at runtime."""
+        return self._available_microphone_devices
+
+    def set_available_microphone_devices(self, devices: List[AudioDevice]) -> None:
+        """Set the list of available microphone devices."""
+        self._available_microphone_devices = devices
+        self._logger.info(
+            f"Updated available microphone devices: {len(devices)} found."
+        )
+
+    def is_openai_available(self) -> bool:
+        """Check if OpenAI provider has all requirements met."""
+        return bool(self.openai_api_key.strip()) and bool(self.openai_model)
+
+    def is_faster_whisper_available(self) -> bool:
+        """Check if FasterWhisper provider has all requirements met."""
+        return bool(self.faster_whisper_model)
+
+    def is_fallback_available(self) -> bool:
+        """Check if Fallback mode can be used (requires both providers)."""
+        return self.is_openai_available() and self.is_faster_whisper_available()
 
     def shutdown(self):
         pass

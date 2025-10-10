@@ -3,19 +3,22 @@ from typing import List, Optional
 
 from gi.repository import Gst  # type: ignore
 
-from speedofsound.models import RecorderRequest
+from speedofsound.models import AudioDevice, RecorderRequest
+from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.recorder.base_recorder import BaseRecorder
 
 
 class GStreamerRecorder(BaseRecorder):
-    def __init__(self) -> None:
+    def __init__(self, configuration: ConfigurationService) -> None:
         super().__init__(provider_name="gstreamer")
         Gst.init()
+        self._configuration = configuration
         self._pipeline: Optional[Gst.Pipeline] = None
         self._appsink: Optional[Gst.Element] = None
         self._audio_data: List[bytes] = []
         self._is_recording: bool = False
         self._recording_lock: threading.Lock = threading.Lock()
+        self._scan_audio_devices()
         self._logger.info(f"GStreamer recorder v{Gst.version_string()} initialized.")
 
     def shutdown(self) -> None:
@@ -26,6 +29,43 @@ class GStreamerRecorder(BaseRecorder):
                 self._pipeline = None
             self._appsink = None
             self._audio_data.clear()
+
+    def _scan_audio_devices(self) -> None:
+        """Enumerate available audio input devices."""
+        if self._configuration is None:
+            return
+
+        try:
+            devices = []
+            device_monitor = Gst.DeviceMonitor.new()
+            device_monitor.add_filter("Audio/Source", None)
+            device_monitor.start()
+            gst_devices: list[Gst.Device] = device_monitor.get_devices() or []
+            for gst_device in gst_devices:
+                device_properties = gst_device.get_properties()
+                if device_properties:
+                    device_name = (
+                        device_properties.get_string("node.name")
+                        or device_properties.get_string("alsa.card_name")
+                        or device_properties.get_string("api.alsa.card.name")
+                    )
+                    display_name = (
+                        gst_device.get_display_name()
+                        or device_properties.get_string("node.description")
+                        or device_name
+                    )
+                    if device_name and display_name:
+                        devices.append(
+                            AudioDevice(
+                                device_name=device_name,
+                                display_name=display_name,
+                            )
+                        )
+            device_monitor.stop()
+            self._configuration.set_available_microphone_devices(devices)
+        except Exception as e:
+            self._logger.error(f"Failed to scan audio devices: {e}")
+            self._configuration.set_available_microphone_devices([])
 
     def is_recording(self) -> bool:
         with self._recording_lock:
@@ -41,8 +81,16 @@ class GStreamerRecorder(BaseRecorder):
             format_map = {1: "S8", 2: "S16LE", 4: "S32LE"}
             audio_format = format_map.get(recorder_request.sample_width, "S16LE")
 
+            # Get microphone device from configuration
+            device_param = ""
+            if self._configuration:
+                device_name = self._configuration.microphone_device
+                if device_name:
+                    device_param = f" device={device_name}"
+                    self._logger.info(f"Using microphone device: {device_name}")
+
             pipeline_str = (
-                f"pulsesrc ! "
+                f"pulsesrc{device_param} ! "
                 f"audio/x-raw,format={audio_format},"
                 f"channels={recorder_request.channels},"
                 f"rate={recorder_request.rate} ! "

@@ -27,9 +27,16 @@ class DisplayServer(StrEnum):
 
 
 class TypistBackend(StrEnum):
+    AUTO = "auto"
     ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
+
+
+class FasterWhisperDevice(StrEnum):
+    AUTO = "auto"
+    CPU = "cpu"
+    CUDA = "cuda"
 
 
 #
@@ -106,6 +113,11 @@ class JoystickButton(IntEnum):
 class JoystickDevice(BaseModel):
     id: int
     name: str
+
+
+class AudioDevice(BaseModel):
+    device_name: str
+    display_name: str
 
 
 class ControlEvent(BaseEvent):
