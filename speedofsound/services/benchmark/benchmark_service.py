@@ -26,7 +26,7 @@ class BenchmarkService(BaseService):
     def save_transcription(
         self, request: TranscriberRequest, response: TranscriberResponse
     ) -> None:
-        if not self._configuration.config.save_transcriptions:
+        if not self._configuration.save_transcriptions:
             return
         if not response.success:
             self._logger.debug("Skipping failed transcription")
@@ -40,8 +40,8 @@ class BenchmarkService(BaseService):
             entry = BenchmarkEntry(
                 session_id=session_id,
                 timestamp=datetime.now(),
-                language=self._configuration.config.language,
-                transcriber=self._configuration.config.transcriber,
+                language=self._configuration.language,
+                transcriber=self._configuration.preferred_transcriber,
                 audio_file_path=str(audio_path),
                 duration_seconds=request.recorder_response.get_duration_seconds(),
                 text=response.text or "",

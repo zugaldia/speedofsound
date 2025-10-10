@@ -4,28 +4,27 @@ This integration works with OpenAI's hosted version of Whisper as well as the ne
 
 ## Configuration
 
-```toml
-[openai]
-enabled = false
-api_key = ""
-model = ""
+Configure OpenAI in the Preferences window under the "Transcriber" tab, or via command line:
+
+```bash
+gsettings set io.speedofsound.App openai-enabled true
+gsettings set io.speedofsound.App openai-api-key "your-api-key"
+gsettings set io.speedofsound.App openai-model ""
 ```
 
-- `enabled`: Enable OpenAI speech-to-text transcription
-- `api_key`: Your OpenAI API key (required)
-- `model`: OpenAI model identifier (optional, defaults to reasonable choice)
+- `openai-enabled`: Enable OpenAI speech-to-text transcription
+- `openai-api-key`: Your OpenAI API key (required)
+- `openai-model`: OpenAI model identifier (optional, defaults to reasonable choice)
 
 ## Setup
 
 1. Sign up for OpenAI API access
 2. Create and export an API key following the [API key instructions](https://platform.openai.com/docs/libraries#create-and-export-an-api-key)
-3. Configure your credentials:
+3. Configure your credentials in the Preferences window or via command line:
 
-```toml
-transcriber = "openai"
-
-[openai]
-enabled = true
-api_key = "your-openai-api-key"
-model = ""
+```bash
+gsettings set io.speedofsound.App transcriber "openai"
+gsettings set io.speedofsound.App openai-enabled true
+gsettings set io.speedofsound.App openai-api-key "your-openai-api-key"
+gsettings set io.speedofsound.App openai-model ""
 ```

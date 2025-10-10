@@ -42,14 +42,14 @@ If you have a joystick connected to your system, you can use it to trigger the a
 - **Right button**: Switch to Spanish for input (configurable)
 
 ### Configuration
-Configure joystick settings in `config.toml`:
+Configure joystick settings in the Preferences window under the "Advanced" tab, or via command line:
 
-```toml
-joystick_id = 0
-joystick_language_left = "en"
-joystick_language_right = "es"
+```bash
+gsettings set io.speedofsound.App joystick-id 0
+gsettings set io.speedofsound.App joystick-language-left "en"
+gsettings set io.speedofsound.App joystick-language-right "es"
 ```
 
-- `joystick_id`: Joystick device ID (as detected by PyGame)
-- `joystick_language_left`: Language for left joystick button
-- `joystick_language_right`: Language for right joystick button
+- `joystick-id`: Joystick device ID (as detected by PyGame)
+- `joystick-language-left`: Language for left joystick button
+- `joystick-language-right`: Language for right joystick button

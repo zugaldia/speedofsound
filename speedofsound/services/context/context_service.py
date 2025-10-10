@@ -38,7 +38,7 @@ class ContextService(BaseService):
         self._configuration = configuration
         self._atspi_client = None
         self._user_prompt_cache = {}
-        if self._configuration.config.context.include_application:
+        if self._configuration.include_application_name:
             self._atspi_client = AtspiClient()
             self._logger.info("Initialized with ATSPI client.")
 

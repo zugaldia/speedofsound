@@ -21,7 +21,7 @@ class RecorderService(BaseService):
     ):
         super().__init__(service_name=self.SERVICE_NAME)
         self._configuration = configuration
-        self._recorder = GStreamerRecorder()
+        self._recorder = GStreamerRecorder(configuration)
         self._recorder.set_volume_callback(self._on_volume_level)
         self._timeout_id: int | None = None
         self._logger.info("Initialized.")
@@ -38,7 +38,7 @@ class RecorderService(BaseService):
 
     def _on_timeout(self) -> bool:
         """Handle recording timeout."""
-        timeout_seconds = self._configuration.config.recording_timeout_seconds
+        timeout_seconds = self._configuration.recording_timeout_seconds
         self._logger.info(
             f"Recording timeout reached ({timeout_seconds} seconds), stopping recording."
         )
@@ -57,7 +57,7 @@ class RecorderService(BaseService):
         try:
             recorder_request = RecorderRequest()
             self._recorder.start_recording(recorder_request)
-            timeout_seconds = self._configuration.config.recording_timeout_seconds
+            timeout_seconds = self._configuration.recording_timeout_seconds
             self._timeout_id = GLib.timeout_add_seconds(
                 timeout_seconds, self._on_timeout
             )

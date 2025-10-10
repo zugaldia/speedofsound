@@ -46,7 +46,7 @@ class MainViewModel(BaseViewModel):
         self._orchestrator.cancel_recording()
 
     def _on_orchestrator_event(
-        self, service: OrchestratorService, encoded: str
+        self, _service: OrchestratorService, encoded: str
     ) -> None:
         try:
             event = OrchestratorEvent.model_validate_json(encoded)
@@ -62,22 +62,22 @@ class MainViewModel(BaseViewModel):
         except Exception as e:
             self._logger.error(f"Error handling orchestrator event: {e}")
 
-    def _on_volume_level(self, service: OrchestratorService, volume: float) -> None:
+    def _on_volume_level(self, _service: OrchestratorService, volume: float) -> None:
         """Handle volume level updates from the orchestrator."""
         self.view_state.volume_level = volume
 
     def _on_language_name(
-        self, service: OrchestratorService, language_name: str
+        self, _service: OrchestratorService, language_name: str
     ) -> None:
         """Handle language name updates from the orchestrator."""
         self.view_state.language_name = language_name
 
-    def _on_model_name(self, service: OrchestratorService, model_name: str) -> None:
+    def _on_model_name(self, _service: OrchestratorService, model_name: str) -> None:
         """Handle model name updates from the orchestrator."""
         self.view_state.model_name = model_name
 
     def _on_words_per_minute(
-        self, service: OrchestratorService, words_per_minute: float
+        self, _service: OrchestratorService, words_per_minute: float
     ) -> None:
         """Handle words per minute updates from the orchestrator."""
         if words_per_minute > 0:

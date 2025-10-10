@@ -47,7 +47,7 @@ Read [`extension/README.md`](extension/README.md) for installation instructions.
 
 ### (Optional) Step 5: Configure the app
 
-Speed of Sound uses a `config.toml` file for all settings. When you first launch the application, it will automatically create a default configuration that uses a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
+Speed of Sound uses GSettings for all user-facing settings, accessible through the Preferences window in the application. When you first launch the application, it will use default settings with a local Faster Whisper model for speech recognition. It will also automatically download the right model files for local usage.
 
 Speed of Sound offers three transcription options:
 1. **Faster Whisper** (default) - Local transcription running entirely on your device
@@ -75,13 +75,11 @@ By default, Speed of Sound is preconfigured to work fully offline using Faster W
 
 However, if your machine lacks the processing power to run a speech recognition model locally or you need higher-quality transcriptions from larger cloud-based models, cloud providers are also supported. The choice of which model to use is entirely yours. Keep in mind that while cloud providers are convenient to set up and typically inexpensive, your audio data is shared with third parties, so you should review their terms of service and privacy policies.
 
-> ℹ️ **Tip:** One common pattern is maintaining separate configuration files for different use cases. For example, you could have a `config-local.toml` for sensitive work where no data should leave your computer, and a `config-cloud.toml` for less sensitive situations like typing into public websites or generating public content. Before starting the app, you would `cp` the right one under `~/.config/io.speedofsound.App/config.toml`.
-
 ## Troubleshooting
 
-You can test your audio and transcription settings from the terminal using the included `launch.py` utility.
+Speed of Sound includes a dashboard window to test your voice typing setup. Use it to verify your microphone, speech recognition, and virtual keyboard configuration.
 
-Read [`docs/troubleshooting.md`](docs/troubleshooting.md) for instructions.
+Read [`docs/troubleshooting.md`](docs/troubleshooting.md) for more details.
 
 ### Reporting Issues
 

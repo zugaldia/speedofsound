@@ -33,11 +33,6 @@ class BaseTranscriber(BaseProvider):
         pass
 
     @abstractmethod
-    def is_ready(self) -> bool:
-        """Check if the transcriber is ready to process requests."""
-        pass
-
-    @abstractmethod
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         """Transcribe audio content from the request."""
         pass

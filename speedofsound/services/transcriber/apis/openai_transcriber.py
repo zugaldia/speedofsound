@@ -21,7 +21,6 @@ from speedofsound.models import (
 )
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
-from speedofsound.utils import is_empty
 
 
 class OpenAiTranscriber(BaseTranscriber):
@@ -30,6 +29,9 @@ class OpenAiTranscriber(BaseTranscriber):
             provider_type=TranscriberType.OPENAI,
             configuration=configuration,
         )
+
+        available_models = self.get_available_models()
+        configuration.set_available_openai_models(available_models)
 
         self._client = None
         self._logger.info("Initialized.")
@@ -57,21 +59,18 @@ class OpenAiTranscriber(BaseTranscriber):
             ),
         ]
 
-    def is_ready(self) -> bool:
-        return self._configuration_service.config.openai.enabled
-
     def _get_client(self) -> OpenAI:
         if self._client:
             return self._client
 
-        base_url = self._configuration_service.config.openai.base_url
-        api_key = self._configuration_service.config.openai.api_key
+        base_url = self._configuration_service.openai_base_url
+        api_key = self._configuration_service.openai_api_key
         self._client = OpenAI(base_url=base_url, api_key=api_key)
         return self._client
 
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         try:
-            base_url = self._configuration_service.config.openai.base_url
+            base_url = self._configuration_service.openai_base_url
             if base_url and base_url.startswith("http://localhost"):
                 # VLLM models are not compatible with the OpenAI's
                 # audio.transcriptions.create() method.
@@ -84,17 +83,10 @@ class OpenAiTranscriber(BaseTranscriber):
             return TranscriberResponse(success=False, message=message)
 
     def _transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
-        config = self._configuration_service.config
-
         # While Whisper allows "auto" for automatic language detection, I can't
         # find documentation that the OpenAI's cloud API does the same thing.
-        language = config.language
-
-        model_id = (
-            config.openai.model
-            if not is_empty(config.openai.model)
-            else self.get_available_models()[0].id
-        )
+        language = self._configuration_service.language
+        model_id = self._configuration_service.openai_model
 
         self._logger.info(f"Transcribing (language={language}, model={model_id}).")
         client = self._get_client()
@@ -111,14 +103,7 @@ class OpenAiTranscriber(BaseTranscriber):
     def _transcribe_completions(
         self, request: TranscriberRequest
     ) -> TranscriberResponse:
-        config = self._configuration_service.config
-
-        model_id = (
-            config.openai.model
-            if not is_empty(config.openai.model)
-            else self.get_available_models()[0].id
-        )
-
+        model_id = self._configuration_service.openai_model
         wav_file = request.recorder_response.get_file_like_object()
         wav_data = RecorderResponse.data_encode(wav_file.read())
 

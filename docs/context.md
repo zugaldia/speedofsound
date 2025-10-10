@@ -31,11 +31,6 @@ The custom prompts are automatically loaded and cached when the application star
 
 ## Active Application (experimental)
 
-Speed of Sound can optionally include information about the active application window to provide better transcription context.
+Speed of Sound can optionally include information about the active application window to provide better transcription context. This setting is available in the application's **Advanced Preferences** page under the **Context** section.
 
-```toml
-[context]
-include_application = false
-```
-
-- `include_application`: Include active application and window information in transcription prompts (default: false)
+Enable "Include Application Context" to include active application and window information in transcription prompts (default: disabled).

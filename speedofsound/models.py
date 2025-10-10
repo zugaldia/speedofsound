@@ -2,30 +2,12 @@ import base64
 import io
 import wave
 from enum import IntEnum, StrEnum
-from typing import Literal, Optional
+from typing import Optional
 
 from gi.repository import GObject  # type: ignore
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from speedofsound.utils import get_cache_path, get_uuid
-
-#
-# Language
-#
-
-
-class Language(BaseModel):
-    # The ID is the ISO 639-1 code for the language, which is used by
-    # e.g. Whisper and OpenAI Transcriptions API.
-    # https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
-    id: str
-    name: str
-
-
-LANGUAGE_ENGLISH = Language(id="en", name="English")
-LANGUAGE_SPANISH = Language(id="es", name="Spanish")
-DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
-
 
 #
 # Configuration
@@ -33,14 +15,9 @@ DEFAULT_LANGUAGE = LANGUAGE_ENGLISH
 
 
 class TranscriberType(StrEnum):
-    # Local
-    FASTER_WHISPER = "faster_whisper"
-
-    # Cloud
-    OPENAI = "openai"
-
-    # Hybrid
-    FALLBACK = "fallback"
+    FASTER_WHISPER = "faster_whisper"  # Local
+    OPENAI = "openai"  # Cloud
+    FALLBACK = "fallback"  # Hybrid
 
 
 class DisplayServer(StrEnum):
@@ -50,73 +27,16 @@ class DisplayServer(StrEnum):
 
 
 class TypistBackend(StrEnum):
+    AUTO = "auto"
     ATSPI = "atspi"
     XDOTOOL = "xdotool"
     YDOTOOL = "ydotool"
 
 
-class FasterWhisperConfig(BaseModel):
-    """Faster Whisper transcriber configuration."""
-
-    enabled: bool = False
-    model: str = "small"
-    device: Literal["cpu", "cuda", "auto"] = "auto"
-
-
-class OpenAIConfig(BaseModel):
-    """OpenAI transcriber configuration."""
-
-    enabled: bool = False
-    base_url: Optional[str] = None
-    api_key: str = ""
-    model: str = ""
-
-
-class FallbackConfig(BaseModel):
-    """Fallback transcriber configuration."""
-
-    timeout_seconds: float = Field(default=2.0, ge=0.1, le=10.0)
-
-
-class ContextConfig(BaseModel):
-    """Context service configuration."""
-
-    include_application: bool = False
-
-
-class AppConfig(BaseModel):
-    """Application configuration loaded from config.toml."""
-
-    language: str = DEFAULT_LANGUAGE.id
-
-    # Optional: This is the ID of the joystick as detected by PyGame.
-    # The id argument must be a value from 0 to pygame.joystick.get_count() - 1.
-    joystick_id: Optional[int] = None
-    joystick_language_left: str = LANGUAGE_ENGLISH.id
-    joystick_language_right: str = LANGUAGE_SPANISH.id
-
-    # Recording settings
-    recording_timeout_seconds: int = Field(default=60, ge=1, le=300)
-
-    # Transcriber settings
-    transcriber: str = TranscriberType.FASTER_WHISPER.value
-
-    # Typist settings
-    typist_backend: Optional[str] = None
-
-    # Context settings
-    context: ContextConfig = ContextConfig()
-
-    # Clipboard settings
-    copy_to_clipboard: bool = False
-
-    # Benchmark settings
-    save_transcriptions: bool = False
-
-    # Provider configurations
-    faster_whisper: FasterWhisperConfig = FasterWhisperConfig()
-    openai: OpenAIConfig = OpenAIConfig()
-    fallback: FallbackConfig = FallbackConfig()
+class FasterWhisperDevice(StrEnum):
+    AUTO = "auto"
+    CPU = "cpu"
+    CUDA = "cuda"
 
 
 #
@@ -193,6 +113,11 @@ class JoystickButton(IntEnum):
 class JoystickDevice(BaseModel):
     id: int
     name: str
+
+
+class AudioDevice(BaseModel):
+    device_name: str
+    display_name: str
 
 
 class ControlEvent(BaseEvent):

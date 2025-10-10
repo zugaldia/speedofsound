@@ -1,7 +1,6 @@
 from speedofsound.constants import (
     APPLICATION_ID,
     APPLICATION_NAME,
-    CONFIG_FILE,
     CONTROL_EVENT_SIGNAL,
     DEFAULT_MARGIN,
     DEFAULT_SPACING,
@@ -12,7 +11,6 @@ from speedofsound.constants import (
     RECORDER_RESPONSE_SIGNAL,
     SETTING_EXT_ERROR,
     SETTING_EXT_STATUS,
-    SETTING_SHOW_WELCOME,
     TRANSCRIBER_RESPONSE_SIGNAL,
     TYPIST_RESPONSE_SIGNAL,
     VOLUME_LEVEL_SIGNAL,
@@ -34,11 +32,6 @@ class TestGeneralConstants:
         assert isinstance(APPLICATION_NAME, str)
         assert len(APPLICATION_NAME) > 0
 
-    def test_config_files(self):
-        assert CONFIG_FILE == "config.toml"
-        assert isinstance(CONFIG_FILE, str)
-        assert CONFIG_FILE.endswith(".toml")
-
     def test_log_file(self):
         assert LOG_FILE == "speedofsound.log"
         assert isinstance(LOG_FILE, str)
@@ -58,7 +51,6 @@ class TestSettingConstants:
 
     def test_setting_constants_are_strings(self):
         settings = [
-            SETTING_SHOW_WELCOME,
             SETTING_EXT_STATUS,
             SETTING_EXT_ERROR,
         ]
@@ -67,13 +59,11 @@ class TestSettingConstants:
             assert len(setting) > 0
 
     def test_setting_values(self):
-        assert SETTING_SHOW_WELCOME == "show-welcome"
         assert SETTING_EXT_STATUS == "extension-status"
         assert SETTING_EXT_ERROR == "extension-error"
 
     def test_setting_naming_convention(self):
         settings = [
-            SETTING_SHOW_WELCOME,
             SETTING_EXT_STATUS,
             SETTING_EXT_ERROR,
         ]
@@ -159,7 +149,6 @@ class TestConstantsUniqueness:
 
     def test_setting_constants_are_unique(self):
         settings = [
-            SETTING_SHOW_WELCOME,
             SETTING_EXT_STATUS,
             SETTING_EXT_ERROR,
         ]

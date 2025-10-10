@@ -5,6 +5,7 @@ from faster_whisper import WhisperModel
 from faster_whisper import __version__ as faster_whisper_version
 from faster_whisper import available_models, download_model
 
+from speedofsound.constants import SETTING_FASTER_WHISPER_MODEL
 from speedofsound.models import (
     TranscriberModel,
     TranscriberRequest,
@@ -23,9 +24,13 @@ class FasterWhisperTranscriber(BaseTranscriber):
             configuration=configuration,
         )
 
-        model_name = configuration.config.faster_whisper.model
+        available_models = self.get_available_models()
+        configuration.set_available_faster_whisper_models(available_models)
+
+        model_name = configuration.faster_whisper_model
         model_path = self._download_model(model_name)
         self._load_model(model_path)
+        self._subscribe_to_model_changes()
         self._logger.info(f"v{faster_whisper_version} initialized.")
 
     def shutdown(self):
@@ -53,20 +58,34 @@ class FasterWhisperTranscriber(BaseTranscriber):
 
     def _get_and_check_language(self) -> Optional[str]:
         """Get and check the language configuration."""
-        config = self._configuration_service.config
-        if config.language not in self._model.supported_languages:
+        language = self._configuration_service.language
+        if language not in self._model.supported_languages:
             raise ValueError(
-                f"Language {config.language} is not supported by the model. "
+                f"Language {language} is not supported by the model. "
                 f"Supported languages: {self._model.supported_languages}"
             )
-        return config.language
+        return language
 
     def _load_model(self, model_path: str):
         """Load the Whisper model."""
         self._logger.info(f"Loading model from {model_path}...")
-        device = self._configuration_service.config.faster_whisper.device
+        device = self._configuration_service.faster_whisper_device
         self._model = WhisperModel(model_size_or_path=model_path, device=device)
         self._get_and_check_language()
+
+    def _subscribe_to_model_changes(self):
+        """Subscribe to model ID changes from GSettings."""
+        settings = self._configuration_service.settings
+        if settings is not None:
+            settings.connect(
+                f"changed::{SETTING_FASTER_WHISPER_MODEL}", self._on_model_changed
+            )
+            self._logger.info("Subscribed to model ID changes.")
+
+    def _on_model_changed(self, settings, key):
+        """Handle model ID change notification."""
+        new_model = settings.get_string(key)
+        self._logger.info(f"Model changed to: {new_model}")
 
     def get_name(self) -> str:
         """Get the name of the transcriber."""
@@ -78,10 +97,6 @@ class FasterWhisperTranscriber(BaseTranscriber):
             TranscriberModel(id=model_name, name=model_name)
             for model_name in available_models()
         ]
-
-    def is_ready(self) -> bool:
-        """Check if the transcriber is ready to process requests."""
-        return self._configuration_service.config.faster_whisper.enabled
 
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         """Transcribe audio content from the request."""

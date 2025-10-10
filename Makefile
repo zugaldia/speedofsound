@@ -31,8 +31,15 @@ format-check:
 format-diff:
 	ruff format --diff speedofsound/
 
+vulture:
+	vulture speedofsound/
+
 test-schema:
 	glib-compile-schemas --dry-run --strict data/
+
+install-schema:
+	cp data/io.speedofsound.App.gschema.xml ~/.local/share/glib-2.0/schemas/
+	glib-compile-schemas ~/.local/share/glib-2.0/schemas/
 
 #
 # Meson build

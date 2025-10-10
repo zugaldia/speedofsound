@@ -7,6 +7,7 @@ from speedofsound.constants import (
     LANGUAGE_NAME_SIGNAL,
     MODEL_NAME_SIGNAL,
     ORCHESTRATOR_EVENT_SIGNAL,
+    PREFERRED_TRANSCRIBER_CHANGED_SIGNAL,
     RECORDER_RESPONSE_SIGNAL,
     TRANSCRIBER_RESPONSE_SIGNAL,
     TYPIST_RESPONSE_SIGNAL,
@@ -66,6 +67,9 @@ class OrchestratorService(BaseService):
         self._last_transcriber_request: Optional[TranscriberRequest] = None
 
         self._configuration_service = configuration
+        self._configuration_service.connect(
+            PREFERRED_TRANSCRIBER_CHANGED_SIGNAL, self._on_preferred_transcriber_changed
+        )
         self._context = context
 
         self._control = control
@@ -100,7 +104,7 @@ class OrchestratorService(BaseService):
         pass
 
     def _setup_clipboard(self):
-        if not self._configuration_service.config.copy_to_clipboard:
+        if not self._configuration_service.copy_to_clipboard:
             return
 
         display = Gdk.Display.get_default()
@@ -119,11 +123,11 @@ class OrchestratorService(BaseService):
     def _update_status_bar(self):
         self.safe_emit(
             LANGUAGE_NAME_SIGNAL,
-            self._configuration_service.config.language,
+            self._configuration_service.language,
         )
         self.safe_emit(
             MODEL_NAME_SIGNAL,
-            self._configuration_service.config.transcriber.replace("_", " "),
+            self._configuration_service.preferred_transcriber.replace("_", " "),
         )
 
     def _send_event(
@@ -203,25 +207,31 @@ class OrchestratorService(BaseService):
     # Private API
     #
 
-    def _on_control_event(self, service, encoded: str):
+    def _on_preferred_transcriber_changed(
+        self, _service, transcriber_name: str
+    ) -> None:
+        """Handle preferred transcriber change from configuration service."""
+        self.safe_emit(MODEL_NAME_SIGNAL, transcriber_name.replace("_", " "))
+
+    def _on_control_event(self, _service, encoded: str):
         try:
             control_event = ControlEvent.model_validate_json(encoded)
             if control_event.button == JoystickButton.Left:
-                language_id = self._configuration_service.config.joystick_language_left
+                language_id = self._configuration_service.joystick_language_left
                 if not is_empty(language_id):
-                    self._configuration_service.config.language = language_id
+                    self._configuration_service.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.Right:
-                language_id = self._configuration_service.config.joystick_language_right
+                language_id = self._configuration_service.joystick_language_right
                 if not is_empty(language_id):
-                    self._configuration_service.config.language = language_id
+                    self._configuration_service.language = language_id
                     self.safe_emit(LANGUAGE_NAME_SIGNAL, language_id)
             elif control_event.button == JoystickButton.B:
                 self.triggered()
         except Exception as e:
             self._logger.error(f"Error handling control event: {e}")
 
-    def _on_recorder_response(self, service, encoded: str):
+    def _on_recorder_response(self, _service, encoded: str):
         try:
             recorder_response = RecorderResponse.model_validate_json(encoded)
             if not recorder_response.success:
@@ -241,11 +251,9 @@ class OrchestratorService(BaseService):
             self._last_transcriber_request = TranscriberRequest(
                 recorder_response=recorder_response,
                 simple_prompt=self._context.get_simple_prompt(
-                    self._configuration_service.config.language
+                    self._configuration_service.language
                 ),
-                prompt=self._context.get_prompt(
-                    self._configuration_service.config.language
-                ),
+                prompt=self._context.get_prompt(self._configuration_service.language),
             )
             self._transcriber.transcribe_async(request=self._last_transcriber_request)
         except Exception as e:
@@ -255,7 +263,7 @@ class OrchestratorService(BaseService):
                 success=False,
             )
 
-    def _on_volume_level(self, service, volume: float):
+    def _on_volume_level(self, _service, volume: float):
         """Handle volume level updates from the recorder."""
         self.safe_emit(VOLUME_LEVEL_SIGNAL, volume)
 
@@ -265,7 +273,7 @@ class OrchestratorService(BaseService):
             wpm = 1.0 * self._total_words / (self._total_seconds / 60)
             self.safe_emit(WORDS_PER_MINUTE_SIGNAL, min(wpm, 999.0))
 
-    def _on_transcriber_response(self, service, encoded: str):
+    def _on_transcriber_response(self, _service, encoded: str):
         try:
             transcriber_response = TranscriberResponse.model_validate_json(encoded)
 
@@ -291,7 +299,7 @@ class OrchestratorService(BaseService):
             self._total_words = transcriber_response.get_total_words()
             self._calculate_and_emit_wpm()
 
-            if self._configuration_service.config.copy_to_clipboard:
+            if self._configuration_service.copy_to_clipboard:
                 self.copy_to_clipboard(transcriber_response.get_text())
 
             self._queued_typing = TypistRequest(
@@ -305,7 +313,7 @@ class OrchestratorService(BaseService):
                 success=False,
             )
 
-    def _on_typist_response(self, service, encoded: str):
+    def _on_typist_response(self, _service, encoded: str):
         try:
             typist_response = TypistResponse.model_validate_json(encoded)
             if not typist_response.success:

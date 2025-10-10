@@ -2,7 +2,12 @@ import concurrent.futures
 import time
 from typing import Dict, List
 
-from speedofsound.models import TranscriberRequest, TranscriberResponse, TranscriberType
+from speedofsound.models import (
+    TranscriberModel,
+    TranscriberRequest,
+    TranscriberResponse,
+    TranscriberType,
+)
 from speedofsound.services.configuration import ConfigurationService
 from speedofsound.services.transcriber.apis import BaseTranscriber
 
@@ -33,7 +38,7 @@ class FallbackTranscriber(BaseTranscriber):
 
         self._primary = self._providers[TranscriberType.OPENAI]
         self._fallback = self._providers[TranscriberType.FASTER_WHISPER]
-        self._timeout = configuration.config.fallback.timeout_seconds
+        self._timeout = configuration.fallback_timeout_seconds
         self._logger.info(
             f"Initialized with primary={self._primary.get_name()}, "
             f"fallback={self._fallback.get_name()}, "
@@ -45,6 +50,10 @@ class FallbackTranscriber(BaseTranscriber):
 
     def get_name(self) -> str:
         return "Fallback"
+
+    def get_available_models(self) -> list[TranscriberModel]:
+        """Return empty list since Fallback doesn't have its own models."""
+        return []
 
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         """Run primary and fallback providers with timeout-based selection."""

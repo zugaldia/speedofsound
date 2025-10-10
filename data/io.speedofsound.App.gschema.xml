@@ -6,14 +6,110 @@
             <summary>Trigger the app</summary>
             <description>Start or stop voice typing.</description>
         </key>
+        <key name="copy-to-clipboard" type="b">
+            <default>false</default>
+            <summary>Copy transcription to clipboard</summary>
+            <description>Automatically copy the transcribed text to the clipboard.</description>
+        </key>
         <key name="extension-status" type="s">
             <default>"white"</default>
+            <summary>Extension status indicator</summary>
+            <description>Internal setting used to communicate the application status to the optional
+                GNOME Shell extension. The extension uses this to adjust the icon color in the top
+                bar.</description>
         </key>
         <key name="extension-error" type="s">
             <default>""</default>
+            <summary>Extension error message</summary>
+            <description>Internal setting used to communicate error messages to the optional GNOME
+                Shell extension. The extension uses this to display desktop notifications when
+                errors occur.</description>
         </key>
-        <key name="show-welcome" type="b">
-            <default>true</default>
+        <key name="save-transcriptions" type="b">
+            <default>false</default>
+            <summary>Save transcriptions for benchmarking</summary>
+            <description>Save audio recordings and transcriptions to disk for benchmarking and
+                analysis purposes.</description>
+        </key>
+        <key name="recording-timeout-seconds" type="i">
+            <default>60</default>
+            <range min="1" max="300" />
+            <summary>Recording timeout</summary>
+            <description>Maximum recording duration in seconds before transcription starts
+                automatically.</description>
+        </key>
+        <key name="language" type="s">
+            <default>"en"</default>
+            <summary>Transcription language</summary>
+            <description>ISO 639-1 language code for speech recognition.</description>
+        </key>
+        <key name="joystick-id" type="i">
+            <default>-1</default>
+            <range min="-1" max="99" />
+            <summary>Joystick device ID</summary>
+            <description>ID of the joystick device to use for triggering. -1 means no joystick
+                configured.</description>
+        </key>
+        <key name="joystick-language-left" type="s">
+            <default>"en"</default>
+            <summary>Left joystick button language</summary>
+            <description>ISO 639-1 language code for the left joystick button.</description>
+        </key>
+        <key name="joystick-language-right" type="s">
+            <default>"es"</default>
+            <summary>Right joystick button language</summary>
+            <description>ISO 639-1 language code for the right joystick button.</description>
+        </key>
+        <key name="faster-whisper-model" type="s">
+            <default>"small"</default>
+            <summary>Faster Whisper model</summary>
+            <description>The Faster Whisper model to use for transcription.</description>
+        </key>
+        <key name="faster-whisper-device" type="s">
+            <default>"auto"</default>
+            <summary>Faster Whisper device</summary>
+            <description>The device to use for Faster Whisper: cpu, cuda, or auto.</description>
+        </key>
+        <key name="openai-base-url" type="s">
+            <default>""</default>
+            <summary>OpenAI base URL</summary>
+            <description>Optional custom base URL for OpenAI API (leave empty for default).</description>
+        </key>
+        <key name="openai-api-key" type="s">
+            <default>""</default>
+            <summary>OpenAI API key</summary>
+            <description>API key for OpenAI transcription service.</description>
+        </key>
+        <key name="openai-model" type="s">
+            <default>"gpt-4o-transcribe"</default>
+            <summary>OpenAI model</summary>
+            <description>The OpenAI model to use for transcription.</description>
+        </key>
+        <key name="fallback-timeout-seconds" type="d">
+            <default>2.0</default>
+            <range min="0.1" max="10.0" />
+            <summary>Fallback timeout</summary>
+            <description>Timeout in seconds before falling back from cloud to local transcription.</description>
+        </key>
+        <key name="typist-backend" type="s">
+            <default>"auto"</default>
+            <summary>Typist backend</summary>
+            <description>Backend to use for typing text: auto, atspi, xdotool, or ydotool.</description>
+        </key>
+        <key name="preferred-transcriber" type="s">
+            <default>"faster_whisper"</default>
+            <summary>Preferred transcriber</summary>
+            <description>The transcriber to use for speech recognition: faster_whisper, openai, or fallback.</description>
+        </key>
+        <key name="include-application-name" type="b">
+            <default>false</default>
+            <summary>Include application context</summary>
+            <description>Include active application and window information in transcription prompts to improve accuracy.</description>
+        </key>
+        <key name="microphone-device" type="s">
+            <default>""</default>
+            <summary>Microphone device</summary>
+            <description>GStreamer device name for audio input. Empty string uses the default microphone.</description>
         </key>
     </schema>
 </schemalist>
