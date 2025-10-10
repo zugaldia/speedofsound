@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from gi.repository import Gio, GObject  # type: ignore
 
@@ -63,10 +63,10 @@ class ConfigurationService(BaseService):
         super().__init__(service_name=self.SERVICE_NAME)
         self._schema: Optional[Gio.SettingsSchema] = None
         self._settings: Optional[Gio.Settings] = self._initialize_settings()
-        self._available_joystick_devices: List[JoystickDevice] = []
-        self._available_faster_whisper_models: List[TranscriberModel] = []
-        self._available_openai_models: List[TranscriberModel] = []
-        self._available_microphone_devices: List[AudioDevice] = []
+        self._available_joystick_devices: list[JoystickDevice] = []
+        self._available_faster_whisper_models: list[TranscriberModel] = []
+        self._available_openai_models: list[TranscriberModel] = []
+        self._available_microphone_devices: list[AudioDevice] = []
         self._setup_settings_handlers()
         self._logger.info(
             f"Initialized (GSettings available: {self._settings is not None})."
@@ -280,22 +280,22 @@ class ConfigurationService(BaseService):
         self._set_string(SETTING_FASTER_WHISPER_DEVICE, value)
 
     @property
-    def available_joystick_devices(self) -> List[JoystickDevice]:
+    def available_joystick_devices(self) -> list[JoystickDevice]:
         """Get the list of available joystick devices detected at runtime."""
         return self._available_joystick_devices
 
-    def set_available_joystick_devices(self, devices: List[JoystickDevice]) -> None:
+    def set_available_joystick_devices(self, devices: list[JoystickDevice]) -> None:
         """Set the list of available joystick devices."""
         self._available_joystick_devices = devices
         self._logger.info(f"Updated available joystick devices: {len(devices)} found.")
 
     @property
-    def available_faster_whisper_models(self) -> List[TranscriberModel]:
+    def available_faster_whisper_models(self) -> list[TranscriberModel]:
         """Get the list of available Faster Whisper models detected at runtime."""
         return self._available_faster_whisper_models
 
     def set_available_faster_whisper_models(
-        self, models: List[TranscriberModel]
+        self, models: list[TranscriberModel]
     ) -> None:
         """Set the list of available Faster Whisper models."""
         self._available_faster_whisper_models = models
@@ -304,11 +304,11 @@ class ConfigurationService(BaseService):
         )
 
     @property
-    def available_openai_models(self) -> List[TranscriberModel]:
+    def available_openai_models(self) -> list[TranscriberModel]:
         """Get the list of available OpenAI models detected at runtime."""
         return self._available_openai_models
 
-    def set_available_openai_models(self, models: List[TranscriberModel]) -> None:
+    def set_available_openai_models(self, models: list[TranscriberModel]) -> None:
         """Set the list of available OpenAI models."""
         self._available_openai_models = models
         self._logger.info(f"Updated available OpenAI models: {len(models)} found.")
@@ -400,11 +400,11 @@ class ConfigurationService(BaseService):
         self._set_string(SETTING_MICROPHONE_DEVICE, value)
 
     @property
-    def available_microphone_devices(self) -> List[AudioDevice]:
+    def available_microphone_devices(self) -> list[AudioDevice]:
         """Get the list of available microphone devices detected at runtime."""
         return self._available_microphone_devices
 
-    def set_available_microphone_devices(self, devices: List[AudioDevice]) -> None:
+    def set_available_microphone_devices(self, devices: list[AudioDevice]) -> None:
         """Set the list of available microphone devices."""
         self._available_microphone_devices = devices
         self._logger.info(

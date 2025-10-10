@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Optional
 
 from gi.repository import Adw, Gio  # type: ignore
 
@@ -26,10 +26,10 @@ class PreferencesPageAsr(PreferencesPageBase):
         self._build_ui()
         self._setup_dynamic_updates()
 
-    def _get_transcriber_options(self) -> Tuple[List[Tuple[str, str]], str]:
+    def _get_transcriber_options(self) -> tuple[list[tuple[str, str]], str]:
         """Build transcriber options dynamically based on availability."""
-        transcriber_options: List[Tuple[str, str]] = []
-        unavailable_options: List[str] = []
+        transcriber_options: list[tuple[str, str]] = []
+        unavailable_options: list[str] = []
         config = self._view_model.configuration
 
         # Check Faster Whisper availability

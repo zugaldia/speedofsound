@@ -1,5 +1,4 @@
 from concurrent.futures import Future, ThreadPoolExecutor
-from typing import List
 
 from gi.repository import GObject  # type: ignore
 
@@ -62,7 +61,7 @@ class TranscriberService(BaseService):
             self._logger.error(message)
             raise RuntimeError(message)
 
-        required_providers: List[BaseTranscriber] = [
+        required_providers: list[BaseTranscriber] = [
             self._get_transcriber(TranscriberType.OPENAI),
             self._get_transcriber(TranscriberType.FASTER_WHISPER),
         ]
