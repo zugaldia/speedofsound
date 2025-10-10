@@ -5,7 +5,7 @@ from gi.repository import Adw, Gio, GObject, Gtk  # type: ignore
 
 from speedofsound.languages import LANGUAGES
 from speedofsound.models import TypistBackend
-from speedofsound.ui.preferences import PreferencesViewModel
+from speedofsound.ui.preferences.preferences_view_model import PreferencesViewModel
 
 
 class PreferencesPageBase(Adw.PreferencesPage):

@@ -9,14 +9,26 @@ https://platform.openai.com/docs/guides/speech-to-text#prompting
 """
 
 #
-# English
+# Simple prompt (for the transcription API), limited to 224 tokens.
 #
 
-# Some local LLMs need simplified prompts for chat completions transcriptions.
-# https://huggingface.co/ibm-granite/granite-speech-3.3-2b#usage-with-vllm
 SIMPLE_PROMPT_EN = """
-Can you transcribe the speech into a written format?
+Dictated text for typing into a desktop application.
+Use proper punctuation, capitalization, and grammar.
+Remove filler words like "um" and "uh".
+Format as clean, ready-to-type text.
 """.strip()
+
+SIMPLE_PROMPT_ES = """
+Texto dictado para escribir en una aplicación de escritorio.
+Usa puntuación, mayúsculas y gramática correctas.
+Elimina muletillas como "eh" y "este".
+Formatea como texto limpio y listo para escribir.
+""".strip()
+
+#
+# Regular prompts
+#
 
 SYSTEM_PROMPT_EN = """
 # Goal
@@ -33,14 +45,6 @@ The transcription will be entered into the following application,
 adjust the transcription to match the application's context and tone.
 - Application name: {application_name}
 - Window title: {window_title}
-""".strip()
-
-#
-# Spanish
-#
-
-SIMPLE_PROMPT_ES = """
-¿Puedes transcribir el discurso a un formato escrito?
 """.strip()
 
 SYSTEM_PROMPT_ES = """
