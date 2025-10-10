@@ -1,5 +1,5 @@
 import threading
-from typing import List, Optional
+from typing import Optional
 
 from gi.repository import Gst  # type: ignore
 
@@ -15,7 +15,7 @@ class GStreamerRecorder(BaseRecorder):
         self._configuration = configuration
         self._pipeline: Optional[Gst.Pipeline] = None
         self._appsink: Optional[Gst.Element] = None
-        self._audio_data: List[bytes] = []
+        self._audio_data: list[bytes] = []
         self._is_recording: bool = False
         self._recording_lock: threading.Lock = threading.Lock()
         self._scan_audio_devices()

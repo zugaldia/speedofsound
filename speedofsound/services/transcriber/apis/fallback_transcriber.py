@@ -1,6 +1,5 @@
 import concurrent.futures
 import time
-from typing import Dict, List
 
 from speedofsound.models import (
     TranscriberModel,
@@ -18,7 +17,7 @@ class FallbackTranscriber(BaseTranscriber):
     def __init__(
         self,
         configuration: ConfigurationService,
-        providers: List[BaseTranscriber],
+        providers: list[BaseTranscriber],
     ):
         super().__init__(
             provider_type=TranscriberType.FALLBACK,
@@ -26,7 +25,7 @@ class FallbackTranscriber(BaseTranscriber):
         )
 
         # Map providers by type for easy access
-        self._providers: Dict[TranscriberType, BaseTranscriber] = {
+        self._providers: dict[TranscriberType, BaseTranscriber] = {
             provider._provider_type: provider for provider in providers
         }
 

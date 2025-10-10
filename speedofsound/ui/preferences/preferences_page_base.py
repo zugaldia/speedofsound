@@ -1,11 +1,11 @@
 import logging
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from gi.repository import Adw, Gio, GObject, Gtk  # type: ignore
 
 from speedofsound.languages import LANGUAGES
 from speedofsound.models import TypistBackend
-from speedofsound.ui.preferences import PreferencesViewModel
+from speedofsound.ui.preferences.preferences_view_model import PreferencesViewModel
 
 
 class PreferencesPageBase(Adw.PreferencesPage):
@@ -92,7 +92,7 @@ class PreferencesPageBase(Adw.PreferencesPage):
         self,
         title: str,
         setting_key: str,
-        options: List[Tuple[str, Any]],
+        options: list[tuple[str, Any]],
         get_current_value: Callable[[], Any],
         set_value: Callable[[Any], None],
         format_display: Optional[Callable[[str, Any], str]] = None,
@@ -154,7 +154,7 @@ class PreferencesPageBase(Adw.PreferencesPage):
     def create_language_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
         """Create a language combo row for the given setting key."""
         attr_name: str = self._setting_key_to_attr(setting_key)
-        options: List[Tuple[str, str]] = [
+        options: list[tuple[str, str]] = [
             (name, code) for name, code in LANGUAGES.items()
         ]
 
@@ -175,7 +175,7 @@ class PreferencesPageBase(Adw.PreferencesPage):
         """Create a microphone device combo row for the given setting key."""
         attr_name: str = self._setting_key_to_attr(setting_key)
         available_devices = self._view_model.configuration.available_microphone_devices
-        options: List[Tuple[str, str]] = [("Default microphone", "")]
+        options: list[tuple[str, str]] = [("Default microphone", "")]
         for device in available_devices:
             options.append((device.display_name, device.device_name))
 
@@ -196,7 +196,7 @@ class PreferencesPageBase(Adw.PreferencesPage):
         """Create a joystick device combo row for the given setting key."""
         attr_name: str = self._setting_key_to_attr(setting_key)
         available_devices = self._view_model.configuration.available_joystick_devices
-        options: List[Tuple[str, int]] = [("No joystick", -1)]
+        options: list[tuple[str, int]] = [("No joystick", -1)]
         for device in available_devices:
             options.append((device.name, device.id))
 
@@ -216,7 +216,7 @@ class PreferencesPageBase(Adw.PreferencesPage):
     def create_typist_backend_combo(self, title: str, setting_key: str) -> Adw.ComboRow:
         """Create a typist backend combo row for the given setting key."""
         attr_name: str = self._setting_key_to_attr(setting_key)
-        options: List[Tuple[str, str]] = [
+        options: list[tuple[str, str]] = [
             ("Auto", TypistBackend.AUTO.value),
             ("AT-SPI", TypistBackend.ATSPI.value),
             ("xdotool", TypistBackend.XDOTOOL.value),

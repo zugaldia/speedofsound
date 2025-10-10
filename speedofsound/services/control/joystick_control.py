@@ -1,4 +1,3 @@
-import typing
 from typing import Callable
 
 import pygame
@@ -37,7 +36,7 @@ class JoystickControl(BaseProvider):
     def set_callback(self, callback: Callable):
         self._callback = callback
 
-    def _scan_joystick_devices(self) -> typing.List[JoystickDevice]:
+    def _scan_joystick_devices(self) -> list[JoystickDevice]:
         devices = []
         for i in range(pygame.joystick.get_count()):
             device = pygame.joystick.Joystick(i)
@@ -49,7 +48,7 @@ class JoystickControl(BaseProvider):
             )
         return devices
 
-    def _setup_joystick(self, joystick_id: int, devices: typing.List[JoystickDevice]):
+    def _setup_joystick(self, joystick_id: int, devices: list[JoystickDevice]):
         if len(devices) == 0:
             self._logger.error("No joystick devices found.")
             return

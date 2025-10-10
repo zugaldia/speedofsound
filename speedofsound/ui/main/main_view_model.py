@@ -1,5 +1,3 @@
-from typing import List
-
 from speedofsound.constants import (
     LANGUAGE_NAME_SIGNAL,
     MODEL_NAME_SIGNAL,
@@ -19,7 +17,7 @@ class MainViewModel(BaseViewModel):
     def __init__(self, orchestrator: OrchestratorService):
         super().__init__()
         self.view_state = MainViewState()
-        self._words_per_minute_readings: List[float] = []
+        self._words_per_minute_readings: list[float] = []
 
         self._orchestrator = orchestrator
         self._orchestrator.connect(VOLUME_LEVEL_SIGNAL, self._on_volume_level)
