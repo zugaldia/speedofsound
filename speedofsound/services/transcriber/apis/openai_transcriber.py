@@ -6,6 +6,7 @@ Documentation on `docs/openai.md` needs to be updated when this file is modified
 
 from openai import OpenAI
 
+from speedofsound.constants import CUSTOM_MODEL_VALUE, DEFAULT_OPENAI_MODEL
 from speedofsound.models import (
     RecorderResponse,
     TranscriberModel,
@@ -79,23 +80,32 @@ class OpenAiTranscriber(BaseTranscriber):
         self._client = OpenAI(base_url=base_url, api_key=api_key)
         return self._client
 
+    def _get_model_id(self) -> str:
+        """Get the effective model ID to use for transcription."""
+        custom_model = self._configuration_service.openai_custom_model
+        if not is_empty(custom_model):
+            return custom_model
+        openai_model = self._configuration_service.openai_model
+        if openai_model != CUSTOM_MODEL_VALUE and not is_empty(openai_model):
+            return openai_model
+        return DEFAULT_OPENAI_MODEL
+
     def transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
         try:
             # VLLM models are not compatible with the OpenAI's
             # audio.transcriptions.create() method.
             base_url = self._configuration_service.openai_base_url
-            is_vllm = base_url and base_url.startswith("http://localhost")
-            is_completions = self._configuration_service.openai_model in [
-                "gpt-audio",
-                "gpt-audio-mini",
-                "gpt-4o-audio-preview",
-                "gpt-4o-mini-audio-preview",
+            is_local = base_url and base_url.startswith("http://localhost")
+            is_transcriptions = self._get_model_id() in [
+                "gpt-4o-transcribe",
+                "gpt-4o-mini-transcribe",
+                "whisper-1",
             ]
 
-            if is_completions or is_vllm:
-                return self._transcribe_completions(request)
+            if is_transcriptions and not is_local:
+                return self._audio_transcriptions(request)
             else:
-                return self._transcribe(request)
+                return self._chat_completions(request)
         except Exception as e:
             self._logger.error(e)
             return TranscriberResponse(
@@ -103,11 +113,11 @@ class OpenAiTranscriber(BaseTranscriber):
                 message=f"OpenAI transcription failed: {e}",
             )
 
-    def _transcribe(self, request: TranscriberRequest) -> TranscriberResponse:
+    def _audio_transcriptions(self, request: TranscriberRequest) -> TranscriberResponse:
         # While Whisper allows "auto" for automatic language detection, I can't
         # find documentation that the OpenAI's cloud API does the same thing.
         language = self._configuration_service.language
-        model_id = self._configuration_service.openai_model
+        model_id = self._get_model_id()
         self._logger.info(f"Transcribing (language={language}, model={model_id}).")
 
         client = self._get_client()
@@ -121,10 +131,8 @@ class OpenAiTranscriber(BaseTranscriber):
 
         return TranscriberResponse(text=transcription.text)
 
-    def _transcribe_completions(
-        self, request: TranscriberRequest
-    ) -> TranscriberResponse:
-        model_id = self._configuration_service.openai_model
+    def _chat_completions(self, request: TranscriberRequest) -> TranscriberResponse:
+        model_id = self._get_model_id()
         wav_file = request.recorder_response.get_file_like_object()
         wav_data = RecorderResponse.data_encode(wav_file.read())
         self._logger.info(f"Transcribing (model={model_id}, size={len(wav_data)}).")

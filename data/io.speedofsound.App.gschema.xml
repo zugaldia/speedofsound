@@ -85,6 +85,11 @@
             <summary>OpenAI model</summary>
             <description>The OpenAI model to use for transcription.</description>
         </key>
+        <key name="openai-custom-model" type="s">
+            <default>""</default>
+            <summary>Custom OpenAI model</summary>
+            <description>Custom model name to use when not using preset models. Takes precedence over openai-model when set.</description>
+        </key>
         <key name="fallback-timeout-seconds" type="d">
             <default>5.0</default>
             <range min="0.1" max="10.0" />
