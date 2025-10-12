@@ -18,6 +18,7 @@ from speedofsound.constants import (
     DEFAULT_MICROPHONE_DEVICE,
     DEFAULT_OPENAI_API_KEY,
     DEFAULT_OPENAI_BASE_URL,
+    DEFAULT_OPENAI_CUSTOM_MODEL,
     DEFAULT_OPENAI_MODEL,
     DEFAULT_PREFERRED_TRANSCRIBER,
     DEFAULT_RECORDING_TIMEOUT_SECONDS,
@@ -38,6 +39,7 @@ from speedofsound.constants import (
     SETTING_MICROPHONE_DEVICE,
     SETTING_OPENAI_API_KEY,
     SETTING_OPENAI_BASE_URL,
+    SETTING_OPENAI_CUSTOM_MODEL,
     SETTING_OPENAI_MODEL,
     SETTING_PREFERRED_TRANSCRIBER,
     SETTING_RECORDING_TIMEOUT_SECONDS,
@@ -342,6 +344,18 @@ class ConfigurationService(BaseService):
     def openai_model(self, value: str) -> None:
         """Set the OpenAI model."""
         self._set_string(SETTING_OPENAI_MODEL, value)
+
+    @property
+    def openai_custom_model(self) -> str:
+        """Get the OpenAI custom model from GSettings or fallback to default constant."""
+        return self._get_string(
+            SETTING_OPENAI_CUSTOM_MODEL, DEFAULT_OPENAI_CUSTOM_MODEL
+        )
+
+    @openai_custom_model.setter
+    def openai_custom_model(self, value: str) -> None:
+        """Set the OpenAI custom model."""
+        self._set_string(SETTING_OPENAI_CUSTOM_MODEL, value)
 
     @property
     def fallback_timeout_seconds(self) -> float:

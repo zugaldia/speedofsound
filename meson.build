@@ -19,13 +19,12 @@ python = import('python')
 py_installation = python.find_installation(
   'python3',
   modules: [
+    'cairo', # pycairo imports as cairo
     'faster_whisper',
     'gi', # PyGObject imports as gi
-    'google.genai', # google-genai package imports as google.genai
     'openai',
     'pydantic',
     'pygame',
-    'requests',
   ],
   required: false,
 )

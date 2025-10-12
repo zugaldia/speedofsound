@@ -43,6 +43,8 @@ When creating a new service:
 - Custom styling via `speedofsound/data/style.css`
 - Main window components in `speedofsound/ui/main/`
 
+Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
+
 ## Debugging
 - Check `speedofsound.log` in the project root for detailed execution logs
 - The log file contains all DEBUG level messages while console shows only INFO and above

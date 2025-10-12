@@ -3,11 +3,13 @@ from typing import Optional
 from gi.repository import Adw, Gio  # type: ignore
 
 from speedofsound.constants import (
+    CUSTOM_MODEL_VALUE,
     SETTING_FALLBACK_TIMEOUT_SECONDS,
     SETTING_FASTER_WHISPER_DEVICE,
     SETTING_FASTER_WHISPER_MODEL,
     SETTING_OPENAI_API_KEY,
     SETTING_OPENAI_BASE_URL,
+    SETTING_OPENAI_CUSTOM_MODEL,
     SETTING_OPENAI_MODEL,
     SETTING_PREFERRED_TRANSCRIBER,
 )
@@ -23,6 +25,7 @@ class PreferencesPageAsr(PreferencesPageBase):
         self.set_icon_name("audio-input-microphone-symbolic")
         self._transcriber_combo: Optional[Adw.ComboRow] = None
         self._general_group: Optional[Adw.PreferencesGroup] = None
+        self._custom_model_entry: Optional[Adw.EntryRow] = None
         self._build_ui()
         self._setup_dynamic_updates()
 
@@ -144,6 +147,7 @@ class PreferencesPageAsr(PreferencesPageBase):
         available_models = self._view_model.configuration.available_openai_models
         if available_models:
             model_options = [(model.name, model.id) for model in available_models]
+            model_options.append(("Custom...", CUSTOM_MODEL_VALUE))
             model_attr = self._setting_key_to_attr(SETTING_OPENAI_MODEL)
 
             model_combo = self.create_combo_row(
@@ -160,8 +164,26 @@ class PreferencesPageAsr(PreferencesPageBase):
             )
             openai_group.add(model_combo)
 
+            self._custom_model_entry = Adw.EntryRow()
+            self._custom_model_entry.set_title("Custom Model Name")
+            self._custom_model_entry.set_tooltip_text(
+                "Custom model name for OpenAI-compatible APIs "
+                "(e.g., gemini-2.5-flash for Google AI)"
+            )
+            self.bind_entry_setting(
+                SETTING_OPENAI_CUSTOM_MODEL, self._custom_model_entry
+            )
+
+            current_model = self._view_model.configuration.openai_model
+            self._custom_model_entry.set_sensitive(current_model == CUSTOM_MODEL_VALUE)
+
+            openai_group.add(self._custom_model_entry)
+
         base_url_entry = Adw.EntryRow()
         base_url_entry.set_title("Base URL")
+        base_url_entry.set_tooltip_text(
+            "E.g. https://generativelanguage.googleapis.com/v1beta/openai/"
+        )
         self.bind_entry_setting(SETTING_OPENAI_BASE_URL, base_url_entry)
         openai_group.add(base_url_entry)
 
@@ -198,9 +220,21 @@ class PreferencesPageAsr(PreferencesPageBase):
         for setting_key in relevant_settings:
             settings.connect(f"changed::{setting_key}", self._on_config_changed)
 
+        settings.connect(
+            f"changed::{SETTING_OPENAI_MODEL}", self._on_openai_model_changed
+        )
+
     def _on_config_changed(self, settings: Gio.Settings, _key: str) -> None:
         """Handle configuration changes that affect transcriber availability."""
         self._update_transcriber_combo()
+
+    def _on_openai_model_changed(self, settings: Gio.Settings, _key: str) -> None:
+        """Handle OpenAI model selection changes to enable/disable custom model entry."""
+        if self._custom_model_entry is None:
+            return
+
+        current_model = self._view_model.configuration.openai_model
+        self._custom_model_entry.set_sensitive(current_model == CUSTOM_MODEL_VALUE)
 
     def _update_transcriber_combo(self) -> None:
         """Rebuild the transcriber combo box with updated options."""

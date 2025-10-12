@@ -23,7 +23,8 @@ Here's the app in action, typing into Text Editor:
 
 ### Step 1: Download the app
 
-> 🔜 **Flatpak and Snap support:** Support for both is well underway. If you are familiar with either, please review and provide feedback on the current setup. The plan is to submit the app to Flathub and Snapcraft soon™.
+> **🤝 Help Wanted**
+> We're looking for contributors familiar with Flatpak or Snapcraft to help finalize packaging for these distribution platforms. If you have experience with either, your contribution would be greatly appreciated. Please reach out if you'd like to help make Speed of Sound more accessible to users.
 
 Meanwhile, read [`docs/install.md`](docs/install.md) for installation instructions.
 

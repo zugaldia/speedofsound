@@ -38,11 +38,18 @@ SETTING_FASTER_WHISPER_DEVICE = "faster-whisper-device"
 SETTING_OPENAI_BASE_URL = "openai-base-url"
 SETTING_OPENAI_API_KEY = "openai-api-key"
 SETTING_OPENAI_MODEL = "openai-model"
+SETTING_OPENAI_CUSTOM_MODEL = "openai-custom-model"
 SETTING_FALLBACK_TIMEOUT_SECONDS = "fallback-timeout-seconds"
 SETTING_TYPIST_BACKEND = "typist-backend"
 SETTING_PREFERRED_TRANSCRIBER = "preferred-transcriber"
 SETTING_INCLUDE_APPLICATION_NAME = "include-application-name"
 SETTING_MICROPHONE_DEVICE = "microphone-device"
+
+#
+# Model values
+#
+
+CUSTOM_MODEL_VALUE = "custom"
 
 #
 # Default values (consistent with gschema.xml)
@@ -62,6 +69,7 @@ DEFAULT_FASTER_WHISPER_DEVICE = "auto"
 DEFAULT_OPENAI_BASE_URL = ""
 DEFAULT_OPENAI_API_KEY = ""
 DEFAULT_OPENAI_MODEL = "gpt-4o-transcribe"
+DEFAULT_OPENAI_CUSTOM_MODEL = ""
 DEFAULT_FALLBACK_TIMEOUT_SECONDS = 5.0
 DEFAULT_TYPIST_BACKEND = "auto"
 DEFAULT_PREFERRED_TRANSCRIBER = "faster_whisper"
