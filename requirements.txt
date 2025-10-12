@@ -4,4 +4,3 @@ pycairo==1.28.0
 pydantic==2.11.3
 pygame==2.6.1
 PyGObject==3.52.3
-requests==2.32.3

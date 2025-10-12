@@ -1,3 +1,7 @@
+#
+# Development targets
+#
+
 run:
 	python3 launch.py
 
@@ -45,7 +49,10 @@ install-schema:
 # Meson build
 #
 
-meson-setup:
+meson-clean:
+	rm -rf builddir
+
+meson-setup: meson-clean
 	meson setup builddir --prefix=$(HOME)/.local
 
 meson-build:
@@ -54,13 +61,10 @@ meson-build:
 meson-install:
 	ninja -C builddir install
 
-meson-uninstall:
+uninstall:
 	ninja -C builddir uninstall
 
-meson-clean:
-	rm -rf builddir
-
-rebuild-run: meson-build meson-install run-local
+install: meson-setup meson-build meson-install
 
 #
 # Flatpak / Flathub
