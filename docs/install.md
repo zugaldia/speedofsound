@@ -2,6 +2,9 @@
 
 The recommended way to install Speed of Sound is via Flathub or Snapcraft. However, support for both is in progress. In the meantime, here is another way to install the application.
 
+> **🤝 Help Wanted**
+> We're looking for contributors familiar with Flatpak or Snapcraft to help finalize packaging for these distribution platforms. If you have experience with either, your contribution would be greatly appreciated. Please reach out if you'd like to help make Speed of Sound more accessible to users.
+
 ## Prerequisites
 
 First, clone the repository and install the required system dependencies:
