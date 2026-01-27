@@ -1,7 +1,7 @@
-.PHONY: run build check clean
+.PHONY: run app-run cli-run build check clean
 
 run:
-	./gradlew run
+	./gradlew :app:run
 
 build:
 	./gradlew build
