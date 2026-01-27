@@ -3,6 +3,7 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
+clikt = "5.1.0"
 detekt = "2.0.0-alpha.1"
 javaGi = "0.13.1"
 kotlin = "2.3.0"
@@ -11,8 +12,8 @@ kotlinxDatetime = "0.7.1"
 kotlinxSerializationJSON = "1.9.0"
 log4j = "2.25.3"
 
-
 [libraries]
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 javaGiAdw = { module = "org.java-gi:adw", version.ref = "javaGi" }
 javaGiGtk = { module = "org.java-gi:gtk", version.ref = "javaGi" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -23,7 +24,6 @@ log4jApi = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j
 log4jCore = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
 log4jSlf4j2Impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
 
-# Libraries can be bundled together for easier import
 [bundles]
 javaGiEcosystem = ["javaGiGtk", "javaGiAdw"]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
