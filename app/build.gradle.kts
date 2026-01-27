@@ -9,11 +9,12 @@ plugins {
 dependencies {
     implementation(project(":core"))
     implementation(libs.bundles.javaGiEcosystem)
+    implementation(libs.log4jApi)
+    runtimeOnly(libs.log4jCore)
 }
 
 application {
-    mainClass = "com.zugaldia.speedofsound.app.AppKt"
-
     // See: https://java-gi.org/usage/#linux
     applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
+    mainClass = "com.zugaldia.speedofsound.app.AppKt"
 }
