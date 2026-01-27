@@ -8,5 +8,6 @@ plugins {
 
 dependencies {
     implementation(libs.bundles.kotlinxEcosystem)
+    implementation(libs.log4jApi)
     testImplementation(kotlin("test"))
 }
