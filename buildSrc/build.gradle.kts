@@ -6,7 +6,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(25)
+    jvmToolchain(22)
 }
 
 dependencies {
