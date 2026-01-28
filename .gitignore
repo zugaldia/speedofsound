@@ -5,10 +5,7 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -46,3 +43,11 @@ bin/
 
 ### Project ###
 BACKLOG.md
+
+### Flatpak ###
+.flatpak-builder/
+repo/
+speedofsound.flatpak
+
+### Snap ###
+speedofsound_*.snap
