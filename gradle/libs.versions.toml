@@ -11,6 +11,7 @@ kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 kotlinxSerializationJSON = "1.9.0"
 log4j = "2.25.3"
+shadow = "9.3.1"
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
@@ -30,4 +31,5 @@ kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutine
 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
