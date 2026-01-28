@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core.audio
 import com.zugaldia.speedofsound.core.audio.AudioConstants.BITS_PER_BYTE
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.nio.file.Path
 import javax.sound.sampled.AudioFileFormat
 import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioInputStream
@@ -41,7 +42,7 @@ object AudioManager {
      * @param audioInfo Audio format information (sample rate, channels, sample width)
      * @param filePath Path where the WAV file should be saved
      */
-    fun saveToWav(data: ByteArray, audioInfo: AudioInfo, filePath: String) {
+    fun saveToWav(data: ByteArray, audioInfo: AudioInfo, filePath: Path) {
         val audioFormat = AudioFormat(
             audioInfo.sampleRate.toFloat(),
             audioInfo.sampleWidth * BITS_PER_BYTE,
@@ -54,7 +55,7 @@ object AudioManager {
         val frameLength = data.size.toLong() / frameSize
         ByteArrayInputStream(data).use { byteArrayInputStream ->
             AudioInputStream(byteArrayInputStream, audioFormat, frameLength).use { audioInputStream ->
-                val outputFile = File(filePath)
+                val outputFile = filePath.toFile()
                 AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, outputFile)
             }
         }

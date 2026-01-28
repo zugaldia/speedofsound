@@ -3,12 +3,13 @@ package com.zugaldia.speedofsound.core
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import java.nio.file.Path
+import java.nio.file.Paths
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-import java.nio.file.Paths
 
 private const val NANOSECONDS_PER_SECOND = 1_000_000_000L
 
@@ -35,8 +36,7 @@ fun generateTimestamp(): Long {
 fun getIsoLocalDateTime(): String {
     val currentMoment: Instant = Clock.System.now()
     val datetimeInSystemZone: LocalDateTime = currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
-    val isoDateTime = datetimeInSystemZone.toString()
-    return isoDateTime
+    return datetimeInSystemZone.toString()
 }
 
 /**
@@ -49,11 +49,40 @@ fun millisBetween(start: Instant, end: Instant): Long {
 }
 
 /**
- * Generate a temporary WAV file path with timestamp.
- * Format: {tempDir}/speedofsound-{timestamp}.wav
+ * Get the data directory path depending on the environment.
+ * Returns $SNAP_USER_COMMON or $XDG_DATA_HOME (if set), falling back to $HOME/.local/share/speedofsound
  */
-fun generateTempWavFilePath(): String {
-    val tempDir = System.getProperty("java.io.tmpdir").takeUnless { it.isNullOrEmpty() } ?: "/tmp"
+fun getDataDir(): Path {
+    val snapUserCommon = System.getenv("SNAP_USER_COMMON") // In a Snap
+    val xdgDataHome = System.getenv("XDG_DATA_HOME") // Typically, in a Flatpak
+    val appDataDir = if (!snapUserCommon.isNullOrEmpty()) {
+        Paths.get(snapUserCommon) // Already includes the Snap name
+    } else if (!xdgDataHome.isNullOrEmpty()) {
+        if (APPLICATION_ID in xdgDataHome) {
+            Paths.get(xdgDataHome) // APPLICATION_ID already included in Flatpak sandboxes
+        } else {
+            Paths.get(xdgDataHome, APPLICATION_SHORT)
+        }
+    } else {
+        val home = System.getProperty("user.home")
+        Paths.get(home, ".local", "share", APPLICATION_SHORT)
+    }
+
+    // Ensure it exists
+    val dir = appDataDir.toFile()
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+
+    return appDataDir
+}
+
+/**
+ * Generate a temporary WAV file path with a timestamp.
+ * Format: {xdgDataDir}/speedofsound-{timestamp}.wav
+ */
+fun generateTempWavFilePath(): Path {
+    val dataDir = getDataDir()
     val timestamp = generateTimestamp()
-    return Paths.get(tempDir, "speedofsound-$timestamp.wav").toString()
+    return dataDir.resolve("$APPLICATION_SHORT-$timestamp.wav")
 }
