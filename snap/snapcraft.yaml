@@ -1,0 +1,61 @@
+name: speedofsound
+version: '0.1'
+summary: Voice typing for the Linux desktop.
+description: |
+  Voice typing for the Linux desktop.
+
+base: core24
+grade: stable
+confinement: strict
+
+title: Speed of Sound
+contact: https://github.com/zugaldia/speedofsound
+donation: https://github.com/zugaldia/speedofsound
+source-code: https://github.com/zugaldia/speedofsound
+website: https://github.com/zugaldia/speedofsound
+issues: https://github.com/zugaldia/speedofsound/issues
+license: MIT
+
+lint:
+  ignore:
+    - library # Ignore unused library warnings from JDK
+
+platforms:
+  amd64:
+    build-on: [ amd64 ]
+    build-for: [ amd64 ]
+
+parts:
+  jdk:
+    plugin: nil
+    stage-packages:
+      - openjdk-25-jre
+      - libasound2 # See snap/asound.conf
+      - libasound2-plugins
+  speedofsound:
+    plugin: dump
+    source: .
+    source-type: local
+    organize:
+      app/build/libs/speedofsound.jar: app/bin/speedofsound.jar
+      speedofsound.sh: bin/speedofsound
+      snap/asound.conf: etc/asound.conf
+    stage:
+      - app/bin/speedofsound.jar
+      - bin/speedofsound
+      - etc/asound.conf
+apps:
+  speedofsound:
+    extensions: [ gnome ]
+    command: bin/speedofsound
+    plugs:
+      - network       # Enables network access
+      - audio-record  # Allows audio recording
+      - alsa          # Java (javax.sound) uses ALSA
+    environment:
+      JAVA_HOME: $SNAP/usr/lib/jvm/java-25-openjdk-amd64
+      PATH: $SNAP/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
+      ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
+      ALSA_PLUGIN_DIR: $SNAP/usr/lib/x86_64-linux-gnu/alsa-lib
+      # LD_LIBRARY_PATH from https://documentation.ubuntu.com/snapcraft/stable/reference/extensions/gnome-extension/
+      LD_LIBRARY_PATH: /snap/gnome-46-2404-sdk/current/lib/x86_64-linux-gnu:/snap/gnome-46-2404-sdk/current/usr/lib/x86_64-linux-gnu:/snap/gnome-46-2404-sdk/current/usr/lib:/snap/gnome-46-2404-sdk/current/usr/lib/vala-current:/snap/gnome-46-2404-sdk/current/usr/lib/x86_64-linux-gnu/pulseaudio${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
