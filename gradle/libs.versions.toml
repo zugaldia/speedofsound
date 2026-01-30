@@ -4,6 +4,7 @@
 
 [versions]
 clikt = "5.1.0"
+commonsCompress = "1.28.0"
 detekt = "2.0.0-alpha.1"
 javaGi = "0.13.1"
 kotlin = "2.3.0"
@@ -15,6 +16,7 @@ shadow = "9.3.1"
 
 [libraries]
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompress" }
 javaGiAdw = { module = "org.java-gi:adw", version.ref = "javaGi" }
 javaGiGtk = { module = "org.java-gi:gtk", version.ref = "javaGi" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
