@@ -2,7 +2,7 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
-import com.zugaldia.speedofsound.core.generateTempWavFilePath
+import com.zugaldia.speedofsound.core.generateTmpWavFilePath
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
 import org.apache.logging.log4j.LogManager
 
@@ -38,8 +38,9 @@ class MainViewModel {
         logger.info("Recording complete. Captured ${audioData?.size ?: 0} bytes.")
 
         if (audioData != null && audioData.isNotEmpty()) {
-            val filePath = generateTempWavFilePath()
-            AudioManager.saveToWav(audioData, AudioInfo.Default, filePath)
+            val filePath = generateTmpWavFilePath()
+            val samples = AudioManager.convertPcm16ToFloat(audioData)
+            AudioManager.saveToWav(samples, AudioInfo.Default.sampleRate, filePath)
             logger.info("Saved recording to: $filePath")
         }
 

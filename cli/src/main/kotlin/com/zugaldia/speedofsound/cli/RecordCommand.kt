@@ -3,7 +3,7 @@ package com.zugaldia.speedofsound.cli
 import com.github.ajalt.clikt.core.CliktCommand
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
-import com.zugaldia.speedofsound.core.generateTempWavFilePath
+import com.zugaldia.speedofsound.core.generateTmpWavFilePath
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
 import org.apache.logging.log4j.LogManager
 
@@ -34,9 +34,14 @@ class RecordCommand : CliktCommand(name = "record") {
         logger.info("Recording complete. Captured ${audioData?.size ?: 0} bytes.")
 
         if (audioData != null && audioData.isNotEmpty()) {
-            val filePath = generateTempWavFilePath()
-            AudioManager.saveToWav(audioData, AudioInfo.Default, filePath)
-            logger.info("Saved recording to: $filePath")
+            val filePath = generateTmpWavFilePath()
+            val samples = AudioManager.convertPcm16ToFloat(audioData)
+            val success = AudioManager.saveToWav(samples, AudioInfo.Default.sampleRate, filePath)
+            if (success) {
+                logger.info("Saved recording to: $filePath (${samples.size} samples)")
+            } else {
+                logger.error("Failed to save recording to: $filePath")
+            }
         }
 
         recorder.disable()
