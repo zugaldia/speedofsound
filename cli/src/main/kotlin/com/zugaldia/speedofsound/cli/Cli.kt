@@ -11,5 +11,5 @@ class Cli : CliktCommand(name = APPLICATION_NAME) {
 }
 
 fun main(args: Array<String>) = Cli()
-    .subcommands(RecordCommand())
+    .subcommands(RecordCommand(), AsrCommand(), DownloadCommand())
     .main(args)
