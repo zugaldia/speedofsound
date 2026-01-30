@@ -78,11 +78,27 @@ fun getDataDir(): Path {
 }
 
 /**
- * Generate a temporary WAV file path with a timestamp.
- * Format: {xdgDataDir}/speedofsound-{timestamp}.wav
+ * Get the temporary data directory path.
+ * Returns {dataDir}/tmp, creating it if it doesn't exist.
+ * This ensures temporary files work in sandboxed environments like Flatpak and Snap.
  */
-fun generateTempWavFilePath(): Path {
+fun getTmpDataDir(): Path {
     val dataDir = getDataDir()
+    val tmpDir = dataDir.resolve("tmp")
+    val dir = tmpDir.toFile()
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+
+    return tmpDir
+}
+
+/**
+ * Generate a temporary WAV file path with a timestamp.
+ * Format: {tmpDataDir}/speedofsound-{timestamp}.wav
+ */
+fun generateTmpWavFilePath(): Path {
+    val dataDir = getTmpDataDir()
     val timestamp = generateTimestamp()
     return dataDir.resolve("$APPLICATION_SHORT-$timestamp.wav")
 }
