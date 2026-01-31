@@ -7,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":generator"))
     implementation(libs.bundles.kotlinxEcosystem)
     implementation(libs.log4jApi)
     implementation(libs.commonsCompress)
