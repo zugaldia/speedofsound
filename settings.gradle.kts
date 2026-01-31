@@ -14,6 +14,5 @@ plugins {
 include(":app")
 include(":cli")
 include(":core")
-include(":generator")
 
 rootProject.name = "speedofsound"

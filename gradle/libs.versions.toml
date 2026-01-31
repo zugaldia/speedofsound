@@ -13,8 +13,6 @@ kotlinxDatetime = "0.7.1"
 kotlinxSerializationJSON = "1.9.0"
 ktor = "3.4.0"
 log4j = "2.25.3"
-moshi = "1.15.2"
-openApi = "7.14.0"
 shadow = "9.3.1"
 
 [libraries]
@@ -31,7 +29,6 @@ ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiati
 ktorSerializationKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 log4jApi = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4jCore = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
-moshiKotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 
 [bundles]
 javaGiEcosystem = ["javaGiGtk", "javaGiAdw"]
@@ -42,4 +39,3 @@ ktorClient = ["ktorClientCore", "ktorClientContentNegotiation", "ktorSerializati
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-openApi = { id = "org.openapi.generator", version.ref = "openApi" }
