@@ -1,7 +1,7 @@
 APP_ID = io.speedofsound.App
 export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
-.PHONY: run app-run cli-run build check clean jar-run
+.PHONY: run app-run cli-run build check clean jar-run openapi-generate
 
 clean:
 	./gradlew clean
@@ -20,6 +20,9 @@ shadow-run: shadow-build
 
 check:
 	./gradlew check
+
+openapi-generate:
+	./gradlew :generator:openApiGenerate
 
 #
 # Flatpak
