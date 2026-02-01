@@ -9,6 +9,7 @@ plugins {
 dependencies {
     implementation(project(":core"))
     implementation(libs.clikt)
+    implementation(libs.kotlinxCoroutines)
     implementation(libs.log4jApi)
     runtimeOnly(libs.log4jCore)
 }

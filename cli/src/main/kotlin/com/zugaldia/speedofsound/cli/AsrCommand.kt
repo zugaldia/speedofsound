@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager
 import java.nio.file.Path
 
 class AsrCommand : CliktCommand(name = "asr") {
+    override val printHelpOnEmptyArgs = true
     private val logger = LogManager.getLogger(AsrCommand::class.java)
 
     private val inputFile: Path by argument(
