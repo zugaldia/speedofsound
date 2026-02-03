@@ -4,21 +4,41 @@ import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_WIDTH
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
+import org.apache.logging.log4j.LogManager
 import org.gnome.gtk.Align
-import org.gnome.gtk.Application
-import org.gnome.gtk.ApplicationWindow
+import org.gnome.adw.Application
+import org.gnome.adw.ApplicationWindow
+import org.gnome.gdk.Gdk
 import org.gnome.gtk.Box
 import org.gnome.gtk.Button
+import org.gnome.gtk.EventControllerKey
 import org.gnome.gtk.Orientation
 
-class MainScreen(private val app: Application) {
+class MainWindow(app: Application): ApplicationWindow() {
+    private val logger = LogManager.getLogger()
     private val viewModel = MainViewModel()
 
-    fun present() {
-        val window = ApplicationWindow(app)
-        window.title = APPLICATION_NAME
-        window.setDefaultSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
+    init {
+        application = app
+        title = APPLICATION_NAME
+        setDefaultSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
+        content = buildContent()
+        addController(EventControllerKey().apply {
+            onKeyPressed { keyval, _, _ -> keyPressed(keyval) }
+        })
+    }
 
+    private fun keyPressed(keyval: Int): Boolean {
+        val key = Gdk.keyvalName(keyval)
+        logger.info("Key pressed: $key")
+        when (key) {
+            "Escape" -> visible = false
+        }
+
+        return true
+    }
+
+    fun buildContent(): Box {
         val box = Box.builder()
             .setOrientation(Orientation.VERTICAL)
             .setHalign(Align.CENTER)
@@ -35,13 +55,12 @@ class MainScreen(private val app: Application) {
         val exitButton = Button.withLabel("Exit")
         exitButton.onClicked {
             viewModel.shutdown()
-            window.close()
+            close()
         }
 
         box.append(startButton)
         box.append(stopButton)
         box.append(exitButton)
-        window.child = box
-        window.present()
+        return box
     }
 }
