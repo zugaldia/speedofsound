@@ -10,7 +10,7 @@ dependencies {
     implementation(project(":core"))
     implementation(libs.clikt)
     implementation(libs.kotlinxCoroutines)
-    implementation(libs.log4jApi)
+    implementation(libs.log4jSlf4j2Impl)
     runtimeOnly(libs.log4jCore)
 }
 

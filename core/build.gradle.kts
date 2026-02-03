@@ -9,7 +9,8 @@ plugins {
 dependencies {
     implementation(libs.bundles.kotlinxEcosystem)
     implementation(libs.commonsCompress)
-    implementation(libs.log4jApi)
+    implementation(libs.log4jSlf4j2Impl)
+    runtimeOnly(libs.log4jCore)
 
     // Sherpa is not published to Maven Central, we need to add the libraries manually.
     // https://k2-fsa.github.io/sherpa/onnx/java-api/non-android-java.html
@@ -20,6 +21,7 @@ dependencies {
     implementation(libs.anthropic)
     implementation(libs.googleGenai)
     implementation(libs.openai)
+    implementation(libs.stargate)
 
     testImplementation(kotlin("test"))
 }
