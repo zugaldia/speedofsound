@@ -10,6 +10,7 @@ plugins {
 dependencies {
     implementation(project(":core"))
     implementation(libs.bundles.javaGiEcosystem)
+    implementation(libs.kotlinxCoroutines)
     implementation(libs.log4jApi)
     runtimeOnly(libs.log4jCore)
 }
