@@ -1,66 +1,104 @@
 package com.zugaldia.speedofsound.app.screens.main
 
-import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_WIDTH
+import com.zugaldia.speedofsound.app.SIGNAL_RECORDING_LEVEL
+import com.zugaldia.speedofsound.app.SIGNAL_STAGE_CHANGED
+import com.zugaldia.speedofsound.app.screens.about.buildAboutDialog
+import com.zugaldia.speedofsound.app.screens.preferences.PreferencesDialog
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import org.apache.logging.log4j.LogManager
-import org.gnome.gtk.Align
+import org.gnome.adw.AboutDialog
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
 import org.gnome.gdk.Gdk
+import org.gnome.gdk.ModifierType
 import org.gnome.gtk.Box
-import org.gnome.gtk.Button
 import org.gnome.gtk.EventControllerKey
 import org.gnome.gtk.Orientation
+import org.gnome.gtk.Separator
 
-class MainWindow(app: Application): ApplicationWindow() {
+class MainWindow(app: Application) : ApplicationWindow() {
     private val logger = LogManager.getLogger()
     private val viewModel = MainViewModel()
+
+    private val audioWidget: AudioWidget
+    private val statusWidget: StatusWidget
+    private val preferencesDialog: PreferencesDialog
+    private val aboutDialog: AboutDialog
 
     init {
         application = app
         title = APPLICATION_NAME
         setDefaultSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT)
-        content = buildContent()
+        resizable = false
         addController(EventControllerKey().apply {
-            onKeyPressed { keyval, _, _ -> keyPressed(keyval) }
+            onKeyPressed { keyval, _, state -> keyPressed(keyval, state) }
         })
-    }
 
-    private fun keyPressed(keyval: Int): Boolean {
-        val key = Gdk.keyvalName(keyval)
-        logger.info("Key pressed: $key")
-        when (key) {
-            "Escape" -> visible = false
-        }
+        preferencesDialog = PreferencesDialog()
+        aboutDialog = buildAboutDialog()
 
-        return true
-    }
+        audioWidget = AudioWidget()
+        statusWidget = StatusWidget(
+            onSettingsClicked = { onOpenPreferences() },
+            onAboutClicked = { onOpenAbout() },
+            onQuitClicked = { onQuit() }
+        )
 
-    fun buildContent(): Box {
-        val box = Box.builder()
+        content = Box.builder()
             .setOrientation(Orientation.VERTICAL)
-            .setHalign(Align.CENTER)
-            .setValign(Align.CENTER)
-            .setSpacing(DEFAULT_BOX_SPACING)
+            .setHexpand(true)
+            .setVexpand(true)
             .build()
+            .apply {
+                append(audioWidget)
+                append(Separator(Orientation.HORIZONTAL))
+                append(statusWidget)
+            }
 
-        val startButton = Button.withLabel("Start Recording")
-        startButton.onClicked { viewModel.startRecording() }
+        viewModel.state.connect(SIGNAL_STAGE_CHANGED, MainState.StageChanged { stageOrdinal: Int ->
+            val stage = MainState.stageFromOrdinal(stageOrdinal)
+            audioWidget.setStage(stage)
+        })
 
-        val stopButton = Button.withLabel("Stop Recording")
-        stopButton.onClicked { viewModel.stopRecording() }
+        viewModel.state.connect(SIGNAL_RECORDING_LEVEL, MainState.RecordingLevelChanged { level: Double ->
+            audioWidget.setRecordingLevel(level)
+        })
 
-        val exitButton = Button.withLabel("Exit")
-        exitButton.onClicked {
-            viewModel.shutdown()
-            close()
+        viewModel.start()
+    }
+
+    private fun keyPressed(keyval: Int, state: Set<ModifierType>): Boolean {
+        val key = Gdk.keyvalName(keyval)
+        val ctrlPressed = state.contains(ModifierType.CONTROL_MASK)
+        return when {
+            key == "s" || key == "S" -> { onToggle(); true }
+            key == "Escape" -> { onCancel(); true }
+            (key == "q" || key == "Q") && ctrlPressed -> { onQuit(); true }
+            else -> false
         }
+    }
 
-        box.append(startButton)
-        box.append(stopButton)
-        box.append(exitButton)
-        return box
+    private fun onOpenPreferences() {
+        preferencesDialog.present(this)
+    }
+
+    private fun onOpenAbout() {
+        aboutDialog.present(this)
+    }
+
+    private fun onToggle() {
+        viewModel.toggleListening()
+    }
+
+    private fun onCancel() {
+        viewModel.cancelListening()
+        //visible = false
+    }
+
+    private fun onQuit() {
+        viewModel.shutdown()
+        close()
     }
 }
