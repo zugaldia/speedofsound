@@ -12,10 +12,7 @@ import com.zugaldia.speedofsound.core.plugins.AppPlugin
 
 class WhisperAsr(
     private val options: WhisperOptions = WhisperOptions(),
-) : AppPlugin<AsrState, WhisperOptions>(
-    initialOptions = options,
-    initialState = AsrState(),
-) {
+) : AppPlugin<WhisperOptions>(initialOptions = options) {
     companion object {
         // Ideally, we use CUDA for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
         // available). However, it seems that the official JAR files do not include this support. Assuming we can
