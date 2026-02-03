@@ -13,10 +13,10 @@ kotlin = "2.3.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 kotlinxSerializationJSON = "1.9.0"
-ktor = "3.4.0"
 log4j = "2.25.3"
 openai = "4.17.0"
 shadow = "9.3.1"
+stargate = "0.1.0-20260203061001"
 
 [libraries]
 anthropic = { module = "com.anthropic:anthropic-java", version.ref = "anthropic" }
@@ -29,17 +29,14 @@ kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ver
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
-ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktorClientCore = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktorSerializationKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-log4jApi = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4jCore = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4jSlf4j2Impl = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j" }
 openai = { module = "com.openai:openai-java", version.ref = "openai" }
+stargate = { module = "com.zugaldia.stargate:stargate", version.ref = "stargate" }
 
 [bundles]
 javaGiEcosystem = ["javaGiGtk", "javaGiAdw"]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
-ktorClient = ["ktorClientCore", "ktorClientContentNegotiation", "ktorSerializationKotlinxJson"]
 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
