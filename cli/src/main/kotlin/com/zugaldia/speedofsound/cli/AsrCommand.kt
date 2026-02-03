@@ -11,12 +11,12 @@ import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.models.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
 class AsrCommand : CliktCommand(name = "asr") {
     override val printHelpOnEmptyArgs = true
-    private val logger = LogManager.getLogger(AsrCommand::class.java)
+    private val logger = LoggerFactory.getLogger(AsrCommand::class.java)
 
     private val inputFile: Path by argument(
         name = "wav",

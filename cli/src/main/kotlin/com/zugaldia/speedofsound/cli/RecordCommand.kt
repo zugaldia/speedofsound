@@ -5,10 +5,10 @@ import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.generateTmpWavFilePath
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory
 
 class RecordCommand : CliktCommand(name = "record") {
-    private val logger = LogManager.getLogger(RecordCommand::class.java)
+    private val logger = LoggerFactory.getLogger(RecordCommand::class.java)
 
     companion object {
         private const val RECORDING_DURATION_MS = 10_000L

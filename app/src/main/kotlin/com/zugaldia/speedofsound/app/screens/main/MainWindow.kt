@@ -7,8 +7,8 @@ import com.zugaldia.speedofsound.app.SIGNAL_STAGE_CHANGED
 import com.zugaldia.speedofsound.app.screens.about.buildAboutDialog
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesDialog
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
-import org.apache.logging.log4j.LogManager
 import org.gnome.adw.AboutDialog
+import org.slf4j.LoggerFactory
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
 import org.gnome.gdk.Gdk
@@ -19,7 +19,7 @@ import org.gnome.gtk.Orientation
 import org.gnome.gtk.Separator
 
 class MainWindow(app: Application) : ApplicationWindow() {
-    private val logger = LogManager.getLogger()
+    private val logger = LoggerFactory.getLogger(MainWindow::class.java)
     private val viewModel = MainViewModel()
 
     private val audioWidget: AudioWidget

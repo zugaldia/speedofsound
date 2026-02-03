@@ -17,11 +17,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
-import org.apache.logging.log4j.LogManager
 import org.gnome.glib.GLib
+import org.slf4j.LoggerFactory
 
 class MainViewModel {
-    private val logger = LogManager.getLogger()
+    private val logger = LoggerFactory.getLogger(MainViewModel::class.java)
 
     var state: MainState = MainState()
         private set

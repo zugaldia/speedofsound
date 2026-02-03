@@ -2,12 +2,12 @@ package com.zugaldia.speedofsound.app
 
 import com.zugaldia.speedofsound.app.screens.main.MainWindow
 import com.zugaldia.speedofsound.core.APPLICATION_ID
-import org.apache.logging.log4j.LogManager
 import org.gnome.adw.Application
 import org.gnome.gio.ApplicationFlags
 import org.gnome.gio.SimpleAction
+import org.slf4j.LoggerFactory
 
-private val logger = LogManager.getLogger()
+private val logger = LoggerFactory.getLogger("com.zugaldia.speedofsound.app.App")
 
 fun main(args: Array<String>) {
     logger.info("Running application.")

@@ -4,8 +4,8 @@ import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getTmpDataDir
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.BufferedInputStream
 import java.io.File
 import java.net.URI
@@ -15,7 +15,7 @@ import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
 
 class ModelManager {
-    private val log: Logger = LogManager.getLogger()
+    private val log: Logger = LoggerFactory.getLogger(ModelManager::class.java)
 
     companion object {
         private const val BUFFER_SIZE = 8192

@@ -7,10 +7,10 @@ import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.models.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.models.ModelManager
 import com.zugaldia.speedofsound.core.models.SUPPORTED_ASR_MODELS
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory
 
 class DownloadCommand : CliktCommand(name = "download") {
-    private val logger = LogManager.getLogger(DownloadCommand::class.java)
+    private val logger = LoggerFactory.getLogger(DownloadCommand::class.java)
     private val modelManager = ModelManager()
 
     private val modelId: String? by argument(

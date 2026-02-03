@@ -2,8 +2,8 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
-import org.apache.logging.log4j.LogManager
 import org.gnome.gio.Menu
+import org.slf4j.LoggerFactory
 import org.gnome.gio.SimpleAction
 import org.gnome.gio.SimpleActionGroup
 import org.gnome.gtk.Align
@@ -17,7 +17,7 @@ class StatusWidget(
     private val onAboutClicked: () -> Unit,
     private val onQuitClicked: () -> Unit
 ) : Box() {
-    private val logger = LogManager.getLogger()
+    private val logger = LoggerFactory.getLogger(StatusWidget::class.java)
 
     init {
         orientation = Orientation.HORIZONTAL

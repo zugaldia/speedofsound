@@ -2,8 +2,8 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_PROGRESS_BAR_WIDTH
-import org.apache.logging.log4j.LogManager
 import org.gnome.glib.GLib
+import org.slf4j.LoggerFactory
 import org.gnome.gtk.Align
 import org.gnome.gtk.Box
 import org.gnome.gtk.Label
@@ -11,7 +11,7 @@ import org.gnome.gtk.Orientation
 import org.gnome.gtk.ProgressBar
 
 class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
-    private val logger = LogManager.getLogger()
+    private val logger = LoggerFactory.getLogger(AudioWidget::class.java)
 
     private val progressBar = ProgressBar().apply {
         setSizeRequest(DEFAULT_PROGRESS_BAR_WIDTH, -1)

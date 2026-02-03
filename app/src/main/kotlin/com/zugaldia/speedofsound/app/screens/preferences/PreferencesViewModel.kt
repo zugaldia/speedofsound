@@ -1,9 +1,9 @@
 package com.zugaldia.speedofsound.app.screens.preferences
 
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory
 
 class PreferencesViewModel {
-    private val logger = LogManager.getLogger()
+    private val logger = LoggerFactory.getLogger(PreferencesViewModel::class.java)
 
     var state: PreferencesState = PreferencesState()
         private set

@@ -19,11 +19,11 @@ import com.zugaldia.speedofsound.core.plugins.llm.LlmRequest
 import com.zugaldia.speedofsound.core.plugins.llm.OPENAI_ENVIRONMENT_VARIABLE
 import com.zugaldia.speedofsound.core.plugins.llm.OpenAiLlm
 import com.zugaldia.speedofsound.core.plugins.llm.OpenAiLlmOptions
-import org.apache.logging.log4j.LogManager
+import org.slf4j.LoggerFactory
 
 class LlmCommand : CliktCommand(name = "llm") {
     override val printHelpOnEmptyArgs = true
-    private val logger = LogManager.getLogger(LlmCommand::class.java)
+    private val logger = LoggerFactory.getLogger(LlmCommand::class.java)
 
     private val provider: LlmProvider by option(
         "--provider", "-p",
