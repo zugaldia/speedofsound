@@ -3,10 +3,11 @@ package com.zugaldia.speedofsound.core.audio
 import com.k2fsa.sherpa.onnx.LibraryUtils
 import com.k2fsa.sherpa.onnx.WaveReader
 import com.k2fsa.sherpa.onnx.WaveWriter
-import kotlin.io.encoding.Base64
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.file.Path
+import kotlin.io.encoding.Base64
+import kotlin.math.sqrt
 
 /**
  * Utility object for managing audio data operations.
@@ -62,6 +63,30 @@ object AudioManager {
         }
 
         return samples
+    }
+
+    /**
+     * Computes the RMS (Root Mean Square) volume level from 16-bit PCM audio data.
+     *
+     * RMS is the standard measure for perceived loudness of audio signals.
+     * The result is normalized to the range [0.0, 1.0].
+     *
+     * @param data Raw 16-bit PCM audio data as a byte array (little-endian)
+     * @return Normalized RMS volume level in range [0.0, 1.0]
+     */
+    fun computeRmsLevel(data: ByteArray): Float {
+        val shortBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer()
+        val sampleCount = shortBuffer.remaining()
+        if (data.isEmpty() || sampleCount == 0) return 0f
+
+        var sumOfSquares = 0.0
+        for (i in 0 until sampleCount) {
+            val sample = shortBuffer.get().toDouble() / PCM_16_MAX_VALUE
+            sumOfSquares += sample * sample
+        }
+
+        val rms = sqrt(sumOfSquares / sampleCount)
+        return rms.coerceIn(0.0, 1.0).toFloat()
     }
 
     /**

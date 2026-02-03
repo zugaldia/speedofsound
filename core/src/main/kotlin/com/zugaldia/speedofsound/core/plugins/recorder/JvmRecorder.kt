@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.core.plugins.recorder
 
 import com.zugaldia.speedofsound.core.audio.AudioConstants.BITS_PER_BYTE
 import com.zugaldia.speedofsound.core.audio.AudioInputDevice
+import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.plugins.AppPlugin
 import java.io.ByteArrayOutputStream
 import javax.sound.sampled.AudioFormat
@@ -15,18 +16,21 @@ import javax.sound.sampled.TargetDataLine
  */
 class JvmRecorder(
     private val options: RecorderOptions = RecorderOptions(),
-) : AppPlugin<RecorderState, RecorderOptions>(
-    initialOptions = options,
-    initialState = RecorderState(),
-) {
+) : AppPlugin<RecorderOptions>(initialOptions = options) {
     private var targetDataLine: TargetDataLine? = null
     private var recordingThread: Thread? = null
     private var audioBuffer: ByteArrayOutputStream? = null
 
-    @Volatile private var isRecording = false
+    @Volatile
+    private var isRecording = false
+
+    /**
+     * Returns whether a recording is currently in progress.
+     */
+    fun isCurrentlyRecording(): Boolean = isRecording
 
     companion object {
-        private const val DEFAULT_BUFFER_SIZE = 4096
+        private const val DEFAULT_BUFFER_SIZE = 1024
         private const val THREAD_JOIN_TIMEOUT_MS = 1000L
 
         /**
@@ -94,11 +98,16 @@ class JvmRecorder(
             isRecording = true
 
             recordingThread = Thread {
-                val buffer = ByteArray(targetDataLine?.bufferSize ?: DEFAULT_BUFFER_SIZE)
+                val bufferSize = targetDataLine?.bufferSize ?: DEFAULT_BUFFER_SIZE
+                val buffer = ByteArray(minOf(DEFAULT_BUFFER_SIZE, bufferSize))
                 while (isRecording) {
                     val bytesRead = targetDataLine?.read(buffer, 0, buffer.size) ?: 0
                     if (bytesRead > 0) {
                         audioBuffer?.write(buffer, 0, bytesRead)
+                        if (options.computeVolumeLevel) {
+                            val level = AudioManager.computeRmsLevel(buffer.copyOf(bytesRead))
+                            tryEmitEvent(RecorderEvent.RecordingLevel(level))
+                        }
                     }
                 }
             }
