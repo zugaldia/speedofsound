@@ -60,6 +60,13 @@ class SimpleDirector(
     private suspend fun executePipeline() {
         val audioData = stopRecordingAndGetData() ?: return
         val rawTranscription = transcribeAudio(audioData) ?: return
+        if (rawTranscription.isBlank()) {
+            log.warn("Empty transcription, skipping LLM polishing.")
+            val error = IllegalStateException("Empty transcription")
+            emitEvent(DirectorEvent.PipelineError(PipelineStage.TRANSCRIPTION, error))
+            return
+        }
+
         val polishedText = polishWithLlm(rawTranscription) ?: return
         emitEvent(DirectorEvent.PipelineCompleted(rawTranscription, polishedText))
     }
@@ -103,7 +110,8 @@ class SimpleDirector(
 
     private suspend fun polishWithLlm(rawTranscription: String): String? {
         emitEvent(DirectorEvent.PolishingStarted)
-        val llmResult = withContext(Dispatchers.IO) { llm.generate(LlmRequest(text = rawTranscription)) }
+        val prompt = buildPrompt(rawTranscription)
+        val llmResult = withContext(Dispatchers.IO) { llm.generate(LlmRequest(text = prompt)) }
         val polishedText = llmResult.getOrElse { error ->
             log.error("LLM polishing failed: ${error.message}")
             emitEvent(DirectorEvent.PipelineError(PipelineStage.POLISHING, error))
@@ -111,6 +119,16 @@ class SimpleDirector(
         }
 
         return polishedText.text
+    }
+
+    private fun buildPrompt(rawTranscription: String): String {
+        val context = currentOptions.customContext.ifBlank { DEFAULT_CONTEXT }
+        val vocabulary = currentOptions.customVocabulary.ifEmpty { DEFAULT_VOCABULARY }.joinToString(", ")
+        return PROMPT_TEMPLATE
+            .replace(PROMPT_KEY_CONTEXT, context)
+            .replace(PROMPT_KEY_VOCABULARY, vocabulary)
+            .replace(PROMPT_KEY_LANGUAGE, currentOptions.language.name)
+            .replace(PROMPT_KEY_INPUT, rawTranscription.trim())
     }
 
     private suspend fun handlePipelineError(e: Throwable) {
