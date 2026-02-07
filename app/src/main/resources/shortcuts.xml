@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <object class="GtkShortcutsWindow" id="shortcuts_window">
+        <child>
+            <object class="GtkShortcutsSection">
+                <property name="section-name">shortcuts</property>
+                <child>
+                    <object class="GtkShortcutsGroup">
+                        <property name="title">General</property>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="title">Start or Stop Listening</property>
+                                <property name="accelerator">s</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="title">Cancel Listening</property>
+                                <property name="accelerator">Escape</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="title">Minimize Window</property>
+                                <property name="accelerator">m</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="title">Select Primary Language</property>
+                                <property name="accelerator">Shift_L</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="title">Select Secondary Language</property>
+                                <property name="accelerator">Shift_R</property>
+                            </object>
+                        </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="title">Quit</property>
+                                <property name="accelerator">&lt;Control&gt;q</property>
+                            </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
+</interface>
