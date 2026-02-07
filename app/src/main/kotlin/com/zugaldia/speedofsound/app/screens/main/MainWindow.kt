@@ -111,8 +111,11 @@ class MainWindow(
     }
 
     private fun goAway() {
-        // We need to make this a setting - visible = false
-        minimize()
+        // We use visible = false (not minimize/iconify) to hide the window. This allows the window
+        // to be restored on the current workspace when the user relaunches the app. If we used
+        // `minimize` instead, GNOME would remember the original workspace and restore the window there,
+        // which doesn't work to type into arbitrary apps in arbitrary workspaces.
+        visible = false
     }
 
     private fun onOpenPreferences() {
