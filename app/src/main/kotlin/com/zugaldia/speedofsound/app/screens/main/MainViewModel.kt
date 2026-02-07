@@ -125,6 +125,8 @@ class MainViewModel(
         if (token.isNotBlank()) {
             state.updatePortalsRestoreTokenMissing(false)
             startPortalsSession(token)
+        } else {
+            state.updatePortalsRestoreTokenMissing(true)
         }
     }
 
