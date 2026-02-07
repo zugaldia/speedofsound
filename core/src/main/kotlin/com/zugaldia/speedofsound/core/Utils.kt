@@ -49,6 +49,15 @@ fun millisBetween(start: Instant, end: Instant): Long {
 }
 
 /**
+ * Finds a Language by its ISO2 code.
+ *
+ * @param iso2 the two-letter ISO 639-1 language code
+ * @return the matching Language, or null if not found
+ */
+fun languageFromIso2(iso2: String): Language? =
+    Language.all.firstOrNull { it.iso2 == iso2 }
+
+/**
  * Get the data directory path depending on the environment.
  * Returns $SNAP_USER_COMMON or $XDG_DATA_HOME (if set), falling back to $HOME/.local/share/speedofsound
  */

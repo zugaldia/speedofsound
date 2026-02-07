@@ -9,6 +9,13 @@ import org.slf4j.LoggerFactory
 abstract class AppPlugin<Options : AppPluginOptions>(initialOptions: Options) {
     val log: Logger = LoggerFactory.getLogger(this::class.java)
 
+    protected var currentOptions: Options = initialOptions
+
+    /**
+     * Provides read-only access to the current options.
+     */
+    fun getOptions(): Options = currentOptions
+
     private val _events = MutableSharedFlow<AppPluginEvent>(extraBufferCapacity = 10)
     val events: SharedFlow<AppPluginEvent> = _events.asSharedFlow()
 
@@ -26,6 +33,10 @@ abstract class AppPlugin<Options : AppPluginOptions>(initialOptions: Options) {
 
     open fun shutdown() {
         log.info("Shutting down.")
+    }
+
+    open fun updateOptions(options: Options) {
+        currentOptions = options
     }
 
     protected suspend fun emitEvent(event: AppPluginEvent) {
