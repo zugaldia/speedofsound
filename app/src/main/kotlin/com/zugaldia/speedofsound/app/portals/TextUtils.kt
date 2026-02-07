@@ -8,32 +8,35 @@ object TextUtils {
     /**
      * Maps accented and special characters to their safe ASCII equivalents.
      * This avoids issues with the remote desktop portal keysym handling.
+     * Some characters map to empty strings to filter them out entirely.
      */
     private val SAFE_CHAR_MAP = mapOf(
         // Lowercase vowels with diacritics
-        'á' to 'a', 'à' to 'a', 'â' to 'a', 'ä' to 'a', 'ã' to 'a', 'å' to 'a',
-        'é' to 'e', 'è' to 'e', 'ê' to 'e', 'ë' to 'e',
-        'í' to 'i', 'ì' to 'i', 'î' to 'i', 'ï' to 'i',
-        'ó' to 'o', 'ò' to 'o', 'ô' to 'o', 'ö' to 'o', 'õ' to 'o',
-        'ú' to 'u', 'ù' to 'u', 'û' to 'u', 'ü' to 'u',
-        'ý' to 'y', 'ÿ' to 'y',
+        'á' to "a", 'à' to "a", 'â' to "a", 'ä' to "a", 'ã' to "a", 'å' to "a",
+        'é' to "e", 'è' to "e", 'ê' to "e", 'ë' to "e",
+        'í' to "i", 'ì' to "i", 'î' to "i", 'ï' to "i",
+        'ó' to "o", 'ò' to "o", 'ô' to "o", 'ö' to "o", 'õ' to "o",
+        'ú' to "u", 'ù' to "u", 'û' to "u", 'ü' to "u",
+        'ý' to "y", 'ÿ' to "y",
         // Uppercase vowels with diacritics
-        'Á' to 'A', 'À' to 'A', 'Â' to 'A', 'Ä' to 'A', 'Ã' to 'A', 'Å' to 'A',
-        'É' to 'E', 'È' to 'E', 'Ê' to 'E', 'Ë' to 'E',
-        'Í' to 'I', 'Ì' to 'I', 'Î' to 'I', 'Ï' to 'I',
-        'Ó' to 'O', 'Ò' to 'O', 'Ô' to 'O', 'Ö' to 'O', 'Õ' to 'O',
-        'Ú' to 'U', 'Ù' to 'U', 'Û' to 'U', 'Ü' to 'U',
-        'Ý' to 'Y',
+        'Á' to "A", 'À' to "A", 'Â' to "A", 'Ä' to "A", 'Ã' to "A", 'Å' to "A",
+        'É' to "E", 'È' to "E", 'Ê' to "E", 'Ë' to "E",
+        'Í' to "I", 'Ì' to "I", 'Î' to "I", 'Ï' to "I",
+        'Ó' to "O", 'Ò' to "O", 'Ô' to "O", 'Ö' to "O", 'Õ' to "O",
+        'Ú' to "U", 'Ù' to "U", 'Û' to "U", 'Ü' to "U",
+        'Ý' to "Y",
         // Common special consonants
-        'ñ' to 'n', 'Ñ' to 'N',
-        'ç' to 'c', 'Ç' to 'C',
+        'ñ' to "n", 'Ñ' to "N",
+        'ç' to "c", 'Ç' to "C",
+        // Spanish punctuation marks to filter out
+        '¿' to "", '¡' to "",
     )
 
     /**
      * Replaces accented and special characters with their safe ASCII equivalents.
      */
     private fun sanitizeSpecialChars(text: String): String =
-        text.map { SAFE_CHAR_MAP.getOrDefault(it, it) }.joinToString("")
+        text.map { SAFE_CHAR_MAP.getOrDefault(it, it.toString()) }.joinToString("")
 
     /**
      * Converts a string of text into a list of GDK key symbols suitable for
