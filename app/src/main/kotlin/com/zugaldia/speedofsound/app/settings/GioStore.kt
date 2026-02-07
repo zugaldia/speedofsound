@@ -74,4 +74,20 @@ class GioStore(val schemaId: String = APPLICATION_ID): SettingsStore {
         logger.error("Error setting array value ($key): ${e.message}")
         false
     }
+
+    override fun getBoolean(key: String, defaultValue: Boolean): Boolean = try {
+        ensureKeyExists(key)
+        settings?.getBoolean(key) ?: defaultValue
+    } catch (e: IllegalArgumentException) {
+        logger.error("Error getting boolean setting ($key), using default ($defaultValue): ${e.message}")
+        defaultValue
+    }
+
+    override fun setBoolean(key: String, value: Boolean): Boolean = try {
+        ensureKeyExists(key)
+        settings?.setBoolean(key, value) ?: false
+    } catch (e: IllegalArgumentException) {
+        logger.error("Error setting boolean value ($key -> $value): ${e.message}")
+        false
+    }
 }

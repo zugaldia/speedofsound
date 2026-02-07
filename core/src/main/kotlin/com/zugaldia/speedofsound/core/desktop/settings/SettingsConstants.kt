@@ -19,3 +19,15 @@ val DEFAULT_LANGUAGE = Language.ENGLISH
 
 const val KEY_SECONDARY_LANGUAGE = "secondary-language"
 val DEFAULT_SECONDARY_LANGUAGE = Language.SPANISH
+
+const val KEY_CLOUD_ENABLED = "cloud-enabled"
+const val DEFAULT_CLOUD_ENABLED = false
+
+const val KEY_ANTHROPIC_API_KEY = "anthropic-api-key"
+const val DEFAULT_ANTHROPIC_API_KEY = ""
+
+const val KEY_GOOGLE_API_KEY = "google-api-key"
+const val DEFAULT_GOOGLE_API_KEY = ""
+
+const val KEY_OPENAI_API_KEY = "openai-api-key"
+const val DEFAULT_OPENAI_API_KEY = ""

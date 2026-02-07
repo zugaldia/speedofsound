@@ -6,4 +6,6 @@ interface SettingsStore {
     fun setString(key: String, value: String): Boolean
     fun getStringArray(key: String, defaultValue: List<String>): List<String>
     fun setStringArray(key: String, value: List<String>): Boolean
+    fun getBoolean(key: String, defaultValue: Boolean): Boolean
+    fun setBoolean(key: String, value: Boolean): Boolean
 }

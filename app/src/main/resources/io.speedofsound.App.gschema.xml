@@ -6,6 +6,18 @@
       <summary>XDG Desktop Portal restore token</summary>
       <description>Token used to restore remote desktop sessions without requiring user re-authorization.</description>
     </key>
+
+    <key name="default-language" type="s">
+      <default>'en'</default>
+      <summary>Default language</summary>
+      <description>ISO 639-1 code for the default language used for speech recognition and text processing.</description>
+    </key>
+    <key name="secondary-language" type="s">
+      <default>'es'</default>
+      <summary>Secondary language</summary>
+      <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
+    </key>
+
     <key name="custom-context" type="s">
       <default>''</default>
       <summary>Custom LLM context</summary>
@@ -16,15 +28,26 @@
       <summary>Custom vocabulary entries</summary>
       <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
     </key>
-    <key name="default-language" type="s">
-      <default>'en'</default>
-      <summary>Default language</summary>
-      <description>ISO 639-1 code for the default language used for speech recognition and text processing.</description>
+
+    <key name="cloud-enabled" type="b">
+      <default>false</default>
+      <summary>Cloud services enabled</summary>
+      <description>Optional cloud-based services for speech recognition and text processing. By default, all processing happens locally on your machine and your data never leaves your computer.</description>
     </key>
-    <key name="secondary-language" type="s">
-      <default>'es'</default>
-      <summary>Secondary language</summary>
-      <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
+    <key name="anthropic-api-key" type="s">
+      <default>''</default>
+      <summary>Anthropic API key</summary>
+      <description>Optional API key for Anthropic Claude models. When empty, Anthropic models will not be available.</description>
+    </key>
+    <key name="google-api-key" type="s">
+      <default>''</default>
+      <summary>Google API key</summary>
+      <description>Optional API key for Google models. When empty, Google models will not be available.</description>
+    </key>
+    <key name="openai-api-key" type="s">
+      <default>''</default>
+      <summary>OpenAI API key</summary>
+      <description>Optional API key for OpenAI models. When empty, OpenAI models will not be available.</description>
     </key>
   </schema>
 </schemalist>

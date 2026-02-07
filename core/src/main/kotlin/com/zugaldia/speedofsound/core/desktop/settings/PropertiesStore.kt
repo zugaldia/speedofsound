@@ -60,6 +60,14 @@ class PropertiesStore(filename: String = DEFAULT_PROPERTIES_FILENAME) : Settings
         return save()
     }
 
+    override fun getBoolean(key: String, defaultValue: Boolean): Boolean =
+        properties.getProperty(key)?.toBoolean() ?: defaultValue
+
+    override fun setBoolean(key: String, value: Boolean): Boolean {
+        properties.setProperty(key, value.toString())
+        return save()
+    }
+
     companion object {
         private const val ARRAY_DELIMITER = "|||"
     }
