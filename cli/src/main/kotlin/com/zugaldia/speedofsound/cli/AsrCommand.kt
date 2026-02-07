@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.types.path
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
+import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.models.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
@@ -31,7 +32,7 @@ class AsrCommand : CliktCommand(name = "asr") {
     private val languageCode: String by option(
         "--language", "-l",
         help = "Language code (ISO 639-1, e.g., 'en', 'es', 'fr')"
-    ).default(Language.ENGLISH.iso2)
+    ).default(DEFAULT_LANGUAGE.iso2)
 
     override fun run() {
         logger.info("Loading audio file: $inputFile")
