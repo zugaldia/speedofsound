@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.main
 
+import com.zugaldia.speedofsound.app.MAX_RECORDING_DURATION_MS
 import com.zugaldia.speedofsound.app.POST_HIDE_DELAY_MS
 import com.zugaldia.speedofsound.app.portals.TextUtils
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
@@ -45,6 +46,7 @@ class MainViewModel(
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.Default + viewModelJob)
     private var currentPipelineJob: Job? = null
+    private var autoStopJob: Job? = null
 
     fun start() {
         logger.info("Starting.")
@@ -73,7 +75,7 @@ class MainViewModel(
             director.events.filterIsInstance<DirectorEvent>().collect { event ->
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
                     when (event) {
-                        is DirectorEvent.RecordingStarted -> state.updateStage(AppStage.LISTENING)
+                        is DirectorEvent.RecordingStarted -> onRecordingStarted()
                         is DirectorEvent.TranscriptionStarted -> state.updateStage(AppStage.TRANSCRIBING)
                         is DirectorEvent.PolishingStarted -> state.updateStage(AppStage.POLISHING)
                         is DirectorEvent.PipelineCompleted -> onPipelineCompleted(event)
@@ -108,6 +110,25 @@ class MainViewModel(
                 }
             }
         }
+    }
+
+    private fun onRecordingStarted() {
+        state.updateStage(AppStage.LISTENING)
+        startAutoStopTimer()
+    }
+
+    private fun startAutoStopTimer() {
+        cancelAutoStopTimer()
+        autoStopJob = viewModelScope.launch {
+            delay(MAX_RECORDING_DURATION_MS)
+            logger.info("Auto-stop timer triggered after ${MAX_RECORDING_DURATION_MS}ms")
+            director.stop()
+        }
+    }
+
+    private fun cancelAutoStopTimer() {
+        autoStopJob?.cancel()
+        autoStopJob = null
     }
 
     private fun refreshSettings(key: String) {
@@ -171,6 +192,7 @@ class MainViewModel(
                 director.start()
             }
         } else if (state.currentStage() == AppStage.LISTENING) {
+            cancelAutoStopTimer()
             viewModelScope.launch {
                 director.stop()
             }
@@ -179,6 +201,7 @@ class MainViewModel(
 
     fun cancelListening() {
         if (state.currentStage() in listOf(AppStage.LISTENING, AppStage.TRANSCRIBING, AppStage.POLISHING)) {
+            cancelAutoStopTimer()
             currentPipelineJob?.cancel()
             viewModelScope.launch {
                 director.cancel()
@@ -188,6 +211,7 @@ class MainViewModel(
 
     private fun onPipelineCompleted(event: DirectorEvent.PipelineCompleted) {
         logger.info("Pipeline completed: $event")
+        cancelAutoStopTimer()
         hideAndReset()
         viewModelScope.launch {
             delay(POST_HIDE_DELAY_MS) // Wait for the main window to fully go away before typing
@@ -200,11 +224,13 @@ class MainViewModel(
     }
 
     private fun onPipelineCancelled() {
+        cancelAutoStopTimer()
         hideAndReset()
     }
 
     private fun onPipelineError(event: DirectorEvent.PipelineError) {
         logger.error("Pipeline error at ${event.stage}: ${event.error.message}")
+        cancelAutoStopTimer()
         hideAndReset()
     }
 
