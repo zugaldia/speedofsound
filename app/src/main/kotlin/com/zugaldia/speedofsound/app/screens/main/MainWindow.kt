@@ -1,13 +1,20 @@
+@file:Suppress("DEPRECATION")
+
 package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_WIDTH
+import com.zugaldia.speedofsound.app.SIGNAL_LANGUAGE_CHANGED
+import com.zugaldia.speedofsound.app.SIGNAL_PIPELINE_COMPLETED
+import com.zugaldia.speedofsound.app.SIGNAL_PORTALS_RESTORE_TOKEN_MISSING
 import com.zugaldia.speedofsound.app.SIGNAL_RECORDING_LEVEL
 import com.zugaldia.speedofsound.app.SIGNAL_STAGE_CHANGED
 import com.zugaldia.speedofsound.app.screens.about.buildAboutDialog
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesDialog
+import com.zugaldia.speedofsound.app.screens.shortcuts.buildShortcutsWindow
+import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
-import org.gnome.adw.AboutDialog
+import org.gnome.adw.Banner
 import org.slf4j.LoggerFactory
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
@@ -18,14 +25,16 @@ import org.gnome.gtk.EventControllerKey
 import org.gnome.gtk.Orientation
 import org.gnome.gtk.Separator
 
-class MainWindow(app: Application) : ApplicationWindow() {
+class MainWindow(
+    app: Application,
+    private val viewModel: MainViewModel,
+    private val settingsClient: SettingsClient
+) : ApplicationWindow() {
     private val logger = LoggerFactory.getLogger(MainWindow::class.java)
-    private val viewModel = MainViewModel()
 
     private val audioWidget: AudioWidget
+    private val portalsBanner: Banner
     private val statusWidget: StatusWidget
-    private val preferencesDialog: PreferencesDialog
-    private val aboutDialog: AboutDialog
 
     init {
         application = app
@@ -36,12 +45,11 @@ class MainWindow(app: Application) : ApplicationWindow() {
             onKeyPressed { keyval, _, state -> keyPressed(keyval, state) }
         })
 
-        preferencesDialog = PreferencesDialog()
-        aboutDialog = buildAboutDialog()
-
+        portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
         audioWidget = AudioWidget()
         statusWidget = StatusWidget(
             onSettingsClicked = { onOpenPreferences() },
+            onShortcutsClicked = { onOpenShortcuts() },
             onAboutClicked = { onOpenAbout() },
             onQuitClicked = { onQuit() }
         )
@@ -52,11 +60,17 @@ class MainWindow(app: Application) : ApplicationWindow() {
             .setVexpand(true)
             .build()
             .apply {
+                append(portalsBanner)
                 append(audioWidget)
                 append(Separator(Orientation.HORIZONTAL))
                 append(statusWidget)
             }
 
+        connectSignals()
+        viewModel.start()
+    }
+
+    private fun connectSignals() {
         viewModel.state.connect(SIGNAL_STAGE_CHANGED, MainState.StageChanged { stageOrdinal: Int ->
             val stage = MainState.stageFromOrdinal(stageOrdinal)
             audioWidget.setStage(stage)
@@ -66,39 +80,57 @@ class MainWindow(app: Application) : ApplicationWindow() {
             audioWidget.setRecordingLevel(level)
         })
 
-        viewModel.start()
+        viewModel.state.connect(
+            SIGNAL_PORTALS_RESTORE_TOKEN_MISSING,
+            MainState.PortalsRestoreTokenMissingChanged { missing: Boolean ->
+                portalsBanner.revealed = missing
+            }
+        )
+
+        viewModel.state.connect(SIGNAL_PIPELINE_COMPLETED, MainState.PipelineCompleted {
+            goAway()
+        })
+
+        viewModel.state.connect(SIGNAL_LANGUAGE_CHANGED, MainState.LanguageChanged { languageName: String ->
+            statusWidget.setLanguage(languageName)
+        })
     }
 
     private fun keyPressed(keyval: Int, state: Set<ModifierType>): Boolean {
         val key = Gdk.keyvalName(keyval)
         val ctrlPressed = state.contains(ModifierType.CONTROL_MASK)
         return when {
-            key == "s" || key == "S" -> { onToggle(); true }
-            key == "Escape" -> { onCancel(); true }
+            key == "Shift_L" -> { viewModel.onPrimaryLanguageSelected(); true }
+            key == "Shift_R" -> { viewModel.onSecondaryLanguageSelected(); true }
+            key == "s" || key == "S" -> { viewModel.toggleListening(); true }
+            key == "m" || key == "M" -> { goAway(); true }
+            key == "Escape" -> { viewModel.cancelListening(); true }
             (key == "q" || key == "Q") && ctrlPressed -> { onQuit(); true }
             else -> false
         }
     }
 
+    private fun goAway() {
+        // We need to make this a setting - visible = false
+        minimize()
+    }
+
     private fun onOpenPreferences() {
-        preferencesDialog.present(this)
+        PreferencesDialog(settingsClient).present(this)
+    }
+
+    private fun onOpenShortcuts() {
+        buildShortcutsWindow().apply {
+            setTransientFor(this@MainWindow)
+            present()
+        }
     }
 
     private fun onOpenAbout() {
-        aboutDialog.present(this)
-    }
-
-    private fun onToggle() {
-        viewModel.toggleListening()
-    }
-
-    private fun onCancel() {
-        viewModel.cancelListening()
-        //visible = false
+        buildAboutDialog().present(this)
     }
 
     private fun onQuit() {
-        viewModel.shutdown()
         close()
     }
 }

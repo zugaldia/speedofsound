@@ -14,27 +14,31 @@ import org.gnome.gtk.Orientation
 
 class StatusWidget(
     private val onSettingsClicked: () -> Unit,
+    private val onShortcutsClicked: () -> Unit,
     private val onAboutClicked: () -> Unit,
     private val onQuitClicked: () -> Unit
 ) : Box() {
     private val logger = LoggerFactory.getLogger(StatusWidget::class.java)
+    private val languageLabel: Label
 
     init {
         orientation = Orientation.HORIZONTAL
         hexpand = true
         vexpand = false
-        spacing = 2 * DEFAULT_BOX_SPACING
+        spacing = DEFAULT_BOX_SPACING
         marginTop = DEFAULT_MARGIN
         marginBottom = DEFAULT_MARGIN
         marginStart = DEFAULT_MARGIN
         marginEnd = DEFAULT_MARGIN
 
-        append(createShortcutGroup("s", "Start/Stop"))
-        append(createShortcutGroup("Escape", "Cancel"))
-        append(createShortcutGroup("Ctrl+Q", "Quit"))
+        append(createStatusLabel("OpenAI Whisper Tiny", isDimmed = true))
+        append(createStatusLabel("·", isDimmed = true))
+        languageLabel = createStatusLabel("English", isDimmed = true)
+        append(languageLabel)
 
         val mainSection = Menu()
         mainSection.append("Preferences", "status.preferences")
+        mainSection.append("Keyboard Shortcuts", "status.shortcuts")
         mainSection.append("About", "status.about")
 
         val quitSection = Menu()
@@ -56,6 +60,10 @@ class StatusWidget(
         preferencesAction.onActivate { onSettingsClicked() }
         actionGroup.addAction(preferencesAction)
 
+        val shortcutsAction = SimpleAction("shortcuts", null)
+        shortcutsAction.onActivate { onShortcutsClicked() }
+        actionGroup.addAction(shortcutsAction)
+
         val aboutAction = SimpleAction("about", null)
         aboutAction.onActivate { onAboutClicked() }
         actionGroup.addAction(aboutAction)
@@ -68,10 +76,15 @@ class StatusWidget(
         append(menuButton)
     }
 
-    private fun createShortcutGroup(shortcut: String, description: String): Box {
-        val box = Box(Orientation.HORIZONTAL, DEFAULT_BOX_SPACING / 2)
-        box.append(Label(description).apply { cssClasses = arrayOf("caption") })
-        box.append(Label("  $shortcut  ").apply { cssClasses = arrayOf("caption", "frame", "dim-label") })
-        return box
+    fun setLanguage(language: String) {
+        languageLabel.label = language
+    }
+
+    private fun createStatusLabel(text: String, isFramed: Boolean = false, isDimmed: Boolean = false): Label {
+        val classes = mutableListOf("caption")
+        if (isFramed) classes.add("frame")
+        if (isDimmed) classes.add("dim-label")
+        val finalText = if (isFramed) "  $text  " else text
+        return Label(finalText).apply { cssClasses = classes.toTypedArray() }
     }
 }
