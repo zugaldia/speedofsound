@@ -7,7 +7,7 @@ clean:
 	./gradlew clean
 
 run:
-	./gradlew :app:run
+	SOS_DISABLE_GIO_STORE=true ./gradlew :app:run
 
 build:
 	./gradlew build
