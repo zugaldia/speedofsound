@@ -1,7 +1,7 @@
 package com.zugaldia.speedofsound.core.plugins.llm
 
 const val GOOGLE_ENVIRONMENT_VARIABLE = "GOOGLE_API_KEY"
-const val DEFAULT_GOOGLE_MODEL_ID = "gemini-3-flash-preview"
+const val DEFAULT_GOOGLE_MODEL_ID = "gemini-2.5-flash"
 
 data class GoogleLlmOptions(
     override val baseUrl: String? = null,

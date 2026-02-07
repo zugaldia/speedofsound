@@ -3,7 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.google.genai.Client
 
 class GoogleLlm(
-    private val options: GoogleLlmOptions,
+    options: GoogleLlmOptions,
 ) : LlmPlugin<GoogleLlmOptions>(options) {
 
     private lateinit var client: Client
@@ -11,7 +11,7 @@ class GoogleLlm(
     override fun initialize() {
         super.initialize()
         val builder = Client.builder()
-        options.apiKey?.let { builder.apiKey(it) }
+        currentOptions.apiKey?.let { builder.apiKey(it) }
         client = builder.build()
     }
 
@@ -21,7 +21,7 @@ class GoogleLlm(
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val response = client.models.generateContent(
-            options.model ?: DEFAULT_GOOGLE_MODEL_ID,
+            currentOptions.model ?: DEFAULT_GOOGLE_MODEL_ID,
             request.text,
             null
         )

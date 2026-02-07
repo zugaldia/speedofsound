@@ -15,7 +15,7 @@ import javax.sound.sampled.TargetDataLine
  * JVM-based audio recorder plugin.
  */
 class JvmRecorder(
-    private val options: RecorderOptions = RecorderOptions(),
+    options: RecorderOptions = RecorderOptions(),
 ) : AppPlugin<RecorderOptions>(initialOptions = options) {
     private var targetDataLine: TargetDataLine? = null
     private var recordingThread: Thread? = null
@@ -74,7 +74,7 @@ class JvmRecorder(
             return
         }
 
-        val audioInfo = options.audioInfo
+        val audioInfo = currentOptions.audioInfo
         val audioFormat = AudioFormat(
             audioInfo.sampleRate.toFloat(),
             audioInfo.sampleWidth * BITS_PER_BYTE,
@@ -104,7 +104,7 @@ class JvmRecorder(
                     val bytesRead = targetDataLine?.read(buffer, 0, buffer.size) ?: 0
                     if (bytesRead > 0) {
                         audioBuffer?.write(buffer, 0, bytesRead)
-                        if (options.computeVolumeLevel) {
+                        if (currentOptions.computeVolumeLevel) {
                             val level = AudioManager.computeRmsLevel(buffer.copyOf(bytesRead))
                             tryEmitEvent(RecorderEvent.RecordingLevel(level))
                         }

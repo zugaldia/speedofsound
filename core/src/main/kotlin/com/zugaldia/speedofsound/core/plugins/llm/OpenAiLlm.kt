@@ -5,7 +5,7 @@ import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.openai.models.responses.ResponseCreateParams
 
 class OpenAiLlm(
-    private val options: OpenAiLlmOptions,
+    options: OpenAiLlmOptions,
 ) : LlmPlugin<OpenAiLlmOptions>(options) {
 
     private lateinit var client: OpenAIClient
@@ -13,8 +13,8 @@ class OpenAiLlm(
     override fun initialize() {
         super.initialize()
         val builder = OpenAIOkHttpClient.builder()
-        options.apiKey?.let { builder.apiKey(it) }
-        options.baseUrl?.let { builder.baseUrl(it) }
+        currentOptions.apiKey?.let { builder.apiKey(it) }
+        currentOptions.baseUrl?.let { builder.baseUrl(it) }
         client = builder.build()
     }
 
@@ -25,7 +25,7 @@ class OpenAiLlm(
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val params = ResponseCreateParams.builder()
             .input(request.text)
-            .model(options.model ?: DEFAULT_OPENAI_MODEL_ID)
+            .model(currentOptions.model ?: DEFAULT_OPENAI_MODEL_ID)
             .build()
 
         val response = client.responses().create(params)

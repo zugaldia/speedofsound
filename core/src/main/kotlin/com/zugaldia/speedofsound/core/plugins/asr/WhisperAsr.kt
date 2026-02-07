@@ -11,29 +11,33 @@ import com.zugaldia.speedofsound.core.models.SUPPORTED_ASR_MODELS
 import com.zugaldia.speedofsound.core.plugins.AppPlugin
 
 class WhisperAsr(
-    private val options: WhisperOptions = WhisperOptions(),
+    options: WhisperOptions = WhisperOptions(),
 ) : AppPlugin<WhisperOptions>(initialOptions = options) {
     companion object {
-        // Ideally, we use CUDA for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
+        // Ideally, we use "cuda" for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
         // available). However, it seems that the official JAR files do not include this support. Assuming we can
         // access the GPU from the sandboxed environment, we need a build of Sherpa with -DSHERPA_ONNX_ENABLE_GPU=ON.
         // The next step is to make it work outside Flatpak/Snap (CLI), then we can tackle the sandboxes.
-        const val PROVIDER = "cuda"
+        const val PROVIDER = "cpu"
     }
 
     private var recognizer: OfflineRecognizer? = null
+    private var recognizerLanguage: Language? = null
 
     override fun initialize() {
         super.initialize()
+        createRecognizer()
+    }
 
+    private fun createRecognizer() {
         val modelManager = ModelManager()
-        val model = SUPPORTED_ASR_MODELS[options.modelID]
-            ?: throw IllegalArgumentException("Model not found: ${options.modelID}.")
-        if (!modelManager.isModelDownloaded(options.modelID)) {
-            throw IllegalStateException("Model not downloaded: ${options.modelID}.")
+        val model = SUPPORTED_ASR_MODELS[currentOptions.modelID]
+            ?: throw IllegalArgumentException("Model not found: ${currentOptions.modelID}.")
+        if (!modelManager.isModelDownloaded(currentOptions.modelID)) {
+            throw IllegalStateException("Model not downloaded: ${currentOptions.modelID}.")
         }
 
-        val modelPath = modelManager.getModelPath(options.modelID)
+        val modelPath = modelManager.getModelPath(currentOptions.modelID)
         val encoder = modelPath.resolve(model.encoder).toString()
         val decoder = modelPath.resolve(model.decoder).toString()
         val tokens = modelPath.resolve(model.tokens).toString()
@@ -41,7 +45,7 @@ class WhisperAsr(
         val whisper = OfflineWhisperModelConfig.builder()
             .setEncoder(encoder)
             .setDecoder(decoder)
-            .setLanguage(options.language.iso2)
+            .setLanguage(currentOptions.language.iso2)
             .setTask("transcribe")
             .build()
 
@@ -50,7 +54,7 @@ class WhisperAsr(
             .setTokens(tokens)
             .setNumThreads(Runtime.getRuntime().availableProcessors()) // Use all available CPU cores
             .setProvider(PROVIDER)
-            .setDebug(true)
+            .setDebug(currentOptions.enableDebug)
             .build()
 
         val config = OfflineRecognizerConfig.builder()
@@ -59,6 +63,16 @@ class WhisperAsr(
             .build()
 
         recognizer = OfflineRecognizer(config)
+        recognizerLanguage = currentOptions.language
+        log.info("Recognizer created: ${model.id}/${recognizerLanguage?.iso2}")
+    }
+
+    private fun ensureRecognizerLanguage() {
+        if (currentOptions.language != recognizerLanguage) {
+            log.info("Language changed, reinitializing.")
+            recognizer?.release()
+            createRecognizer()
+        }
     }
 
     override fun enable() {
@@ -66,6 +80,7 @@ class WhisperAsr(
     }
 
     fun transcribe(audioData: FloatArray, audioInfo: AudioInfo = AudioInfo.Default): Result<String> = runCatching {
+        ensureRecognizerLanguage()
         val currentRecognizer = recognizer ?: throw IllegalStateException("Recognizer not initialized")
 
         try {
@@ -87,6 +102,7 @@ class WhisperAsr(
     override fun shutdown() {
         recognizer?.release()
         recognizer = null
+        recognizerLanguage = null
         super.shutdown()
     }
 }

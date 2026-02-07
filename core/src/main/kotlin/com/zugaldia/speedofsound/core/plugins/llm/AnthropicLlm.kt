@@ -5,7 +5,7 @@ import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.messages.MessageCreateParams
 
 class AnthropicLlm(
-    private val options: AnthropicLlmOptions,
+    options: AnthropicLlmOptions,
 ) : LlmPlugin<AnthropicLlmOptions>(options) {
 
     private lateinit var client: AnthropicClient
@@ -13,8 +13,8 @@ class AnthropicLlm(
     override fun initialize() {
         super.initialize()
         val builder = AnthropicOkHttpClient.builder()
-        options.apiKey?.let { builder.apiKey(it) }
-        options.baseUrl?.let { builder.baseUrl(it) }
+        currentOptions.apiKey?.let { builder.apiKey(it) }
+        currentOptions.baseUrl?.let { builder.baseUrl(it) }
         client = builder.build()
     }
 
@@ -24,9 +24,9 @@ class AnthropicLlm(
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val params = MessageCreateParams.builder()
-            .maxTokens(options.maxTokens)
+            .maxTokens(currentOptions.maxTokens)
             .addUserMessage(request.text)
-            .model(options.model ?: DEFAULT_ANTHROPIC_MODEL_ID)
+            .model(currentOptions.model ?: DEFAULT_ANTHROPIC_MODEL_ID)
             .build()
 
         val message = client.messages().create(params)
