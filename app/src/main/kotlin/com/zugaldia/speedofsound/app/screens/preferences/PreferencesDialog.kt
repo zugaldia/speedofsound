@@ -20,6 +20,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
     private val sidebar: StackSidebar
     private val generalPage: GeneralPage
     private val personalizationPage: PersonalizationPage
+    private val cloudProvidersPage: CloudProvidersPage
     private val modelsPage: ModelsPage
 
     init {
@@ -29,6 +30,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
 
         generalPage = GeneralPage(viewModel)
         personalizationPage = PersonalizationPage(viewModel)
+        cloudProvidersPage = CloudProvidersPage(viewModel)
         modelsPage = ModelsPage()
 
         stack = Stack().apply {
@@ -36,6 +38,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
             vexpand = true
             addTitled(generalPage, "general", "General")
             addTitled(personalizationPage, "personalization", "Personalization")
+            addTitled(cloudProvidersPage, "cloudproviders", "Cloud Providers")
             addTitled(modelsPage, "models", "Models")
         }
 
