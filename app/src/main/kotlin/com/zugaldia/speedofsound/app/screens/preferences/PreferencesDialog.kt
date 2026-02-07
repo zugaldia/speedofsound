@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.preferences
 
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
+import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import org.gnome.adw.Dialog
 import org.slf4j.LoggerFactory
 import org.gnome.adw.HeaderBar
@@ -11,14 +12,14 @@ import org.gnome.gtk.Orientation
 import org.gnome.gtk.Stack
 import org.gnome.gtk.StackSidebar
 
-class PreferencesDialog : Dialog() {
+class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
     private val logger = LoggerFactory.getLogger(PreferencesDialog::class.java)
-    private val viewModel = PreferencesViewModel()
+    private val viewModel = PreferencesViewModel(settingsClient)
 
     private val stack: Stack
     private val sidebar: StackSidebar
     private val generalPage: GeneralPage
-    private val instructionsPage: InstructionsPage
+    private val personalizationPage: PersonalizationPage
     private val modelsPage: ModelsPage
 
     init {
@@ -26,15 +27,15 @@ class PreferencesDialog : Dialog() {
         contentWidth = DEFAULT_PREFERENCES_DIALOG_WIDTH
         contentHeight = DEFAULT_PREFERENCES_DIALOG_HEIGHT
 
-        generalPage = GeneralPage()
-        instructionsPage = InstructionsPage()
+        generalPage = GeneralPage(viewModel)
+        personalizationPage = PersonalizationPage(viewModel)
         modelsPage = ModelsPage()
 
         stack = Stack().apply {
             hexpand = true
             vexpand = true
             addTitled(generalPage, "general", "General")
-            addTitled(instructionsPage, "instructions", "Instructions")
+            addTitled(personalizationPage, "personalization", "Personalization")
             addTitled(modelsPage, "models", "Models")
         }
 
@@ -53,5 +54,9 @@ class PreferencesDialog : Dialog() {
         }
 
         child = toolbarView
+
+        onClosed {
+            personalizationPage.forceSaveInstructions()
+        }
     }
 }
