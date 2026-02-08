@@ -4,6 +4,7 @@ plugins {
     id("buildsrc.convention.kotlin-jvm")
     alias(libs.plugins.detekt)
     alias(libs.plugins.shadow)
+    alias(libs.plugins.versions)
     application
 }
 
