@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.log4jSlf4j2Impl)
     runtimeOnly(libs.log4jCore)
 
+    implementation(libs.bundles.onnxEcosystem)
     implementation(libs.stargate)
 
     // Sherpa is not published to Maven Central, we need to add the libraries manually.

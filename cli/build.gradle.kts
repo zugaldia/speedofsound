@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.kotlinxCoroutines)
     implementation(libs.log4jSlf4j2Impl)
     runtimeOnly(libs.log4jCore)
+    implementation(libs.bundles.onnxEcosystem)
 }
 
 application {
