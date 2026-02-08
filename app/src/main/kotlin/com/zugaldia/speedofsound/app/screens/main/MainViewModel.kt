@@ -153,11 +153,15 @@ class MainViewModel(
 
     fun startPortalsSession(token: String? = null) {
         val restoreToken = token?.ifBlank { null }
+        logger.info(restoreToken?.let { "Trying to restore previous session: $it" } ?: "Starting a new session")
         viewModelScope.launch {
             val result = portalsClient.startRemoteDesktopSession(restoreToken)
             result.onSuccess { response ->
                 val newToken = response.restoreToken
                 if (!newToken.isNullOrBlank()) {
+                    // The restore token is invalidated after using it once. To restore the same session again,
+                    // we need to use the new restore token sent in this response to starting a session.
+                    logger.info("Got a fresh restore token: $newToken")
                     settingsClient.setPortalsRestoreToken(newToken)
                 }
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
