@@ -9,7 +9,7 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
-import com.zugaldia.speedofsound.core.models.DEFAULT_ASR_MODEL_ID
+import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
 import org.slf4j.LoggerFactory

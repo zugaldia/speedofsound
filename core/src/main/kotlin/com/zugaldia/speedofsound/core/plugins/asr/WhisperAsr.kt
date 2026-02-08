@@ -6,8 +6,8 @@ import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
 import com.k2fsa.sherpa.onnx.OfflineWhisperModelConfig
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioInfo
-import com.zugaldia.speedofsound.core.models.ModelManager
-import com.zugaldia.speedofsound.core.models.SUPPORTED_ASR_MODELS
+import com.zugaldia.speedofsound.core.models.voice.ModelManager
+import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
 import com.zugaldia.speedofsound.core.plugins.AppPlugin
 
 class WhisperAsr(

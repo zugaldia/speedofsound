@@ -1,4 +1,4 @@
-package com.zugaldia.speedofsound.core.models
+package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getTmpDataDir
@@ -108,7 +108,7 @@ class ModelManager {
      * Copy model files from the extracted archive to the model destination.
      * The archive structure is expected to be: {tempDir}/{modelId}/{encoder/decoder/tokens}
      */
-    private fun copyModelFiles(tempDir: File, modelId: String, model: AsrModel) {
+    private fun copyModelFiles(tempDir: File, modelId: String, model: VoiceModel) {
         val modelPath = getModelPath(modelId)
         val extractedModelDir = File(tempDir, modelId)
         if (!extractedModelDir.exists() || !extractedModelDir.isDirectory) {

@@ -4,9 +4,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.zugaldia.speedofsound.core.getDataDir
-import com.zugaldia.speedofsound.core.models.DEFAULT_ASR_MODEL_ID
-import com.zugaldia.speedofsound.core.models.ModelManager
-import com.zugaldia.speedofsound.core.models.SUPPORTED_ASR_MODELS
+import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
+import com.zugaldia.speedofsound.core.models.voice.ModelManager
+import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
 import org.slf4j.LoggerFactory
 
 class DownloadCommand : CliktCommand(name = "download") {

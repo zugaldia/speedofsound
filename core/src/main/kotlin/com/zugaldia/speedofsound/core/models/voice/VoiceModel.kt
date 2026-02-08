@@ -1,8 +1,8 @@
-package com.zugaldia.speedofsound.core.models
+package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.Language
 
-data class AsrModel(
+data class VoiceModel(
     val id: String,
     val name: String, // User-friendly name
     val archiveUrl: String,

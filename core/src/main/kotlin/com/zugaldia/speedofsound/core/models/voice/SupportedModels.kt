@@ -1,4 +1,4 @@
-package com.zugaldia.speedofsound.core.models
+package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.Language
 
@@ -17,7 +17,7 @@ const val DEFAULT_ASR_MODEL_ID = "sherpa-onnx-whisper-tiny"
 private const val SHERPA_ONNX_ASR_MODELS_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models"
 
 val SUPPORTED_ASR_MODELS = mapOf(
-    "sherpa-onnx-whisper-tiny" to AsrModel(
+    "sherpa-onnx-whisper-tiny" to VoiceModel(
         id = "sherpa-onnx-whisper-tiny",
         name = "OpenAI Whisper Tiny",
         encoder = "tiny-encoder.int8.onnx",
@@ -27,7 +27,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         archiveSha256sum = "c46116994e539aa165266d96b325252728429c12535eb9d8b6a2b10f129e66b1",
         dataSizeMegabytes = 99L
     ),
-    "sherpa-onnx-whisper-tiny.en" to AsrModel(
+    "sherpa-onnx-whisper-tiny.en" to VoiceModel(
         id = "sherpa-onnx-whisper-tiny.en",
         name = "OpenAI Whisper Tiny (English only)",
         encoder = "tiny.en-encoder.int8.onnx",
@@ -38,7 +38,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         dataSizeMegabytes = 99L,
         languages = listOf(Language.ENGLISH)
     ),
-    "sherpa-onnx-whisper-base" to AsrModel(
+    "sherpa-onnx-whisper-base" to VoiceModel(
         id = "sherpa-onnx-whisper-base",
         name = "OpenAI Whisper Base",
         encoder = "base-encoder.int8.onnx",
@@ -48,7 +48,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         archiveSha256sum = "911b2083efd7c0dca2ac3b358b75222660dc09fb716d64fbfc417ba6c99ff3de",
         dataSizeMegabytes = 154L
     ),
-    "sherpa-onnx-whisper-base.en" to AsrModel(
+    "sherpa-onnx-whisper-base.en" to VoiceModel(
         id = "sherpa-onnx-whisper-base.en",
         name = "OpenAI Whisper Base (English only)",
         encoder = "base.en-encoder.int8.onnx",
@@ -59,7 +59,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         dataSizeMegabytes = 154L,
         languages = listOf(Language.ENGLISH)
     ),
-    "sherpa-onnx-whisper-small" to AsrModel(
+    "sherpa-onnx-whisper-small" to VoiceModel(
         id = "sherpa-onnx-whisper-small",
         name = "OpenAI Whisper Small",
         encoder = "small-encoder.int8.onnx",
@@ -69,7 +69,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         archiveSha256sum = "486a46afbb7ba798507190ffe02fea2dd726049af212e774537efac6afb210a6",
         dataSizeMegabytes = 359L
     ),
-    "sherpa-onnx-whisper-small.en" to AsrModel(
+    "sherpa-onnx-whisper-small.en" to VoiceModel(
         id = "sherpa-onnx-whisper-small.en",
         name = "OpenAI Whisper Small (English only)",
         encoder = "small.en-encoder.int8.onnx",
@@ -80,7 +80,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         dataSizeMegabytes = 359L,
         languages = listOf(Language.ENGLISH)
     ),
-    "sherpa-onnx-whisper-medium" to AsrModel(
+    "sherpa-onnx-whisper-medium" to VoiceModel(
         id = "sherpa-onnx-whisper-medium",
         name = "OpenAI Whisper Medium",
         encoder = "medium-encoder.int8.onnx",
@@ -90,7 +90,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         archiveSha256sum = "614b1172557049069d846c29d9399640bce83a4dd6c580decebd9ce2a4f32c33",
         dataSizeMegabytes = 903L
     ),
-    "sherpa-onnx-whisper-medium.en" to AsrModel(
+    "sherpa-onnx-whisper-medium.en" to VoiceModel(
         id = "sherpa-onnx-whisper-medium.en",
         name = "OpenAI Whisper Medium (English only)",
         encoder = "medium.en-encoder.int8.onnx",
@@ -101,7 +101,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         dataSizeMegabytes = 903L,
         languages = listOf(Language.ENGLISH)
     ),
-    "sherpa-onnx-whisper-large-v3" to AsrModel(
+    "sherpa-onnx-whisper-large-v3" to VoiceModel(
         id = "sherpa-onnx-whisper-large-v3",
         name = "OpenAI Whisper Large v3",
         encoder = "large-v3-encoder.int8.onnx",
@@ -111,7 +111,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         archiveSha256sum = "2d0e134b3b5fc4a0533baf24a0c9d473b629aa47f030af0a165a05f461df7a03",
         dataSizeMegabytes = 1694L
     ),
-    "sherpa-onnx-whisper-turbo" to AsrModel(
+    "sherpa-onnx-whisper-turbo" to VoiceModel(
         id = "sherpa-onnx-whisper-turbo",
         name = "OpenAI Whisper Turbo",
         encoder = "turbo-encoder.int8.onnx",
@@ -121,7 +121,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         archiveSha256sum = "b11acbbcd660b44a8e0df33724feb5aaa709cf65668f2823d59f656312544f22",
         dataSizeMegabytes = 989L
     ),
-    "sherpa-onnx-whisper-distil-small.en" to AsrModel(
+    "sherpa-onnx-whisper-distil-small.en" to VoiceModel(
         id = "sherpa-onnx-whisper-distil-small.en",
         name = "OpenAI Whisper Small (English only, distilled)",
         encoder = "distil-small.en-encoder.int8.onnx",
@@ -132,7 +132,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         dataSizeMegabytes = 286L,
         languages = listOf(Language.ENGLISH)
     ),
-    "sherpa-onnx-whisper-distil-medium.en" to AsrModel(
+    "sherpa-onnx-whisper-distil-medium.en" to VoiceModel(
         id = "sherpa-onnx-whisper-distil-medium.en",
         name = "OpenAI Whisper Medium (English only, distilled)",
         encoder = "distil-medium.en-encoder.int8.onnx",
@@ -143,7 +143,7 @@ val SUPPORTED_ASR_MODELS = mapOf(
         dataSizeMegabytes = 547L,
         languages = listOf(Language.ENGLISH)
     ),
-    "sherpa-onnx-whisper-distil-large-v3.5" to AsrModel(
+    "sherpa-onnx-whisper-distil-large-v3.5" to VoiceModel(
         id = "sherpa-onnx-whisper-distil-large-v3.5",
         name = "OpenAI Whisper Large v3.5 (English only, distilled)",
         encoder = "distil-large-v3.5-encoder.int8.onnx",
