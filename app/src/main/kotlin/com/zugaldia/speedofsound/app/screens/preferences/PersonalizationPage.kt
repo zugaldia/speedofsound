@@ -3,6 +3,8 @@ package com.zugaldia.speedofsound.app.screens.preferences
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_PADDING
+import com.zugaldia.speedofsound.app.MAX_CUSTOM_CONTEXT_CHARS
+import com.zugaldia.speedofsound.app.MAX_VOCABULARY_WORDS
 import com.zugaldia.speedofsound.app.SETTINGS_SAVE_DEBOUNCE_MS
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
@@ -51,8 +53,8 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
 
         val instructionsGroup = PreferencesGroup().apply {
             title = "Custom Context"
-            description =
-                "Optionally share details like your job, location, or writing style to help improve transcriptions"
+            description = "Optionally share details like your location or writing style to help improve " +
+                "transcriptions (max $MAX_CUSTOM_CONTEXT_CHARS characters)"
             add(instructionsScrolledWindow)
         }
 
@@ -79,8 +81,8 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
 
         val vocabularyGroup = PreferencesGroup().apply {
             title = "Custom Vocabulary"
-            description =
-                "Optionally add entries the model should recognize, such as names, technical terms, or acronyms"
+            description = "Optionally add entries the model should recognize, such as names, " +
+                "technical terms, or acronyms (max $MAX_VOCABULARY_WORDS words)"
             add(vocabularyEntryBox)
             add(vocabularyListBox)
         }
@@ -92,7 +94,10 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
         add(vocabularyGroup)
 
         loadInitialValues()
-        instructionsTextView.buffer.onChanged { scheduleSaveInstructions() }
+        instructionsTextView.buffer.onChanged {
+            enforceTextLimit()
+            scheduleSaveInstructions()
+        }
     }
 
     private fun loadInitialValues() {
@@ -100,11 +105,11 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
         instructionsTextView.buffer.setText(instructions, -1)
 
         val vocabulary = viewModel.getCustomVocabulary()
-        vocabulary.forEach { word -> addVocabularyWordToUI(word) }
+        vocabulary.sortedWith(String.CASE_INSENSITIVE_ORDER).forEach { word -> addVocabularyWordToUI(word) }
     }
 
     /**
-     * Schedule a save operation after the user stops typing using a counter-based debounce approach.
+     * Schedule a save operation after the user stops typing using a counter-based debounced approach.
      * This avoids unnecessary disk writes with every keystroke.
      * Future alternative: use Kotlin coroutines with Flow.debounce() for automatic cancellation.
      */
@@ -138,6 +143,26 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
         viewModel.setCustomContext(text)
     }
 
+    /**
+     * Enforce character limit on custom context text.
+     * GTK TextView doesn't have a built-in max-length property, so we implement it manually.
+     */
+    private fun enforceTextLimit() {
+        val buffer = instructionsTextView.buffer
+        val charCount = buffer.charCount
+        if (charCount > MAX_CUSTOM_CONTEXT_CHARS) {
+            val start = TextIter()
+            val end = TextIter()
+            buffer.getBounds(start, end)
+            val text = buffer.getText(start, end, false)
+            val truncated = text.substring(0, MAX_CUSTOM_CONTEXT_CHARS)
+            buffer.setText(truncated, -1)
+            buffer.getEndIter(end)
+            buffer.placeCursor(end)
+            logger.warn("Text truncated to $MAX_CUSTOM_CONTEXT_CHARS characters")
+        }
+    }
+
     private fun saveVocabulary() {
         val vocabulary = mutableListOf<String>()
         var child = vocabularyListBox.firstChild
@@ -153,6 +178,18 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
     private fun addVocabularyWord(entry: Entry) {
         val word = entry.text.trim()
         if (word.isEmpty()) return
+
+        var wordCount = 0
+        var child = vocabularyListBox.firstChild
+        while (child != null) {
+            if (child is ActionRow) wordCount++
+            child = child.nextSibling
+        }
+
+        if (wordCount >= MAX_VOCABULARY_WORDS) {
+            logger.warn("Cannot add word: vocabulary limit of $MAX_VOCABULARY_WORDS reached")
+            return
+        }
 
         addVocabularyWordToUI(word)
         entry.text = ""

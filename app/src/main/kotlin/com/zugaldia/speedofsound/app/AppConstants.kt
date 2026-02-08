@@ -30,6 +30,10 @@ const val SETTINGS_SAVE_DEBOUNCE_MS = 500
 // Sherpa ONNX offline Whisper recognizer has a hard 30-second limit; longer audio is truncated
 const val MAX_RECORDING_DURATION_MS = 30_000L
 
+// Personalization limits
+const val MAX_VOCABULARY_WORDS = 50
+const val MAX_CUSTOM_CONTEXT_CHARS = 2000 // Approximately 3 paragraphs
+
 const val TRIGGER_ACTION = "trigger"
 
 const val SIGNAL_STAGE_CHANGED = "stage-changed"
