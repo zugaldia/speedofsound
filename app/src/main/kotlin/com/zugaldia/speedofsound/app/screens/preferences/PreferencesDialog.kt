@@ -19,9 +19,10 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
     private val stack: Stack
     private val sidebar: StackSidebar
     private val generalPage: GeneralPage
-    private val personalizationPage: PersonalizationPage
     private val cloudProvidersPage: CloudProvidersPage
-    private val modelsPage: ModelsPage
+    private val voiceModelsPage: VoiceModelsPage
+    private val textModelsPage: TextModelsPage
+    private val personalizationPage: PersonalizationPage
 
     init {
         title = "Preferences"
@@ -29,17 +30,19 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         contentHeight = DEFAULT_PREFERENCES_DIALOG_HEIGHT
 
         generalPage = GeneralPage(viewModel)
-        personalizationPage = PersonalizationPage(viewModel)
         cloudProvidersPage = CloudProvidersPage(viewModel)
-        modelsPage = ModelsPage()
+        voiceModelsPage = VoiceModelsPage(viewModel)
+        textModelsPage = TextModelsPage(viewModel)
+        personalizationPage = PersonalizationPage(viewModel)
 
         stack = Stack().apply {
             hexpand = true
             vexpand = true
             addTitled(generalPage, "general", "General")
+            addTitled(cloudProvidersPage, "cloud_providers", "Cloud Providers")
+            addTitled(voiceModelsPage, "voice_models", "Voice Models")
+            addTitled(textModelsPage, "text_models", "Text Models")
             addTitled(personalizationPage, "personalization", "Personalization")
-            addTitled(cloudProvidersPage, "cloudproviders", "Cloud Providers")
-            addTitled(modelsPage, "models", "Models")
         }
 
         sidebar = StackSidebar().apply {
