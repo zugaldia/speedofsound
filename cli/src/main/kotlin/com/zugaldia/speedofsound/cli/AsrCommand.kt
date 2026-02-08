@@ -11,6 +11,7 @@ import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.WhisperOnnxAsr
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -34,6 +35,11 @@ class AsrCommand : CliktCommand(name = "asr") {
         help = "Language code (ISO 639-1, e.g., 'en', 'es', 'fr')"
     ).default(DEFAULT_LANGUAGE.iso2)
 
+    private val provider: String by option(
+        "--provider", "-p",
+        help = "ASR provider to use (onnx or sherpa)"
+    ).default("sherpa")
+
     override fun run() {
         logger.info("Loading audio file: $inputFile")
         val (samples, sampleRate) = AudioManager.loadFromWav(inputFile)
@@ -43,14 +49,23 @@ class AsrCommand : CliktCommand(name = "asr") {
         val language = Language.all.find { it.iso2 == languageCode }
             ?: throw IllegalArgumentException("Unknown language code: $languageCode")
 
-        logger.info("Using model: $modelId, language: ${language.name} ($languageCode)")
+        logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
         val options = WhisperOptions(modelID = modelId, language = language)
-        val whisper = WhisperAsr(options)
-        whisper.initialize()
-        whisper.enable()
+        val asr = when (provider.lowercase()) {
+            "onnx" -> WhisperOnnxAsr(options)
+            "sherpa" -> WhisperAsr(options)
+            else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx' or 'sherpa'.")
+        }
+
+        asr.initialize()
+        asr.enable()
 
         logger.info("Transcribing audio.")
-        val result = whisper.transcribe(samples, AudioInfo.Default)
+        val result = when (asr) {
+            is WhisperAsr -> asr.transcribe(samples, AudioInfo.Default)
+            is WhisperOnnxAsr -> asr.transcribe(samples, AudioInfo.Default)
+            else -> Result.failure(IllegalStateException("Unknown ASR type"))
+        }
 
         result.onSuccess { transcription ->
             logger.info("Transcription: $transcription")
@@ -59,7 +74,7 @@ class AsrCommand : CliktCommand(name = "asr") {
             logger.error("Transcription failed: ${error.message}", error)
         }
 
-        whisper.disable()
-        whisper.shutdown()
+        asr.disable()
+        asr.shutdown()
     }
 }
