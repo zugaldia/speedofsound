@@ -43,7 +43,7 @@ stargate = { module = "com.zugaldia.stargate:stargate", version.ref = "stargate"
 [bundles]
 javaGiEcosystem = ["javaGiGtk", "javaGiAdw"]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
-onnxEcosystem = ["onnxRuntimeGpu", "onnxRuntimeExtensions"]
+onnxEcosystem = ["onnxRuntime", "onnxRuntimeExtensions"]
 
 [plugins]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
