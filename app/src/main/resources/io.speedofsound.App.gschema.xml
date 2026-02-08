@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="speedofsound">
   <schema id="io.speedofsound.App" path="/io/speedofsound/App/">
+
     <key name="portals-restore-token" type="s">
       <default>''</default>
       <summary>XDG Desktop Portal restore token</summary>
@@ -18,21 +19,10 @@
       <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
     </key>
 
-    <key name="custom-context" type="s">
-      <default>''</default>
-      <summary>Custom LLM context</summary>
-      <description>Optionally share details like job, location, or writing style to help improve transcriptions.</description>
-    </key>
-    <key name="custom-vocabulary" type="as">
-      <default>[]</default>
-      <summary>Custom vocabulary entries</summary>
-      <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
-    </key>
-
     <key name="cloud-enabled" type="b">
       <default>false</default>
-      <summary>Cloud services enabled</summary>
-      <description>Optional cloud-based services for speech recognition and text processing. By default, all processing happens locally on your machine and your data never leaves your computer.</description>
+      <summary>Cloud providers enabled</summary>
+      <description>Enable cloud-based providers for voice and text models.</description>
     </key>
     <key name="anthropic-api-key" type="s">
       <default>''</default>
@@ -49,5 +39,71 @@
       <summary>OpenAI API key</summary>
       <description>Optional API key for OpenAI models. When empty, OpenAI models will not be available.</description>
     </key>
+
+    <key name="text-processing-enabled" type="b">
+      <default>false</default>
+      <summary>Text processing enabled</summary>
+      <description>Enable LLM-based text processing to polish transcriptions.</description>
+    </key>
+
+    <key name="google-model-name" type="s">
+      <default>''</default>
+      <summary>Google model name</summary>
+      <description>Optional model name for Google requests. When empty, uses the app default.</description>
+    </key>
+    <key name="google-base-url" type="s">
+      <default>''</default>
+      <summary>Google base URL</summary>
+      <description>Optional custom base URL for Google. When empty, uses the standard Google endpoint.</description>
+    </key>
+    <key name="google-text-use-api-key" type="b">
+      <default>false</default>
+      <summary>Use Google API key for text models</summary>
+      <description>Enable using the Google API key for text model requests. Disabled by default.</description>
+    </key>
+
+    <key name="anthropic-model-name" type="s">
+      <default>''</default>
+      <summary>Anthropic model name</summary>
+      <description>Optional model name for Anthropic requests. When empty, uses the app default.</description>
+    </key>
+    <key name="anthropic-base-url" type="s">
+      <default>''</default>
+      <summary>Anthropic base URL</summary>
+      <description>Optional custom base URL for Anthropic. When empty, uses the standard Anthropic endpoint.</description>
+    </key>
+    <key name="anthropic-text-use-api-key" type="b">
+      <default>false</default>
+      <summary>Use Anthropic API key for text models</summary>
+      <description>Enable using the Anthropic API key for text model requests. Disabled by default.</description>
+    </key>
+
+    <key name="openai-model-name" type="s">
+      <default>''</default>
+      <summary>OpenAI model name</summary>
+      <description>Optional model name for OpenAI requests. When empty, uses the app default.</description>
+    </key>
+    <key name="openai-base-url" type="s">
+      <default>''</default>
+      <summary>OpenAI base URL</summary>
+      <description>Optional custom base URL for OpenAI. When empty, uses the standard OpenAI endpoint.</description>
+    </key>
+    <key name="openai-text-use-api-key" type="b">
+      <default>false</default>
+      <summary>Use OpenAI API key for text models</summary>
+      <description>Enable using the OpenAI API key for text model requests. Disabled by default.</description>
+    </key>
+
+    <key name="custom-context" type="s">
+      <default>''</default>
+      <summary>Custom LLM context</summary>
+      <description>Optionally share details like job, location, or writing style to help improve transcriptions.</description>
+    </key>
+    <key name="custom-vocabulary" type="as">
+      <default>[]</default>
+      <summary>Custom vocabulary entries</summary>
+      <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
+    </key>
+
   </schema>
 </schemalist>
