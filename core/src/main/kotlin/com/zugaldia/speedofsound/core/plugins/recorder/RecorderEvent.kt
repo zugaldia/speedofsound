@@ -3,7 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.recorder
 import com.zugaldia.speedofsound.core.plugins.AppPluginEvent
 
 /**
- * Events emitted by the JvmRecorder plugin.
+ * Events emitted by the recorder plugins.
  */
 sealed class RecorderEvent : AppPluginEvent() {
     /**
