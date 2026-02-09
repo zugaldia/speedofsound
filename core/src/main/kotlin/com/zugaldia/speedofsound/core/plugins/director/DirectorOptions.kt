@@ -3,7 +3,6 @@ package com.zugaldia.speedofsound.core.plugins.director
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
-import com.zugaldia.speedofsound.core.plugins.AppPluginOptions
 
 const val PROMPT_KEY_INPUT = "{INPUT}"
 const val PROMPT_KEY_LANGUAGE = "{LANGUAGE}"
@@ -49,4 +48,4 @@ data class DirectorOptions(
     val language: Language = DEFAULT_LANGUAGE,
     val customContext: String = DEFAULT_CONTEXT,
     val customVocabulary: List<String> = DEFAULT_VOCABULARY,
-) : AppPluginOptions
+) : DirectorPluginOptions
