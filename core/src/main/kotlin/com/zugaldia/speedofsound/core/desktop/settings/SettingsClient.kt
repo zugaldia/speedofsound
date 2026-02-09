@@ -10,7 +10,6 @@ import com.zugaldia.speedofsound.core.plugins.recorder.RecorderOptions
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 
@@ -32,9 +31,8 @@ class SettingsClient(val settingsStore: SettingsStore) {
         WhisperOptions(modelID = "sherpa-onnx-whisper-turbo")
 
     fun getGoogleLlmOptions(): GoogleLlmOptions = GoogleLlmOptions(
-        baseUrl = getGoogleBaseUrl().ifEmpty { null },
         apiKey = System.getenv(GOOGLE_ENVIRONMENT_VARIABLE),
-        model = getGoogleModelName())
+    )
 
     fun getDirectorOptions(): DirectorOptions = DirectorOptions(
         language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE,
@@ -107,78 +105,6 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun setTextProcessingEnabled(value: Boolean): Boolean =
         settingsStore.setBoolean(KEY_TEXT_PROCESSING_ENABLED, value).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_TEXT_PROCESSING_ENABLED)
-        }
-
-    fun getGoogleModelName(): String =
-        settingsStore.getString(KEY_GOOGLE_MODEL_NAME, DEFAULT_GOOGLE_MODEL_NAME)
-
-    fun setGoogleModelName(value: String): Boolean =
-        settingsStore.setString(KEY_GOOGLE_MODEL_NAME, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_GOOGLE_MODEL_NAME)
-        }
-
-    fun getGoogleBaseUrl(): String =
-        settingsStore.getString(KEY_GOOGLE_BASE_URL, DEFAULT_GOOGLE_BASE_URL)
-
-    fun setGoogleBaseUrl(value: String): Boolean =
-        settingsStore.setString(KEY_GOOGLE_BASE_URL, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_GOOGLE_BASE_URL)
-        }
-
-    fun getGoogleTextUseApiKey(): Boolean =
-        settingsStore.getBoolean(KEY_GOOGLE_TEXT_USE_API_KEY, DEFAULT_GOOGLE_TEXT_USE_API_KEY)
-
-    fun setGoogleTextUseApiKey(value: Boolean): Boolean =
-        settingsStore.setBoolean(KEY_GOOGLE_TEXT_USE_API_KEY, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_GOOGLE_TEXT_USE_API_KEY)
-        }
-
-    fun getAnthropicModelName(): String =
-        settingsStore.getString(KEY_ANTHROPIC_MODEL_NAME, DEFAULT_ANTHROPIC_MODEL_NAME)
-
-    fun setAnthropicModelName(value: String): Boolean =
-        settingsStore.setString(KEY_ANTHROPIC_MODEL_NAME, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_ANTHROPIC_MODEL_NAME)
-        }
-
-    fun getAnthropicBaseUrl(): String =
-        settingsStore.getString(KEY_ANTHROPIC_BASE_URL, DEFAULT_ANTHROPIC_BASE_URL)
-
-    fun setAnthropicBaseUrl(value: String): Boolean =
-        settingsStore.setString(KEY_ANTHROPIC_BASE_URL, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_ANTHROPIC_BASE_URL)
-        }
-
-    fun getAnthropicTextUseApiKey(): Boolean =
-        settingsStore.getBoolean(KEY_ANTHROPIC_TEXT_USE_API_KEY, DEFAULT_ANTHROPIC_TEXT_USE_API_KEY)
-
-    fun setAnthropicTextUseApiKey(value: Boolean): Boolean =
-        settingsStore.setBoolean(KEY_ANTHROPIC_TEXT_USE_API_KEY, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_ANTHROPIC_TEXT_USE_API_KEY)
-        }
-
-    fun getOpenAiModelName(): String =
-        settingsStore.getString(KEY_OPENAI_MODEL_NAME, DEFAULT_OPENAI_MODEL_NAME)
-
-    fun setOpenAiModelName(value: String): Boolean =
-        settingsStore.setString(KEY_OPENAI_MODEL_NAME, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_OPENAI_MODEL_NAME)
-        }
-
-    fun getOpenAiBaseUrl(): String =
-        settingsStore.getString(KEY_OPENAI_BASE_URL, DEFAULT_OPENAI_BASE_URL)
-
-    fun setOpenAiBaseUrl(value: String): Boolean =
-        settingsStore.setString(KEY_OPENAI_BASE_URL, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_OPENAI_BASE_URL)
-        }
-
-    fun getOpenAiTextUseApiKey(): Boolean =
-        settingsStore.getBoolean(KEY_OPENAI_TEXT_USE_API_KEY, DEFAULT_OPENAI_TEXT_USE_API_KEY)
-
-    fun setOpenAiTextUseApiKey(value: Boolean): Boolean =
-        settingsStore.setBoolean(KEY_OPENAI_TEXT_USE_API_KEY, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_OPENAI_TEXT_USE_API_KEY)
         }
 
     /*

@@ -43,33 +43,6 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
     fun getTextProcessingEnabled(): Boolean = settingsClient.getTextProcessingEnabled()
     fun setTextProcessingEnabled(value: Boolean): Boolean = settingsClient.setTextProcessingEnabled(value)
 
-    fun getGoogleModelName(): String = settingsClient.getGoogleModelName()
-    fun setGoogleModelName(value: String): Boolean = settingsClient.setGoogleModelName(value)
-
-    fun getGoogleBaseUrl(): String = settingsClient.getGoogleBaseUrl()
-    fun setGoogleBaseUrl(value: String): Boolean = settingsClient.setGoogleBaseUrl(value)
-
-    fun getGoogleTextUseApiKey(): Boolean = settingsClient.getGoogleTextUseApiKey()
-    fun setGoogleTextUseApiKey(value: Boolean): Boolean = settingsClient.setGoogleTextUseApiKey(value)
-
-    fun getAnthropicModelName(): String = settingsClient.getAnthropicModelName()
-    fun setAnthropicModelName(value: String): Boolean = settingsClient.setAnthropicModelName(value)
-
-    fun getAnthropicBaseUrl(): String = settingsClient.getAnthropicBaseUrl()
-    fun setAnthropicBaseUrl(value: String): Boolean = settingsClient.setAnthropicBaseUrl(value)
-
-    fun getAnthropicTextUseApiKey(): Boolean = settingsClient.getAnthropicTextUseApiKey()
-    fun setAnthropicTextUseApiKey(value: Boolean): Boolean = settingsClient.setAnthropicTextUseApiKey(value)
-
-    fun getOpenAiModelName(): String = settingsClient.getOpenAiModelName()
-    fun setOpenAiModelName(value: String): Boolean = settingsClient.setOpenAiModelName(value)
-
-    fun getOpenAiBaseUrl(): String = settingsClient.getOpenAiBaseUrl()
-    fun setOpenAiBaseUrl(value: String): Boolean = settingsClient.setOpenAiBaseUrl(value)
-
-    fun getOpenAiTextUseApiKey(): Boolean = settingsClient.getOpenAiTextUseApiKey()
-    fun setOpenAiTextUseApiKey(value: Boolean): Boolean = settingsClient.setOpenAiTextUseApiKey(value)
-
     /*
      * Personalization page
      */
