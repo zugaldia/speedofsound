@@ -8,6 +8,8 @@
       <description>Token used to restore remote desktop sessions without requiring user re-authorization.</description>
     </key>
 
+    <!-- General page -->
+
     <key name="default-language" type="s">
       <default>'en'</default>
       <summary>Default language</summary>
@@ -19,26 +21,15 @@
       <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
     </key>
 
-    <key name="cloud-enabled" type="b">
-      <default>false</default>
-      <summary>Cloud providers enabled</summary>
-      <description>Enable cloud-based providers for voice and text models.</description>
+    <!-- Cloud Credentials page -->
+
+    <key name="credentials" type="s">
+      <default>'[]'</default>
+      <summary>Stored credentials</summary>
+      <description>JSON-serialized list of credentials for various services.</description>
     </key>
-    <key name="anthropic-api-key" type="s">
-      <default>''</default>
-      <summary>Anthropic API key</summary>
-      <description>Optional API key for Anthropic Claude models. When empty, Anthropic models will not be available.</description>
-    </key>
-    <key name="google-api-key" type="s">
-      <default>''</default>
-      <summary>Google API key</summary>
-      <description>Optional API key for Google models. When empty, Google models will not be available.</description>
-    </key>
-    <key name="openai-api-key" type="s">
-      <default>''</default>
-      <summary>OpenAI API key</summary>
-      <description>Optional API key for OpenAI models. When empty, OpenAI models will not be available.</description>
-    </key>
+
+    <!-- Text Models page -->
 
     <key name="text-processing-enabled" type="b">
       <default>false</default>
@@ -93,6 +84,8 @@
       <summary>Use OpenAI API key for text models</summary>
       <description>Enable using the OpenAI API key for text model requests. Disabled by default.</description>
     </key>
+
+    <!-- Personalization page -->
 
     <key name="custom-context" type="s">
       <default>''</default>

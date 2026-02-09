@@ -1,13 +1,17 @@
 package com.zugaldia.speedofsound.core.desktop.settings
 
+import com.zugaldia.speedofsound.core.Credential
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
+import com.zugaldia.speedofsound.core.plugins.llm.GOOGLE_ENVIRONMENT_VARIABLE
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlmOptions
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderOptions
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 
 @Suppress("TooManyFunctions")
@@ -27,8 +31,10 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun getWhisperOptions(): WhisperOptions =
         WhisperOptions(modelID = "sherpa-onnx-whisper-turbo")
 
-    fun getGoogleLlmOptions(): GoogleLlmOptions =
-        GoogleLlmOptions(apiKey = getGoogleApiKey())
+    fun getGoogleLlmOptions(): GoogleLlmOptions = GoogleLlmOptions(
+        baseUrl = getGoogleBaseUrl().ifEmpty { null },
+        apiKey = System.getenv(GOOGLE_ENVIRONMENT_VARIABLE),
+        model = getGoogleModelName())
 
     fun getDirectorOptions(): DirectorOptions = DirectorOptions(
         language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE,
@@ -67,40 +73,29 @@ class SettingsClient(val settingsStore: SettingsStore) {
         }
 
     /*
-     * Cloud Providers page
+     * Cloud Credentials page
      */
 
-    fun getCloudEnabled(): Boolean =
-        settingsStore.getBoolean(KEY_CLOUD_ENABLED, DEFAULT_CLOUD_ENABLED)
-
-    fun setCloudEnabled(value: Boolean): Boolean =
-        settingsStore.setBoolean(KEY_CLOUD_ENABLED, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_CLOUD_ENABLED)
+    fun getCredentials(): List<Credential> {
+        val json = settingsStore.getString(KEY_CREDENTIALS, DEFAULT_CREDENTIALS)
+        return if (json.isEmpty() || json == DEFAULT_CREDENTIALS) {
+            emptyList()
+        } else {
+            runCatching {
+                Json.decodeFromString<List<Credential>>(json)
+            }.getOrElse { error ->
+                logger.error("Failed to decode credentials from JSON", error)
+                emptyList()
+            }
         }
+    }
 
-    fun getAnthropicApiKey(): String =
-        settingsStore.getString(KEY_ANTHROPIC_API_KEY, DEFAULT_ANTHROPIC_API_KEY)
-
-    fun setAnthropicApiKey(value: String): Boolean =
-        settingsStore.setString(KEY_ANTHROPIC_API_KEY, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_ANTHROPIC_API_KEY)
+    fun setCredentials(value: List<Credential>): Boolean {
+        val json = Json.encodeToString(value)
+        return settingsStore.setString(KEY_CREDENTIALS, json).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_CREDENTIALS)
         }
-
-    fun getGoogleApiKey(): String =
-        settingsStore.getString(KEY_GOOGLE_API_KEY, DEFAULT_GOOGLE_API_KEY)
-
-    fun setGoogleApiKey(value: String): Boolean =
-        settingsStore.setString(KEY_GOOGLE_API_KEY, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_GOOGLE_API_KEY)
-        }
-
-    fun getOpenaiApiKey(): String =
-        settingsStore.getString(KEY_OPENAI_API_KEY, DEFAULT_OPENAI_API_KEY)
-
-    fun setOpenaiApiKey(value: String): Boolean =
-        settingsStore.setString(KEY_OPENAI_API_KEY, value).also { success ->
-            if (success) _settingsChanged.tryEmit(KEY_OPENAI_API_KEY)
-        }
+    }
 
     /*
      * Text Models page
