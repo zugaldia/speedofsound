@@ -5,12 +5,17 @@ import com.zugaldia.stargate.sdk.remotedesktop.DeviceType
 import com.zugaldia.stargate.sdk.remotedesktop.InputState
 import com.zugaldia.stargate.sdk.remotedesktop.PersistMode
 import com.zugaldia.stargate.sdk.remotedesktop.StartResponse
+import com.zugaldia.stargate.sdk.session.SessionClosedEvent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import org.slf4j.LoggerFactory
 
 class PortalsClient {
     private val logger = LoggerFactory.getLogger(PortalsClient::class.java)
     private val portal = DesktopPortal.connect()
+
+    val sessionClosedEvents: Flow<SessionClosedEvent>
+        get() = portal.remoteDesktop.observeSessionClosed()
 
     suspend fun startRemoteDesktopSession(restoreToken: String?): Result<StartResponse> =
         portal.remoteDesktop.startSession(

@@ -22,6 +22,7 @@ class MainState : GObject() {
     private var stageOrdinal: Int = AppStage.LOADING.ordinal
     private var maxRecordingLevel: Float = MIN_RECORDING_LEVEL
     private var portalsRestoreTokenMissing: Boolean = true
+    private var portalsSessionDisconnected: Boolean = false
     private var currentLanguage: Language = DEFAULT_LANGUAGE
 
     fun currentStage(): AppStage = AppStage.entries[stageOrdinal]
@@ -41,6 +42,12 @@ class MainState : GObject() {
     fun updatePortalsRestoreTokenMissing(value: Boolean) {
         portalsRestoreTokenMissing = value
         emit(SIGNAL_PORTALS_RESTORE_TOKEN_MISSING, value)
+    }
+
+    fun isPortalsSessionDisconnected(): Boolean = portalsSessionDisconnected
+
+    fun setPortalsSessionDisconnected(value: Boolean) {
+        portalsSessionDisconnected = value
     }
 
     fun emitPipelineCompleted() {

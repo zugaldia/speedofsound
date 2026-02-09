@@ -47,6 +47,7 @@ class MainViewModel(
     private val viewModelScope = CoroutineScope(Dispatchers.Default + viewModelJob)
     private var currentPipelineJob: Job? = null
     private var autoStopJob: Job? = null
+    private var portalsEventsJob: Job? = null
 
     fun start() {
         logger.info("Starting.")
@@ -66,7 +67,15 @@ class MainViewModel(
     }
 
     fun onTriggerAction() {
-        logger.info("Trigger action called.")
+        // Check if the portal session needs reconnection. This typically happens when the user locks the screen and
+        // comes back. The remote desktop session is closed in those circumstances for security reasons.
+        if (state.isPortalsSessionDisconnected()) {
+            logger.info("Portal session disconnected, attempting to reconnect.")
+            val restoreToken = settingsClient.getPortalsRestoreToken()
+            startPortalsSession(restoreToken.ifBlank { null })
+        }
+
+        logger.info("Trigger action invoked.")
         toggleListening()
     }
 
@@ -106,6 +115,19 @@ class MainViewModel(
             settingsClient.settingsChanged.collect { key ->
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
                     refreshSettings(key)
+                    false // Return false for one-shot execution
+                }
+            }
+        }
+    }
+
+    private fun collectPortalsEvents() {
+        portalsEventsJob?.cancel()
+        portalsEventsJob = viewModelScope.launch {
+            portalsClient.sessionClosedEvents.collect { event ->
+                GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
+                    logger.warn("Remote desktop portal session has been closed: $event")
+                    state.setPortalsSessionDisconnected(true)
                     false // Return false for one-shot execution
                 }
             }
@@ -164,8 +186,10 @@ class MainViewModel(
                     logger.info("Got a fresh restore token: $newToken")
                     settingsClient.setPortalsRestoreToken(newToken)
                 }
+                collectPortalsEvents()
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
                     state.updatePortalsRestoreTokenMissing(newToken.isNullOrBlank())
+                    state.setPortalsSessionDisconnected(false)
                     false // Return false for one-shot execution
                 }
             }.onFailure { error ->
