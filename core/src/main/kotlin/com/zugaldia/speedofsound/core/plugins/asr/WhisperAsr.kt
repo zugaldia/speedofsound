@@ -5,14 +5,12 @@ import com.k2fsa.sherpa.onnx.OfflineRecognizer
 import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
 import com.k2fsa.sherpa.onnx.OfflineWhisperModelConfig
 import com.zugaldia.speedofsound.core.Language
-import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
-import com.zugaldia.speedofsound.core.plugins.AppPlugin
 
 class WhisperAsr(
     options: WhisperOptions = WhisperOptions(),
-) : AppPlugin<WhisperOptions>(initialOptions = options) {
+) : AsrPlugin<WhisperOptions>(initialOptions = options) {
     companion object {
         // Ideally, we use "cuda" for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
         // available). However, it seems that the official JAR files do not include this support. Assuming we can
@@ -79,17 +77,17 @@ class WhisperAsr(
         super.enable()
     }
 
-    fun transcribe(audioData: FloatArray, audioInfo: AudioInfo = AudioInfo.Default): Result<String> = runCatching {
+    override fun transcribe(request: AsrRequest): Result<AsrResponse> = runCatching {
         ensureRecognizerLanguage()
         val currentRecognizer = recognizer ?: throw IllegalStateException("Recognizer not initialized")
 
         try {
             val stream = currentRecognizer.createStream()
-            stream.acceptWaveform(audioData, audioInfo.sampleRate)
+            stream.acceptWaveform(request.audioData, request.audioInfo.sampleRate)
             currentRecognizer.decode(stream)
             val text = currentRecognizer.getResult(stream).text
             stream.release()
-            text
+            AsrResponse(text)
         } finally {
             log.info("Transcription completed.")
         }

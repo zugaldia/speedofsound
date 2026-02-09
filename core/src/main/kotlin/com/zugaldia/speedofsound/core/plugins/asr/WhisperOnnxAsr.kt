@@ -4,8 +4,6 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.extensions.OrtxPackage
-import com.zugaldia.speedofsound.core.audio.AudioInfo
-import com.zugaldia.speedofsound.core.plugins.AppPlugin
 import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.createFloatTensor
 import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.createIntTensor
 import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.fromRawPcmBytes
@@ -19,7 +17,7 @@ import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.tensorShape
  * https://github.com/microsoft/onnxruntime-inference-examples/tree/main/mobile/examples/whisper/local/android
  */
 class WhisperOnnxAsr(options: WhisperOptions = WhisperOptions()) :
-    AppPlugin<WhisperOptions>(initialOptions = options) {
+    AsrPlugin<WhisperOptions>(initialOptions = options) {
 
     private val env: OrtEnvironment = OrtEnvironment.getEnvironment()
 
@@ -49,9 +47,8 @@ class WhisperOnnxAsr(options: WhisperOptions = WhisperOptions()) :
         log.info("ONNX initialized ($RESOURCE_PATH).")
     }
 
-    @Suppress("UnusedParameter")
-    fun transcribe(audioData: FloatArray, audioInfo: AudioInfo = AudioInfo.Default): Result<String> = runCatching {
-        val audioTensor: OnnxTensor = fromRawPcmBytes(env, audioData)
+    override fun transcribe(request: AsrRequest): Result<AsrResponse> = runCatching {
+        val audioTensor: OnnxTensor = fromRawPcmBytes(env, request.audioData)
         audioTensor.use {
             val inputs = mutableMapOf<String, OnnxTensor>()
             baseInputs.toMap(inputs)
@@ -62,7 +59,7 @@ class WhisperOnnxAsr(options: WhisperOptions = WhisperOptions()) :
                 (outputs[0].value as Array<Array<String>>)[0][0]
             }
 
-            recognizedText.trim()
+            AsrResponse(recognizedText.trim())
         }
     }
 
