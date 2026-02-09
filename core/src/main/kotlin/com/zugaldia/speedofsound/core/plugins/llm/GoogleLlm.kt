@@ -20,6 +20,7 @@ class GoogleLlm(
     }
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
+        log.info("Sending request to ${currentOptions.model}")
         val response = client.models.generateContent(
             currentOptions.model ?: DEFAULT_GOOGLE_MODEL_ID,
             request.text,
