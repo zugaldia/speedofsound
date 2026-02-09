@@ -16,6 +16,9 @@ const val DEFAULT_WINDOW_HEIGHT = 200
 const val DEFAULT_PREFERENCES_DIALOG_WIDTH = 800
 const val DEFAULT_PREFERENCES_DIALOG_HEIGHT = 600
 
+const val DEFAULT_ADD_CREDENTIAL_DIALOG_WIDTH = 500
+const val DEFAULT_ADD_CREDENTIAL_DIALOG_HEIGHT = 250
+
 const val DEFAULT_PROGRESS_BAR_WIDTH = 300
 
 const val DEFAULT_TEXT_VIEW_PADDING = 10
@@ -27,12 +30,22 @@ const val DEFAULT_BOX_SPACING = 10
 const val POST_HIDE_DELAY_MS = 100L
 const val SETTINGS_SAVE_DEBOUNCE_MS = 500
 
-// Sherpa ONNX offline Whisper recognizer has a hard 30-second limit; longer audio is truncated
+// Sherpa ONNX offline Whisper recognizer has a hard 30-second limit, longer audio is truncated
 const val MAX_RECORDING_DURATION_MS = 30_000L
 
 // Personalization limits
 const val MAX_VOCABULARY_WORDS = 50
 const val MAX_CUSTOM_CONTEXT_CHARS = 2000 // Approximately 3 paragraphs
+
+// Credential limits
+const val MAX_CREDENTIALS = 25
+const val MAX_CREDENTIAL_NAME_LENGTH = 100
+const val MAX_CREDENTIAL_VALUE_LENGTH = 500
+
+// Credential masking
+const val MIN_CREDENTIAL_LENGTH_FOR_MASKING = 10
+const val CREDENTIAL_MASK_PREFIX_LENGTH = 4
+const val CREDENTIAL_MASK_SUFFIX_LENGTH = 4
 
 const val TRIGGER_ACTION = "trigger"
 
