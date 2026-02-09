@@ -13,7 +13,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
 import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
-import com.zugaldia.speedofsound.core.plugins.director.SimpleDirector
+import com.zugaldia.speedofsound.core.plugins.director.DefaultDirector
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlm
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderEvent
@@ -41,7 +41,7 @@ class MainViewModel(
     private val recorder = JvmRecorder(settingsClient.getRecorderOptions())
     private val asr = WhisperAsr(settingsClient.getWhisperOptions())
     private val llm = GoogleLlm(settingsClient.getGoogleLlmOptions())
-    private val director = SimpleDirector(recorder, asr, llm, settingsClient.getDirectorOptions())
+    private val director = DefaultDirector(recorder, asr, llm, settingsClient.getDirectorOptions())
 
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.Default + viewModelJob)

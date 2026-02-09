@@ -40,7 +40,7 @@ Three Gradle modules with a shared convention plugin in `buildSrc/`:
 **Plugin system:** All major components extend `AppPlugin<Options>` with lifecycle methods
 (`initialize` → `enable` → `disable` → `shutdown`) and communicate via `SharedFlow<AppPluginEvent>`.
 
-**Sample pipeline (orchestrated by `SimpleDirector`):**
+**Sample pipeline (orchestrated by `DefaultDirector`):**
 1. `JvmRecorder` — Captures PCM16 audio via `javax.sound.sampled`
 2. `WhisperAsr` — Transcribes audio using Sherpa ONNX (30-second max segments)
 3. `LlmPlugin` — Polishes transcription (supports Anthropic, Google, OpenAI)

@@ -12,7 +12,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 @Suppress("TooManyFunctions")
-class SimpleDirector(
+class DefaultDirector(
     private val recorder: JvmRecorder,
     private val asr: WhisperAsr,
     private val llm: LlmPlugin<*>,
