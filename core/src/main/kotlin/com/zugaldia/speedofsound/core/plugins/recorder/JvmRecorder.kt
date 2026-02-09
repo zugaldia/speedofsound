@@ -3,7 +3,6 @@ package com.zugaldia.speedofsound.core.plugins.recorder
 import com.zugaldia.speedofsound.core.audio.AudioConstants.BITS_PER_BYTE
 import com.zugaldia.speedofsound.core.audio.AudioInputDevice
 import com.zugaldia.speedofsound.core.audio.AudioManager
-import com.zugaldia.speedofsound.core.plugins.AppPlugin
 import java.io.ByteArrayOutputStream
 import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioSystem
@@ -16,7 +15,7 @@ import javax.sound.sampled.TargetDataLine
  */
 class JvmRecorder(
     options: RecorderOptions = RecorderOptions(),
-) : AppPlugin<RecorderOptions>(initialOptions = options) {
+) : RecorderPlugin<RecorderOptions>(initialOptions = options) {
     private var targetDataLine: TargetDataLine? = null
     private var recordingThread: Thread? = null
     private var audioBuffer: ByteArrayOutputStream? = null
@@ -27,7 +26,7 @@ class JvmRecorder(
     /**
      * Returns whether a recording is currently in progress.
      */
-    fun isCurrentlyRecording(): Boolean = isRecording
+    override fun isCurrentlyRecording(): Boolean = isRecording
 
     companion object {
         private const val DEFAULT_BUFFER_SIZE = 1024
@@ -68,7 +67,7 @@ class JvmRecorder(
      * Starts recording audio from the default input device.
      * Audio is captured using the format specified in RecorderOptions.
      */
-    fun startRecording() {
+    override fun startRecording() {
         if (isRecording) {
             log.warn("Recording is already in progress.")
             return
@@ -121,13 +120,12 @@ class JvmRecorder(
     }
 
     /**
-     * Stops recording and returns the captured raw audio data.
-     * @return ByteArray containing the raw PCM audio data, or null if not recording.
+     * Stops recording and returns the captured audio data.
+     * @return Result containing RecorderResponse with the captured audio data, or an error.
      */
-    fun stopRecording(): ByteArray? {
+    override fun stopRecording(): Result<RecorderResponse> = runCatching {
         if (!isRecording) {
-            log.warn("No recording in progress.")
-            return null
+            throw IllegalStateException("No recording in progress.")
         }
 
         isRecording = false
@@ -144,8 +142,12 @@ class JvmRecorder(
         val audioData = audioBuffer?.toByteArray()
         cleanup()
 
-        log.info("Recording stopped. Captured ${audioData?.size ?: 0} bytes.")
-        return audioData
+        if (audioData == null || audioData.isEmpty()) {
+            throw IllegalStateException("No audio data captured.")
+        }
+
+        log.info("Recording stopped. Captured ${audioData.size} bytes.")
+        RecorderResponse(audioData)
     }
 
     private fun cleanup() {
@@ -157,14 +159,18 @@ class JvmRecorder(
 
     override fun disable() {
         if (isRecording) {
-            stopRecording()
+            stopRecording().onFailure { error ->
+                log.error("Failed to stop recording during disable: ${error.message}")
+            }
         }
         super.disable()
     }
 
     override fun shutdown() {
         if (isRecording) {
-            stopRecording()
+            stopRecording().onFailure { error ->
+                log.error("Failed to stop recording during shutdown: ${error.message}")
+            }
         }
         super.shutdown()
     }
