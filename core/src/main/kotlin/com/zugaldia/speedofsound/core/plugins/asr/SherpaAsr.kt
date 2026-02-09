@@ -8,9 +8,9 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
 
-class WhisperAsr(
-    options: WhisperOptions = WhisperOptions(),
-) : AsrPlugin<WhisperOptions>(initialOptions = options) {
+class SherpaAsr(
+    options: SherpaOptions = SherpaOptions(),
+) : AsrPlugin<SherpaOptions>(initialOptions = options) {
     companion object {
         // Ideally, we use "cuda" for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
         // available). However, it seems that the official JAR files do not include this support. Assuming we can

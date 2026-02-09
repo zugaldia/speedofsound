@@ -2,7 +2,7 @@ package com.zugaldia.speedofsound.core.desktop.settings
 
 import com.zugaldia.speedofsound.core.Credential
 import com.zugaldia.speedofsound.core.languageFromIso2
-import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
 import com.zugaldia.speedofsound.core.plugins.llm.GOOGLE_ENVIRONMENT_VARIABLE
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlmOptions
@@ -27,8 +27,8 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun getRecorderOptions(): RecorderOptions =
         RecorderOptions(computeVolumeLevel = true)
 
-    fun getWhisperOptions(): WhisperOptions =
-        WhisperOptions(modelID = "sherpa-onnx-whisper-turbo")
+    fun getSherpaOptions(): SherpaOptions =
+        SherpaOptions(modelID = "sherpa-onnx-whisper-turbo")
 
     fun getGoogleLlmOptions(): GoogleLlmOptions = GoogleLlmOptions(
         apiKey = System.getenv(GOOGLE_ENVIRONMENT_VARIABLE),

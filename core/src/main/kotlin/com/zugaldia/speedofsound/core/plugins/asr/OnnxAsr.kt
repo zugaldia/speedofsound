@@ -16,8 +16,8 @@ import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.tensorShape
  *
  * https://github.com/microsoft/onnxruntime-inference-examples/tree/main/mobile/examples/whisper/local/android
  */
-class WhisperOnnxAsr(options: WhisperOptions = WhisperOptions()) :
-    AsrPlugin<WhisperOptions>(initialOptions = options) {
+class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
+    AsrPlugin<OnnxAsrOptions>(initialOptions = options) {
 
     private val env: OrtEnvironment = OrtEnvironment.getEnvironment()
 

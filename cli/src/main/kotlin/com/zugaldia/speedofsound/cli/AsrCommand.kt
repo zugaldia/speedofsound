@@ -12,9 +12,10 @@ import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
-import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
-import com.zugaldia.speedofsound.core.plugins.asr.WhisperOnnxAsr
-import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaOptions
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsrOptions
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
@@ -52,10 +53,9 @@ class AsrCommand : CliktCommand(name = "asr") {
             ?: throw IllegalArgumentException("Unknown language code: $languageCode")
 
         logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
-        val options = WhisperOptions(modelID = modelId, language = language)
         val asr: AsrPlugin<*> = when (provider.lowercase()) {
-            "onnx" -> WhisperOnnxAsr(options)
-            "sherpa" -> WhisperAsr(options)
+            "onnx" -> OnnxAsr(OnnxAsrOptions())
+            "sherpa" -> SherpaAsr(SherpaOptions(modelID = modelId, language = language))
             else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx' or 'sherpa'.")
         }
 

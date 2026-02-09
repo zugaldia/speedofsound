@@ -42,7 +42,7 @@ Three Gradle modules with a shared convention plugin in `buildSrc/`:
 
 **Sample pipeline (orchestrated by `DefaultDirector`):**
 1. `JvmRecorder` — Captures PCM16 audio via `javax.sound.sampled`
-2. `WhisperAsr` — Transcribes audio using Sherpa ONNX (30-second max segments)
+2. `SherpaAsr` — Transcribes audio using Sherpa ONNX (30-second max segments)
 3. `LlmPlugin` — Polishes transcription (supports Anthropic, Google, OpenAI)
 
 **Director event flow:** `RecordingStarted` → `TranscriptionStarted` → `PolishingStarted` → `PipelineCompleted`

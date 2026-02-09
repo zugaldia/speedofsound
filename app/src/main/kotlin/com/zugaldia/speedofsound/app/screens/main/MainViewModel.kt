@@ -11,7 +11,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
-import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
 import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
 import com.zugaldia.speedofsound.core.plugins.director.DefaultDirector
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlm
@@ -39,7 +39,7 @@ class MainViewModel(
         private set
 
     private val recorder = JvmRecorder(settingsClient.getRecorderOptions())
-    private val asr = WhisperAsr(settingsClient.getWhisperOptions())
+    private val asr = SherpaAsr(settingsClient.getSherpaOptions())
     private val llm = GoogleLlm(settingsClient.getGoogleLlmOptions())
     private val director = DefaultDirector(recorder, asr, llm, settingsClient.getDirectorOptions())
 
