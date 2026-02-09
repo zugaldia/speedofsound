@@ -10,6 +10,8 @@ import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
+import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOnnxAsr
 import com.zugaldia.speedofsound.core.plugins.asr.WhisperOptions
@@ -51,7 +53,7 @@ class AsrCommand : CliktCommand(name = "asr") {
 
         logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
         val options = WhisperOptions(modelID = modelId, language = language)
-        val asr = when (provider.lowercase()) {
+        val asr: AsrPlugin<*> = when (provider.lowercase()) {
             "onnx" -> WhisperOnnxAsr(options)
             "sherpa" -> WhisperAsr(options)
             else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx' or 'sherpa'.")
@@ -61,15 +63,10 @@ class AsrCommand : CliktCommand(name = "asr") {
         asr.enable()
 
         logger.info("Transcribing audio.")
-        val result = when (asr) {
-            is WhisperAsr -> asr.transcribe(samples, AudioInfo.Default)
-            is WhisperOnnxAsr -> asr.transcribe(samples, AudioInfo.Default)
-            else -> Result.failure(IllegalStateException("Unknown ASR type"))
-        }
-
-        result.onSuccess { transcription ->
-            logger.info("Transcription: $transcription")
-            println(transcription)
+        val result = asr.transcribe(AsrRequest(samples, AudioInfo.Default))
+        result.onSuccess { response ->
+            logger.info("Transcription: ${response.text}")
+            println(response.text)
         }.onFailure { error ->
             logger.error("Transcription failed: ${error.message}", error)
         }
