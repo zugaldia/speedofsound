@@ -7,8 +7,8 @@ import org.gnome.adw.PreferencesPage
 import org.gnome.adw.SwitchRow
 import org.slf4j.LoggerFactory
 
-class CloudProvidersPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
-    private val logger = LoggerFactory.getLogger(CloudProvidersPage::class.java)
+class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
+    private val logger = LoggerFactory.getLogger(CloudCredentialsPage::class.java)
 
     private val enableSwitch: SwitchRow
     private val anthropicGroup: PreferencesGroup
