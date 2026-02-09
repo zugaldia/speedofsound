@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.preferences
 
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
+import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import org.gnome.adw.Dialog
 import org.slf4j.LoggerFactory
@@ -19,7 +20,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
     private val stack: Stack
     private val sidebar: StackSidebar
     private val generalPage: GeneralPage
-    private val cloudProvidersPage: CloudProvidersPage
+    private val cloudCredentialsPage: CloudCredentialsPage
     private val voiceModelsPage: VoiceModelsPage
     private val textModelsPage: TextModelsPage
     private val personalizationPage: PersonalizationPage
@@ -30,7 +31,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         contentHeight = DEFAULT_PREFERENCES_DIALOG_HEIGHT
 
         generalPage = GeneralPage(viewModel)
-        cloudProvidersPage = CloudProvidersPage(viewModel)
+        cloudCredentialsPage = CloudCredentialsPage(viewModel)
         voiceModelsPage = VoiceModelsPage(viewModel)
         textModelsPage = TextModelsPage(viewModel)
         personalizationPage = PersonalizationPage(viewModel)
@@ -39,7 +40,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
             hexpand = true
             vexpand = true
             addTitled(generalPage, "general", "General")
-            addTitled(cloudProvidersPage, "cloud_providers", "Cloud Providers")
+            addTitled(cloudCredentialsPage, "cloud_credentials", "Cloud Credentials")
             addTitled(voiceModelsPage, "voice_models", "Voice Models")
             addTitled(textModelsPage, "text_models", "Text Models")
             addTitled(personalizationPage, "personalization", "Personalization")

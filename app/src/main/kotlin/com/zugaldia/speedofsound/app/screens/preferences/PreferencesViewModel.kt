@@ -18,26 +18,30 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
         logger.info("Shutting down.")
     }
 
+    /*
+     * General page
+     */
+
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)
 
     fun getSecondaryLanguage(): String = settingsClient.getSecondaryLanguage()
     fun setSecondaryLanguage(value: String): Boolean = settingsClient.setSecondaryLanguage(value)
 
-    fun getCloudEnabled(): Boolean = settingsClient.getCloudEnabled()
-    fun setCloudEnabled(value: Boolean): Boolean = settingsClient.setCloudEnabled(value)
+    /*
+     * Cloud Credentials page
+     */
 
-    fun getCustomContext(): String = settingsClient.getCustomContext()
-    fun setCustomContext(value: String): Boolean = settingsClient.setCustomContext(value)
+    fun getCredentials(): List<com.zugaldia.speedofsound.core.Credential> = settingsClient.getCredentials()
+    fun setCredentials(value: List<com.zugaldia.speedofsound.core.Credential>): Boolean =
+        settingsClient.setCredentials(value)
 
-    fun getCustomVocabulary(): List<String> = settingsClient.getCustomVocabulary()
-    fun setCustomVocabulary(value: List<String>): Boolean = settingsClient.setCustomVocabulary(value)
+    /*
+     * Text Models page
+     */
 
-    fun getAnthropicApiKey(): String = settingsClient.getAnthropicApiKey()
-    fun setAnthropicApiKey(value: String): Boolean = settingsClient.setAnthropicApiKey(value)
-
-    fun getGoogleApiKey(): String = settingsClient.getGoogleApiKey()
-    fun setGoogleApiKey(value: String): Boolean = settingsClient.setGoogleApiKey(value)
+    fun getTextProcessingEnabled(): Boolean = settingsClient.getTextProcessingEnabled()
+    fun setTextProcessingEnabled(value: Boolean): Boolean = settingsClient.setTextProcessingEnabled(value)
 
     fun getGoogleModelName(): String = settingsClient.getGoogleModelName()
     fun setGoogleModelName(value: String): Boolean = settingsClient.setGoogleModelName(value)
@@ -57,9 +61,6 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
     fun getAnthropicTextUseApiKey(): Boolean = settingsClient.getAnthropicTextUseApiKey()
     fun setAnthropicTextUseApiKey(value: Boolean): Boolean = settingsClient.setAnthropicTextUseApiKey(value)
 
-    fun getOpenaiApiKey(): String = settingsClient.getOpenaiApiKey()
-    fun setOpenaiApiKey(value: String): Boolean = settingsClient.setOpenaiApiKey(value)
-
     fun getOpenAiModelName(): String = settingsClient.getOpenAiModelName()
     fun setOpenAiModelName(value: String): Boolean = settingsClient.setOpenAiModelName(value)
 
@@ -69,6 +70,13 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
     fun getOpenAiTextUseApiKey(): Boolean = settingsClient.getOpenAiTextUseApiKey()
     fun setOpenAiTextUseApiKey(value: Boolean): Boolean = settingsClient.setOpenAiTextUseApiKey(value)
 
-    fun getTextProcessingEnabled(): Boolean = settingsClient.getTextProcessingEnabled()
-    fun setTextProcessingEnabled(value: Boolean): Boolean = settingsClient.setTextProcessingEnabled(value)
+    /*
+     * Personalization page
+     */
+
+    fun getCustomContext(): String = settingsClient.getCustomContext()
+    fun setCustomContext(value: String): Boolean = settingsClient.setCustomContext(value)
+
+    fun getCustomVocabulary(): List<String> = settingsClient.getCustomVocabulary()
+    fun setCustomVocabulary(value: List<String>): Boolean = settingsClient.setCustomVocabulary(value)
 }
