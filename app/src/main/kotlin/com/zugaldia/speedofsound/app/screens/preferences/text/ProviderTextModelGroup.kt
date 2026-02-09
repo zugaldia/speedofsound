@@ -1,5 +1,6 @@
-package com.zugaldia.speedofsound.app.screens.preferences
+package com.zugaldia.speedofsound.app.screens.preferences.text
 
+import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.models.text.TextModel
 import org.gnome.adw.ComboRow
 import org.gnome.adw.EntryRow

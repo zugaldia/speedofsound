@@ -1,5 +1,6 @@
-package com.zugaldia.speedofsound.app.screens.preferences
+package com.zugaldia.speedofsound.app.screens.preferences.text
 
+import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.plugins.llm.SUPPORTED_ANTHROPIC_TEXT_MODELS
 
 class AnthropicTextModelGroup(

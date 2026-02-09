@@ -1,6 +1,7 @@
-package com.zugaldia.speedofsound.app.screens.preferences
+package com.zugaldia.speedofsound.app.screens.preferences.personalization
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
+import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_PADDING
 import com.zugaldia.speedofsound.app.MAX_CUSTOM_CONTEXT_CHARS

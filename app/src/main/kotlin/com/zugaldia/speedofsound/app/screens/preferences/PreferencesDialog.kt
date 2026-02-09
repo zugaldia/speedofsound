@@ -3,6 +3,10 @@ package com.zugaldia.speedofsound.app.screens.preferences
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
 import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
+import com.zugaldia.speedofsound.app.screens.preferences.general.GeneralPage
+import com.zugaldia.speedofsound.app.screens.preferences.personalization.PersonalizationPage
+import com.zugaldia.speedofsound.app.screens.preferences.text.TextModelsPage
+import com.zugaldia.speedofsound.app.screens.preferences.voice.VoiceModelsPage
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import org.gnome.adw.Dialog
 import org.slf4j.LoggerFactory

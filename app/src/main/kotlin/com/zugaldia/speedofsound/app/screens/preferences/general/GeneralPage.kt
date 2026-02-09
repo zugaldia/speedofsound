@@ -1,5 +1,6 @@
-package com.zugaldia.speedofsound.app.screens.preferences
+package com.zugaldia.speedofsound.app.screens.preferences.general
 
+import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
 

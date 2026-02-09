@@ -1,4 +1,4 @@
-package com.zugaldia.speedofsound.app.screens.preferences
+package com.zugaldia.speedofsound.app.screens.preferences.general
 
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.languageFromIso2
