@@ -1,10 +1,11 @@
 package com.zugaldia.speedofsound.core.plugins.director
 
 import com.zugaldia.speedofsound.core.audio.AudioManager
-import com.zugaldia.speedofsound.core.plugins.asr.WhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
+import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
 import com.zugaldia.speedofsound.core.plugins.llm.LlmPlugin
 import com.zugaldia.speedofsound.core.plugins.llm.LlmRequest
-import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
+import com.zugaldia.speedofsound.core.plugins.recorder.RecorderPlugin
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -13,11 +14,11 @@ import kotlinx.coroutines.withContext
 
 @Suppress("TooManyFunctions")
 class DefaultDirector(
-    private val recorder: JvmRecorder,
-    private val asr: WhisperAsr,
+    private val recorder: RecorderPlugin<*>,
+    private val asr: AsrPlugin<*>,
     private val llm: LlmPlugin<*>,
     options: DirectorOptions = DirectorOptions(),
-) : DirectorPlugin(options) {
+) : DirectorPlugin<DirectorOptions>(options) {
     private val pipelineMutex = Mutex()
 
     @Volatile
@@ -73,10 +74,9 @@ class DefaultDirector(
 
     @Suppress("ReturnCount")
     private suspend fun stopRecordingAndGetData(): ByteArray? {
-        val audioData = withContext(Dispatchers.IO) { recorder.stopRecording() }
-        if (audioData == null || audioData.isEmpty()) {
-            log.warn("No audio data captured.")
-            val error = IllegalStateException("No audio data")
+        val recorderResult = withContext(Dispatchers.IO) { recorder.stopRecording() }
+        val response = recorderResult.getOrElse { error ->
+            log.error("Failed to stop recording: ${error.message}")
             emitEvent(DirectorEvent.PipelineError(PipelineStage.RECORDING, error))
             return null
         }
@@ -85,7 +85,7 @@ class DefaultDirector(
             emitEvent(DirectorEvent.PipelineCancelled)
             null
         } else {
-            audioData
+            response.audioData
         }
     }
 
@@ -93,7 +93,7 @@ class DefaultDirector(
     private suspend fun transcribeAudio(audioData: ByteArray): String? {
         emitEvent(DirectorEvent.TranscriptionStarted)
         val floatAudio = AudioManager.convertPcm16ToFloat(audioData)
-        val transcriptionResult = withContext(Dispatchers.IO) { asr.transcribe(floatAudio) }
+        val transcriptionResult = withContext(Dispatchers.IO) { asr.transcribe(AsrRequest(floatAudio)) }
         val rawTranscription = transcriptionResult.getOrElse { error ->
             log.error("Transcription failed: ${error.message}")
             emitEvent(DirectorEvent.PipelineError(PipelineStage.TRANSCRIPTION, error))
@@ -104,7 +104,7 @@ class DefaultDirector(
             emitEvent(DirectorEvent.PipelineCancelled)
             null
         } else {
-            rawTranscription
+            rawTranscription.text
         }
     }
 
@@ -143,7 +143,11 @@ class DefaultDirector(
     override suspend fun cancel() {
         isCancelled = true
         if (recorder.isCurrentlyRecording()) {
-            withContext(Dispatchers.IO) { recorder.stopRecording() }
+            withContext(Dispatchers.IO) {
+                recorder.stopRecording().onFailure { error ->
+                    log.error("Failed to stop recording during cancel: ${error.message}")
+                }
+            }
         }
 
         emitEvent(DirectorEvent.PipelineCancelled)
