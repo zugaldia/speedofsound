@@ -8,6 +8,7 @@ import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_NAME_LENGTH
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_VALUE_LENGTH
 import com.zugaldia.speedofsound.core.Credential
 import com.zugaldia.speedofsound.core.CredentialType
+import com.zugaldia.speedofsound.core.generateUniqueId
 import org.gnome.adw.Dialog
 import org.gnome.adw.EntryRow
 import org.gnome.adw.PasswordEntryRow
@@ -67,7 +68,12 @@ class AddCredentialDialog(
                 val name = nameEntry.text.trim()
                 val apiKey = apiKeyEntry.text.trim()
                 if (validateInput(name, apiKey)) {
-                    val credential = Credential(type = CredentialType.API_KEY, name = name, value = apiKey)
+                    val credential = Credential(
+                        id = generateUniqueId(),
+                        type = CredentialType.API_KEY,
+                        name = name,
+                        value = apiKey
+                    )
                     onCredentialAdded(credential)
                     close()
                 }

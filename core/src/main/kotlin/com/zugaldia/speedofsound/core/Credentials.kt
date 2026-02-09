@@ -9,6 +9,7 @@ enum class CredentialType {
 
 @Serializable
 data class Credential(
+    val id: String,
     val type: CredentialType,
     val name: String,
     val value: String
