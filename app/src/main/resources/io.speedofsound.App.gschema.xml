@@ -36,6 +36,16 @@
       <summary>Text processing enabled</summary>
       <description>Enable LLM-based text processing to polish transcriptions.</description>
     </key>
+    <key name="text-model-providers" type="s">
+      <default>'[]'</default>
+      <summary>Text model provider configurations</summary>
+      <description>JSON-serialized list of LLM provider configurations.</description>
+    </key>
+    <key name="selected-text-model-provider-id" type="s">
+      <default>''</default>
+      <summary>Selected text model provider</summary>
+      <description>The ID of the currently selected text model provider for text processing.</description>
+    </key>
 
     <!-- Personalization page -->
 

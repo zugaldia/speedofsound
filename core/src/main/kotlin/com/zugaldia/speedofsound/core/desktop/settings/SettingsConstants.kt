@@ -26,6 +26,12 @@ const val DEFAULT_CREDENTIALS = "[]"
 const val KEY_TEXT_PROCESSING_ENABLED = "text-processing-enabled"
 const val DEFAULT_TEXT_PROCESSING_ENABLED = false
 
+const val KEY_TEXT_MODEL_PROVIDERS = "text-model-providers"
+const val DEFAULT_TEXT_MODEL_PROVIDERS = "[]"
+
+const val KEY_SELECTED_TEXT_MODEL_PROVIDER_ID = "selected-text-model-provider-id"
+const val DEFAULT_SELECTED_TEXT_MODEL_PROVIDER_ID = ""
+
 // Personalization page
 
 const val KEY_CUSTOM_CONTEXT = "custom-context"

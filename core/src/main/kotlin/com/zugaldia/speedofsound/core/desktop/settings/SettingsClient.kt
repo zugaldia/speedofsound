@@ -1,6 +1,5 @@
 package com.zugaldia.speedofsound.core.desktop.settings
 
-import com.zugaldia.speedofsound.core.Credential
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
@@ -74,13 +73,13 @@ class SettingsClient(val settingsStore: SettingsStore) {
      * Cloud Credentials page
      */
 
-    fun getCredentials(): List<Credential> {
+    fun getCredentials(): List<CredentialSetting> {
         val json = settingsStore.getString(KEY_CREDENTIALS, DEFAULT_CREDENTIALS)
         return if (json.isEmpty() || json == DEFAULT_CREDENTIALS) {
             emptyList()
         } else {
             runCatching {
-                Json.decodeFromString<List<Credential>>(json)
+                Json.decodeFromString<List<CredentialSetting>>(json)
             }.getOrElse { error ->
                 logger.error("Failed to decode credentials from JSON", error)
                 emptyList()
@@ -88,7 +87,7 @@ class SettingsClient(val settingsStore: SettingsStore) {
         }
     }
 
-    fun setCredentials(value: List<Credential>): Boolean {
+    fun setCredentials(value: List<CredentialSetting>): Boolean {
         val json = Json.encodeToString(value)
         return settingsStore.setString(KEY_CREDENTIALS, json).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_CREDENTIALS)
@@ -105,6 +104,35 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun setTextProcessingEnabled(value: Boolean): Boolean =
         settingsStore.setBoolean(KEY_TEXT_PROCESSING_ENABLED, value).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_TEXT_PROCESSING_ENABLED)
+        }
+
+    fun getTextModelProviders(): List<TextModelProviderSetting> {
+        val json = settingsStore.getString(KEY_TEXT_MODEL_PROVIDERS, DEFAULT_TEXT_MODEL_PROVIDERS)
+        return if (json.isEmpty() || json == DEFAULT_TEXT_MODEL_PROVIDERS) {
+            emptyList()
+        } else {
+            runCatching {
+                Json.decodeFromString<List<TextModelProviderSetting>>(json)
+            }.getOrElse { error ->
+                logger.error("Failed to decode text model providers from JSON", error)
+                emptyList()
+            }
+        }
+    }
+
+    fun setTextModelProviders(value: List<TextModelProviderSetting>): Boolean {
+        val json = Json.encodeToString(value)
+        return settingsStore.setString(KEY_TEXT_MODEL_PROVIDERS, json).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_TEXT_MODEL_PROVIDERS)
+        }
+    }
+
+    fun getSelectedTextModelProviderId(): String =
+        settingsStore.getString(KEY_SELECTED_TEXT_MODEL_PROVIDER_ID, DEFAULT_SELECTED_TEXT_MODEL_PROVIDER_ID)
+
+    fun setSelectedTextModelProviderId(value: String): Boolean =
+        settingsStore.setString(KEY_SELECTED_TEXT_MODEL_PROVIDER_ID, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_SELECTED_TEXT_MODEL_PROVIDER_ID)
         }
 
     /*
