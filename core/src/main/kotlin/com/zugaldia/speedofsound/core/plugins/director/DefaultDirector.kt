@@ -68,8 +68,9 @@ class DefaultDirector(
             return
         }
 
-        val polishedText = polishWithLlm(rawTranscription) ?: return
-        emitEvent(DirectorEvent.PipelineCompleted(rawTranscription, polishedText))
+        val polishedText = polishWithLlm(rawTranscription)
+        val finalResult = polishedText ?: rawTranscription
+        emitEvent(DirectorEvent.PipelineCompleted(rawTranscription, polishedText, finalResult))
     }
 
     @Suppress("ReturnCount")
@@ -113,7 +114,7 @@ class DefaultDirector(
         val prompt = buildPrompt(rawTranscription)
         val llmResult = withContext(Dispatchers.IO) { llm.generate(LlmRequest(text = prompt)) }
         val polishedText = llmResult.getOrElse { error ->
-            log.error("LLM polishing failed: ${error.message}")
+            log.error("LLM polishing failed: ${error.message}. Raw transcription was: $rawTranscription.")
             emitEvent(DirectorEvent.PipelineError(PipelineStage.POLISHING, error))
             return null
         }

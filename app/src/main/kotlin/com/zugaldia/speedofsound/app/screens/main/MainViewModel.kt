@@ -241,10 +241,10 @@ class MainViewModel(
         logger.info("Pipeline completed: $event")
         cancelAutoStopTimer()
         hideAndReset()
+        if (event.finalResult.isBlank()) return
         viewModelScope.launch {
             delay(POST_HIDE_DELAY_MS) // Wait for the main window to fully go away before typing
-            val text = event.polishedText.ifBlank { event.rawTranscription }
-            val finalText = if (text.isNotBlank() && !text.endsWith(" ")) { "$text " } else { text }
+            val finalText = event.finalResult.trim() + " " // Separate multiple results with a space
             TextUtils.textToKeySym(finalText)
                 .onSuccess { keySyms -> portalsClient.typeText(keySyms) }
                 .onFailure { error -> logger.error("Error converting text to key symbols: ${error.message}") }

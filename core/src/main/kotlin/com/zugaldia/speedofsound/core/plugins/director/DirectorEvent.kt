@@ -9,7 +9,12 @@ sealed class DirectorEvent : AppPluginEvent() {
     data object RecordingStarted : DirectorEvent()
     data object TranscriptionStarted : DirectorEvent()
     data object PolishingStarted : DirectorEvent()
-    data class PipelineCompleted(val rawTranscription: String, val polishedText: String) : DirectorEvent()
+    data class PipelineCompleted(
+        val rawTranscription: String,
+        val polishedText: String?,
+        val finalResult: String
+    ) : DirectorEvent()
+
     data class PipelineError(val stage: PipelineStage, val error: Throwable) : DirectorEvent()
     data object PipelineCancelled : DirectorEvent()
 }
