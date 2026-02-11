@@ -6,8 +6,8 @@ import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_NAME_LENGTH
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_VALUE_LENGTH
-import com.zugaldia.speedofsound.core.Credential
-import com.zugaldia.speedofsound.core.CredentialType
+import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
+import com.zugaldia.speedofsound.core.desktop.settings.CredentialType
 import com.zugaldia.speedofsound.core.generateUniqueId
 import org.gnome.adw.Dialog
 import org.gnome.adw.EntryRow
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory
 
 class AddCredentialDialog(
     private val existingNames: Set<String>,
-    private val onCredentialAdded: (Credential) -> Unit
+    private val onCredentialAdded: (CredentialSetting) -> Unit
 ) : Dialog() {
     private val logger = LoggerFactory.getLogger(AddCredentialDialog::class.java)
 
@@ -68,7 +68,7 @@ class AddCredentialDialog(
                 val name = nameEntry.text.trim()
                 val apiKey = apiKeyEntry.text.trim()
                 if (validateInput(name, apiKey)) {
-                    val credential = Credential(
+                    val credential = CredentialSetting(
                         id = generateUniqueId(),
                         type = CredentialType.API_KEY,
                         name = name,

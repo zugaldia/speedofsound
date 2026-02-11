@@ -6,7 +6,7 @@ import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.MAX_CREDENTIALS
 import com.zugaldia.speedofsound.app.MIN_CREDENTIAL_LENGTH_FOR_MASKING
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
-import com.zugaldia.speedofsound.core.Credential
+import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
@@ -82,7 +82,7 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
         dialog.present(this)
     }
 
-    private fun onCredentialAdded(credential: Credential) {
+    private fun onCredentialAdded(credential: CredentialSetting) {
         val currentCredentials = viewModel.getCredentials()
         if (currentCredentials.size >= MAX_CREDENTIALS) {
             logger.warn("Cannot add credential: limit of $MAX_CREDENTIALS reached")
@@ -102,7 +102,7 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
         updatePlaceholderVisibility()
     }
 
-    private fun addCredentialToUI(credential: Credential) {
+    private fun addCredentialToUI(credential: CredentialSetting) {
         val maskedValue = maskCredentialValue(credential.value)
         val row = ActionRow().apply {
             title = credential.name
@@ -131,6 +131,18 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
 
     private fun onCredentialDeleted(credentialName: String) {
         val currentCredentials = viewModel.getCredentials()
+        val credentialToDelete = currentCredentials.find { it.name == credentialName }
+        if (credentialToDelete != null) {
+            val providers = viewModel.getTextModelProviders()
+            val referencingProviders = providers.filter { it.credentialId == credentialToDelete.id }
+            if (referencingProviders.isNotEmpty()) {
+                val providerNames = referencingProviders.joinToString(", ") { it.name }
+                logger.warn("Cannot delete credential '$credentialName': used by providers: $providerNames")
+                return
+            }
+        }
+
+        // Proceed with deletion
         val updatedCredentials = currentCredentials.filter { it.name != credentialName }
         logger.info("Removing credential, total is now ${updatedCredentials.size} entries.")
         viewModel.setCredentials(updatedCredentials)

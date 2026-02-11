@@ -1,6 +1,8 @@
 package com.zugaldia.speedofsound.app.screens.preferences
 
+import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
+import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
 import org.slf4j.LoggerFactory
 
 @Suppress("TooManyFunctions") // ViewModel delegates to SettingsClient for all preference properties
@@ -32,8 +34,8 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
      * Cloud Credentials page
      */
 
-    fun getCredentials(): List<com.zugaldia.speedofsound.core.Credential> = settingsClient.getCredentials()
-    fun setCredentials(value: List<com.zugaldia.speedofsound.core.Credential>): Boolean =
+    fun getCredentials(): List<CredentialSetting> = settingsClient.getCredentials()
+    fun setCredentials(value: List<CredentialSetting>): Boolean =
         settingsClient.setCredentials(value)
 
     /*
@@ -42,6 +44,16 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
 
     fun getTextProcessingEnabled(): Boolean = settingsClient.getTextProcessingEnabled()
     fun setTextProcessingEnabled(value: Boolean): Boolean = settingsClient.setTextProcessingEnabled(value)
+
+    fun getTextModelProviders(): List<TextModelProviderSetting> =
+        settingsClient.getTextModelProviders()
+    fun setTextModelProviders(value: List<TextModelProviderSetting>): Boolean =
+        settingsClient.setTextModelProviders(value)
+
+    fun getSelectedTextModelProviderId(): String =
+        settingsClient.getSelectedTextModelProviderId()
+    fun setSelectedTextModelProviderId(value: String): Boolean =
+        settingsClient.setSelectedTextModelProviderId(value)
 
     /*
      * Personalization page
