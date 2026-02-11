@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import java.net.URI
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.time.Clock
@@ -18,7 +19,6 @@ private const val NANOSECONDS_PER_SECOND = 1_000_000_000L
  */
 @OptIn(ExperimentalUuidApi::class)
 fun generateUniqueId(): String = Uuid.random().toString()
-
 
 /**
  * Generate a timestamp using nanosecond precision since Unix epoch.
@@ -111,3 +111,14 @@ fun generateTmpWavFilePath(): Path {
     val timestamp = generateTimestamp()
     return dataDir.resolve("$APPLICATION_SHORT-$timestamp.wav")
 }
+
+/**
+ * Validates if a string is a valid URL.
+ *
+ * @param url the URL string to validate
+ * @return true if the URL is valid, false otherwise
+ */
+fun isValidUrl(url: String): Boolean = runCatching {
+    URI(url).toURL()
+    true
+}.getOrDefault(false)
