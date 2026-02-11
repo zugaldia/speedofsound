@@ -9,6 +9,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_SECONDARY_LANGUAG
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_CONTEXT
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_PROCESSING_ENABLED
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
@@ -160,6 +161,8 @@ class MainViewModel(
                 customContext = settingsClient.getCustomContext()))
             KEY_CUSTOM_VOCABULARY -> director.updateOptions(director.getOptions().copy(
                 customVocabulary = settingsClient.getCustomVocabulary()))
+            KEY_TEXT_PROCESSING_ENABLED -> director.updateOptions(director.getOptions().copy(
+                enableTextProcessing = settingsClient.getTextProcessingEnabled()))
         }
     }
 

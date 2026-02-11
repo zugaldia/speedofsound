@@ -68,7 +68,7 @@ class DefaultDirector(
             return
         }
 
-        val polishedText = polishWithLlm(rawTranscription)
+        val polishedText = if (currentOptions.enableTextProcessing) { polishWithLlm(rawTranscription) } else { null }
         val finalResult = polishedText ?: rawTranscription
         emitEvent(DirectorEvent.PipelineCompleted(rawTranscription, polishedText, finalResult))
     }

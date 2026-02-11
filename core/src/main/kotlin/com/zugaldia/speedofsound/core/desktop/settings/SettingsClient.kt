@@ -34,6 +34,7 @@ class SettingsClient(val settingsStore: SettingsStore) {
     )
 
     fun getDirectorOptions(): DirectorOptions = DirectorOptions(
+        enableTextProcessing = getTextProcessingEnabled(),
         language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE,
         customVocabulary = getCustomVocabulary(),
         customContext = getCustomContext()

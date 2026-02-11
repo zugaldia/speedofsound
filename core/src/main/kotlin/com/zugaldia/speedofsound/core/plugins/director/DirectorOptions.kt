@@ -45,6 +45,7 @@ OUTPUT:
  * Options for the director plugin.
  */
 data class DirectorOptions(
+    val enableTextProcessing: Boolean = false,
     val language: Language = DEFAULT_LANGUAGE,
     val customContext: String = DEFAULT_CONTEXT,
     val customVocabulary: List<String> = DEFAULT_VOCABULARY,
