@@ -32,5 +32,9 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         }
 
         add(group)
+
+        // Set up notifications after all widgets are initialized
+        primaryComboRow.setupNotifications()
+        secondaryComboRow.setupNotifications()
     }
 }

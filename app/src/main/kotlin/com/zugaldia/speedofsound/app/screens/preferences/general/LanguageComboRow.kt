@@ -32,8 +32,12 @@ class LanguageComboRow(
             val index = languages.indexOf(language)
             if (index >= 0) { selected = index }
         }
+    }
 
-        // Save on change
+    /**
+     * Set up notification callbacks. Call this after all widgets are initialized.
+     */
+    fun setupNotifications() {
         onNotify("selected") {
             val selectedIndex = selected
             if (selectedIndex in languages.indices) {
