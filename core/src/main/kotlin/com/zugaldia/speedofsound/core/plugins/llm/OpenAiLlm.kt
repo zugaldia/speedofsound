@@ -25,7 +25,7 @@ class OpenAiLlm(
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val params = ResponseCreateParams.builder()
             .input(request.text)
-            .model(currentOptions.model ?: DEFAULT_OPENAI_MODEL_ID)
+            .model(currentOptions.model)
             .build()
 
         val response = client.responses().create(params)

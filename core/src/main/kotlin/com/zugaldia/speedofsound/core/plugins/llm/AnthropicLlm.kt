@@ -26,7 +26,7 @@ class AnthropicLlm(
         val params = MessageCreateParams.builder()
             .maxTokens(currentOptions.maxTokens)
             .addUserMessage(request.text)
-            .model(currentOptions.model ?: DEFAULT_ANTHROPIC_MODEL_ID)
+            .model(currentOptions.model)
             .build()
 
         val message = client.messages().create(params)

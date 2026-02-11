@@ -15,11 +15,11 @@ val SUPPORTED_OPENAI_TEXT_MODELS = mapOf(
         id = ChatModel.GPT_5_2.asString(),
         name = "GPT 5.2"
     ),
-    ChatModel.GPT_5_1_MINI to TextModel(
+    ChatModel.GPT_5_1_MINI.asString() to TextModel(
         id = ChatModel.GPT_5_1_MINI.asString(),
         name = "GPT 5.1 Mini"
     ),
-    ChatModel.GPT_5_NANO to TextModel(
+    ChatModel.GPT_5_NANO.asString() to TextModel(
         id = ChatModel.GPT_5_NANO.asString(),
         name = "GPT 5.0 Nano"
     ),
@@ -28,5 +28,5 @@ val SUPPORTED_OPENAI_TEXT_MODELS = mapOf(
 data class OpenAiLlmOptions(
     override val baseUrl: String? = null,
     override val apiKey: String? = null,
-    override val model: String? = DEFAULT_OPENAI_MODEL_ID,
+    override val model: String = DEFAULT_OPENAI_MODEL_ID,
 ) : LlmPluginOptions

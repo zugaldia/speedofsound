@@ -15,7 +15,7 @@ val SUPPORTED_ANTHROPIC_TEXT_MODELS = mapOf(
         id = Model.CLAUDE_SONNET_4_5.asString(),
         name = "Claude Sonnet 4.5"
     ),
-    Model.CLAUDE_HAIKU_4_5 to TextModel(
+    Model.CLAUDE_HAIKU_4_5.asString() to TextModel(
         id = Model.CLAUDE_HAIKU_4_5.asString(),
         name = "Claude Haiku 4.5"
     ),
@@ -24,6 +24,6 @@ val SUPPORTED_ANTHROPIC_TEXT_MODELS = mapOf(
 data class AnthropicLlmOptions(
     override val baseUrl: String? = null,
     override val apiKey: String? = null,
-    override val model: String? = DEFAULT_ANTHROPIC_MODEL_ID,
+    override val model: String = DEFAULT_ANTHROPIC_MODEL_ID,
     val maxTokens: Long = 1024L,
 ) : LlmPluginOptions
