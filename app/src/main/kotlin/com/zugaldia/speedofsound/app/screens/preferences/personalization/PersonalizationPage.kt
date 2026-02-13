@@ -7,6 +7,10 @@ import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_PADDING
 import com.zugaldia.speedofsound.app.MAX_CUSTOM_CONTEXT_CHARS
 import com.zugaldia.speedofsound.app.MAX_VOCABULARY_WORDS
 import com.zugaldia.speedofsound.app.SETTINGS_SAVE_DEBOUNCE_MS
+import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
+import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
+import com.zugaldia.speedofsound.app.STYLE_CLASS_LINKED
+import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
@@ -60,7 +64,7 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
         }
 
         vocabularyListBox = ListBox().apply {
-            addCssClass("boxed-list")
+            addCssClass(STYLE_CLASS_BOXED_LIST)
             marginTop = DEFAULT_BOX_SPACING
             selectionMode = SelectionMode.NONE
         }
@@ -71,11 +75,11 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
         }
 
         val vocabularyAddButton = Button.withLabel("Add").apply {
-            addCssClass("suggested-action")
+            addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
         }
 
         val vocabularyEntryBox = Box(Orientation.HORIZONTAL, 0).apply {
-            addCssClass("linked")
+            addCssClass(STYLE_CLASS_LINKED)
             append(vocabularyEntry)
             append(vocabularyAddButton)
         }
@@ -200,7 +204,7 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
     private fun addVocabularyWordToUI(word: String) {
         val row = ActionRow().apply { title = word }
         val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
-            addCssClass("flat")
+            addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
             onClicked {
                 vocabularyListBox.remove(row)

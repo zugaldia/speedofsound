@@ -6,6 +6,7 @@ import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_NAME_LENGTH
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_VALUE_LENGTH
+import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialType
 import com.zugaldia.speedofsound.core.generateUniqueId
@@ -62,7 +63,7 @@ class AddCredentialDialog(
         }
 
         addButton = Button.withLabel("Add").apply {
-            addCssClass("suggested-action")
+            addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
             sensitive = false
             onClicked {
                 val name = nameEntry.text.trim()

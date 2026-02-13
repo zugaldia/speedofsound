@@ -36,6 +36,12 @@ const val STYLE_CLASS_ACCENT = "accent"
 const val STYLE_CLASS_SUCCESS = "success"
 const val STYLE_CLASS_WARNING = "warning"
 const val STYLE_CLASS_ERROR = "error"
+const val STYLE_CLASS_SUGGESTED_ACTION = "suggested-action"
+const val STYLE_CLASS_DESTRUCTIVE_ACTION = "destructive-action"
+const val STYLE_CLASS_BOXED_LIST = "boxed-list"
+const val STYLE_CLASS_DIM_LABEL = "dim-label"
+const val STYLE_CLASS_FLAT = "flat"
+const val STYLE_CLASS_LINKED = "linked"
 
 // Personalization limits
 const val MAX_VOCABULARY_WORDS = 50

@@ -2,6 +2,11 @@ package com.zugaldia.speedofsound.app.screens.preferences.text
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.MAX_TEXT_MODEL_PROVIDERS
+import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
+import com.zugaldia.speedofsound.app.STYLE_CLASS_DESTRUCTIVE_ACTION
+import com.zugaldia.speedofsound.app.STYLE_CLASS_DIM_LABEL
+import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
+import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
 import org.gnome.adw.ActionRow
@@ -50,18 +55,18 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
         }
 
         addProviderButton = Button.withLabel("Add Provider").apply {
-            addCssClass("suggested-action")
+            addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
             onClicked { showAddProviderDialog() }
         }
 
         providersListBox = ListBox().apply {
-            addCssClass("boxed-list")
+            addCssClass(STYLE_CLASS_BOXED_LIST)
             marginTop = DEFAULT_BOX_SPACING
             selectionMode = SelectionMode.NONE
         }
 
         val placeholderLabel = Label("No providers configured").apply {
-            addCssClass("dim-label")
+            addCssClass(STYLE_CLASS_DIM_LABEL)
             halign = Align.CENTER
         }
 
@@ -121,7 +126,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
         // Credential indicator
         if (providerSetting.credentialId != null) {
             row.addSuffix(Button.fromIconName("dialog-password-symbolic").apply {
-                addCssClass("flat")
+                addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 sensitive = false
                 tooltipText = "Custom Credentials Set"
@@ -131,7 +136,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
         // Base URL indicator
         if (providerSetting.baseUrl != null) {
             row.addSuffix(Button.fromIconName("network-server-symbolic").apply {
-                addCssClass("flat")
+                addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 sensitive = false
                 tooltipText = "Custom URL: ${providerSetting.baseUrl}"
@@ -140,9 +145,9 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
         // Delete button
         val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
-            addCssClass("flat")
+            addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
-            addCssClass("destructive-action")
+            addCssClass(STYLE_CLASS_DESTRUCTIVE_ACTION)
             onClicked {
                 providersListBox.remove(row)
                 onProviderDeleted(providerSetting.id)

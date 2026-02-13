@@ -5,6 +5,10 @@ import com.zugaldia.speedofsound.app.CREDENTIAL_MASK_SUFFIX_LENGTH
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.MAX_CREDENTIALS
 import com.zugaldia.speedofsound.app.MIN_CREDENTIAL_LENGTH_FOR_MASKING
+import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
+import com.zugaldia.speedofsound.app.STYLE_CLASS_DIM_LABEL
+import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
+import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import org.gnome.adw.ActionRow
@@ -31,18 +35,18 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
         iconName = "network-server-symbolic"
 
         addButton = Button.withLabel("Add API Key").apply {
-            addCssClass("suggested-action")
+            addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
             onClicked { showAddCredentialDialog() }
         }
 
         credentialsListBox = ListBox().apply {
-            addCssClass("boxed-list")
+            addCssClass(STYLE_CLASS_BOXED_LIST)
             marginTop = DEFAULT_BOX_SPACING
             selectionMode = SelectionMode.NONE
         }
 
         val placeholderLabel = Label("No cloud credentials configured").apply {
-            addCssClass("dim-label")
+            addCssClass(STYLE_CLASS_DIM_LABEL)
             halign = Align.CENTER
         }
 
@@ -110,7 +114,7 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
         }
 
         val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
-            addCssClass("flat")
+            addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
         }
 
