@@ -36,6 +36,10 @@ class MainWindow(
     private val portalsBanner: Banner
     private val statusWidget: StatusWidget
 
+    // Track whether we should hide the window on pipeline completion
+    // Normally, we should unless we're opening a sub-window (e.g., preferences, or shortcuts)
+    private var shouldHideOnCompletion = true
+
     init {
         application = app
         title = APPLICATION_NAME
@@ -88,7 +92,8 @@ class MainWindow(
         )
 
         viewModel.state.connect(SIGNAL_PIPELINE_COMPLETED, MainState.PipelineCompleted {
-            goAway()
+            if (shouldHideOnCompletion) { goAway() }
+            shouldHideOnCompletion = true // Reset flag for next pipeline
         })
 
         viewModel.state.connect(SIGNAL_LANGUAGE_CHANGED, MainState.LanguageChanged { languageName: String ->
@@ -119,21 +124,28 @@ class MainWindow(
     }
 
     private fun onOpenPreferences() {
+        shouldHideOnCompletion = false
+        viewModel.cancelListening()
         PreferencesDialog(settingsClient).present(this)
     }
 
     private fun onOpenShortcuts() {
+        shouldHideOnCompletion = false
+        viewModel.cancelListening()
         buildShortcutsWindow().apply {
-            setTransientFor(this@MainWindow)
+            transientFor = this@MainWindow
             present()
         }
     }
 
     private fun onOpenAbout() {
+        shouldHideOnCompletion = false
+        viewModel.cancelListening()
         buildAboutDialog().present(this)
     }
 
     private fun onQuit() {
+        viewModel.cancelListening()
         close()
     }
 }
