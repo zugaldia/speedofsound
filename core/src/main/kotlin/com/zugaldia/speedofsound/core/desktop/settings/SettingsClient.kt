@@ -3,8 +3,11 @@ package com.zugaldia.speedofsound.core.desktop.settings
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
-import com.zugaldia.speedofsound.core.plugins.llm.GOOGLE_ENVIRONMENT_VARIABLE
+import com.zugaldia.speedofsound.core.plugins.llm.AnthropicLlmOptions
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlmOptions
+import com.zugaldia.speedofsound.core.plugins.llm.LlmPluginOptions
+import com.zugaldia.speedofsound.core.plugins.llm.LlmProvider
+import com.zugaldia.speedofsound.core.plugins.llm.OpenAiLlmOptions
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderOptions
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,9 +32,29 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun getSherpaOptions(): SherpaOptions =
         SherpaOptions(modelID = "sherpa-onnx-whisper-turbo")
 
-    fun getGoogleLlmOptions(): GoogleLlmOptions = GoogleLlmOptions(
-        apiKey = System.getenv(GOOGLE_ENVIRONMENT_VARIABLE),
-    )
+    /**
+     * Resolves a TextModelProviderSetting into the appropriate LlmPluginOptions
+     */
+    fun resolveProviderOptions(provider: TextModelProviderSetting): LlmPluginOptions {
+        val apiKey = provider.credentialId?.let { credId -> getCredentials().find { it.id == credId }?.value }
+        return when (provider.provider) {
+            LlmProvider.ANTHROPIC -> AnthropicLlmOptions(
+                apiKey = apiKey,
+                model = provider.model,
+                baseUrl = provider.baseUrl,
+            )
+            LlmProvider.GOOGLE -> GoogleLlmOptions(
+                apiKey = apiKey,
+                model = provider.model,
+                baseUrl = provider.baseUrl,
+            )
+            LlmProvider.OPENAI -> OpenAiLlmOptions(
+                apiKey = apiKey,
+                model = provider.model,
+                baseUrl = provider.baseUrl,
+            )
+        }
+    }
 
     fun getDirectorOptions(): DirectorOptions = DirectorOptions(
         enableTextProcessing = getTextProcessingEnabled(),
