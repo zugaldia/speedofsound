@@ -11,7 +11,11 @@ import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
 class SherpaAsr(
     options: SherpaOptions = SherpaOptions(),
 ) : AsrPlugin<SherpaOptions>(initialOptions = options) {
+    override val id: String = ID
+
     companion object {
+        const val ID = "ASR_SHERPA"
+
         // Ideally, we use "cuda" for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
         // available). However, it seems that the official JAR files do not include this support. Assuming we can
         // access the GPU from the sandboxed environment, we need a build of Sherpa with -DSHERPA_ONNX_ENABLE_GPU=ON.

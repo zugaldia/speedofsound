@@ -16,6 +16,8 @@ import javax.sound.sampled.TargetDataLine
 class JvmRecorder(
     options: RecorderOptions = RecorderOptions(),
 ) : RecorderPlugin<RecorderOptions>(initialOptions = options) {
+    override val id: String = ID
+
     private var targetDataLine: TargetDataLine? = null
     private var recordingThread: Thread? = null
     private var audioBuffer: ByteArrayOutputStream? = null
@@ -29,6 +31,7 @@ class JvmRecorder(
     override fun isCurrentlyRecording(): Boolean = isRecording
 
     companion object {
+        const val ID = "RECORDER_JVM"
         private const val DEFAULT_BUFFER_SIZE = 1024
         private const val THREAD_JOIN_TIMEOUT_MS = 1000L
 

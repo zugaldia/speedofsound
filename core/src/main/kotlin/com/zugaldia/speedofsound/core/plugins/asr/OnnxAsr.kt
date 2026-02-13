@@ -18,6 +18,7 @@ import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.tensorShape
  */
 class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
     AsrPlugin<OnnxAsrOptions>(initialOptions = options) {
+    override val id: String = ID
 
     private val env: OrtEnvironment = OrtEnvironment.getEnvironment()
 
@@ -70,6 +71,7 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
     }
 
     companion object {
+        const val ID = "ASR_ONNX"
         private const val RESOURCE_PATH = "/models/asr/whisper_cpu_int8_model.onnx"
         private const val DEFAULT_MAX_LENGTH = 200
     }
