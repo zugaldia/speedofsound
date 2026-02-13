@@ -17,7 +17,7 @@ const val DEFAULT_PREFERENCES_DIALOG_WIDTH = 800
 const val DEFAULT_PREFERENCES_DIALOG_HEIGHT = 600
 
 const val DEFAULT_ADD_CREDENTIAL_DIALOG_WIDTH = 500
-const val DEFAULT_ADD_CREDENTIAL_DIALOG_HEIGHT = 250
+const val DEFAULT_ADD_CREDENTIAL_DIALOG_HEIGHT = 300
 
 const val DEFAULT_PROGRESS_BAR_WIDTH = 300
 
@@ -29,9 +29,6 @@ const val DEFAULT_BOX_SPACING = 10
 
 const val POST_HIDE_DELAY_MS = 100L
 const val SETTINGS_SAVE_DEBOUNCE_MS = 500
-
-// Sherpa ONNX offline Whisper recognizer has a hard 30-second limit, longer audio is truncated
-const val MAX_RECORDING_DURATION_MS = 30_000L
 
 // Personalization limits
 const val MAX_VOCABULARY_WORDS = 50

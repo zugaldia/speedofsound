@@ -4,6 +4,9 @@ import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 
+// Sherpa ONNX offline Whisper recognizer has a hard 30-second limit, longer audio is truncated
+const val DEFAULT_MAX_RECORDING_DURATION_MS = 30_000L
+
 const val PROMPT_KEY_INPUT = "{INPUT}"
 const val PROMPT_KEY_LANGUAGE = "{LANGUAGE}"
 const val PROMPT_KEY_CONTEXT = "{CONTEXT}"
@@ -49,4 +52,5 @@ data class DirectorOptions(
     val language: Language = DEFAULT_LANGUAGE,
     val customContext: String = DEFAULT_CONTEXT,
     val customVocabulary: List<String> = DEFAULT_VOCABULARY,
+    val maxRecordingDurationMs: Long = DEFAULT_MAX_RECORDING_DURATION_MS,
 ) : DirectorPluginOptions

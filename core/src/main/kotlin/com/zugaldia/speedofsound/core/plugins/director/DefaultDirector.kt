@@ -1,34 +1,65 @@
 package com.zugaldia.speedofsound.core.plugins.director
 
 import com.zugaldia.speedofsound.core.audio.AudioManager
+import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
+import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
 import com.zugaldia.speedofsound.core.plugins.llm.LlmPlugin
 import com.zugaldia.speedofsound.core.plugins.llm.LlmRequest
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderPlugin
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 @Suppress("TooManyFunctions")
 class DefaultDirector(
-    private val recorder: RecorderPlugin<*>,
-    private val asr: AsrPlugin<*>,
-    private val llm: LlmPlugin<*>,
+    private val registry: AppPluginRegistry,
     options: DirectorOptions = DirectorOptions(),
 ) : DirectorPlugin<DirectorOptions>(options) {
+    override val id: String = ID
+
     private val pipelineMutex = Mutex()
+
+    companion object {
+        const val ID = "DIRECTOR_DEFAULT"
+    }
 
     @Volatile
     private var isCancelled = false
+
+    private val directorJob = SupervisorJob()
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        log.error("Unhandled error in director coroutine: ${throwable.message}", throwable)
+    }
+
+    private val directorScope = CoroutineScope(Dispatchers.Default + directorJob + exceptionHandler)
+    private var autoStopJob: Job? = null
+
+    private lateinit var recorder: RecorderPlugin<*> // Required
+    private lateinit var asr: AsrPlugin<*> // Required
+    private var llm: LlmPlugin<*>? = null // Optional
 
     override suspend fun start() {
         pipelineMutex.withLock {
             try {
                 isCancelled = false
+                recorder = registry.getActive(
+                    AppPluginCategory.RECORDER) as? RecorderPlugin<*> ?: error("No recorder plugin available")
+                asr = registry.getActive(
+                    AppPluginCategory.ASR) as? AsrPlugin<*> ?: error("No ASR plugin available")
+                llm = registry.getActive(AppPluginCategory.LLM) as? LlmPlugin<*>
                 emitEvent(DirectorEvent.RecordingStarted)
+                startAutoStopTimer()
                 withContext(Dispatchers.IO) { recorder.startRecording() }
             } catch (e: CancellationException) {
                 throw e
@@ -41,6 +72,7 @@ class DefaultDirector(
 
     override suspend fun stop() {
         pipelineMutex.withLock {
+            cancelAutoStopTimer()
             if (isCancelled) {
                 log.info("Pipeline was cancelled, skipping stop.")
                 return@withLock
@@ -73,7 +105,6 @@ class DefaultDirector(
         emitEvent(DirectorEvent.PipelineCompleted(rawTranscription, polishedText, finalResult))
     }
 
-    @Suppress("ReturnCount")
     private suspend fun stopRecordingAndGetData(): ByteArray? {
         val recorderResult = withContext(Dispatchers.IO) { recorder.stopRecording() }
         val response = recorderResult.getOrElse { error ->
@@ -90,7 +121,6 @@ class DefaultDirector(
         }
     }
 
-    @Suppress("ReturnCount")
     private suspend fun transcribeAudio(audioData: ByteArray): String? {
         emitEvent(DirectorEvent.TranscriptionStarted)
         val floatAudio = AudioManager.convertPcm16ToFloat(audioData)
@@ -110,23 +140,21 @@ class DefaultDirector(
     }
 
     private suspend fun polishWithLlm(rawTranscription: String): String? {
+        val currentLlm = llm ?: return null
         emitEvent(DirectorEvent.PolishingStarted)
         val prompt = buildPrompt(rawTranscription)
-        val llmResult = withContext(Dispatchers.IO) { llm.generate(LlmRequest(text = prompt)) }
-        val polishedText = llmResult.getOrElse { error ->
+        val llmResult = withContext(Dispatchers.IO) { currentLlm.generate(LlmRequest(text = prompt)) }
+        return llmResult.fold(onSuccess = { it.text }, onFailure = { error ->
             log.error("LLM polishing failed: ${error.message}. Raw transcription was: $rawTranscription.")
             emitEvent(DirectorEvent.PipelineError(PipelineStage.POLISHING, error))
-            return null
-        }
-
-        return polishedText.text
+            null
+        })
     }
 
     private fun buildPrompt(rawTranscription: String): String {
         val context = currentOptions.customContext.ifBlank { DEFAULT_CONTEXT }
         val vocabulary = currentOptions.customVocabulary.ifEmpty { DEFAULT_VOCABULARY }.joinToString(", ")
-        return PROMPT_TEMPLATE
-            .replace(PROMPT_KEY_CONTEXT, context)
+        return PROMPT_TEMPLATE.replace(PROMPT_KEY_CONTEXT, context)
             .replace(PROMPT_KEY_VOCABULARY, vocabulary)
             .replace(PROMPT_KEY_LANGUAGE, currentOptions.language.name)
             .replace(PROMPT_KEY_INPUT, rawTranscription.trim())
@@ -142,8 +170,9 @@ class DefaultDirector(
     }
 
     override suspend fun cancel() {
+        cancelAutoStopTimer()
         isCancelled = true
-        if (recorder.isCurrentlyRecording()) {
+        if (::recorder.isInitialized && recorder.isCurrentlyRecording()) {
             withContext(Dispatchers.IO) {
                 recorder.stopRecording().onFailure { error ->
                     log.error("Failed to stop recording during cancel: ${error.message}")
@@ -153,5 +182,25 @@ class DefaultDirector(
 
         emitEvent(DirectorEvent.PipelineCancelled)
         log.info("Pipeline cancelled.")
+    }
+
+    private fun startAutoStopTimer() {
+        cancelAutoStopTimer()
+        autoStopJob = directorScope.launch {
+            delay(currentOptions.maxRecordingDurationMs)
+            log.info("Auto-stop timer triggered after ${currentOptions.maxRecordingDurationMs}ms")
+            directorScope.launch { stop() } // Launch stop in a separate coroutine to avoid self-cancellation
+        }
+    }
+
+    private fun cancelAutoStopTimer() {
+        autoStopJob?.cancel()
+        autoStopJob = null
+    }
+
+    override fun shutdown() {
+        super.shutdown()
+        cancelAutoStopTimer()
+        directorScope.cancel()
     }
 }
