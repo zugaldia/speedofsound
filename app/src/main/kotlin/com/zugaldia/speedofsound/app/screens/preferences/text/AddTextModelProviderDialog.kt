@@ -8,6 +8,7 @@ import com.zugaldia.speedofsound.app.MAX_PROVIDER_CONFIG_NAME_LENGTH
 import com.zugaldia.speedofsound.app.STYLE_CLASS_ACCENT
 import com.zugaldia.speedofsound.app.STYLE_CLASS_ERROR
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUCCESS
+import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.STYLE_CLASS_WARNING
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
@@ -56,7 +57,7 @@ class AddTextModelProviderDialog(
     private val modelComboRow: ModelComboRow
     private val credentialComboRow: ComboRow
     private val fetchButton: Button
-    private val baseUrlEntry: EntryRow
+    private val baseUrlEntry: BaseUrlEntryRow
     private val addButton: Button
     private val messageLabel: Label
 
@@ -106,14 +107,14 @@ class AddTextModelProviderDialog(
         }
 
         credentialComboRow = ComboRow().apply {
-            title = "Credential"
+            title = "Credentials"
             subtitle = "Select a credential (optional)"
             enableSearch = false
         }
 
-        baseUrlEntry = EntryRow().apply {
-            title = "Base URL (optional)"
-        }
+        baseUrlEntry = BaseUrlEntryRow(
+            onTextChanged = { updateAddButtonState() }
+        )
 
         val preferencesGroup = PreferencesGroup().apply {
             title = "Provider Configuration"
@@ -131,7 +132,7 @@ class AddTextModelProviderDialog(
         }
 
         addButton = Button.withLabel("Add").apply {
-            addCssClass("suggested-action")
+            addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
             sensitive = false
             onClicked {
                 if (validateAndCreateProvider()) {
@@ -177,12 +178,12 @@ class AddTextModelProviderDialog(
         // Set up notifications after all widgets are initialized
         providerComboRow.setupNotifications()
         modelComboRow.setupNotifications()
+        baseUrlEntry.setupNotifications()
         setupNotifications()
     }
 
     private fun setupNotifications() {
         nameEntry.onNotify("text") { updateAddButtonState() }
-        baseUrlEntry.onNotify("text") { updateAddButtonState() }
         credentialComboRow.onNotify("selected") {
             selectedCredentialId = getSelectedCredentialId()
             updateAddButtonState()
@@ -190,8 +191,8 @@ class AddTextModelProviderDialog(
     }
 
     private fun refreshDialog() {
-        baseUrlEntry.text = ""
         fetchedModels = null
+        baseUrlEntry.clear()
         updateMessageLabel("")
         modelComboRow.refreshComboRows()
         updateAddButtonState()
@@ -215,14 +216,14 @@ class AddTextModelProviderDialog(
 
     private fun updateAddButtonState() {
         val name = nameEntry.text.trim()
-        val baseUrl = baseUrlEntry.text.trim()
+        val baseUrl = baseUrlEntry.getBaseUrl()
         val modelId = selectedModelId
         addButton.sensitive = validateInput(name, baseUrl, modelId)
     }
 
     private fun fetchModels() {
         val apiKey = getSelectedCredentialApiKey()
-        val baseUrl = baseUrlEntry.text.trim().ifEmpty { null }
+        val baseUrl = baseUrlEntry.getBaseUrl()
 
         updateMessageLabel("Fetching models...", STYLE_CLASS_ACCENT)
         fetchButton.sensitive = false
@@ -282,18 +283,18 @@ class AddTextModelProviderDialog(
     }
 
     @Suppress("ReturnCount")
-    private fun validateInput(name: String, baseUrl: String, modelId: String?): Boolean {
+    private fun validateInput(name: String, baseUrl: String?, modelId: String?): Boolean {
         if (name.isEmpty()) { return false }
         if (name.length > MAX_PROVIDER_CONFIG_NAME_LENGTH) { return false }
         if (existingNames.contains(name)) { return false }
         if (modelId == null) { return false }
-        if (baseUrl.isNotEmpty() && !isValidUrl(baseUrl)) { return false }
+        if (baseUrl != null && !isValidUrl(baseUrl)) { return false }
         return true
     }
 
     private fun validateAndCreateProvider(): Boolean {
         val name = nameEntry.text.trim()
-        val baseUrl = baseUrlEntry.text.trim()
+        val baseUrl = baseUrlEntry.getBaseUrl()
         val modelId = selectedModelId
         if (!validateInput(name, baseUrl, modelId)) { return false }
 
@@ -302,7 +303,7 @@ class AddTextModelProviderDialog(
             name = name,
             provider = selectedProvider,
             credentialId = selectedCredentialId,
-            baseUrl = baseUrl.ifEmpty { null },
+            baseUrl = baseUrl,
             model = modelId
         )
 
