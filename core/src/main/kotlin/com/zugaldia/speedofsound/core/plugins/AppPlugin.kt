@@ -20,6 +20,11 @@ import org.slf4j.LoggerFactory
 abstract class AppPlugin<Options : AppPluginOptions>(initialOptions: Options) {
     val log: Logger = LoggerFactory.getLogger(this::class.java)
 
+    /**
+     * Unique identifier for this plugin.
+     */
+    abstract val id: String
+
     protected var currentOptions: Options = initialOptions
 
     /**
