@@ -54,6 +54,7 @@ class StatusWidget(
         menuButton.halign = Align.END
         menuButton.cssClasses = arrayOf("flat")
         menuButton.menuModel = menu
+        menuButton.canFocus = false  // Avoid focus to prevent keyboard/typing accidental activations
 
         val actionGroup = SimpleActionGroup()
         val preferencesAction = SimpleAction("preferences", null)
