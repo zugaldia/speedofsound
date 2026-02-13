@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.anthropic.client.AnthropicClient
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.messages.MessageCreateParams
+import com.zugaldia.speedofsound.core.models.text.TextModel
 
 class AnthropicLlm(
     options: AnthropicLlmOptions = AnthropicLlmOptions.Default,
@@ -28,8 +29,13 @@ class AnthropicLlm(
     private fun rebuildClient() {
         closeClient()
         val builder = AnthropicOkHttpClient.builder()
-        currentOptions.apiKey?.let { builder.apiKey(it) }
         currentOptions.baseUrl?.let { builder.baseUrl(it) }
+
+        // For custom local endpoints, the API key is required but ignored
+        // Refs: https://docs.ollama.com/api/anthropic-compatibility
+        val effectiveApiKey = currentOptions.apiKey ?: if (!currentOptions.baseUrl.isNullOrEmpty()) "local" else null
+        effectiveApiKey?.let { builder.apiKey(it) }
+
         client = builder.build()
     }
 
@@ -56,6 +62,19 @@ class AnthropicLlm(
             .joinToString("")
 
         LlmResponse(text = responseText)
+    }
+
+    override fun listModels(): Result<List<TextModel>> = runCatching {
+        val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
+
+        log.info("Fetching available models from Anthropic endpoint")
+        val models = mutableListOf<TextModel>()
+        currentClient.models().list().autoPager().forEach { model ->
+            models.add(TextModel(id = model.id(), name = model.displayName()))
+        }
+
+        log.info("Retrieved ${models.size} models from Anthropic: ${models.joinToString { it.name }}")
+        models
     }
 
     override fun disable() {

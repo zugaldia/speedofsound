@@ -1,6 +1,8 @@
 package com.zugaldia.speedofsound.core.plugins.llm
 
 import com.google.genai.Client
+import com.google.genai.types.ListModelsConfig
+import com.zugaldia.speedofsound.core.models.text.TextModel
 
 class GoogleLlm(
     options: GoogleLlmOptions = GoogleLlmOptions.Default,
@@ -47,6 +49,23 @@ class GoogleLlm(
             null
         )
         LlmResponse(text = response.text() ?: "")
+    }
+
+    override fun listModels(): Result<List<TextModel>> = runCatching {
+        val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
+
+        log.info("Fetching available models from Google endpoint")
+        val models = mutableListOf<TextModel>()
+        currentClient.models.list(ListModelsConfig.builder().build()).forEach { model ->
+            val name = model.name().orElse(null)
+            val displayName = model.displayName().orElse(null) ?: name
+            if (name != null && displayName != null) {
+                models.add(TextModel(id = name, name = displayName))
+            }
+        }
+
+        log.info("Retrieved ${models.size} models from Google: ${models.joinToString { it.name }}")
+        models
     }
 
     override fun disable() {
