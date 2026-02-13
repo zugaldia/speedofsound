@@ -22,12 +22,11 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
 
     private val env: OrtEnvironment = OrtEnvironment.getEnvironment()
 
-    private lateinit var session: OrtSession
-    private lateinit var baseInputs: Map<String, OnnxTensor>
+    private var session: OrtSession? = null
+    private var baseInputs: Map<String, OnnxTensor> = emptyMap()
 
-    override fun initialize() {
-        super.initialize()
-
+    override fun enable() {
+        super.enable()
         val sessionOptions = OrtSession.SessionOptions()
         sessionOptions.registerCustomOpLibrary(OrtxPackage.getLibraryPath())
 
@@ -45,16 +44,17 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
             "repetition_penalty" to createFloatTensor(env, floatArrayOf(1.0f), tensorShape(1)),
         )
 
-        log.info("ONNX initialized ($RESOURCE_PATH).")
+        log.info("ONNX enabled ($RESOURCE_PATH).")
     }
 
     override fun transcribe(request: AsrRequest): Result<AsrResponse> = runCatching {
+        val currentSession = session ?: error("Session not initialized, plugin must be enabled first")
         val audioTensor: OnnxTensor = fromRawPcmBytes(env, request.audioData)
         audioTensor.use {
             val inputs = mutableMapOf<String, OnnxTensor>()
             baseInputs.toMap(inputs)
             inputs["audio_pcm"] = audioTensor
-            val outputs = session.run(inputs)
+            val outputs = currentSession.run(inputs)
             val recognizedText = outputs.use {
                 @Suppress("UNCHECKED_CAST")
                 (outputs[0].value as Array<Array<String>>)[0][0]
@@ -64,9 +64,18 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
         }
     }
 
-    override fun shutdown() {
+    private fun closeSession() {
         baseInputs.values.forEach { it.close() }
-        session.close()
+        session?.close()
+    }
+
+    override fun disable() {
+        super.disable()
+        closeSession()
+    }
+
+    override fun shutdown() {
+        closeSession()
         super.shutdown()
     }
 

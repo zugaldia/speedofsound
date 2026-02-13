@@ -26,8 +26,8 @@ class SherpaAsr(
     private var recognizer: OfflineRecognizer? = null
     private var recognizerLanguage: Language? = null
 
-    override fun initialize() {
-        super.initialize()
+    override fun enable() {
+        super.enable()
         createRecognizer()
     }
 
@@ -77,14 +77,9 @@ class SherpaAsr(
         }
     }
 
-    override fun enable() {
-        super.enable()
-    }
-
     override fun transcribe(request: AsrRequest): Result<AsrResponse> = runCatching {
         ensureRecognizerLanguage()
-        val currentRecognizer = recognizer ?: throw IllegalStateException("Recognizer not initialized")
-
+        val currentRecognizer = recognizer ?: error("Recognizer not initialized, plugin must be enabled first")
         try {
             val stream = currentRecognizer.createStream()
             stream.acceptWaveform(request.audioData, request.audioInfo.sampleRate)
@@ -97,14 +92,19 @@ class SherpaAsr(
         }
     }
 
-    override fun disable() {
-        super.disable()
-    }
-
-    override fun shutdown() {
+    private fun closeRecognizer() {
         recognizer?.release()
         recognizer = null
         recognizerLanguage = null
+    }
+
+    override fun disable() {
+        super.disable()
+        closeRecognizer()
+    }
+
+    override fun shutdown() {
+        closeRecognizer()
         super.shutdown()
     }
 }
