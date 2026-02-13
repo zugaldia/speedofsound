@@ -3,25 +3,45 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.google.genai.Client
 
 class GoogleLlm(
-    options: GoogleLlmOptions,
+    options: GoogleLlmOptions = GoogleLlmOptions.Default,
 ) : LlmPlugin<GoogleLlmOptions>(options) {
+    override val id: String = ID
 
-    private lateinit var client: Client
+    private var client: Client? = null
 
-    override fun initialize() {
-        super.initialize()
+    companion object {
+        const val ID = "LLM_GOOGLE"
+    }
+
+    override fun updateOptions(options: GoogleLlmOptions) {
+        super.updateOptions(options)
+        if (client != null) { rebuildClient() } // Only rebuild if already enabled
+    }
+
+    override fun enable() {
+        super.enable()
+        rebuildClient()
+    }
+
+    private fun closeClient() {
+        client?.let { existingClient ->
+            runCatching { existingClient.close() }
+                .onFailure { log.warn("Failed to close Google client: ${it.message}") }
+        }
+        client = null
+    }
+
+    private fun rebuildClient() {
+        closeClient()
         val builder = Client.builder()
         currentOptions.apiKey?.let { builder.apiKey(it) }
         client = builder.build()
     }
 
-    override fun enable() {
-        super.enable()
-    }
-
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
+        val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
         log.info("Sending request to ${currentOptions.model}")
-        val response = client.models.generateContent(
+        val response = currentClient.models.generateContent(
             currentOptions.model,
             request.text,
             null
@@ -31,10 +51,11 @@ class GoogleLlm(
 
     override fun disable() {
         super.disable()
+        closeClient()
     }
 
     override fun shutdown() {
-        client.close()
+        closeClient()
         super.shutdown()
     }
 }

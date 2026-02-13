@@ -29,4 +29,8 @@ data class OpenAiLlmOptions(
     override val baseUrl: String? = null,
     override val apiKey: String? = null,
     override val model: String = DEFAULT_OPENAI_MODEL_ID,
-) : LlmPluginOptions
+) : LlmPluginOptions {
+    companion object {
+        val Default = OpenAiLlmOptions()
+    }
+}

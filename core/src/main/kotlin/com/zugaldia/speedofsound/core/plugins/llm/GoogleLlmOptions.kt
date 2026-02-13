@@ -32,4 +32,8 @@ data class GoogleLlmOptions(
     override val baseUrl: String? = null,
     override val apiKey: String? = null,
     override val model: String = DEFAULT_GOOGLE_MODEL_ID,
-) : LlmPluginOptions
+) : LlmPluginOptions {
+    companion object {
+        val Default = GoogleLlmOptions()
+    }
+}

@@ -5,31 +5,52 @@ import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.messages.MessageCreateParams
 
 class AnthropicLlm(
-    options: AnthropicLlmOptions,
+    options: AnthropicLlmOptions = AnthropicLlmOptions.Default,
 ) : LlmPlugin<AnthropicLlmOptions>(options) {
+    override val id: String = ID
 
-    private lateinit var client: AnthropicClient
+    private var client: AnthropicClient? = null
 
-    override fun initialize() {
-        super.initialize()
+    companion object {
+        const val ID = "LLM_ANTHROPIC"
+    }
+
+    override fun updateOptions(options: AnthropicLlmOptions) {
+        super.updateOptions(options)
+        if (client != null) { rebuildClient() } // Only rebuild if already enabled
+    }
+
+    override fun enable() {
+        super.enable()
+        rebuildClient()
+    }
+
+    private fun rebuildClient() {
+        closeClient()
         val builder = AnthropicOkHttpClient.builder()
         currentOptions.apiKey?.let { builder.apiKey(it) }
         currentOptions.baseUrl?.let { builder.baseUrl(it) }
         client = builder.build()
     }
 
-    override fun enable() {
-        super.enable()
+    private fun closeClient() {
+        client?.let { existingClient ->
+            runCatching { existingClient.close() }
+                .onFailure { log.warn("Failed to close Anthropic client: ${it.message}") }
+        }
+        client = null
     }
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
+        val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
         val params = MessageCreateParams.builder()
             .maxTokens(currentOptions.maxTokens)
             .addUserMessage(request.text)
             .model(currentOptions.model)
             .build()
 
-        val message = client.messages().create(params)
+        log.info("Sending request to ${currentOptions.model}")
+        val message = currentClient.messages().create(params)
         val responseText = message.content()
             .mapNotNull { block -> block.text().orElse(null)?.text() }
             .joinToString("")
@@ -39,10 +60,11 @@ class AnthropicLlm(
 
     override fun disable() {
         super.disable()
+        closeClient()
     }
 
     override fun shutdown() {
-        client.close()
+        closeClient()
         super.shutdown()
     }
 }

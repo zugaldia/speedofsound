@@ -26,4 +26,8 @@ data class AnthropicLlmOptions(
     override val apiKey: String? = null,
     override val model: String = DEFAULT_ANTHROPIC_MODEL_ID,
     val maxTokens: Long = 1024L,
-) : LlmPluginOptions
+) : LlmPluginOptions {
+    companion object {
+        val Default = AnthropicLlmOptions()
+    }
+}

@@ -5,30 +5,51 @@ import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.openai.models.responses.ResponseCreateParams
 
 class OpenAiLlm(
-    options: OpenAiLlmOptions,
+    options: OpenAiLlmOptions = OpenAiLlmOptions.Default,
 ) : LlmPlugin<OpenAiLlmOptions>(options) {
+    override val id: String = ID
 
-    private lateinit var client: OpenAIClient
+    private var client: OpenAIClient? = null
 
-    override fun initialize() {
-        super.initialize()
+    companion object {
+        const val ID = "LLM_OPENAI"
+    }
+
+    override fun updateOptions(options: OpenAiLlmOptions) {
+        super.updateOptions(options)
+        if (client != null) { rebuildClient() } // Only rebuild if already enabled
+    }
+
+    override fun enable() {
+        super.enable()
+        rebuildClient()
+    }
+
+    private fun closeClient() {
+        client?.let { existingClient ->
+            runCatching { existingClient.close() }
+                .onFailure { log.warn("Failed to close OpenAI client: ${it.message}") }
+        }
+        client = null
+    }
+
+    private fun rebuildClient() {
+        closeClient()
         val builder = OpenAIOkHttpClient.builder()
         currentOptions.apiKey?.let { builder.apiKey(it) }
         currentOptions.baseUrl?.let { builder.baseUrl(it) }
         client = builder.build()
     }
 
-    override fun enable() {
-        super.enable()
-    }
-
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
+        val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
         val params = ResponseCreateParams.builder()
             .input(request.text)
             .model(currentOptions.model)
             .build()
 
-        val response = client.responses().create(params)
+        log.info("Sending request to ${currentOptions.model}")
+        val response = currentClient.responses().create(params)
         val responseText = response.output()
             .flatMap { item -> item.message().map { it.content() }.orElse(emptyList()) }
             .mapNotNull { content -> content.outputText().orElse(null)?.text() }
@@ -39,10 +60,11 @@ class OpenAiLlm(
 
     override fun disable() {
         super.disable()
+        closeClient()
     }
 
     override fun shutdown() {
-        client.close()
+        closeClient()
         super.shutdown()
     }
 }

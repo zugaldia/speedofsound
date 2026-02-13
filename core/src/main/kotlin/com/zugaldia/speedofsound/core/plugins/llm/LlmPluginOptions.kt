@@ -22,6 +22,15 @@ interface LlmPluginOptions : AppPluginOptions {
 }
 
 /**
+ * Maps an LlmProvider to the corresponding plugin ID.
+ */
+fun pluginIdForProvider(provider: LlmProvider): String = when (provider) {
+    LlmProvider.ANTHROPIC -> AnthropicLlm.ID
+    LlmProvider.GOOGLE -> GoogleLlm.ID
+    LlmProvider.OPENAI -> OpenAiLlm.ID
+}
+
+/**
  * Returns the supported text models for the given LLM provider.
  *
  * @param provider the LLM provider
