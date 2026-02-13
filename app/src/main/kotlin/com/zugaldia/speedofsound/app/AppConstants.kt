@@ -30,6 +30,13 @@ const val DEFAULT_BOX_SPACING = 10
 const val POST_HIDE_DELAY_MS = 100L
 const val SETTINGS_SAVE_DEBOUNCE_MS = 500
 
+// Adw CSS style classes
+// https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1-latest/style-classes.html
+const val STYLE_CLASS_ACCENT = "accent"
+const val STYLE_CLASS_SUCCESS = "success"
+const val STYLE_CLASS_WARNING = "warning"
+const val STYLE_CLASS_ERROR = "error"
+
 // Personalization limits
 const val MAX_VOCABULARY_WORDS = 50
 const val MAX_CUSTOM_CONTEXT_CHARS = 2000 // Approximately 3 paragraphs
@@ -48,7 +55,7 @@ const val CREDENTIAL_MASK_SUFFIX_LENGTH = 4
 const val MAX_TEXT_MODEL_PROVIDERS = 10
 const val MAX_PROVIDER_CONFIG_NAME_LENGTH = 100
 const val DEFAULT_ADD_PROVIDER_DIALOG_WIDTH = 600
-const val DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT = 550
+const val DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT = 500
 
 const val TRIGGER_ACTION = "trigger"
 
