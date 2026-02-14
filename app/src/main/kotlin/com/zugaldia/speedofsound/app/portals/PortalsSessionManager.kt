@@ -29,10 +29,9 @@ class PortalsSessionManager(
     fun initialize(scope: CoroutineScope) {
         val token = settingsClient.getPortalsRestoreToken()
         if (token.isNotBlank()) {
-            _isRestoreTokenMissing.value = false
             startSession(scope, token)
         } else {
-            _isRestoreTokenMissing.value = true
+            logger.info("No previous session found.")
         }
     }
 
@@ -51,6 +50,9 @@ class PortalsSessionManager(
                 _isSessionDisconnected.value = false
             }.onFailure { error ->
                 logger.error("Failed to start portals session", error)
+                _isSessionDisconnected.value = true
+                _isRestoreTokenMissing.value = true
+                settingsClient.setPortalsRestoreToken("")
             }
         }
     }

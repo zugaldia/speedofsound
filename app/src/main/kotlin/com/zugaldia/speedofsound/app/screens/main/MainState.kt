@@ -44,8 +44,6 @@ class MainState : GObject() {
         emit(SIGNAL_PORTALS_RESTORE_TOKEN_MISSING, value)
     }
 
-    fun isPortalsSessionDisconnected(): Boolean = portalsSessionDisconnected
-
     fun setPortalsSessionDisconnected(value: Boolean) {
         portalsSessionDisconnected = value
     }
