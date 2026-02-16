@@ -10,7 +10,7 @@ const val DEFAULT_ASR_SHERPA_MODEL_ID = "sherpa-onnx-whisper-tiny"
  * Options for configuring the Sherpa ASR plugin.
  */
 data class SherpaAsrOptions(
-    val modelID: String = DEFAULT_ASR_SHERPA_MODEL_ID,
-    val language: Language = DEFAULT_LANGUAGE,
-    val enableDebug: Boolean = false,
+    override val modelId: String = DEFAULT_ASR_SHERPA_MODEL_ID,
+    override val language: Language = DEFAULT_LANGUAGE,
+    override val enableDebug: Boolean = false,
 ) : AsrPluginOptions

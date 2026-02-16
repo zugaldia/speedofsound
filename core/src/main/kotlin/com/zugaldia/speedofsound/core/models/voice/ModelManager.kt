@@ -2,6 +2,8 @@ package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getTmpDataDir
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_ASR_MODELS
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
 import org.slf4j.Logger
@@ -22,9 +24,10 @@ class ModelManager {
     }
 
     /**
-     * Get the path for a model with the given ID.
-     * Returns a Path under the data directory in the format "models/modelId"
-     * Creates the directory if it doesn't exist.
+     * Returns a Path under the data directory in the format "models/modelId" and creates it if it doesn't exist.
+     * Note that currently we are not creating subfolders per provider. We are counting on the model ID to include
+     * the provider name to avoid clashing names (e.g., sherpa-onnx-whisper-tiny vs. onnx_whisper_tiny_en)
+     *
      */
     fun getModelPath(modelId: String): Path {
         val dataDir = getDataDir()
@@ -38,35 +41,32 @@ class ModelManager {
     }
 
     fun isModelDownloaded(modelId: String): Boolean {
-        val model = SUPPORTED_ASR_MODELS[modelId] ?: return false
+        val model = SUPPORTED_SHERPA_ASR_MODELS[modelId] ?: return false
         val modelPath = getModelPath(modelId)
         val modelDir = modelPath.toFile()
-        val encoderFile = modelPath.resolve(model.encoder).toFile()
-        val decoderFile = modelPath.resolve(model.decoder).toFile()
-        val tokensFile = modelPath.resolve(model.tokens).toFile()
         return modelDir.exists() && modelDir.isDirectory &&
-               encoderFile.exists() && encoderFile.length() > 0 &&
-               decoderFile.exists() && decoderFile.length() > 0 &&
-               tokensFile.exists() && tokensFile.length() > 0
+               model.components.all { component ->
+                   val file = modelPath.resolve(component.name).toFile()
+                   file.exists() && file.length() > 0
+               }
     }
 
     fun extractDefaultModel(): Result<Unit> = runCatching {
-        if (isModelDownloaded(DEFAULT_ASR_MODEL_ID)) {
-            log.info("Default model already extracted: $DEFAULT_ASR_MODEL_ID")
+        if (isModelDownloaded(DEFAULT_ASR_SHERPA_MODEL_ID)) {
+            log.info("Default model already extracted: $DEFAULT_ASR_SHERPA_MODEL_ID")
             return@runCatching
         }
-        log.info("Extracting default model: $DEFAULT_ASR_MODEL_ID")
-        val model = SUPPORTED_ASR_MODELS[DEFAULT_ASR_MODEL_ID]
+        log.info("Extracting default model: $DEFAULT_ASR_SHERPA_MODEL_ID")
+        val model = SUPPORTED_SHERPA_ASR_MODELS[DEFAULT_ASR_SHERPA_MODEL_ID]
             ?: throw IllegalStateException("Default model not found in supported models")
 
-        val modelPath = getModelPath(DEFAULT_ASR_MODEL_ID)
-        val filesToExtract = listOf(model.encoder, model.decoder, model.tokens)
-        for (filename in filesToExtract) {
-            val resourcePath = "/models/asr/$filename"
+        val modelPath = getModelPath(DEFAULT_ASR_SHERPA_MODEL_ID)
+        for (component in model.components) {
+            val resourcePath = "/models/asr/${component.name}"
             val inputStream = this::class.java.getResourceAsStream(resourcePath)
                 ?: throw IllegalStateException("Resource not found: $resourcePath")
 
-            val outputFile = modelPath.resolve(filename).toFile()
+            val outputFile = modelPath.resolve(component.name).toFile()
             inputStream.use { input ->
                 outputFile.outputStream().use { output ->
                     input.copyTo(output)
@@ -83,14 +83,21 @@ class ModelManager {
         }
 
         log.info("Starting download for model: $modelId")
-        val model = SUPPORTED_ASR_MODELS[modelId] ?: throw IllegalArgumentException("Model not found: $modelId")
+        val model = SUPPORTED_SHERPA_ASR_MODELS[modelId]
+            ?: throw IllegalArgumentException("Model not found: $modelId")
+        val archiveFile = model.archiveFile
+            ?: throw IllegalArgumentException("Model $modelId does not have an archive file")
         val tempDir = getTmpDataDir()
 
         try {
             // Download the compressed file
             val downloadedFile = tempDir.resolve("${modelId}.tar.bz2").toFile()
-            downloadFile(model.archiveUrl, downloadedFile)
-            verifySha256(downloadedFile, model.archiveSha256sum)
+            val archiveUrl = archiveFile.url
+                ?: throw IllegalArgumentException("Archive URL not available")
+            downloadFile(archiveUrl, downloadedFile)
+            val archiveSha256 = archiveFile.sha256sum
+                ?: throw IllegalArgumentException("Archive SHA256 not available")
+            verifySha256(downloadedFile, archiveSha256)
 
             // Extract the tar.bz2 archive
             log.info("Extracting archive for model: $modelId")
@@ -106,7 +113,7 @@ class ModelManager {
 
     /**
      * Copy model files from the extracted archive to the model destination.
-     * The archive structure is expected to be: {tempDir}/{modelId}/{encoder/decoder/tokens}
+     * The archive structure is expected to be: {tempDir}/{modelId}/{component files}
      */
     private fun copyModelFiles(tempDir: File, modelId: String, model: VoiceModel) {
         val modelPath = getModelPath(modelId)
@@ -115,14 +122,13 @@ class ModelManager {
             throw IllegalStateException("Expected directory not found in archive: $modelId")
         }
 
-        val filesToCopy = listOf(model.encoder, model.decoder, model.tokens)
-        for (filename in filesToCopy) {
-            val sourceFile = File(extractedModelDir, filename)
+        for (component in model.components) {
+            val sourceFile = File(extractedModelDir, component.name)
             if (!sourceFile.exists()) {
-                throw IllegalStateException("Required file not found in archive: $modelId/$filename")
+                throw IllegalStateException("Required file not found in archive: $modelId/${component.name}")
             }
 
-            val destFile = modelPath.resolve(filename).toFile()
+            val destFile = modelPath.resolve(component.name).toFile()
             sourceFile.copyTo(destFile, overwrite = true)
         }
     }

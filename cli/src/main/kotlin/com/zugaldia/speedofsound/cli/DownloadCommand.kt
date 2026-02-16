@@ -4,9 +4,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.zugaldia.speedofsound.core.getDataDir
-import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
-import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_ASR_MODELS
 import org.slf4j.LoggerFactory
 
 class DownloadCommand : CliktCommand(name = "download") {
@@ -25,14 +25,14 @@ class DownloadCommand : CliktCommand(name = "download") {
     private fun listAvailableModels() {
         logger.info("Data folder: ${getDataDir()}")
         logger.info("Available models:")
-        SUPPORTED_ASR_MODELS.values.sortedBy { it.id }.forEach { model ->
+        SUPPORTED_SHERPA_ASR_MODELS.values.sortedBy { it.id }.forEach { model ->
             val downloaded = if (modelManager.isModelDownloaded(model.id)) { "[x]" } else { "[ ]" }
             logger.info("$downloaded [${model.id}] ${model.name} (${model.dataSizeMegabytes} MB)")
         }
     }
 
     private fun downloadModel(id: String) {
-        val model = SUPPORTED_ASR_MODELS[id]
+        val model = SUPPORTED_SHERPA_ASR_MODELS[id]
         if (model == null) {
             logger.error("Model not found: $id")
             return
@@ -44,7 +44,7 @@ class DownloadCommand : CliktCommand(name = "download") {
         }
 
         logger.info("Downloading model: ${model.name} (${model.dataSizeMegabytes} MB)")
-        if (id == DEFAULT_ASR_MODEL_ID) {
+        if (id == DEFAULT_ASR_SHERPA_MODEL_ID) {
             modelManager.extractDefaultModel().onSuccess {
                 logger.info("Default model extracted successfully.")
             }.onFailure {

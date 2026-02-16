@@ -5,12 +5,12 @@ import com.k2fsa.sherpa.onnx.OfflineRecognizer
 import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
 import com.k2fsa.sherpa.onnx.OfflineWhisperModelConfig
 import com.zugaldia.speedofsound.core.Language
+import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
-import com.zugaldia.speedofsound.core.models.voice.SUPPORTED_ASR_MODELS
 
 class SherpaAsr(
-    options: SherpaOptions = SherpaOptions(),
-) : AsrPlugin<SherpaOptions>(initialOptions = options) {
+    options: SherpaAsrOptions = SherpaAsrOptions(),
+) : AsrPlugin<SherpaAsrOptions>(initialOptions = options) {
     override val id: String = ID
 
     companion object {
@@ -33,16 +33,16 @@ class SherpaAsr(
 
     private fun createRecognizer() {
         val modelManager = ModelManager()
-        val model = SUPPORTED_ASR_MODELS[currentOptions.modelID]
-            ?: throw IllegalArgumentException("Model not found: ${currentOptions.modelID}.")
-        if (!modelManager.isModelDownloaded(currentOptions.modelID)) {
-            throw IllegalStateException("Model not downloaded: ${currentOptions.modelID}.")
+        val model = SUPPORTED_SHERPA_ASR_MODELS[currentOptions.modelId]
+            ?: throw IllegalArgumentException("Model not found: ${currentOptions.modelId}.")
+        if (!modelManager.isModelDownloaded(currentOptions.modelId)) {
+            throw IllegalStateException("Model not downloaded: ${currentOptions.modelId}.")
         }
 
-        val modelPath = modelManager.getModelPath(currentOptions.modelID)
-        val encoder = modelPath.resolve(model.encoder).toString()
-        val decoder = modelPath.resolve(model.decoder).toString()
-        val tokens = modelPath.resolve(model.tokens).toString()
+        val modelPath = modelManager.getModelPath(currentOptions.modelId)
+        val encoder = modelPath.resolve(model.components[0].name).toString()
+        val decoder = modelPath.resolve(model.components[1].name).toString()
+        val tokens = modelPath.resolve(model.components[2].name).toString()
 
         val whisper = OfflineWhisperModelConfig.builder()
             .setEncoder(encoder)
@@ -82,7 +82,8 @@ class SherpaAsr(
         val currentRecognizer = recognizer ?: error("Recognizer not initialized, plugin must be enabled first")
         try {
             val stream = currentRecognizer.createStream()
-            stream.acceptWaveform(request.audioData, request.audioInfo.sampleRate)
+            val floatArray = AudioManager.convertPcm16ToFloat(request.audioData)
+            stream.acceptWaveform(floatArray, request.audioInfo.sampleRate)
             currentRecognizer.decode(stream)
             val text = currentRecognizer.getResult(stream).text
             stream.release()

@@ -4,6 +4,8 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.extensions.OrtxPackage
+import com.zugaldia.speedofsound.core.audio.AudioManager
+import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.createFloatTensor
 import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.createIntTensor
 import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.fromRawPcmBytes
@@ -15,11 +17,13 @@ import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.tensorShape
  * provided for ONNX, unlike Sherpa.
  *
  * https://github.com/microsoft/onnxruntime-inference-examples/tree/main/mobile/examples/whisper/local/android
+ * https://github.com/microsoft/olive-recipes/tree/main/openai-whisper-large-v3/olive
  */
 class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
     AsrPlugin<OnnxAsrOptions>(initialOptions = options) {
     override val id: String = ID
 
+    private val modelManager = ModelManager()
     private val env: OrtEnvironment = OrtEnvironment.getEnvironment()
 
     private var session: OrtSession? = null
@@ -30,11 +34,10 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
         val sessionOptions = OrtSession.SessionOptions()
         sessionOptions.registerCustomOpLibrary(OrtxPackage.getLibraryPath())
 
-        val modelData: ByteArray = javaClass.getResourceAsStream(RESOURCE_PATH)?.use { inputStream ->
-            inputStream.readBytes()
-        } ?: error("Failed to load model from app resources: $RESOURCE_PATH")
-
-        session = env.createSession(modelData, sessionOptions)
+        val defaultModel = SUPPORTED_ONNX_ASR_MODELS[DEFAULT_ASR_ONNX_MODEL_ID] ?: error("Default model not found")
+        val modelPath = modelManager.getModelPath(defaultModel.id)
+        val modelFile = modelPath.resolve(defaultModel.components[0].name).toFile().absolutePath
+        session = env.createSession(modelFile, sessionOptions)
         baseInputs = mapOf(
             "min_length" to createIntTensor(env, intArrayOf(1), tensorShape(1)),
             "max_length" to createIntTensor(env, intArrayOf(DEFAULT_MAX_LENGTH), tensorShape(1)),
@@ -44,12 +47,13 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
             "repetition_penalty" to createFloatTensor(env, floatArrayOf(1.0f), tensorShape(1)),
         )
 
-        log.info("ONNX enabled ($RESOURCE_PATH).")
+        log.info("ONNX enabled ($modelFile).")
     }
 
     override fun transcribe(request: AsrRequest): Result<AsrResponse> = runCatching {
         val currentSession = session ?: error("Session not initialized, plugin must be enabled first")
-        val audioTensor: OnnxTensor = fromRawPcmBytes(env, request.audioData)
+        val floatArray = AudioManager.convertPcm16ToFloat(request.audioData)
+        val audioTensor: OnnxTensor = fromRawPcmBytes(env, floatArray)
         audioTensor.use {
             val inputs = mutableMapOf<String, OnnxTensor>()
             baseInputs.toMap(inputs)
@@ -67,6 +71,7 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
     private fun closeSession() {
         baseInputs.values.forEach { it.close() }
         session?.close()
+        session = null
     }
 
     override fun disable() {
@@ -74,14 +79,8 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
         closeSession()
     }
 
-    override fun shutdown() {
-        closeSession()
-        super.shutdown()
-    }
-
     companion object {
         const val ID = "ASR_ONNX"
-        private const val RESOURCE_PATH = "/models/asr/whisper_cpu_int8_model.onnx"
         private const val DEFAULT_MAX_LENGTH = 200
     }
 }

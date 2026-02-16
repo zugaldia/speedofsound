@@ -23,11 +23,3 @@ download-archive:
 	cp $(MODEL_ID)/tiny-tokens.txt .
 	@echo "Cleaning up..."
 	rm -rf $(MODEL_ID).tar.bz2 $(MODEL_ID)/
-
-# See: https://github.com/microsoft/onnxruntime-inference-examples/tree/main/mobile/examples/whisper/local/android
-# And: https://github.com/microsoft/olive-recipes/tree/main/openai-whisper-large-v3/olive
-download-tiny-merged:
-	@echo "Removing existing file..."
-	rm -f whisper_cpu_int8_model.onnx
-	@echo "Downloading model file..."
-	wget https://github.com/microsoft/onnxruntime-inference-examples/raw/refs/heads/main/mobile/examples/whisper/local/android/app/src/main/res/raw/whisper_cpu_int8_model.onnx
