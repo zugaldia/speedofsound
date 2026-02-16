@@ -34,10 +34,9 @@ class RecordCommand : CliktCommand(name = "record") {
         result.onSuccess { response ->
             logger.info("Recording complete. Captured ${response.audioData.size} bytes.")
             val filePath = generateTmpWavFilePath()
-            val samples = AudioManager.convertPcm16ToFloat(response.audioData)
-            val success = AudioManager.saveToWav(samples, AudioInfo.Default.sampleRate, filePath)
+            val success = AudioManager.saveToWav(response.audioData, AudioInfo.Default, filePath)
             if (success) {
-                logger.info("Saved recording to: $filePath (${samples.size} samples)")
+                logger.info("Saved recording to: $filePath")
             } else {
                 logger.error("Failed to save recording to: $filePath")
             }

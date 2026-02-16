@@ -1,11 +1,15 @@
 package com.zugaldia.speedofsound.core.audio
 
-import com.k2fsa.sherpa.onnx.LibraryUtils
-import com.k2fsa.sherpa.onnx.WaveReader
-import com.k2fsa.sherpa.onnx.WaveWriter
+import com.zugaldia.speedofsound.core.audio.AudioConstants.AUDIO_FORMAT_PCM
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.file.Path
+import javax.sound.sampled.AudioFileFormat
+import javax.sound.sampled.AudioFormat
+import javax.sound.sampled.AudioInputStream
+import javax.sound.sampled.AudioSystem
 import kotlin.io.encoding.Base64
 import kotlin.math.sqrt
 
@@ -17,14 +21,15 @@ object AudioManager {
     /**
      * Maximum value of a signed 16-bit PCM sample (2^15)
      * Used for normalizing 16-bit PCM audio to float range [-1.0, 1.0]
+     * Derived from -Short.MIN_VALUE (which is 32,768)
      */
     private const val PCM_16_MAX_VALUE = 32768.0f
 
-    init {
-        // Required by some Sherpa ONNX functions (like WaveWriter) to work
-        LibraryUtils.enableDebug()
-        LibraryUtils.load()
-    }
+    /**
+     * Number of bits in a byte
+     * Used for converting sample width from bits to bytes
+     */
+    private const val BITS_PER_BYTE = 8
 
     /**
      * Encodes audio data to a Base64 string.
@@ -89,26 +94,53 @@ object AudioManager {
         return rms.coerceIn(0.0, 1.0).toFloat()
     }
 
-    /**
-     * Saves audio data to a WAV file using Sherpa ONNX WaveWriter.
-     *
-     * @param samples Audio samples as a float array
-     * @param sampleRate Sample rate in Hz
-     * @param filePath Path where the WAV file should be saved
-     * @return true if the file was written successfully, false otherwise
-     */
-    fun saveToWav(samples: FloatArray, sampleRate: Int, filePath: Path): Boolean {
-        return WaveWriter.write(filePath.toString(), samples, sampleRate)
+    fun saveToWav(samples: ByteArray, audioInfo: AudioInfo, filePath: Path): Boolean {
+        return runCatching {
+            val audioFormat = AudioFormat(
+                audioInfo.sampleRate.toFloat(),
+                audioInfo.sampleWidth,
+                audioInfo.channels,
+                true, // signed
+                false // little-endian
+            )
+
+            val byteArrayInputStream = ByteArrayInputStream(samples)
+            val frameLength = samples.size / (audioInfo.sampleWidth / BITS_PER_BYTE * audioInfo.channels)
+            val audioInputStream = AudioInputStream(byteArrayInputStream, audioFormat, frameLength.toLong())
+            AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, filePath.toFile())
+            true
+        }.getOrElse { false }
     }
 
-    /**
-     * Loads audio data from a WAV file using Sherpa ONNX WaveReader.
-     *
-     * @param filePath Path to the WAV file to load
-     * @return Pair of samples (FloatArray) and sample rate (Int)
-     */
-    fun loadFromWav(filePath: Path): Pair<FloatArray, Int> {
-        val waveReader = WaveReader(filePath.toString())
-        return Pair(waveReader.samples, waveReader.sampleRate)
+    fun saveToInMemoryWav(samples: ByteArray, audioInfo: AudioInfo): ByteArray {
+        val audioFormat = AudioFormat(
+            audioInfo.sampleRate.toFloat(),
+            audioInfo.sampleWidth,
+            audioInfo.channels,
+            true, // signed
+            false // little-endian
+        )
+
+        val byteArrayInputStream = ByteArrayInputStream(samples)
+        val frameLength = samples.size / (audioInfo.sampleWidth / BITS_PER_BYTE * audioInfo.channels)
+        val audioInputStream = AudioInputStream(byteArrayInputStream, audioFormat, frameLength.toLong())
+        val outputStream = ByteArrayOutputStream()
+        AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, outputStream)
+        return outputStream.toByteArray()
+    }
+
+    fun loadFromWav(filePath: Path): Pair<ByteArray, AudioInfo> {
+        val audioInputStream = AudioSystem.getAudioInputStream(filePath.toFile())
+        val audioFormat = audioInputStream.format
+        val audioInfo = AudioInfo(
+            format = AUDIO_FORMAT_PCM,
+            channels = audioFormat.channels,
+            sampleRate = audioFormat.sampleRate.toInt(),
+            sampleWidth = audioFormat.sampleSizeInBits
+        )
+
+        val samples = audioInputStream.readAllBytes()
+        audioInputStream.close()
+        return Pair(samples, audioInfo)
     }
 }

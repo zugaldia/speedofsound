@@ -123,8 +123,7 @@ class DefaultDirector(
 
     private suspend fun transcribeAudio(audioData: ByteArray): String? {
         emitEvent(DirectorEvent.TranscriptionStarted)
-        val floatAudio = AudioManager.convertPcm16ToFloat(audioData)
-        val transcriptionResult = withContext(Dispatchers.IO) { asr.transcribe(AsrRequest(floatAudio)) }
+        val transcriptionResult = withContext(Dispatchers.IO) { asr.transcribe(AsrRequest(audioData)) }
         val rawTranscription = transcriptionResult.getOrElse { error ->
             log.error("Transcription failed: ${error.message}")
             emitEvent(DirectorEvent.PipelineError(PipelineStage.TRANSCRIPTION, error))
