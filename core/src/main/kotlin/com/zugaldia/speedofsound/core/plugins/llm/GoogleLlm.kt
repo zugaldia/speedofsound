@@ -42,9 +42,9 @@ class GoogleLlm(
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
-        log.info("Sending request to ${currentOptions.model}")
+        log.info("Sending request to ${currentOptions.modelId}")
         val response = currentClient.models.generateContent(
-            currentOptions.model,
+            currentOptions.modelId,
             request.text,
             null
         )

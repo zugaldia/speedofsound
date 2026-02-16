@@ -16,7 +16,7 @@ enum class LlmProvider(val displayName: String) {
  * Base interface for LLM plugin options.
  */
 interface LlmPluginOptions : AppPluginOptions {
-    val model: String
+    val modelId: String
     val apiKey: String?
     val baseUrl: String?
 }

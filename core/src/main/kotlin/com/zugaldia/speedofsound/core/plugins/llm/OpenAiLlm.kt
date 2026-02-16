@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.openai.models.responses.ResponseCreateParams
+import com.zugaldia.speedofsound.core.LOCAL_API_KEY_PLACEHOLDER
 import com.zugaldia.speedofsound.core.models.text.TextModel
 
 class OpenAiLlm(
@@ -41,7 +42,8 @@ class OpenAiLlm(
 
         // For custom local endpoints, the API key is required but ignored
         // Refs: https://docs.ollama.com/api/openai-compatibility
-        val effectiveApiKey = currentOptions.apiKey ?: if (!currentOptions.baseUrl.isNullOrEmpty()) "local" else null
+        val effectiveApiKey = currentOptions.apiKey
+            ?: if (!currentOptions.baseUrl.isNullOrEmpty()) LOCAL_API_KEY_PLACEHOLDER else null
         effectiveApiKey?.let { builder.apiKey(it) }
 
         client = builder.build()
@@ -51,10 +53,10 @@ class OpenAiLlm(
         val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
         val params = ResponseCreateParams.builder()
             .input(request.text)
-            .model(currentOptions.model)
+            .model(currentOptions.modelId)
             .build()
 
-        log.info("Sending request to ${currentOptions.model}")
+        log.info("Sending request to ${currentOptions.modelId}")
         val response = currentClient.responses().create(params)
         val responseText = response.output()
             .flatMap { item -> item.message().map { it.content() }.orElse(emptyList()) }

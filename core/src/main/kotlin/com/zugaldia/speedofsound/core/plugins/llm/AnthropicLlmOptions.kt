@@ -3,8 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.anthropic.models.messages.Model
 import com.zugaldia.speedofsound.core.models.text.TextModel
 
-const val ANTHROPIC_ENVIRONMENT_VARIABLE = "ANTHROPIC_API_KEY"
-val DEFAULT_ANTHROPIC_MODEL_ID = Model.CLAUDE_SONNET_4_5.asString()
+val DEFAULT_LLM_ANTHROPIC_MODEL_ID = Model.CLAUDE_SONNET_4_5.asString()
 
 val SUPPORTED_ANTHROPIC_TEXT_MODELS = mapOf(
     Model.CLAUDE_OPUS_4_5.asString() to TextModel(
@@ -24,7 +23,7 @@ val SUPPORTED_ANTHROPIC_TEXT_MODELS = mapOf(
 data class AnthropicLlmOptions(
     override val baseUrl: String? = null,
     override val apiKey: String? = null,
-    override val model: String = DEFAULT_ANTHROPIC_MODEL_ID,
+    override val modelId: String = DEFAULT_LLM_ANTHROPIC_MODEL_ID,
     val maxTokens: Long = 1024L,
 ) : LlmPluginOptions {
     companion object {

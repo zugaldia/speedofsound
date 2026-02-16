@@ -17,7 +17,7 @@ import com.zugaldia.speedofsound.core.isValidUrl
 import com.zugaldia.speedofsound.core.models.text.TextModel
 import com.zugaldia.speedofsound.core.plugins.llm.AnthropicLlm
 import com.zugaldia.speedofsound.core.plugins.llm.AnthropicLlmOptions
-import com.zugaldia.speedofsound.core.plugins.llm.DEFAULT_ANTHROPIC_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.llm.DEFAULT_LLM_ANTHROPIC_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlm
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlmOptions
 import com.zugaldia.speedofsound.core.plugins.llm.LlmPlugin
@@ -63,7 +63,7 @@ class AddTextModelProviderDialog(
 
     // Default to Anthropic (first in alphabetical order)
     private var selectedProvider: LlmProvider = LlmProvider.ANTHROPIC
-    private var selectedModelId: String = DEFAULT_ANTHROPIC_MODEL_ID
+    private var selectedModelId: String = DEFAULT_LLM_ANTHROPIC_MODEL_ID
     private var selectedCredentialId: String? = null
     private var fetchedModels: List<TextModel>? = null
 

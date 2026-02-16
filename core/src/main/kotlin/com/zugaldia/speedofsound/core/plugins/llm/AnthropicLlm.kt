@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.anthropic.client.AnthropicClient
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.messages.MessageCreateParams
+import com.zugaldia.speedofsound.core.LOCAL_API_KEY_PLACEHOLDER
 import com.zugaldia.speedofsound.core.models.text.TextModel
 
 class AnthropicLlm(
@@ -33,7 +34,8 @@ class AnthropicLlm(
 
         // For custom local endpoints, the API key is required but ignored
         // Refs: https://docs.ollama.com/api/anthropic-compatibility
-        val effectiveApiKey = currentOptions.apiKey ?: if (!currentOptions.baseUrl.isNullOrEmpty()) "local" else null
+        val effectiveApiKey = currentOptions.apiKey
+            ?: if (!currentOptions.baseUrl.isNullOrEmpty()) LOCAL_API_KEY_PLACEHOLDER else null
         effectiveApiKey?.let { builder.apiKey(it) }
 
         client = builder.build()
@@ -52,10 +54,10 @@ class AnthropicLlm(
         val params = MessageCreateParams.builder()
             .maxTokens(currentOptions.maxTokens)
             .addUserMessage(request.text)
-            .model(currentOptions.model)
+            .model(currentOptions.modelId)
             .build()
 
-        log.info("Sending request to ${currentOptions.model}")
+        log.info("Sending request to ${currentOptions.modelId}")
         val message = currentClient.messages().create(params)
         val responseText = message.content()
             .mapNotNull { block -> block.text().orElse(null)?.text() }

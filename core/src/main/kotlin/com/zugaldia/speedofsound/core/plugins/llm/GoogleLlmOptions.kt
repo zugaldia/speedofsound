@@ -2,8 +2,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 
 import com.zugaldia.speedofsound.core.models.text.TextModel
 
-const val GOOGLE_ENVIRONMENT_VARIABLE = "GOOGLE_API_KEY"
-const val DEFAULT_GOOGLE_MODEL_ID = "gemini-2.5-flash-lite"
+const val DEFAULT_LLM_GOOGLE_MODEL_ID = "gemini-2.5-flash-lite"
 
 val SUPPORTED_GOOGLE_TEXT_MODELS = mapOf(
     "gemini-3-pro-preview" to TextModel(
@@ -31,7 +30,7 @@ val SUPPORTED_GOOGLE_TEXT_MODELS = mapOf(
 data class GoogleLlmOptions(
     override val baseUrl: String? = null,
     override val apiKey: String? = null,
-    override val model: String = DEFAULT_GOOGLE_MODEL_ID,
+    override val modelId: String = DEFAULT_LLM_GOOGLE_MODEL_ID,
 ) : LlmPluginOptions {
     companion object {
         val Default = GoogleLlmOptions()
