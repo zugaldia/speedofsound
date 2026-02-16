@@ -9,13 +9,15 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
-import com.zugaldia.speedofsound.core.models.voice.DEFAULT_ASR_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsr
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaOptions
+import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
@@ -31,7 +33,7 @@ class AsrCommand : CliktCommand(name = "asr") {
     private val modelId: String by option(
         "--model", "-m",
         help = "Model ID to use for transcription"
-    ).default(DEFAULT_ASR_MODEL_ID)
+    ).default(DEFAULT_ASR_SHERPA_MODEL_ID)
 
     private val languageCode: String by option(
         "--language", "-l",
@@ -40,13 +42,23 @@ class AsrCommand : CliktCommand(name = "asr") {
 
     private val provider: String by option(
         "--provider", "-p",
-        help = "ASR provider to use (onnx or sherpa)"
+        help = "ASR provider to use (onnx, sherpa, or openai)"
     ).default("sherpa")
+
+    private val apiKey: String? by option(
+        "--api-key",
+        help = "API key for OpenAI ASR provider"
+    )
+
+    private val baseUrl: String? by option(
+        "--base-url",
+        help = "Base URL for OpenAI-compatible API endpoint (e.g., for local vLLM server)"
+    )
 
     override fun run() {
         logger.info("Loading audio file: $inputFile")
-        val (samples, sampleRate) = AudioManager.loadFromWav(inputFile)
-        logger.info("Audio file loaded: sample rate = $sampleRate Hz, ${samples.size} samples")
+        val (audioData, audioInfo) = AudioManager.loadFromWav(inputFile)
+        logger.info("Audio file loaded: sample rate = ${audioInfo.sampleRate} Hz, ${audioData.size} bytes")
 
         // Find the language from the language code
         val language = Language.all.find { it.iso2 == languageCode }
@@ -55,15 +67,21 @@ class AsrCommand : CliktCommand(name = "asr") {
         logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
         val asr: AsrPlugin<*> = when (provider.lowercase()) {
             "onnx" -> OnnxAsr(OnnxAsrOptions())
-            "sherpa" -> SherpaAsr(SherpaOptions(modelID = modelId, language = language))
-            else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx' or 'sherpa'.")
+            "sherpa" -> SherpaAsr(SherpaAsrOptions(modelId = modelId, language = language))
+            "openai" -> OpenAiAsr(OpenAiAsrOptions(
+                baseUrl = baseUrl,
+                apiKey = apiKey,
+                modelId = modelId,
+                language = language
+            ))
+            else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx', 'sherpa', or 'openai'.")
         }
 
         asr.initialize()
         asr.enable()
 
         logger.info("Transcribing audio.")
-        val result = asr.transcribe(AsrRequest(samples, AudioInfo.Default))
+        val result = asr.transcribe(AsrRequest(audioData, audioInfo))
         result.onSuccess { response ->
             logger.info("Transcription: ${response.text}")
             println(response.text)
