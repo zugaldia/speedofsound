@@ -115,7 +115,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
     private fun addProviderToUI(providerSetting: TextModelProviderSetting) {
         val providerLabel = providerSetting.provider.displayName
-        val modelLabel = providerSetting.model
+        val modelLabel = providerSetting.modelId
         val subtitle = "$providerLabel • $modelLabel"
 
         val row = ActionRow().apply {

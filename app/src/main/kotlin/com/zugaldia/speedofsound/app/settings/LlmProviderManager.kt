@@ -53,7 +53,7 @@ class LlmProviderManager(
         val selectedProvider = providers.find { it.id == selectedProviderId } ?: return
 
         val pluginId = pluginIdForProvider(selectedProvider.provider)
-        val options = settingsClient.resolveProviderOptions(selectedProvider)
+        val options = settingsClient.resolveTextProviderOptions(selectedProvider)
         applyLlmOptions(pluginId, options)
 
         if (setActive) {

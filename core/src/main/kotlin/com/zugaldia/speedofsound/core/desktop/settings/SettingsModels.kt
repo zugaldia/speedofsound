@@ -35,7 +35,9 @@ data class VoiceModelProviderSetting(
     val id: String,
     val name: String,
     val provider: AsrProvider,
+    val modelId: String,
     val credentialId: String? = null,
+    val baseUrl: String? = null
 )
 
 /**
@@ -49,7 +51,7 @@ data class TextModelProviderSetting(
     val id: String,
     val name: String,
     val provider: LlmProvider,
-    val model: String,
+    val modelId: String,
     val credentialId: String? = null,
     val baseUrl: String? = null
 )

@@ -304,7 +304,7 @@ class AddTextModelProviderDialog(
             provider = selectedProvider,
             credentialId = selectedCredentialId,
             baseUrl = baseUrl,
-            model = modelId
+            modelId = modelId
         )
 
         onProviderAdded(config)
