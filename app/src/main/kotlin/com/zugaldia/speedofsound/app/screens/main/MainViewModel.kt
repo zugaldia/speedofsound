@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.app.screens.main
 import com.zugaldia.speedofsound.app.POST_HIDE_DELAY_MS
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
 import com.zugaldia.speedofsound.app.portals.TextUtils
+import com.zugaldia.speedofsound.app.settings.AsrProviderManager
 import com.zugaldia.speedofsound.app.settings.LlmProviderManager
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
@@ -12,8 +13,10 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_CONTEXT
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_TEXT_MODEL_PROVIDER_ID
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_PROCESSING_ENABLED
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_VOICE_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
@@ -46,7 +49,6 @@ class MainViewModel(
 
     private val registry = AppPluginRegistry()
     private val recorder = JvmRecorder(settingsClient.getRecorderOptions())
-    private val asr = SherpaAsr(settingsClient.getSherpaOptions())
     private val director = DefaultDirector(registry, settingsClient.getDirectorOptions())
 
     private val portalsSessionManager = PortalsSessionManager(
@@ -55,6 +57,8 @@ class MainViewModel(
         initialSessionDisconnected = true,
         initialRestoreTokenMissing = settingsClient.getPortalsRestoreToken().isBlank(),
     )
+
+    private val asrProviderManager = AsrProviderManager(registry, settingsClient)
     private val llmProviderManager = LlmProviderManager(registry, settingsClient)
 
     private val viewModelJob = SupervisorJob()
@@ -66,15 +70,15 @@ class MainViewModel(
 
         // Register and initialize all plugins
         registry.register(AppPluginCategory.RECORDER, recorder)
-        registry.register(AppPluginCategory.ASR, asr)
-        registry.register(AppPluginCategory.DIRECTOR, director)
+        asrProviderManager.registerAsrPlugins()
         llmProviderManager.registerLlmPlugins()
+        registry.register(AppPluginCategory.DIRECTOR, director)
 
         // Set active plugins
         registry.setActiveById(AppPluginCategory.RECORDER, JvmRecorder.ID)
-        registry.setActiveById(AppPluginCategory.ASR, SherpaAsr.ID)
-        registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
+        asrProviderManager.activateSelectedProvider()
         llmProviderManager.activateSelectedProvider()
+        registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
 
         collectDirectorEvents()
         collectRecorderEvents()
@@ -168,8 +172,14 @@ class MainViewModel(
             )
             KEY_TEXT_PROCESSING_ENABLED -> director.updateOptions(
                 director.getOptions().copy(enableTextProcessing = settingsClient.getTextProcessingEnabled()))
+            KEY_SELECTED_VOICE_MODEL_PROVIDER_ID -> asrProviderManager.activateSelectedProvider()
+            KEY_VOICE_MODEL_PROVIDERS -> asrProviderManager.refreshProviderConfiguration()
             KEY_SELECTED_TEXT_MODEL_PROVIDER_ID -> llmProviderManager.activateSelectedProvider()
-            KEY_TEXT_MODEL_PROVIDERS, KEY_CREDENTIALS -> llmProviderManager.refreshProviderConfiguration()
+            KEY_TEXT_MODEL_PROVIDERS -> llmProviderManager.refreshProviderConfiguration()
+            KEY_CREDENTIALS -> {
+                asrProviderManager.refreshProviderConfiguration()
+                llmProviderManager.refreshProviderConfiguration()
+            }
         }
     }
 
@@ -181,7 +191,7 @@ class MainViewModel(
         val language = languageFromIso2(settingsClient.getDefaultLanguage()) ?: DEFAULT_LANGUAGE
         if (language == state.currentLanguage()) return
         state.updateLanguage(language)
-        asr.updateOptions(asr.getOptions().copy(language = language))
+        asrProviderManager.updateLanguage(language)
         director.updateOptions(director.getOptions().copy(language = language))
     }
 
@@ -189,7 +199,7 @@ class MainViewModel(
         val language = languageFromIso2(settingsClient.getSecondaryLanguage()) ?: DEFAULT_SECONDARY_LANGUAGE
         if (language == state.currentLanguage()) return
         state.updateLanguage(language)
-        asr.updateOptions(asr.getOptions().copy(language = language))
+        asrProviderManager.updateLanguage(language)
         director.updateOptions(director.getOptions().copy(language = language))
     }
 

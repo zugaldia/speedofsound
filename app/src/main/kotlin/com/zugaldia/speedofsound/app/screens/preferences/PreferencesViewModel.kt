@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.app.screens.preferences
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
+import com.zugaldia.speedofsound.core.desktop.settings.VoiceModelProviderSetting
 import org.slf4j.LoggerFactory
 
 @Suppress("TooManyFunctions") // ViewModel delegates to SettingsClient for all preference properties
@@ -37,6 +38,20 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
     fun getCredentials(): List<CredentialSetting> = settingsClient.getCredentials()
     fun setCredentials(value: List<CredentialSetting>): Boolean =
         settingsClient.setCredentials(value)
+
+    /*
+     * Voice Models page
+     */
+
+    fun getVoiceModelProviders(): List<VoiceModelProviderSetting> =
+        settingsClient.getVoiceModelProviders()
+    fun setVoiceModelProviders(value: List<VoiceModelProviderSetting>): Boolean =
+        settingsClient.setVoiceModelProviders(value)
+
+    fun getSelectedVoiceModelProviderId(): String =
+        settingsClient.getSelectedVoiceModelProviderId()
+    fun setSelectedVoiceModelProviderId(value: String): Boolean =
+        settingsClient.setSelectedVoiceModelProviderId(value)
 
     /*
      * Text Models page
