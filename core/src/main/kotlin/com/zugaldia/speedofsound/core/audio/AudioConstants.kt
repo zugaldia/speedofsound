@@ -19,9 +19,6 @@ object AudioConstants {
     const val AUDIO_SAMPLE_WIDTH_16BIT = 2
     const val AUDIO_SAMPLE_WIDTH_32BIT = 4
 
-    // Conversion constant for AudioFormat (which expects sample size in bits, not bytes)
-    const val BITS_PER_BYTE = 8
-
     // Audio sample rate values (in Hz)
     const val AUDIO_SAMPLE_RATE_16KHZ = 16000
     const val AUDIO_SAMPLE_RATE_24KHZ = 24000

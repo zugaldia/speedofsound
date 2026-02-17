@@ -1,10 +1,8 @@
 package com.zugaldia.speedofsound.core.plugins.recorder
 
-import com.zugaldia.speedofsound.core.audio.AudioConstants.BITS_PER_BYTE
 import com.zugaldia.speedofsound.core.audio.AudioInputDevice
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import java.io.ByteArrayOutputStream
-import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioSystem
 import javax.sound.sampled.DataLine
 import javax.sound.sampled.LineUnavailableException
@@ -77,14 +75,7 @@ class JvmRecorder(
         }
 
         val audioInfo = currentOptions.audioInfo
-        val audioFormat = AudioFormat(
-            audioInfo.sampleRate.toFloat(),
-            audioInfo.sampleWidth * BITS_PER_BYTE,
-            audioInfo.channels,
-            true,  // signed
-            false  // little endian
-        )
-
+        val audioFormat = audioInfo.toAudioFormat()
         val dataLineInfo = DataLine.Info(TargetDataLine::class.java, audioFormat)
         if (!AudioSystem.isLineSupported(dataLineInfo)) {
             log.error("Audio line not supported for format: $audioFormat")

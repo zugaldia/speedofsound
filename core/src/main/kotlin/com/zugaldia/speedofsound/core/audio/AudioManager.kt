@@ -1,13 +1,11 @@
 package com.zugaldia.speedofsound.core.audio
 
-import com.zugaldia.speedofsound.core.audio.AudioConstants.AUDIO_FORMAT_PCM
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.file.Path
 import javax.sound.sampled.AudioFileFormat
-import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioInputStream
 import javax.sound.sampled.AudioSystem
 import kotlin.io.encoding.Base64
@@ -24,12 +22,6 @@ object AudioManager {
      * Derived from -Short.MIN_VALUE (which is 32,768)
      */
     private const val PCM_16_MAX_VALUE = 32768.0f
-
-    /**
-     * Number of bits in a byte
-     * Used for converting sample width from bits to bytes
-     */
-    private const val BITS_PER_BYTE = 8
 
     /**
      * Encodes audio data to a Base64 string.
@@ -96,16 +88,9 @@ object AudioManager {
 
     fun saveToWav(samples: ByteArray, audioInfo: AudioInfo, filePath: Path): Boolean {
         return runCatching {
-            val audioFormat = AudioFormat(
-                audioInfo.sampleRate.toFloat(),
-                audioInfo.sampleWidth,
-                audioInfo.channels,
-                true, // signed
-                false // little-endian
-            )
-
+            val audioFormat = audioInfo.toAudioFormat()
             val byteArrayInputStream = ByteArrayInputStream(samples)
-            val frameLength = samples.size / (audioInfo.sampleWidth / BITS_PER_BYTE * audioInfo.channels)
+            val frameLength = samples.size / (audioInfo.sampleWidth * audioInfo.channels)
             val audioInputStream = AudioInputStream(byteArrayInputStream, audioFormat, frameLength.toLong())
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, filePath.toFile())
             true
@@ -113,16 +98,9 @@ object AudioManager {
     }
 
     fun saveToInMemoryWav(samples: ByteArray, audioInfo: AudioInfo): ByteArray {
-        val audioFormat = AudioFormat(
-            audioInfo.sampleRate.toFloat(),
-            audioInfo.sampleWidth,
-            audioInfo.channels,
-            true, // signed
-            false // little-endian
-        )
-
+        val audioFormat = audioInfo.toAudioFormat()
         val byteArrayInputStream = ByteArrayInputStream(samples)
-        val frameLength = samples.size / (audioInfo.sampleWidth / BITS_PER_BYTE * audioInfo.channels)
+        val frameLength = samples.size / (audioInfo.sampleWidth * audioInfo.channels)
         val audioInputStream = AudioInputStream(byteArrayInputStream, audioFormat, frameLength.toLong())
         val outputStream = ByteArrayOutputStream()
         AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, outputStream)
@@ -131,14 +109,7 @@ object AudioManager {
 
     fun loadFromWav(filePath: Path): Pair<ByteArray, AudioInfo> {
         val audioInputStream = AudioSystem.getAudioInputStream(filePath.toFile())
-        val audioFormat = audioInputStream.format
-        val audioInfo = AudioInfo(
-            format = AUDIO_FORMAT_PCM,
-            channels = audioFormat.channels,
-            sampleRate = audioFormat.sampleRate.toInt(),
-            sampleWidth = audioFormat.sampleSizeInBits
-        )
-
+        val audioInfo = AudioInfo.from(audioInputStream.format)
         val samples = audioInputStream.readAllBytes()
         audioInputStream.close()
         return Pair(samples, audioInfo)
