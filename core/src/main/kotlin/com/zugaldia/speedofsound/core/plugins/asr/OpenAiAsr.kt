@@ -71,6 +71,7 @@ class OpenAiAsr(options: OpenAiAsrOptions = OpenAiAsrOptions()) :
             .file(fileField)
             .build()
 
+        log.info("Transcribing with ${currentOptions.modelId}")
         val result = currentClient.audio().transcriptions().create(params)
         AsrResponse(text = result.asTranscription().text())
     }
