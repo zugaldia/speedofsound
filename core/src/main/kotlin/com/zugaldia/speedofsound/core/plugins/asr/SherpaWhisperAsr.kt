@@ -8,13 +8,13 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
 
-class SherpaAsr(
-    options: SherpaAsrOptions = SherpaAsrOptions(),
-) : AsrPlugin<SherpaAsrOptions>(initialOptions = options) {
+class SherpaWhisperAsr(
+    options: SherpaWhisperAsrOptions = SherpaWhisperAsrOptions(),
+) : AsrPlugin<SherpaWhisperAsrOptions>(initialOptions = options) {
     override val id: String = ID
 
     companion object {
-        const val ID = "ASR_SHERPA"
+        const val ID = "ASR_SHERPA_WHISPER"
 
         // Ideally, we use "cuda" for faster inference whenever available (Sherpa fallbacks to CPU if CUDA is not
         // available). However, it seems that the official JAR files do not include this support. Assuming we can
@@ -33,7 +33,7 @@ class SherpaAsr(
 
     private fun createRecognizer() {
         val modelManager = ModelManager()
-        val model = SUPPORTED_SHERPA_ASR_MODELS[currentOptions.modelId]
+        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[currentOptions.modelId]
             ?: throw IllegalArgumentException("Model not found: ${currentOptions.modelId}.")
         if (!modelManager.isModelDownloaded(currentOptions.modelId)) {
             throw IllegalStateException("Model not downloaded: ${currentOptions.modelId}.")
@@ -84,6 +84,8 @@ class SherpaAsr(
             val stream = currentRecognizer.createStream()
             val floatArray = AudioManager.convertPcm16ToFloat(request.audioData)
             stream.acceptWaveform(floatArray, request.audioInfo.sampleRate)
+
+            log.info("Transcribing with ${currentOptions.modelId}")
             currentRecognizer.decode(stream)
             val text = currentRecognizer.getResult(stream).text
             stream.release()

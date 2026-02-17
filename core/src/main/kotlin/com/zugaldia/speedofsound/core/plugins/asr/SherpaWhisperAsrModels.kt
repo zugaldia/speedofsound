@@ -16,9 +16,9 @@ import com.zugaldia.speedofsound.core.models.voice.VoiceModelFile
 
 private const val SHERPA_ONNX_ASR_MODELS_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models"
 
-val SUPPORTED_SHERPA_ASR_MODELS = mapOf(
-    DEFAULT_ASR_SHERPA_MODEL_ID to VoiceModel(
-        id = DEFAULT_ASR_SHERPA_MODEL_ID,
+val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
+    DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID to VoiceModel(
+        id = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID,
         name = "Whisper Tiny",
         dataSizeMegabytes = 99L,
         archiveFile = VoiceModelFile(

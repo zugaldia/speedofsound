@@ -8,9 +8,9 @@ import com.zugaldia.speedofsound.core.plugins.AppPluginOptions
  * Supported ASR providers.
  */
 enum class AsrProvider(val displayName: String) {
-    ONNX("Local (ONNX)"),
-    OPENAI("OpenAI (Cloud)"),
-    SHERPA("Whisper (Local)");
+    ONNX_WHISPER("Whisper (ONNX)"),
+    OPENAI("OpenAI"),
+    SHERPA_WHISPER("Whisper (Sherpa)");
 }
 
 /**
@@ -27,9 +27,9 @@ interface AsrPluginOptions : AppPluginOptions {
  * Maps an AsrProvider to the corresponding plugin ID.
  */
 fun pluginIdForProvider(provider: AsrProvider): String = when (provider) {
-    AsrProvider.ONNX -> OnnxAsr.ID
+    AsrProvider.ONNX_WHISPER -> OnnxWhisperAsr.ID
     AsrProvider.OPENAI -> OpenAiAsr.ID
-    AsrProvider.SHERPA -> SherpaAsr.ID
+    AsrProvider.SHERPA_WHISPER -> SherpaWhisperAsr.ID
 }
 
 /**
@@ -40,8 +40,8 @@ fun pluginIdForProvider(provider: AsrProvider): String = when (provider) {
  */
 fun getModelsForProvider(provider: AsrProvider): Map<String, VoiceModel> {
     return when (provider) {
-        AsrProvider.ONNX -> SUPPORTED_ONNX_ASR_MODELS
+        AsrProvider.ONNX_WHISPER -> SUPPORTED_ONNX_WHISPER_ASR_MODELS
         AsrProvider.OPENAI -> SUPPORTED_OPENAI_ASR_MODELS
-        AsrProvider.SHERPA -> SUPPORTED_SHERPA_ASR_MODELS
+        AsrProvider.SHERPA_WHISPER -> SUPPORTED_SHERPA_WHISPER_ASR_MODELS
     }
 }

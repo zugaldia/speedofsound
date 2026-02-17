@@ -19,8 +19,8 @@ import com.zugaldia.speedofsound.core.plugins.common.OnnxUtils.tensorShape
  * https://github.com/microsoft/onnxruntime-inference-examples/tree/main/mobile/examples/whisper/local/android
  * https://github.com/microsoft/olive-recipes/tree/main/openai-whisper-large-v3/olive
  */
-class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
-    AsrPlugin<OnnxAsrOptions>(initialOptions = options) {
+class OnnxWhisperAsr(options: OnnxWhisperAsrOptions = OnnxWhisperAsrOptions()) :
+    AsrPlugin<OnnxWhisperAsrOptions>(initialOptions = options) {
     override val id: String = ID
 
     private val modelManager = ModelManager()
@@ -34,7 +34,8 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
         val sessionOptions = OrtSession.SessionOptions()
         sessionOptions.registerCustomOpLibrary(OrtxPackage.getLibraryPath())
 
-        val defaultModel = SUPPORTED_ONNX_ASR_MODELS[DEFAULT_ASR_ONNX_MODEL_ID] ?: error("Default model not found")
+        val defaultModel = SUPPORTED_ONNX_WHISPER_ASR_MODELS[DEFAULT_ASR_ONNX_WHISPER_MODEL_ID]
+            ?: error("Default model not found")
         val modelPath = modelManager.getModelPath(defaultModel.id)
         val modelFile = modelPath.resolve(defaultModel.components[0].name).toFile().absolutePath
         session = env.createSession(modelFile, sessionOptions)
@@ -58,6 +59,8 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
             val inputs = mutableMapOf<String, OnnxTensor>()
             baseInputs.toMap(inputs)
             inputs["audio_pcm"] = audioTensor
+
+            log.info("Transcribing with ${currentOptions.modelId}")
             val outputs = currentSession.run(inputs)
             val recognizedText = outputs.use {
                 @Suppress("UNCHECKED_CAST")
@@ -80,7 +83,7 @@ class OnnxAsr(options: OnnxAsrOptions = OnnxAsrOptions()) :
     }
 
     companion object {
-        const val ID = "ASR_ONNX"
+        const val ID = "ASR_ONNX_WHISPER"
         private const val DEFAULT_MAX_LENGTH = 200
     }
 }

@@ -5,11 +5,11 @@ import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 import com.zugaldia.speedofsound.core.models.voice.VoiceModel
 import com.zugaldia.speedofsound.core.models.voice.VoiceModelFile
 
-const val DEFAULT_ASR_ONNX_MODEL_ID = "onnx_whisper_tiny_en"
+const val DEFAULT_ASR_ONNX_WHISPER_MODEL_ID = "onnx_whisper_tiny_en"
 
-val SUPPORTED_ONNX_ASR_MODELS = mapOf(
-    DEFAULT_ASR_ONNX_MODEL_ID to VoiceModel(
-        id = DEFAULT_ASR_ONNX_MODEL_ID,
+val SUPPORTED_ONNX_WHISPER_ASR_MODELS = mapOf(
+    DEFAULT_ASR_ONNX_WHISPER_MODEL_ID to VoiceModel(
+        id = DEFAULT_ASR_ONNX_WHISPER_MODEL_ID,
         name = "OpenAI Whisper Tiny (English only)",
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 72L,
@@ -25,13 +25,13 @@ val SUPPORTED_ONNX_ASR_MODELS = mapOf(
 )
 
 /**
- * Options for configuring the ONNX ASR plugin.
+ * Options for configuring the ONNX Whisper ASR plugin.
  *
  * Currently, this plugin uses a bundled model and doesn't require configuration,
  * but this options class is provided for consistency and future extensibility.
  */
-data class OnnxAsrOptions(
-    override val modelId: String = DEFAULT_ASR_ONNX_MODEL_ID,
+data class OnnxWhisperAsrOptions(
+    override val modelId: String = DEFAULT_ASR_ONNX_WHISPER_MODEL_ID,
     override val language: Language = DEFAULT_LANGUAGE,
     override val enableDebug: Boolean = false,
 ) : AsrPluginOptions
