@@ -1,6 +1,11 @@
 package com.zugaldia.speedofsound.core.desktop.settings
 
 import com.zugaldia.speedofsound.core.languageFromIso2
+import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
+import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsrOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
 import com.zugaldia.speedofsound.core.plugins.llm.AnthropicLlmOptions
@@ -29,29 +34,50 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun getRecorderOptions(): RecorderOptions =
         RecorderOptions(computeVolumeLevel = true)
 
-    fun getSherpaOptions(): SherpaAsrOptions =
-        SherpaAsrOptions(modelId = "sherpa-onnx-whisper-turbo")
+    /**
+     * Resolves a VoiceModelProviderSetting into the appropriate AsrPluginOptions
+     */
+    fun resolveVoiceProviderOptions(providerSetting: VoiceModelProviderSetting): AsrPluginOptions {
+        val apiKey = providerSetting.credentialId?.let { credId -> getCredentials().find { it.id == credId }?.value }
+        val language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE
+        return when (providerSetting.provider) {
+            AsrProvider.ONNX -> OnnxAsrOptions(
+                modelId = providerSetting.modelId,
+                language = language,
+            )
+            AsrProvider.OPENAI -> OpenAiAsrOptions(
+                modelId = providerSetting.modelId,
+                language = language,
+                baseUrl = providerSetting.baseUrl,
+                apiKey = apiKey,
+            )
+            AsrProvider.SHERPA -> SherpaAsrOptions(
+                modelId = providerSetting.modelId,
+                language = language,
+            )
+        }
+    }
 
     /**
      * Resolves a TextModelProviderSetting into the appropriate LlmPluginOptions
      */
-    fun resolveProviderOptions(provider: TextModelProviderSetting): LlmPluginOptions {
-        val apiKey = provider.credentialId?.let { credId -> getCredentials().find { it.id == credId }?.value }
-        return when (provider.provider) {
+    fun resolveTextProviderOptions(providerSetting: TextModelProviderSetting): LlmPluginOptions {
+        val apiKey = providerSetting.credentialId?.let { credId -> getCredentials().find { it.id == credId }?.value }
+        return when (providerSetting.provider) {
             LlmProvider.ANTHROPIC -> AnthropicLlmOptions(
                 apiKey = apiKey,
-                modelId = provider.model,
-                baseUrl = provider.baseUrl,
+                modelId = providerSetting.modelId,
+                baseUrl = providerSetting.baseUrl,
             )
             LlmProvider.GOOGLE -> GoogleLlmOptions(
                 apiKey = apiKey,
-                modelId = provider.model,
-                baseUrl = provider.baseUrl,
+                modelId = providerSetting.modelId,
+                baseUrl = providerSetting.baseUrl,
             )
             LlmProvider.OPENAI -> OpenAiLlmOptions(
                 apiKey = apiKey,
-                modelId = provider.model,
-                baseUrl = provider.baseUrl,
+                modelId = providerSetting.modelId,
+                baseUrl = providerSetting.baseUrl,
             )
         }
     }
@@ -117,6 +143,54 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_CREDENTIALS)
         }
     }
+
+    /*
+     * Voice Models page
+     */
+
+    private fun getDefaultVoiceModelProvider(): VoiceModelProviderSetting {
+        return VoiceModelProviderSetting(
+            id = DEFAULT_VOICE_MODEL_PROVIDER_ID,
+            name = "Default (Whisper Tiny)",
+            provider = AsrProvider.SHERPA,
+            modelId = DEFAULT_ASR_SHERPA_MODEL_ID,
+            credentialId = null,
+            baseUrl = null
+        )
+    }
+
+    fun getVoiceModelProviders(): List<VoiceModelProviderSetting> {
+        val json = settingsStore.getString(KEY_VOICE_MODEL_PROVIDERS, DEFAULT_VOICE_MODEL_PROVIDERS)
+        val customProviders = if (json.isEmpty() || json == DEFAULT_VOICE_MODEL_PROVIDERS) {
+            emptyList()
+        } else {
+            runCatching {
+                Json.decodeFromString<List<VoiceModelProviderSetting>>(json)
+            }.getOrElse { error ->
+                logger.error("Failed to decode voice model providers from JSON", error)
+                emptyList()
+            }
+        }
+        // Always include the default provider first
+        return listOf(getDefaultVoiceModelProvider()) + customProviders
+    }
+
+    fun setVoiceModelProviders(value: List<VoiceModelProviderSetting>): Boolean {
+        // Filter out the default provider before saving (it's dynamically added when reading)
+        val customProviders = value.filter { it.id != DEFAULT_VOICE_MODEL_PROVIDER_ID }
+        val json = Json.encodeToString(customProviders)
+        return settingsStore.setString(KEY_VOICE_MODEL_PROVIDERS, json).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_VOICE_MODEL_PROVIDERS)
+        }
+    }
+
+    fun getSelectedVoiceModelProviderId(): String =
+        settingsStore.getString(KEY_SELECTED_VOICE_MODEL_PROVIDER_ID, DEFAULT_SELECTED_VOICE_MODEL_PROVIDER_ID)
+
+    fun setSelectedVoiceModelProviderId(value: String): Boolean =
+        settingsStore.setString(KEY_SELECTED_VOICE_MODEL_PROVIDER_ID, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_SELECTED_VOICE_MODEL_PROVIDER_ID)
+        }
 
     /*
      * Text Models page

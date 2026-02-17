@@ -21,6 +21,15 @@ val DEFAULT_SECONDARY_LANGUAGE = Language.SPANISH
 const val KEY_CREDENTIALS = "credentials"
 const val DEFAULT_CREDENTIALS = "[]"
 
+// Voice Models page
+
+const val KEY_VOICE_MODEL_PROVIDERS = "voice-model-providers"
+const val DEFAULT_VOICE_MODEL_PROVIDERS = "[]"
+
+const val KEY_SELECTED_VOICE_MODEL_PROVIDER_ID = "selected-voice-model-provider-id"
+const val DEFAULT_VOICE_MODEL_PROVIDER_ID = "default-sherpa-provider"
+const val DEFAULT_SELECTED_VOICE_MODEL_PROVIDER_ID = DEFAULT_VOICE_MODEL_PROVIDER_ID
+
 // Text Models page
 
 const val KEY_TEXT_PROCESSING_ENABLED = "text-processing-enabled"
