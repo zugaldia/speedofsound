@@ -57,7 +57,8 @@ const val MIN_CREDENTIAL_LENGTH_FOR_MASKING = 10
 const val CREDENTIAL_MASK_PREFIX_LENGTH = 4
 const val CREDENTIAL_MASK_SUFFIX_LENGTH = 4
 
-// Text model provider limits
+// Voice + Text model provider limits
+const val MAX_VOICE_MODEL_PROVIDERS = 10
 const val MAX_TEXT_MODEL_PROVIDERS = 10
 const val MAX_PROVIDER_CONFIG_NAME_LENGTH = 100
 const val DEFAULT_ADD_PROVIDER_DIALOG_WIDTH = 600
