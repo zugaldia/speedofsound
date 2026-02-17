@@ -9,14 +9,14 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
-import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsrOptions
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -33,7 +33,7 @@ class AsrCommand : CliktCommand(name = "asr") {
     private val modelId: String by option(
         "--model", "-m",
         help = "Model ID to use for transcription"
-    ).default(DEFAULT_ASR_SHERPA_MODEL_ID)
+    ).default(DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID)
 
     private val languageCode: String by option(
         "--language", "-l",
@@ -66,8 +66,8 @@ class AsrCommand : CliktCommand(name = "asr") {
 
         logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
         val asr: AsrPlugin<*> = when (provider.lowercase()) {
-            "onnx" -> OnnxAsr(OnnxAsrOptions())
-            "sherpa" -> SherpaAsr(SherpaAsrOptions(modelId = modelId, language = language))
+            "onnx" -> OnnxWhisperAsr(OnnxWhisperAsrOptions())
+            "sherpa" -> SherpaWhisperAsr(SherpaWhisperAsrOptions(modelId = modelId, language = language))
             "openai" -> OpenAiAsr(OpenAiAsrOptions(
                 baseUrl = baseUrl,
                 apiKey = apiKey,

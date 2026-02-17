@@ -2,8 +2,8 @@ package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getTmpDataDir
-import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
-import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_ASR_MODELS
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
 import org.slf4j.Logger
@@ -41,7 +41,7 @@ class ModelManager {
     }
 
     fun isModelDownloaded(modelId: String): Boolean {
-        val model = SUPPORTED_SHERPA_ASR_MODELS[modelId] ?: return false
+        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[modelId] ?: return false
         val modelPath = getModelPath(modelId)
         val modelDir = modelPath.toFile()
         return modelDir.exists() && modelDir.isDirectory &&
@@ -52,15 +52,15 @@ class ModelManager {
     }
 
     fun extractDefaultModel(): Result<Unit> = runCatching {
-        if (isModelDownloaded(DEFAULT_ASR_SHERPA_MODEL_ID)) {
-            log.info("Default model already extracted: $DEFAULT_ASR_SHERPA_MODEL_ID")
+        if (isModelDownloaded(DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID)) {
+            log.info("Default model already extracted: $DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID")
             return@runCatching
         }
-        log.info("Extracting default model: $DEFAULT_ASR_SHERPA_MODEL_ID")
-        val model = SUPPORTED_SHERPA_ASR_MODELS[DEFAULT_ASR_SHERPA_MODEL_ID]
+        log.info("Extracting default model: $DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID")
+        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID]
             ?: throw IllegalStateException("Default model not found in supported models")
 
-        val modelPath = getModelPath(DEFAULT_ASR_SHERPA_MODEL_ID)
+        val modelPath = getModelPath(DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID)
         for (component in model.components) {
             val resourcePath = "/models/asr/${component.name}"
             val inputStream = this::class.java.getResourceAsStream(resourcePath)
@@ -83,7 +83,7 @@ class ModelManager {
         }
 
         log.info("Starting download for model: $modelId")
-        val model = SUPPORTED_SHERPA_ASR_MODELS[modelId]
+        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[modelId]
             ?: throw IllegalArgumentException("Model not found: $modelId")
         val archiveFile = model.archiveFile
             ?: throw IllegalArgumentException("Model $modelId does not have an archive file")

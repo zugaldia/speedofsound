@@ -21,7 +21,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.director.DefaultDirector
 import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder

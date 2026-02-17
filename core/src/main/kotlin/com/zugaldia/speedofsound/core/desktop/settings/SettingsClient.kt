@@ -3,10 +3,10 @@ package com.zugaldia.speedofsound.core.desktop.settings
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
-import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
 import com.zugaldia.speedofsound.core.plugins.llm.AnthropicLlmOptions
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlmOptions
@@ -41,7 +41,7 @@ class SettingsClient(val settingsStore: SettingsStore) {
         val apiKey = providerSetting.credentialId?.let { credId -> getCredentials().find { it.id == credId }?.value }
         val language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE
         return when (providerSetting.provider) {
-            AsrProvider.ONNX -> OnnxAsrOptions(
+            AsrProvider.ONNX_WHISPER -> OnnxWhisperAsrOptions(
                 modelId = providerSetting.modelId,
                 language = language,
             )
@@ -51,7 +51,7 @@ class SettingsClient(val settingsStore: SettingsStore) {
                 baseUrl = providerSetting.baseUrl,
                 apiKey = apiKey,
             )
-            AsrProvider.SHERPA -> SherpaAsrOptions(
+            AsrProvider.SHERPA_WHISPER -> SherpaWhisperAsrOptions(
                 modelId = providerSetting.modelId,
                 language = language,
             )
@@ -152,8 +152,8 @@ class SettingsClient(val settingsStore: SettingsStore) {
         return VoiceModelProviderSetting(
             id = DEFAULT_VOICE_MODEL_PROVIDER_ID,
             name = "Default (Whisper Tiny)",
-            provider = AsrProvider.SHERPA,
-            modelId = DEFAULT_ASR_SHERPA_MODEL_ID,
+            provider = AsrProvider.SHERPA_WHISPER,
+            modelId = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID,
             credentialId = null,
             baseUrl = null
         )

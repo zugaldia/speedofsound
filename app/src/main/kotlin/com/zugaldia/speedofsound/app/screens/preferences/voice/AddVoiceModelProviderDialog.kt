@@ -14,7 +14,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.VoiceModelProviderSetting
 import com.zugaldia.speedofsound.core.generateUniqueId
 import com.zugaldia.speedofsound.core.isValidUrl
-import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
 import com.zugaldia.speedofsound.core.plugins.asr.getModelsForProvider
 import org.gnome.adw.ComboRow
@@ -47,8 +47,8 @@ class AddVoiceModelProviderDialog(
     private val messageLabel: Label
 
     // Default to Sherpa (bundled with the JAR)
-    private var selectedProvider: AsrProvider = AsrProvider.SHERPA
-    private var selectedModelId: String = DEFAULT_ASR_SHERPA_MODEL_ID
+    private var selectedProvider: AsrProvider = AsrProvider.SHERPA_WHISPER
+    private var selectedModelId: String = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
     private var selectedCredentialId: String? = null
 
     init {

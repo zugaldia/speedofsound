@@ -4,10 +4,10 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsr
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaAsrOptions
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsr
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
@@ -24,9 +24,9 @@ class AsrProviderManager(
     private val logger = LoggerFactory.getLogger(AsrProviderManager::class.java)
 
     fun registerAsrPlugins() {
-        registry.register(AppPluginCategory.ASR, OnnxAsr())
+        registry.register(AppPluginCategory.ASR, OnnxWhisperAsr())
         registry.register(AppPluginCategory.ASR, OpenAiAsr())
-        registry.register(AppPluginCategory.ASR, SherpaAsr())
+        registry.register(AppPluginCategory.ASR, SherpaWhisperAsr())
     }
 
     /**
@@ -68,18 +68,18 @@ class AsrProviderManager(
     fun updateLanguage(language: Language) {
         val activePlugin = registry.getActive(AppPluginCategory.ASR) ?: return
         when (activePlugin) {
-            is OnnxAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
+            is OnnxWhisperAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
             is OpenAiAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
-            is SherpaAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
+            is SherpaWhisperAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
         }
     }
 
     private fun applyAsrOptions(pluginId: String, options: AsrPluginOptions) {
         val plugin = registry.getPluginById(AppPluginCategory.ASR, pluginId) ?: return
         when (plugin) {
-            is OnnxAsr -> plugin.updateOptions(options as OnnxAsrOptions)
+            is OnnxWhisperAsr -> plugin.updateOptions(options as OnnxWhisperAsrOptions)
             is OpenAiAsr -> plugin.updateOptions(options as OpenAiAsrOptions)
-            is SherpaAsr -> plugin.updateOptions(options as SherpaAsrOptions)
+            is SherpaWhisperAsr -> plugin.updateOptions(options as SherpaWhisperAsrOptions)
         }
     }
 }
