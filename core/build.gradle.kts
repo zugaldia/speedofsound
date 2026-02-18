@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
     implementation(libs.bundles.kotlinxEcosystem)
+    implementation(libs.bundles.ktorEcosystem)
     implementation(libs.commonsCompress)
     implementation(libs.log4jSlf4j2Impl)
     runtimeOnly(libs.log4jCore)

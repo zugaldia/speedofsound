@@ -1,16 +1,21 @@
 package com.zugaldia.speedofsound.core.models.voice
 
+import com.zugaldia.speedofsound.core.generateUniqueId
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getTmpDataDir
 import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.BufferedInputStream
 import java.io.File
-import java.net.URI
 import java.nio.file.Path
 import java.security.MessageDigest
 import kotlin.io.path.ExperimentalPathApi
@@ -19,6 +24,9 @@ import kotlin.io.path.deleteRecursively
 class ModelManager {
     private val log: Logger = LoggerFactory.getLogger(ModelManager::class.java)
 
+    private val _events = MutableSharedFlow<ModelManagerEvent>(replay = 0, extraBufferCapacity = 64)
+    val events: SharedFlow<ModelManagerEvent> = _events.asSharedFlow()
+
     companion object {
         private const val BUFFER_SIZE = 8192
     }
@@ -26,8 +34,8 @@ class ModelManager {
     /**
      * Returns a Path under the data directory in the format "models/modelId" and creates it if it doesn't exist.
      * Note that currently we are not creating subfolders per provider. We are counting on the model ID to include
-     * the provider name to avoid clashing names (e.g., sherpa-onnx-whisper-tiny vs. onnx_whisper_tiny_en)
-     *
+     * the provider name to avoid clashing names (e.g., sherpa-onnx-whisper-tiny vs. onnx_whisper_tiny_en).
+     * In other words, **model IDs are globally unique to the application.**
      */
     fun getModelPath(modelId: String): Path {
         val dataDir = getDataDir()
@@ -45,10 +53,50 @@ class ModelManager {
         val modelPath = getModelPath(modelId)
         val modelDir = modelPath.toFile()
         return modelDir.exists() && modelDir.isDirectory &&
-               model.components.all { component ->
-                   val file = modelPath.resolve(component.name).toFile()
-                   file.exists() && file.length() > 0
-               }
+                model.components.all { component ->
+                    val file = modelPath.resolve(component.name).toFile()
+                    file.exists() && file.length() > 0
+                }
+    }
+
+    @OptIn(ExperimentalPathApi::class)
+    suspend fun deleteModel(modelId: String): Result<Unit> = runCatching {
+        _events.emit(
+            ModelManagerEvent.Progress(
+                modelId = modelId,
+                operation = ModelManagerEvent.Progress.Operation.DELETING,
+                message = "Deleting $modelId files"
+            )
+        )
+
+        val modelPath = getModelPath(modelId)
+        val modelDir = modelPath.toFile()
+        if (!modelDir.exists()) {
+            _events.emit(
+                ModelManagerEvent.Completed(
+                    modelId = modelId,
+                    operation = ModelManagerEvent.Completed.Operation.DELETE
+                )
+            )
+            return@runCatching
+        }
+
+        modelPath.deleteRecursively()
+        _events.emit(
+            ModelManagerEvent.Completed(
+                modelId = modelId,
+                operation = ModelManagerEvent.Completed.Operation.DELETE
+            )
+        )
+    }.onFailure { exception ->
+        _events.emit(
+            ModelManagerEvent.Error(
+                modelId = modelId,
+                operation = ModelManagerEvent.Error.Operation.DELETE,
+                message = exception.message ?: "Failed to delete model",
+                exception = exception
+            )
+        )
     }
 
     fun extractDefaultModel(): Result<Unit> = runCatching {
@@ -56,6 +104,7 @@ class ModelManager {
             log.info("Default model already extracted: $DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID")
             return@runCatching
         }
+
         log.info("Extracting default model: $DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID")
         val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID]
             ?: throw IllegalStateException("Default model not found in supported models")
@@ -76,9 +125,15 @@ class ModelManager {
     }
 
     @OptIn(ExperimentalPathApi::class)
-    fun downloadModel(modelId: String): Result<Unit> = runCatching {
+    @Suppress("LongMethod")
+    suspend fun downloadModel(modelId: String): Result<Unit> = runCatching {
         if (isModelDownloaded(modelId)) {
-            log.info("Model already downloaded: $modelId")
+            _events.emit(
+                ModelManagerEvent.Completed(
+                    modelId = modelId,
+                    operation = ModelManagerEvent.Completed.Operation.DOWNLOAD
+                )
+            )
             return@runCatching
         }
 
@@ -87,28 +142,93 @@ class ModelManager {
             ?: throw IllegalArgumentException("Model not found: $modelId")
         val archiveFile = model.archiveFile
             ?: throw IllegalArgumentException("Model $modelId does not have an archive file")
-        val tempDir = getTmpDataDir()
+
+        // Create a unique temporary directory for this download to avoid conflicts
+        val tempDir = getTmpDataDir().resolve(generateUniqueId())
+        tempDir.toFile().mkdirs()
 
         try {
-            // Download the compressed file
+            // Step 1: Download the compressed file
             val downloadedFile = tempDir.resolve("${modelId}.tar.bz2").toFile()
             val archiveUrl = archiveFile.url
                 ?: throw IllegalArgumentException("Archive URL not available")
-            downloadFile(archiveUrl, downloadedFile)
+            ModelDownloader().use { downloader ->
+                coroutineScope {
+                    val progressJob = launch {
+                        downloader.progressFlow.collect { progress ->
+                            _events.emit(
+                                ModelManagerEvent.Progress(
+                                    modelId = modelId,
+                                    operation = ModelManagerEvent.Progress.Operation.DOWNLOADING,
+                                    message = "Downloading $modelId archive",
+                                    bytesProcessed = progress.bytesDownloaded,
+                                    totalBytes = progress.totalBytes,
+                                    percentage = progress.percentage
+                                )
+                            )
+                        }
+                    }
+
+                    try {
+                        downloader.downloadFile(archiveUrl, downloadedFile).getOrThrow()
+                    } finally {
+                        progressJob.cancel()
+                    }
+                }
+            }
+
+            // Step 2: Verify checksum
             val archiveSha256 = archiveFile.sha256sum
                 ?: throw IllegalArgumentException("Archive SHA256 not available")
+            _events.emit(
+                ModelManagerEvent.Progress(
+                    modelId = modelId,
+                    operation = ModelManagerEvent.Progress.Operation.VERIFYING_CHECKSUM,
+                    message = "Verifying $modelId archive integrity"
+                )
+            )
             verifySha256(downloadedFile, archiveSha256)
 
-            // Extract the tar.bz2 archive
-            log.info("Extracting archive for model: $modelId")
+            // Step 3: Extract the tar.bz2 archive
+            _events.emit(
+                ModelManagerEvent.Progress(
+                    modelId = modelId,
+                    operation = ModelManagerEvent.Progress.Operation.EXTRACTING,
+                    message = "Extracting $modelId archive"
+                )
+            )
             extractTarBz2(downloadedFile, tempDir.toFile())
 
-            // Copy the required model files to the destination
+            // Step 4: Copy the required model files to the destination
+            _events.emit(
+                ModelManagerEvent.Progress(
+                    modelId = modelId,
+                    operation = ModelManagerEvent.Progress.Operation.COPYING_FILES,
+                    message = "Copying $modelId files"
+                )
+            )
             copyModelFiles(tempDir.toFile(), modelId, model)
+
+            // Step 5: Profit
+            _events.emit(
+                ModelManagerEvent.Completed(
+                    modelId = modelId,
+                    operation = ModelManagerEvent.Completed.Operation.DOWNLOAD
+                )
+            )
         } finally {
             // Clean up the temporary directory and all its contents
             tempDir.deleteRecursively()
         }
+    }.onFailure { exception ->
+        _events.emit(
+            ModelManagerEvent.Error(
+                modelId = modelId,
+                operation = ModelManagerEvent.Error.Operation.DOWNLOAD,
+                message = exception.message ?: "Failed to download model",
+                exception = exception
+            )
+        )
     }
 
     /**
@@ -133,22 +253,6 @@ class ModelManager {
         }
     }
 
-    /**
-     * Download a file from a URL to a local destination.
-     */
-    private fun downloadFile(url: String, destination: File) {
-        if (destination.exists()) {
-            log.info("File already downloaded at: ${destination.absolutePath}")
-            return
-        }
-
-        log.info("Downloading file from $url to ${destination.absolutePath}")
-        URI(url).toURL().openStream().use { input ->
-            destination.outputStream().use { output ->
-                input.copyTo(output)
-            }
-        }
-    }
 
     /**
      * Extract a tar.bz2 archive to a destination directory.
@@ -207,7 +311,7 @@ class ModelManager {
         if (actualChecksum != expectedChecksum.lowercase()) {
             throw IllegalStateException(
                 "SHA256 checksum mismatch for ${file.name}. " +
-                "Expected: $expectedChecksum, Actual: $actualChecksum"
+                        "Expected: $expectedChecksum, Actual: $actualChecksum"
             )
         } else {
             log.info("SHA256 checksum verified for ${file.name}")
