@@ -86,9 +86,20 @@ class MainViewModel(
         collectPortalsSessionState()
         portalsSessionManager.initialize(viewModelScope)
         state.updateStage(AppStage.IDLE)
+
+        // Initialize status UI labels
+        onPrimaryLanguageSelected(forceUpdate = true)
+        updateModelLabels()
     }
 
     fun onTriggerAction() {
+        // Safeguard: only proceed if we're in IDLE (to start) or LISTENING (to stop) state
+        val currentStage = state.currentStage()
+        if (currentStage != AppStage.IDLE && currentStage != AppStage.LISTENING) {
+            logger.info("Ignoring trigger action during processing stage: $currentStage")
+            return
+        }
+
         // Check if the portal session needs reconnection. This typically happens when the user locks the screen and
         // comes back. The remote desktop session is closed in those circumstances for security reasons.
         portalsSessionManager.attemptReconnect(viewModelScope)
@@ -170,12 +181,27 @@ class MainViewModel(
             KEY_CUSTOM_VOCABULARY -> director.updateOptions(
                 director.getOptions().copy(customVocabulary = settingsClient.getCustomVocabulary())
             )
-            KEY_TEXT_PROCESSING_ENABLED -> director.updateOptions(
-                director.getOptions().copy(enableTextProcessing = settingsClient.getTextProcessingEnabled()))
-            KEY_SELECTED_VOICE_MODEL_PROVIDER_ID -> asrProviderManager.activateSelectedProvider()
-            KEY_VOICE_MODEL_PROVIDERS -> asrProviderManager.refreshProviderConfiguration()
-            KEY_SELECTED_TEXT_MODEL_PROVIDER_ID -> llmProviderManager.activateSelectedProvider()
-            KEY_TEXT_MODEL_PROVIDERS -> llmProviderManager.refreshProviderConfiguration()
+            KEY_TEXT_PROCESSING_ENABLED -> {
+                director.updateOptions(
+                    director.getOptions().copy(enableTextProcessing = settingsClient.getTextProcessingEnabled()))
+                updateModelLabels()
+            }
+            KEY_SELECTED_VOICE_MODEL_PROVIDER_ID -> {
+                asrProviderManager.activateSelectedProvider()
+                updateModelLabels()
+            }
+            KEY_VOICE_MODEL_PROVIDERS -> {
+                asrProviderManager.refreshProviderConfiguration()
+                updateModelLabels()
+            }
+            KEY_SELECTED_TEXT_MODEL_PROVIDER_ID -> {
+                llmProviderManager.activateSelectedProvider()
+                updateModelLabels()
+            }
+            KEY_TEXT_MODEL_PROVIDERS -> {
+                llmProviderManager.refreshProviderConfiguration()
+                updateModelLabels()
+            }
             KEY_CREDENTIALS -> {
                 asrProviderManager.refreshProviderConfiguration()
                 llmProviderManager.refreshProviderConfiguration()
@@ -183,13 +209,20 @@ class MainViewModel(
         }
     }
 
+    private fun updateModelLabels() {
+        val asrModelName = asrProviderManager.getCurrentProviderName()
+        val llmModelName = llmProviderManager.getCurrentProviderName()
+        state.updateAsrModel(asrModelName)
+        state.updateLlmModel(llmModelName)
+    }
+
     fun startPortalsSession(token: String? = null) {
         portalsSessionManager.startSession(viewModelScope, token)
     }
 
-    fun onPrimaryLanguageSelected() {
+    fun onPrimaryLanguageSelected(forceUpdate: Boolean = false) {
         val language = languageFromIso2(settingsClient.getDefaultLanguage()) ?: DEFAULT_LANGUAGE
-        if (language == state.currentLanguage()) return
+        if (!forceUpdate && language == state.currentLanguage()) return // Force update on initialization
         state.updateLanguage(language)
         asrProviderManager.updateLanguage(language)
         director.updateOptions(director.getOptions().copy(language = language))

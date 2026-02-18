@@ -69,4 +69,16 @@ class LlmProviderManager(
             is OpenAiLlm -> plugin.updateOptions(options as OpenAiLlmOptions)
         }
     }
+
+    /**
+     * Gets the name of the currently selected LLM provider.
+     * Returns an empty string if text processing is disabled.
+     */
+    fun getCurrentProviderName(): String {
+        if (!settingsClient.getTextProcessingEnabled()) { return "" }
+        val selectedProviderId = settingsClient.getSelectedTextModelProviderId()
+        val providers = settingsClient.getTextModelProviders()
+        val selectedProvider = providers.find { it.id == selectedProviderId }
+        return selectedProvider?.name ?: ""
+    }
 }

@@ -74,6 +74,16 @@ class AsrProviderManager(
         }
     }
 
+    /**
+     * Gets the name of the currently selected ASR provider.
+     */
+    fun getCurrentProviderName(): String {
+        val selectedProviderId = settingsClient.getSelectedVoiceModelProviderId()
+        val providers = settingsClient.getVoiceModelProviders()
+        val selectedProvider = providers.find { it.id == selectedProviderId }
+        return selectedProvider?.name ?: ""
+    }
+
     private fun applyAsrOptions(pluginId: String, options: AsrPluginOptions) {
         val plugin = registry.getPluginById(AppPluginCategory.ASR, pluginId) ?: return
         when (plugin) {
