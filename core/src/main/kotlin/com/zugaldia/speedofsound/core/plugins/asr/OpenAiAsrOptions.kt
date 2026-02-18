@@ -10,15 +10,18 @@ val DEFAULT_ASR_OPENAI_MODEL_ID = AudioModel.GPT_4O_TRANSCRIBE.asString()
 val SUPPORTED_OPENAI_ASR_MODELS = mapOf(
     AudioModel.GPT_4O_TRANSCRIBE.asString() to VoiceModel(
         id = AudioModel.GPT_4O_TRANSCRIBE.asString(),
-        name = "GPT-4o Transcribe"
+        name = "GPT-4o Transcribe",
+        provider = AsrProvider.OPENAI
     ),
     AudioModel.GPT_4O_MINI_TRANSCRIBE.asString() to VoiceModel(
         id = AudioModel.GPT_4O_MINI_TRANSCRIBE.asString(),
-        name = "GPT-4o Transcribe Mini"
+        name = "GPT-4o Transcribe Mini",
+        provider = AsrProvider.OPENAI
     ),
     AudioModel.WHISPER_1.asString() to VoiceModel(
         id = AudioModel.WHISPER_1.asString(),
-        name = "Whisper"
+        name = "Whisper",
+        provider = AsrProvider.OPENAI
     )
 )
 

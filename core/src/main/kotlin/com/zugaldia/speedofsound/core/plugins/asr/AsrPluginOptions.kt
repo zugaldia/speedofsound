@@ -3,14 +3,29 @@ package com.zugaldia.speedofsound.core.plugins.asr
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.models.voice.VoiceModel
 import com.zugaldia.speedofsound.core.plugins.AppPluginOptions
+import com.zugaldia.speedofsound.core.plugins.SelectableProvider
 
 /**
  * Supported ASR providers.
+ *
+ * @param displayName Human-readable name for the provider
+ * @param isLocallyManaged Whether the provider uses models managed in the model library
  */
-enum class AsrProvider(val displayName: String) {
-    ONNX_WHISPER("Whisper (ONNX)"),
-    OPENAI("OpenAI"),
-    SHERPA_WHISPER("Whisper (Sherpa)");
+enum class AsrProvider(
+    override val displayName: String,
+    val isLocallyManaged: Boolean
+) : SelectableProvider {
+    ONNX_WHISPER("Whisper (ONNX)", isLocallyManaged = true),
+    OPENAI("OpenAI", isLocallyManaged = false),
+    SHERPA_WHISPER("Whisper (Local)", isLocallyManaged = true);
+
+    companion object {
+        /**
+         * Returns only providers that are not locally managed (i.e., custom/remote providers).
+         * Locally managed providers will be configured in the model library page.
+         */
+        fun getCustomProviders(): List<AsrProvider> = entries.filter { !it.isLocallyManaged }
+    }
 }
 
 /**

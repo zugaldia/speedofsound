@@ -8,19 +8,23 @@ val DEFAULT_LLM_OPENAI_MODEL_ID = ChatModel.GPT_5_2.asString()
 val SUPPORTED_OPENAI_TEXT_MODELS = mapOf(
     ChatModel.GPT_5_2_PRO.asString() to TextModel(
         id = ChatModel.GPT_5_2_PRO.asString(),
-        name = "GPT 5.2 Pro"
+        name = "GPT 5.2 Pro",
+        provider = LlmProvider.OPENAI
     ),
     ChatModel.GPT_5_2.asString() to TextModel(
         id = ChatModel.GPT_5_2.asString(),
-        name = "GPT 5.2"
+        name = "GPT 5.2",
+        provider = LlmProvider.OPENAI
     ),
     ChatModel.GPT_5_1_MINI.asString() to TextModel(
         id = ChatModel.GPT_5_1_MINI.asString(),
-        name = "GPT 5.1 Mini"
+        name = "GPT 5.1 Mini",
+        provider = LlmProvider.OPENAI
     ),
     ChatModel.GPT_5_NANO.asString() to TextModel(
         id = ChatModel.GPT_5_NANO.asString(),
-        name = "GPT 5.0 Nano"
+        name = "GPT 5.0 Nano",
+        provider = LlmProvider.OPENAI
     ),
 )
 

@@ -72,7 +72,7 @@ class AnthropicLlm(
         log.info("Fetching available models from Anthropic endpoint")
         val models = mutableListOf<TextModel>()
         currentClient.models().list().autoPager().forEach { model ->
-            models.add(TextModel(id = model.id(), name = model.displayName()))
+            models.add(TextModel(id = model.id(), name = model.displayName(), provider = LlmProvider.ANTHROPIC))
         }
 
         log.info("Retrieved ${models.size} models from Anthropic: ${models.joinToString { it.name }}")

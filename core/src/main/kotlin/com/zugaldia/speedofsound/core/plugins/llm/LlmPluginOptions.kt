@@ -2,11 +2,12 @@ package com.zugaldia.speedofsound.core.plugins.llm
 
 import com.zugaldia.speedofsound.core.models.text.TextModel
 import com.zugaldia.speedofsound.core.plugins.AppPluginOptions
+import com.zugaldia.speedofsound.core.plugins.SelectableProvider
 
 /**
  * Supported LLM providers.
  */
-enum class LlmProvider(val displayName: String) {
+enum class LlmProvider(override val displayName: String) : SelectableProvider {
     ANTHROPIC("Anthropic"),
     GOOGLE("Google"),
     OPENAI("OpenAI");

@@ -11,6 +11,7 @@ val SUPPORTED_ONNX_WHISPER_ASR_MODELS = mapOf(
     DEFAULT_ASR_ONNX_WHISPER_MODEL_ID to VoiceModel(
         id = DEFAULT_ASR_ONNX_WHISPER_MODEL_ID,
         name = "OpenAI Whisper Tiny (English only)",
+        provider = AsrProvider.ONNX_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 72L,
         components = listOf(

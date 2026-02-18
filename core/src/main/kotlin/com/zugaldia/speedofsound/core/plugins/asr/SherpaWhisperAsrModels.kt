@@ -20,6 +20,7 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID to VoiceModel(
         id = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID,
         name = "Whisper Tiny",
+        provider = AsrProvider.SHERPA_WHISPER,
         dataSizeMegabytes = 99L,
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-whisper-tiny",
@@ -34,7 +35,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-tiny.en" to VoiceModel(
         id = "sherpa-onnx-whisper-tiny.en",
-        name = "Whisper Tiny (English)",
+        name = "Whisper Tiny (English only)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 99L,
         archiveFile = VoiceModelFile(
@@ -51,6 +53,7 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     "sherpa-onnx-whisper-base" to VoiceModel(
         id = "sherpa-onnx-whisper-base",
         name = "Whisper Base",
+        provider = AsrProvider.SHERPA_WHISPER,
         dataSizeMegabytes = 154L,
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-whisper-base",
@@ -65,7 +68,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-base.en" to VoiceModel(
         id = "sherpa-onnx-whisper-base.en",
-        name = "Whisper Base (English)",
+        name = "Whisper Base (English only)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 154L,
         archiveFile = VoiceModelFile(
@@ -82,6 +86,7 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     "sherpa-onnx-whisper-small" to VoiceModel(
         id = "sherpa-onnx-whisper-small",
         name = "Whisper Small",
+        provider = AsrProvider.SHERPA_WHISPER,
         dataSizeMegabytes = 359L,
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-whisper-small",
@@ -96,7 +101,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-small.en" to VoiceModel(
         id = "sherpa-onnx-whisper-small.en",
-        name = "Whisper Small (English)",
+        name = "Whisper Small (English only)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 359L,
         archiveFile = VoiceModelFile(
@@ -113,6 +119,7 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     "sherpa-onnx-whisper-medium" to VoiceModel(
         id = "sherpa-onnx-whisper-medium",
         name = "Whisper Medium",
+        provider = AsrProvider.SHERPA_WHISPER,
         dataSizeMegabytes = 903L,
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-whisper-medium",
@@ -127,7 +134,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-medium.en" to VoiceModel(
         id = "sherpa-onnx-whisper-medium.en",
-        name = "Whisper Medium (English)",
+        name = "Whisper Medium (English only)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 903L,
         archiveFile = VoiceModelFile(
@@ -144,6 +152,7 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     "sherpa-onnx-whisper-large-v3" to VoiceModel(
         id = "sherpa-onnx-whisper-large-v3",
         name = "Whisper Large v3",
+        provider = AsrProvider.SHERPA_WHISPER,
         dataSizeMegabytes = 1694L,
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-whisper-large-v3",
@@ -159,6 +168,7 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     "sherpa-onnx-whisper-turbo" to VoiceModel(
         id = "sherpa-onnx-whisper-turbo",
         name = "Whisper Turbo",
+        provider = AsrProvider.SHERPA_WHISPER,
         dataSizeMegabytes = 989L,
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-whisper-turbo",
@@ -173,7 +183,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-distil-small.en" to VoiceModel(
         id = "sherpa-onnx-whisper-distil-small.en",
-        name = "Whisper Small (English, distilled)",
+        name = "Whisper Small (English only, optimized)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 286L,
         archiveFile = VoiceModelFile(
@@ -189,7 +200,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-distil-medium.en" to VoiceModel(
         id = "sherpa-onnx-whisper-distil-medium.en",
-        name = "Whisper Medium (English, distilled)",
+        name = "Whisper Medium (English only, optimized)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 547L,
         archiveFile = VoiceModelFile(
@@ -205,7 +217,8 @@ val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     ),
     "sherpa-onnx-whisper-distil-large-v3.5" to VoiceModel(
         id = "sherpa-onnx-whisper-distil-large-v3.5",
-        name = "Whisper Large v3.5 (English, distilled)",
+        name = "Whisper Large v3.5 (English only, optimized)",
+        provider = AsrProvider.SHERPA_WHISPER,
         languages = listOf(Language.ENGLISH),
         dataSizeMegabytes = 939L,
         archiveFile = VoiceModelFile(

@@ -32,13 +32,13 @@ data class CredentialSetting(
  */
 @Serializable
 data class VoiceModelProviderSetting(
-    val id: String,
-    val name: String,
+    override val id: String,
+    override val name: String,
     val provider: AsrProvider,
     val modelId: String,
     val credentialId: String? = null,
     val baseUrl: String? = null
-)
+) : SelectableProviderSetting
 
 /**
  * Configuration for a text model provider.
@@ -48,10 +48,10 @@ data class VoiceModelProviderSetting(
  */
 @Serializable
 data class TextModelProviderSetting(
-    val id: String,
-    val name: String,
+    override val id: String,
+    override val name: String,
     val provider: LlmProvider,
     val modelId: String,
     val credentialId: String? = null,
     val baseUrl: String? = null
-)
+) : SelectableProviderSetting

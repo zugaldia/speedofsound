@@ -8,15 +8,18 @@ val DEFAULT_LLM_ANTHROPIC_MODEL_ID = Model.CLAUDE_SONNET_4_5.asString()
 val SUPPORTED_ANTHROPIC_TEXT_MODELS = mapOf(
     Model.CLAUDE_OPUS_4_5.asString() to TextModel(
         id = Model.CLAUDE_OPUS_4_5.asString(),
-        name = "Claude Opus 4.5"
+        name = "Claude Opus 4.5",
+        provider = LlmProvider.ANTHROPIC
     ),
     Model.CLAUDE_SONNET_4_5.asString() to TextModel(
         id = Model.CLAUDE_SONNET_4_5.asString(),
-        name = "Claude Sonnet 4.5"
+        name = "Claude Sonnet 4.5",
+        provider = LlmProvider.ANTHROPIC
     ),
     Model.CLAUDE_HAIKU_4_5.asString() to TextModel(
         id = Model.CLAUDE_HAIKU_4_5.asString(),
-        name = "Claude Haiku 4.5"
+        name = "Claude Haiku 4.5",
+        provider = LlmProvider.ANTHROPIC
     ),
 )
 

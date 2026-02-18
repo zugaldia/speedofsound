@@ -60,7 +60,7 @@ class GoogleLlm(
             val name = model.name().orElse(null)
             val displayName = model.displayName().orElse(null) ?: name
             if (name != null && displayName != null) {
-                models.add(TextModel(id = name, name = displayName))
+                models.add(TextModel(id = name, name = displayName, provider = LlmProvider.GOOGLE))
             }
         }
 

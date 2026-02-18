@@ -73,7 +73,7 @@ class OpenAiLlm(
         val models = mutableListOf<TextModel>()
         currentClient.models().list().autoPager().forEach { model ->
             // OpenAI doesn't provide separate display names
-            models.add(TextModel(id = model.id(), name = model.id()))
+            models.add(TextModel(id = model.id(), name = model.id(), provider = LlmProvider.OPENAI))
         }
 
         log.info("Retrieved ${models.size} models from OpenAI: ${models.joinToString { it.name }}")
