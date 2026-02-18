@@ -7,6 +7,7 @@ import com.zugaldia.speedofsound.app.STYLE_CLASS_DESTRUCTIVE_ACTION
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
+import com.zugaldia.speedofsound.app.screens.preferences.shared.ActiveProviderComboRow
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_VOICE_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.VoiceModelProviderSetting
 import org.gnome.adw.ActionRow
@@ -21,7 +22,7 @@ import org.slf4j.LoggerFactory
 class VoiceModelsPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
     private val logger = LoggerFactory.getLogger(VoiceModelsPage::class.java)
 
-    private val activeProviderComboRow: ActiveProviderComboRow
+    private val activeProviderComboRow: ActiveProviderComboRow<VoiceModelProviderSetting>
     private val providersListBox: ListBox
     private val addProviderButton: Button
 
@@ -31,7 +32,8 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
 
         activeProviderComboRow = ActiveProviderComboRow(
             getSelectedProviderId = { viewModel.getSelectedVoiceModelProviderId() },
-            setSelectedProviderId = { viewModel.setSelectedVoiceModelProviderId(it) }
+            setSelectedProviderId = { viewModel.setSelectedVoiceModelProviderId(it) },
+            rowSubtitle = "Select which provider to use for speech recognition"
         )
 
         val textProcessingGroup = PreferencesGroup().apply {
@@ -60,19 +62,23 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
 
         add(textProcessingGroup)
         add(providersGroup)
-        loadInitialProviders()
         setupNotifications()
-    }
-
-    private fun loadInitialProviders() {
-        val providers = viewModel.getVoiceModelProviders()
-        providers.sortedBy { it.name.lowercase() }.forEach { provider -> addProviderToUI(provider) }
-        activeProviderComboRow.updateProviders(providers)
-        updateAddProviderButtonState()
     }
 
     private fun setupNotifications() {
         activeProviderComboRow.setupNotifications()
+    }
+
+    fun refreshProviders() {
+        logger.info("Loading voice model providers")
+        while (providersListBox.firstChild != null) {
+            providersListBox.remove(providersListBox.firstChild)
+        }
+
+        val providers = viewModel.getVoiceModelProviders()
+        providers.sortedBy { it.name.lowercase() }.forEach { provider -> addProviderToUI(provider) }
+        activeProviderComboRow.updateProviders(providers)
+        updateAddProviderButtonState()
     }
 
     private fun addProviderToUI(providerSetting: VoiceModelProviderSetting) {

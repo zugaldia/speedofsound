@@ -1,4 +1,4 @@
-package com.zugaldia.speedofsound.app.screens.preferences.voice
+package com.zugaldia.speedofsound.app.screens.preferences.shared
 
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import org.gnome.adw.EntryRow
@@ -8,22 +8,12 @@ import org.gnome.gio.SimpleActionGroup
 import org.gnome.gtk.MenuButton
 
 /**
- * Represents a preset URL for a local ASR service.
+ * Generic entry row for base URL input with preset service selection.
  */
-data class LocalAsrServicePreset(
-    val displayName: String,
-    val actionName: String,
-    val url: String
-)
-
 class BaseUrlEntryRow(
+    private val servicePresets: List<CustomServicePreset>,
     private val onTextChanged: () -> Unit
 ) : EntryRow() {
-
-    private val servicePresets = listOf(
-        LocalAsrServicePreset("vLLM (OpenAI)", "vllm-openai", "http://localhost:8000/v1"),
-    )
-
     init {
         title = "Base URL (optional)"
         setupSuffixButton()
@@ -36,7 +26,7 @@ class BaseUrlEntryRow(
         }
 
         val menuButton = MenuButton().apply {
-            iconName = "view-list-symbolic"
+            iconName = "image-auto-adjust-symbolic"
             tooltipText = "Select a common local service"
             cssClasses = arrayOf(STYLE_CLASS_FLAT)
             menuModel = menu

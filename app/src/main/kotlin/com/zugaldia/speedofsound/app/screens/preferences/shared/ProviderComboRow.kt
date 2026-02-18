@@ -1,21 +1,24 @@
-package com.zugaldia.speedofsound.app.screens.preferences.text
+package com.zugaldia.speedofsound.app.screens.preferences.shared
 
-import com.zugaldia.speedofsound.core.plugins.llm.LlmProvider
+import com.zugaldia.speedofsound.core.plugins.SelectableProvider
 import org.gnome.adw.ComboRow
 import org.gnome.gtk.StringList
 import org.slf4j.LoggerFactory
 
 /**
- * Custom ComboRow for selecting an LLM provider.
+ * Generic ComboRow for selecting a provider (ASR or LLM).
+ *
+ * @param T The provider type that implements SelectableProvider
+ * @param providers List of providers to show
  */
-class ProviderComboRow(
+class ProviderComboRow<T>(
     rowTitle: String,
     rowSubtitle: String,
-    getCurrentProvider: () -> LlmProvider?,
-    private val onProviderSelected: (LlmProvider) -> Unit
-) : ComboRow() {
+    getCurrentProvider: () -> T?,
+    private val onProviderSelected: (T) -> Unit,
+    private val providers: List<T>
+) : ComboRow() where T : SelectableProvider {
     private val logger = LoggerFactory.getLogger(ProviderComboRow::class.java)
-    private val providers = LlmProvider.entries
 
     init {
         val providerNames = providers.map { it.displayName }.toTypedArray()

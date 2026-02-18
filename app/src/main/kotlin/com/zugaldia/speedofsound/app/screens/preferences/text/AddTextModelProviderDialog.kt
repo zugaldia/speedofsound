@@ -10,6 +10,10 @@ import com.zugaldia.speedofsound.app.STYLE_CLASS_ERROR
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUCCESS
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.STYLE_CLASS_WARNING
+import com.zugaldia.speedofsound.app.screens.preferences.shared.BaseUrlEntryRow
+import com.zugaldia.speedofsound.app.screens.preferences.shared.CustomServicePreset.Companion.TEXT_SERVICE_PRESETS
+import com.zugaldia.speedofsound.app.screens.preferences.shared.ModelComboRow
+import com.zugaldia.speedofsound.app.screens.preferences.shared.ProviderComboRow
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
 import com.zugaldia.speedofsound.core.generateUniqueId
@@ -53,8 +57,8 @@ class AddTextModelProviderDialog(
     private val logger = LoggerFactory.getLogger(AddTextModelProviderDialog::class.java)
 
     private val nameEntry: EntryRow
-    private val providerComboRow: ProviderComboRow
-    private val modelComboRow: ModelComboRow
+    private val providerComboRow: ProviderComboRow<LlmProvider>
+    private val modelComboRow: ModelComboRow<TextModel>
     private val credentialComboRow: ComboRow
     private val fetchButton: Button
     private val baseUrlEntry: BaseUrlEntryRow
@@ -85,7 +89,8 @@ class AddTextModelProviderDialog(
             onProviderSelected = { provider: LlmProvider ->
                 selectedProvider = provider
                 refreshDialog()
-            }
+            },
+            providers = LlmProvider.entries
         )
 
         fetchButton = Button.fromIconName("view-refresh-symbolic").apply {
@@ -113,6 +118,7 @@ class AddTextModelProviderDialog(
         }
 
         baseUrlEntry = BaseUrlEntryRow(
+            servicePresets = TEXT_SERVICE_PRESETS,
             onTextChanged = { updateAddButtonState() }
         )
 

@@ -1,20 +1,23 @@
-package com.zugaldia.speedofsound.app.screens.preferences.text
+package com.zugaldia.speedofsound.app.screens.preferences.shared
 
-import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
+import com.zugaldia.speedofsound.core.desktop.settings.SelectableProviderSetting
 import org.gnome.adw.ComboRow
 import org.gnome.gtk.StringList
 import org.slf4j.LoggerFactory
 
 /**
- * ComboRow for selecting the active text model provider from the list of configured providers.
+ * Generic ComboRow for selecting the active model provider from the list of configured providers.
+ *
+ * @param T The provider setting type that implements SelectableProviderSetting
  */
-class ActiveProviderComboRow(
+class ActiveProviderComboRow<T>(
     private val getSelectedProviderId: () -> String,
-    private val setSelectedProviderId: (String) -> Unit
-) : ComboRow() {
+    private val setSelectedProviderId: (String) -> Unit,
+    private val rowSubtitle: String
+) : ComboRow() where T : SelectableProviderSetting {
     private val logger = LoggerFactory.getLogger(ActiveProviderComboRow::class.java)
 
-    private var providers: List<TextModelProviderSetting> = emptyList()
+    private var providers: List<T> = emptyList()
 
     // Prevents onNotify("selected") from firing while rebuilding the model, which would
     // overwrite the saved selection before we can restore it
@@ -22,7 +25,7 @@ class ActiveProviderComboRow(
 
     init {
         title = "Active Provider"
-        subtitle = "Select which provider to use for text processing"
+        subtitle = rowSubtitle
         useSubtitle = true
         enableSearch = false
     }
@@ -30,7 +33,7 @@ class ActiveProviderComboRow(
     /**
      * Update the list of available providers and refresh the UI.
      */
-    fun updateProviders(newProviders: List<TextModelProviderSetting>) {
+    fun updateProviders(newProviders: List<T>) {
         isUpdating = true
         try {
             providers = newProviders.sortedBy { it.name.lowercase() }
@@ -66,7 +69,7 @@ class ActiveProviderComboRow(
             val selectedIndex = selected
             if (selectedIndex in providers.indices) {
                 val selectedProvider = providers[selectedIndex]
-                logger.info("Selected text model provider changed to ${selectedProvider.name}")
+                logger.info("Selected model provider changed to ${selectedProvider.name}")
                 setSelectedProviderId(selectedProvider.id)
             }
         }

@@ -1,23 +1,24 @@
-package com.zugaldia.speedofsound.app.screens.preferences.voice
+package com.zugaldia.speedofsound.app.screens.preferences.shared
 
-import com.zugaldia.speedofsound.core.models.voice.VoiceModel
+import com.zugaldia.speedofsound.core.models.SelectableModel
 import org.gnome.adw.ComboRow
 import org.gnome.gtk.StringList
 import org.slf4j.LoggerFactory
 
 /**
- * Manager for model selection from a list of predefined models.
+ * Generic manager for model selection from a list of predefined models.
+ * Works with any model type that implements SelectableModel.
  */
-class ModelComboRow(
+class ModelComboRow<T : SelectableModel>(
     rowTitle: String,
     rowSubtitle: String,
-    private val getModels: () -> Map<String, VoiceModel>,
+    private val getModels: () -> Map<String, T>,
     private val getCurrentModelId: () -> String,
     private val onModelIdSelected: (String) -> Unit
 ) : ComboRow() {
     private val logger = LoggerFactory.getLogger(ModelComboRow::class.java)
 
-    private var currentModels: Map<String, VoiceModel> = emptyMap()
+    private var currentModels: Map<String, T> = emptyMap()
 
     init {
         title = rowTitle
@@ -39,7 +40,7 @@ class ModelComboRow(
      * Refresh the list of available models with a custom list (e.g., fetched from API).
      * Only applies the update if the list is non-empty.
      */
-    fun refreshComboRows(models: List<VoiceModel>) {
+    fun refreshComboRows(models: List<T>) {
         if (models.isEmpty()) { return }
         currentModels = models.associateBy { it.id }
         refreshComboRowsInternal()

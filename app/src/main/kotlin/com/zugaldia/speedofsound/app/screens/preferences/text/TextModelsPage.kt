@@ -8,6 +8,7 @@ import com.zugaldia.speedofsound.app.STYLE_CLASS_DIM_LABEL
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
+import com.zugaldia.speedofsound.app.screens.preferences.shared.ActiveProviderComboRow
 import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
@@ -26,7 +27,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
     private val logger = LoggerFactory.getLogger(TextModelsPage::class.java)
 
     private val enableSwitch: SwitchRow
-    private val activeProviderComboRow: ActiveProviderComboRow
+    private val activeProviderComboRow: ActiveProviderComboRow<TextModelProviderSetting>
     private val providersListBox: ListBox
     private val placeholderBox: Box
     private val addProviderButton: Button
@@ -43,7 +44,8 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
         activeProviderComboRow = ActiveProviderComboRow(
             getSelectedProviderId = { viewModel.getSelectedTextModelProviderId() },
-            setSelectedProviderId = { viewModel.setSelectedTextModelProviderId(it) }
+            setSelectedProviderId = { viewModel.setSelectedTextModelProviderId(it) },
+            rowSubtitle = "Select which provider to use for text processing"
         )
 
         val textProcessingGroup = PreferencesGroup().apply {

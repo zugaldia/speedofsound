@@ -10,12 +10,18 @@ import com.zugaldia.speedofsound.app.STYLE_CLASS_ERROR
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUCCESS
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.STYLE_CLASS_WARNING
+import com.zugaldia.speedofsound.app.screens.preferences.shared.BaseUrlEntryRow
+import com.zugaldia.speedofsound.app.screens.preferences.shared.CustomServicePreset.Companion.VOICE_SERVICE_PRESETS
+import com.zugaldia.speedofsound.app.screens.preferences.shared.ModelComboRow
+import com.zugaldia.speedofsound.app.screens.preferences.shared.ProviderComboRow
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.VoiceModelProviderSetting
 import com.zugaldia.speedofsound.core.generateUniqueId
 import com.zugaldia.speedofsound.core.isValidUrl
+import com.zugaldia.speedofsound.core.models.voice.VoiceModel
 import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_OPENAI_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.getModelsForProvider
 import org.gnome.adw.ComboRow
 import org.gnome.adw.Dialog
@@ -39,16 +45,16 @@ class AddVoiceModelProviderDialog(
     private val logger = LoggerFactory.getLogger(AddVoiceModelProviderDialog::class.java)
 
     private val nameEntry: EntryRow
-    private val providerComboRow: ProviderComboRow
-    private val modelComboRow: ModelComboRow
+    private val providerComboRow: ProviderComboRow<AsrProvider>
+    private val modelComboRow: ModelComboRow<VoiceModel>
     private val credentialComboRow: ComboRow
     private val baseUrlEntry: BaseUrlEntryRow
     private val addButton: Button
     private val messageLabel: Label
 
-    // Default to Sherpa (bundled with the JAR)
-    private var selectedProvider: AsrProvider = AsrProvider.SHERPA_WHISPER
-    private var selectedModelId: String = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
+    // Default to OpenAI (only custom/remote providers are shown in this dialog)
+    private var selectedProvider: AsrProvider = AsrProvider.OPENAI
+    private var selectedModelId: String = DEFAULT_ASR_OPENAI_MODEL_ID
     private var selectedCredentialId: String? = null
 
     init {
@@ -67,7 +73,8 @@ class AddVoiceModelProviderDialog(
             onProviderSelected = { provider: AsrProvider ->
                 selectedProvider = provider
                 refreshDialog()
-            }
+            },
+            providers = AsrProvider.getCustomProviders()
         )
 
         modelComboRow = ModelComboRow(
@@ -88,6 +95,7 @@ class AddVoiceModelProviderDialog(
         }
 
         baseUrlEntry = BaseUrlEntryRow(
+            servicePresets = VOICE_SERVICE_PRESETS,
             onTextChanged = { updateAddButtonState() }
         )
 
