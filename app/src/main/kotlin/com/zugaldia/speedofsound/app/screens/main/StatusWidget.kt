@@ -11,6 +11,7 @@ import org.gnome.gtk.Box
 import org.gnome.gtk.Label
 import org.gnome.gtk.MenuButton
 import org.gnome.gtk.Orientation
+import org.gnome.pango.EllipsizeMode
 
 class StatusWidget(
     private val onSettingsClicked: () -> Unit,
@@ -19,7 +20,15 @@ class StatusWidget(
     private val onQuitClicked: () -> Unit
 ) : Box() {
     private val logger = LoggerFactory.getLogger(StatusWidget::class.java)
+    private val asrModelLabel: Label
+    private val llmModelSeparator: Label
+    private val llmModelLabel: Label
     private val languageLabel: Label
+
+    companion object {
+        private const val SEPARATOR_CHARACTER = "·"
+        private const val MAX_MODEL_LABEL_LENGTH = 15
+    }
 
     init {
         orientation = Orientation.HORIZONTAL
@@ -31,9 +40,18 @@ class StatusWidget(
         marginStart = DEFAULT_MARGIN
         marginEnd = DEFAULT_MARGIN
 
-        append(createStatusLabel("OpenAI Whisper Tiny", isDimmed = true))
-        append(createStatusLabel("·", isDimmed = true))
-        languageLabel = createStatusLabel("English", isDimmed = true)
+        asrModelLabel = createModelLabel()
+        append(asrModelLabel)
+
+        llmModelSeparator = createStatusLabel(SEPARATOR_CHARACTER, isDimmed = true)
+        append(llmModelSeparator)
+
+        llmModelLabel = createModelLabel()
+        append(llmModelLabel)
+
+        append(createStatusLabel(SEPARATOR_CHARACTER, isDimmed = true))
+
+        languageLabel = createStatusLabel("", isDimmed = true)
         append(languageLabel)
 
         val mainSection = Menu()
@@ -77,8 +95,26 @@ class StatusWidget(
         append(menuButton)
     }
 
+    fun setAsrModel(model: String) {
+        asrModelLabel.label = model
+    }
+
+    fun setLlmModel(model: String) {
+        llmModelLabel.label = model
+        llmModelSeparator.visible = model.isNotEmpty()
+        llmModelLabel.visible = model.isNotEmpty()
+    }
+
     fun setLanguage(language: String) {
         languageLabel.label = language
+    }
+
+    private fun createModelLabel(): Label {
+        return Label("").apply {
+            cssClasses = arrayOf("caption", "dim-label")
+            maxWidthChars = MAX_MODEL_LABEL_LENGTH
+            ellipsize = EllipsizeMode.END
+        }
     }
 
     private fun createStatusLabel(text: String, isFramed: Boolean = false, isDimmed: Boolean = false): Label {

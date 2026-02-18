@@ -4,7 +4,9 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_WIDTH
+import com.zugaldia.speedofsound.app.SIGNAL_ASR_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LANGUAGE_CHANGED
+import com.zugaldia.speedofsound.app.SIGNAL_LLM_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_PIPELINE_COMPLETED
 import com.zugaldia.speedofsound.app.SIGNAL_PORTALS_RESTORE_TOKEN_MISSING
 import com.zugaldia.speedofsound.app.SIGNAL_RECORDING_LEVEL
@@ -98,6 +100,14 @@ class MainWindow(
 
         viewModel.state.connect(SIGNAL_LANGUAGE_CHANGED, MainState.LanguageChanged { languageName: String ->
             statusWidget.setLanguage(languageName)
+        })
+
+        viewModel.state.connect(SIGNAL_ASR_MODEL_CHANGED, MainState.AsrModelChanged { modelName: String ->
+            statusWidget.setAsrModel(modelName)
+        })
+
+        viewModel.state.connect(SIGNAL_LLM_MODEL_CHANGED, MainState.LlmModelChanged { modelName: String ->
+            statusWidget.setLlmModel(modelName)
         })
     }
 

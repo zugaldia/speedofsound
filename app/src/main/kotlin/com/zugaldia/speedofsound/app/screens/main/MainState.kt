@@ -1,6 +1,8 @@
 package com.zugaldia.speedofsound.app.screens.main
 
+import com.zugaldia.speedofsound.app.SIGNAL_ASR_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LANGUAGE_CHANGED
+import com.zugaldia.speedofsound.app.SIGNAL_LLM_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_PIPELINE_COMPLETED
 import com.zugaldia.speedofsound.app.SIGNAL_PORTALS_RESTORE_TOKEN_MISSING
 import com.zugaldia.speedofsound.app.SIGNAL_RECORDING_LEVEL
@@ -18,12 +20,15 @@ enum class AppStage {
     POLISHING
 }
 
+@Suppress("TooManyFunctions")
 class MainState : GObject() {
     private var stageOrdinal: Int = AppStage.LOADING.ordinal
     private var maxRecordingLevel: Float = MIN_RECORDING_LEVEL
     private var portalsRestoreTokenMissing: Boolean = true
     private var portalsSessionDisconnected: Boolean = false
     private var currentLanguage: Language = DEFAULT_LANGUAGE
+    private var currentAsrModel: String = ""
+    private var currentLlmModel: String = ""
 
     fun currentStage(): AppStage = AppStage.entries[stageOrdinal]
 
@@ -59,6 +64,20 @@ class MainState : GObject() {
         emit(SIGNAL_LANGUAGE_CHANGED, value.name)
     }
 
+    fun currentAsrModel(): String = currentAsrModel
+
+    fun updateAsrModel(value: String) {
+        currentAsrModel = value
+        emit(SIGNAL_ASR_MODEL_CHANGED, value)
+    }
+
+    fun currentLlmModel(): String = currentLlmModel
+
+    fun updateLlmModel(value: String) {
+        currentLlmModel = value
+        emit(SIGNAL_LLM_MODEL_CHANGED, value)
+    }
+
     @Signal(name = SIGNAL_STAGE_CHANGED)
     fun interface StageChanged {
         fun run(stageOrdinal: Int)
@@ -82,6 +101,16 @@ class MainState : GObject() {
     @Signal(name = SIGNAL_LANGUAGE_CHANGED)
     fun interface LanguageChanged {
         fun run(languageName: String)
+    }
+
+    @Signal(name = SIGNAL_ASR_MODEL_CHANGED)
+    fun interface AsrModelChanged {
+        fun run(modelName: String)
+    }
+
+    @Signal(name = SIGNAL_LLM_MODEL_CHANGED)
+    fun interface LlmModelChanged {
+        fun run(modelName: String)
     }
 
     companion object {
