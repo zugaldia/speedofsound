@@ -14,7 +14,7 @@ const val DEFAULT_WINDOW_WIDTH = 400
 const val DEFAULT_WINDOW_HEIGHT = 200
 
 const val DEFAULT_PREFERENCES_DIALOG_WIDTH = 800
-const val DEFAULT_PREFERENCES_DIALOG_HEIGHT = 600
+const val DEFAULT_PREFERENCES_DIALOG_HEIGHT = 800
 
 const val DEFAULT_ADD_CREDENTIAL_DIALOG_WIDTH = 500
 const val DEFAULT_ADD_CREDENTIAL_DIALOG_HEIGHT = 300
@@ -71,3 +71,5 @@ const val SIGNAL_RECORDING_LEVEL = "recording-level"
 const val SIGNAL_PORTALS_RESTORE_TOKEN_MISSING = "portals-restore-token-missing"
 const val SIGNAL_PIPELINE_COMPLETED = "pipeline-completed"
 const val SIGNAL_LANGUAGE_CHANGED = "language-changed"
+const val SIGNAL_ASR_MODEL_CHANGED = "asr-model-changed"
+const val SIGNAL_LLM_MODEL_CHANGED = "llm-model-changed"

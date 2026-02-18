@@ -1,9 +1,9 @@
 package com.zugaldia.speedofsound.core.desktop.settings
 
 import com.zugaldia.speedofsound.core.languageFromIso2
+import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
-import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
@@ -45,12 +45,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
                 modelId = providerSetting.modelId,
                 language = language,
             )
+
             AsrProvider.OPENAI -> OpenAiAsrOptions(
                 modelId = providerSetting.modelId,
                 language = language,
                 baseUrl = providerSetting.baseUrl,
                 apiKey = apiKey,
             )
+
             AsrProvider.SHERPA_WHISPER -> SherpaWhisperAsrOptions(
                 modelId = providerSetting.modelId,
                 language = language,
@@ -69,11 +71,13 @@ class SettingsClient(val settingsStore: SettingsStore) {
                 modelId = providerSetting.modelId,
                 baseUrl = providerSetting.baseUrl,
             )
+
             LlmProvider.GOOGLE -> GoogleLlmOptions(
                 apiKey = apiKey,
                 modelId = providerSetting.modelId,
                 baseUrl = providerSetting.baseUrl,
             )
+
             LlmProvider.OPENAI -> OpenAiLlmOptions(
                 apiKey = apiKey,
                 modelId = providerSetting.modelId,
@@ -148,15 +152,19 @@ class SettingsClient(val settingsStore: SettingsStore) {
      * Voice Models page
      */
 
-    private fun getDefaultVoiceModelProvider(): VoiceModelProviderSetting {
-        return VoiceModelProviderSetting(
-            id = DEFAULT_VOICE_MODEL_PROVIDER_ID,
-            name = "Default (Whisper Tiny)",
-            provider = AsrProvider.SHERPA_WHISPER,
-            modelId = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID,
-            credentialId = null,
-            baseUrl = null
-        )
+    private fun getLocalVoiceModelProviders(): List<VoiceModelProviderSetting> {
+        val modelManager = ModelManager()
+        return SUPPORTED_LOCAL_ASR_MODELS.values
+            .filter { modelManager.isModelDownloaded(it.id) }
+            .sortedBy { it.dataSizeMegabytes }
+            .map { voiceModel ->
+                VoiceModelProviderSetting(
+                    id = voiceModel.id,
+                    name = voiceModel.name,
+                    provider = voiceModel.provider,
+                    modelId = voiceModel.id,
+                )
+            }
     }
 
     fun getVoiceModelProviders(): List<VoiceModelProviderSetting> {
@@ -171,13 +179,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
                 emptyList()
             }
         }
-        // Always include the default provider first
-        return listOf(getDefaultVoiceModelProvider()) + customProviders
+
+        // Include the local provider first
+        return getLocalVoiceModelProviders() + customProviders
     }
 
     fun setVoiceModelProviders(value: List<VoiceModelProviderSetting>): Boolean {
-        // Filter out the default provider before saving (it's dynamically added when reading)
-        val customProviders = value.filter { it.id != DEFAULT_VOICE_MODEL_PROVIDER_ID }
+        // Filter out the local providers before saving
+        val customProviders = value.filter { it.id !in SUPPORTED_LOCAL_ASR_MODELS.keys }
         val json = Json.encodeToString(customProviders)
         return settingsStore.setString(KEY_VOICE_MODEL_PROVIDERS, json).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_VOICE_MODEL_PROVIDERS)

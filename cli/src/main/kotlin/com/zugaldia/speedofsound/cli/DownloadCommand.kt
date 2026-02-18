@@ -5,8 +5,12 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
+import com.zugaldia.speedofsound.core.models.voice.ModelManagerEvent
 import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
 class DownloadCommand : CliktCommand(name = "download") {
@@ -17,6 +21,11 @@ class DownloadCommand : CliktCommand(name = "download") {
         name = "model",
         help = "ID of the model to download"
     ).optional()
+
+    companion object {
+        private const val COLLECTOR_START_DELAY_MS = 100L
+        private const val COMPLETION_CHECK_DELAY_MS = 100L
+    }
 
     override fun run() {
         modelId?.let { downloadModel(it) } ?: listAvailableModels()
@@ -51,10 +60,34 @@ class DownloadCommand : CliktCommand(name = "download") {
                 logger.error("Failed to extract default model: ${it.message}", it)
             }
         } else {
-            modelManager.downloadModel(id).onSuccess {
-                logger.info("Model downloaded successfully: ${model.name}")
-            }.onFailure { error ->
-                logger.error("Failed to download model: ${error.message}", error)
+            runBlocking {
+                var downloadCompleted = false
+                val collectorJob = launch {
+                    modelManager.events.collect { event ->
+                        when (event) {
+                            is ModelManagerEvent.Progress -> {
+                                val message = event.percentage ?: event.message
+                                logger.info("${event.operation}: $message")
+                            }
+                            is ModelManagerEvent.Completed -> {
+                                logger.info("Model downloaded successfully: ${model.name}")
+                                downloadCompleted = true
+                            }
+                            is ModelManagerEvent.Error -> {
+                                logger.error("Failed to download model: ${event.message}", event.exception)
+                                downloadCompleted = true
+                            }
+                        }
+                    }
+                }
+
+                delay(COLLECTOR_START_DELAY_MS)
+                modelManager.downloadModel(id)
+                while (!downloadCompleted) {
+                    delay(COMPLETION_CHECK_DELAY_MS)
+                }
+
+                collectorJob.cancel()
             }
         }
     }

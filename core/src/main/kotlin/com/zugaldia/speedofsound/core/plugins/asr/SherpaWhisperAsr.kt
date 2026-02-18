@@ -33,10 +33,19 @@ class SherpaWhisperAsr(
 
     private fun createRecognizer() {
         val modelManager = ModelManager()
+
+        // Extract the default model on the first run (NO-OP otherwise)
+        if (currentOptions.modelId == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID) {
+            modelManager.extractDefaultModel().onFailure { error ->
+                throw IllegalStateException("Failed to extract default model: ${error.message}", error)
+            }
+        }
+
+        // Validate model exists in the registry and is downloaded
         val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[currentOptions.modelId]
-            ?: throw IllegalArgumentException("Model not found: ${currentOptions.modelId}.")
-        if (!modelManager.isModelDownloaded(currentOptions.modelId)) {
-            throw IllegalStateException("Model not downloaded: ${currentOptions.modelId}.")
+        if (model == null || !modelManager.isModelDownloaded(currentOptions.modelId)) {
+            val reason = if (model == null) "not found" else "not downloaded"
+            throw IllegalStateException("Model ${currentOptions.modelId} $reason.")
         }
 
         val modelPath = modelManager.getModelPath(currentOptions.modelId)

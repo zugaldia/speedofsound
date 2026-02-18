@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.core.desktop.settings
 
 import com.zugaldia.speedofsound.core.APPLICATION_SHORT
 import com.zugaldia.speedofsound.core.Language
+import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 
 const val DEFAULT_PROPERTIES_FILENAME = "$APPLICATION_SHORT.properties"
 
@@ -22,6 +23,10 @@ const val KEY_CREDENTIALS = "credentials"
 const val DEFAULT_CREDENTIALS = "[]"
 
 // Voice Models page
+
+// Initially exposing only Sherpa Whisper models. The ONNX provider is intentionally excluded
+// as its current implementation is very limited and only offers another Whisper variant.
+val SUPPORTED_LOCAL_ASR_MODELS = SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 
 const val KEY_VOICE_MODEL_PROVIDERS = "voice-model-providers"
 const val DEFAULT_VOICE_MODEL_PROVIDERS = "[]"
