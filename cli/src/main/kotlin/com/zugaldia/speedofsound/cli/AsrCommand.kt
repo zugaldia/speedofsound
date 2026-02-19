@@ -13,11 +13,11 @@ import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MOD
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
+import com.zugaldia.speedofsound.cli.plugins.asr.OnnxWhisperAsr
+import com.zugaldia.speedofsound.cli.plugins.asr.OnnxWhisperAsrOptions
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 

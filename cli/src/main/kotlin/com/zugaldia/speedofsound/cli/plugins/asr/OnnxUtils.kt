@@ -1,4 +1,4 @@
-package com.zugaldia.speedofsound.core.plugins.common
+package com.zugaldia.speedofsound.cli.plugins.asr
 
 /*
  * Based on the reference example on:
