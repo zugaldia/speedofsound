@@ -1,9 +1,9 @@
-VERSION = v1.12.23
+VERSION = v1.12.24
 
 # Expected SHA256 checksums (update these from the checksum.txt file)
-CHECKSUM_JAR = 2db96b1b032174e14a0be6707abcb52286f139c981e38bb5783cf2c7b6f13a28
-CHECKSUM_AARCH64 = e92c8b26819dae7eff60335c5c96d0335594ffd08ccd3b4a9abb226c4c740e46
-CHECKSUM_X64 = 0f48ba768915c6d8299fee3dd0879c8575209f6e63d230088c06726fb808c944
+CHECKSUM_JAR = c2aea10acf90fa2fe896262400aa2eded1d2578a43f053abb11869494cd49d7a
+CHECKSUM_AARCH64 = 45327e125a6401277e40e5317bbcefe50d10499a6c40aa0f1c9caa5f8767b2e4
+CHECKSUM_X64 = 4793872901df4ca8c8098b8fae17ae9d60f03180eb9a2a61f5ab040b3da1b5ba
 
 download-checksum:
 	@echo "Downloading checksum.txt file."
@@ -13,9 +13,7 @@ download-checksum:
 
 download-libs:
 	@echo "Removing existing JAR files..."
-	rm -f sherpa-onnx-$(VERSION).jar
-	rm -f sherpa-onnx-native-lib-linux-aarch64-$(VERSION).jar
-	rm -f sherpa-onnx-native-lib-linux-x64-$(VERSION).jar
+	rm -f sherpa-onnx-*.jar
 	@echo "Downloading JAR files..."
 	wget https://github.com/k2-fsa/sherpa-onnx/releases/download/$(VERSION)/sherpa-onnx-$(VERSION).jar
 	wget https://github.com/k2-fsa/sherpa-onnx/releases/download/$(VERSION)/sherpa-onnx-native-lib-linux-aarch64-$(VERSION).jar
