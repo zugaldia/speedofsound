@@ -4,7 +4,6 @@ import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
@@ -41,11 +40,6 @@ class SettingsClient(val settingsStore: SettingsStore) {
         val apiKey = providerSetting.credentialId?.let { credId -> getCredentials().find { it.id == credId }?.value }
         val language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE
         return when (providerSetting.provider) {
-            AsrProvider.ONNX_WHISPER -> OnnxWhisperAsrOptions(
-                modelId = providerSetting.modelId,
-                language = language,
-            )
-
             AsrProvider.OPENAI -> OpenAiAsrOptions(
                 modelId = providerSetting.modelId,
                 language = language,

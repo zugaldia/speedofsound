@@ -6,8 +6,6 @@ import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsr
-import com.zugaldia.speedofsound.core.plugins.asr.OnnxWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
@@ -24,7 +22,6 @@ class AsrProviderManager(
     private val logger = LoggerFactory.getLogger(AsrProviderManager::class.java)
 
     fun registerAsrPlugins() {
-        registry.register(AppPluginCategory.ASR, OnnxWhisperAsr())
         registry.register(AppPluginCategory.ASR, OpenAiAsr())
         registry.register(AppPluginCategory.ASR, SherpaWhisperAsr())
     }
@@ -68,7 +65,6 @@ class AsrProviderManager(
     fun updateLanguage(language: Language) {
         val activePlugin = registry.getActive(AppPluginCategory.ASR) ?: return
         when (activePlugin) {
-            is OnnxWhisperAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
             is OpenAiAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
             is SherpaWhisperAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
         }
@@ -87,7 +83,6 @@ class AsrProviderManager(
     private fun applyAsrOptions(pluginId: String, options: AsrPluginOptions) {
         val plugin = registry.getPluginById(AppPluginCategory.ASR, pluginId) ?: return
         when (plugin) {
-            is OnnxWhisperAsr -> plugin.updateOptions(options as OnnxWhisperAsrOptions)
             is OpenAiAsr -> plugin.updateOptions(options as OpenAiAsrOptions)
             is SherpaWhisperAsr -> plugin.updateOptions(options as SherpaWhisperAsrOptions)
         }
