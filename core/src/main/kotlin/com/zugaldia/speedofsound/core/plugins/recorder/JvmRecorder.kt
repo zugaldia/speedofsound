@@ -28,40 +28,33 @@ class JvmRecorder(
      */
     override fun isCurrentlyRecording(): Boolean = isRecording
 
+    /**
+     * Returns a list of all available audio input devices (microphones) in the system.
+     * Only devices that support audio capture (TargetDataLine) are included.
+     */
+    override fun getAvailableDevices(): List<AudioInputDevice> {
+        return AudioSystem.getMixerInfo()
+            .filter { mixerInfo ->
+                val mixer = AudioSystem.getMixer(mixerInfo)
+                mixer.targetLineInfo.any { lineInfo ->
+                    TargetDataLine::class.java.isAssignableFrom(lineInfo.lineClass)
+                }
+            }
+            .map { mixerInfo ->
+                AudioInputDevice(
+                    deviceId = mixerInfo.name,
+                    name = mixerInfo.name,
+                    vendor = mixerInfo.vendor,
+                    description = mixerInfo.description,
+                    version = mixerInfo.version,
+                )
+            }
+    }
+
     companion object {
         const val ID = "RECORDER_JVM"
         private const val DEFAULT_BUFFER_SIZE = 1024
         private const val THREAD_JOIN_TIMEOUT_MS = 1000L
-
-        /**
-         * Returns a list of all available audio input devices (microphones) in the system.
-         * Only devices that support audio capture (TargetDataLine) are included.
-         */
-        fun getAvailableDevices(): List<AudioInputDevice> {
-            return AudioSystem.getMixerInfo()
-                .filter { mixerInfo ->
-                    val mixer = AudioSystem.getMixer(mixerInfo)
-                    mixer.targetLineInfo.any { lineInfo ->
-                        TargetDataLine::class.java.isAssignableFrom(lineInfo.lineClass)
-                    }
-                }
-                .map { mixerInfo ->
-                    AudioInputDevice(
-                        name = mixerInfo.name,
-                        vendor = mixerInfo.vendor,
-                        description = mixerInfo.description,
-                        version = mixerInfo.version,
-                    )
-                }
-        }
-    }
-
-    override fun initialize() {
-        super.initialize()
-    }
-
-    override fun enable() {
-        super.enable()
     }
 
     /**
@@ -158,14 +151,5 @@ class JvmRecorder(
             }
         }
         super.disable()
-    }
-
-    override fun shutdown() {
-        if (isRecording) {
-            stopRecording().onFailure { error ->
-                log.error("Failed to stop recording during shutdown: ${error.message}")
-            }
-        }
-        super.shutdown()
     }
 }

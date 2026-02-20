@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.core.plugins.recorder
 
+import com.zugaldia.speedofsound.core.audio.AudioInputDevice
 import com.zugaldia.speedofsound.core.plugins.AppPlugin
 
 /**
@@ -25,4 +26,10 @@ abstract class RecorderPlugin<Options : RecorderPluginOptions>(initialOptions: O
      * @return Result containing RecorderResponse with the captured audio data, or an error.
      */
     abstract fun stopRecording(): Result<RecorderResponse>
+
+    /**
+     * Returns a list of all available audio input devices (microphones) in the system.
+     * Only devices that support audio capture are included.
+     */
+    abstract fun getAvailableDevices(): List<AudioInputDevice>
 }
