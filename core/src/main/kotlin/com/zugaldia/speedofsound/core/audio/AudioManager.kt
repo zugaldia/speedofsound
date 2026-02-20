@@ -8,7 +8,6 @@ import java.nio.file.Path
 import javax.sound.sampled.AudioFileFormat
 import javax.sound.sampled.AudioInputStream
 import javax.sound.sampled.AudioSystem
-import kotlin.io.encoding.Base64
 import kotlin.math.sqrt
 
 /**
@@ -22,26 +21,6 @@ object AudioManager {
      * Derived from -Short.MIN_VALUE (which is 32,768)
      */
     private const val PCM_16_MAX_VALUE = 32768.0f
-
-    /**
-     * Encodes audio data to a Base64 string.
-     *
-     * @param data Raw audio data as a byte array
-     * @return Base64-encoded string representation of the audio data
-     */
-    fun encodeToBase64(data: ByteArray): String {
-        return Base64.encode(data)
-    }
-
-    /**
-     * Decodes Base64-encoded audio data back to a byte array.
-     *
-     * @param base64 Base64-encoded audio data string
-     * @return Decoded audio data as a byte array
-     */
-    fun decodeFromBase64(base64: String): ByteArray {
-        return Base64.decode(base64)
-    }
 
     /**
      * Converts 16-bit signed PCM audio data to normalized float samples (used by Sherpa ONNX)
