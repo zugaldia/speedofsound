@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.preferences.shared
 
 import com.zugaldia.speedofsound.core.models.SelectableModel
 import org.gnome.adw.ComboRow
+import org.gnome.adw.EntryRow
 import org.gnome.gtk.StringList
 import org.slf4j.LoggerFactory
 
@@ -15,16 +16,28 @@ class ModelComboRow<T : SelectableModel>(
     private val getModels: () -> Map<String, T>,
     private val getCurrentModelId: () -> String,
     private val onModelIdSelected: (String) -> Unit
-) : ComboRow() {
+) {
     private val logger = LoggerFactory.getLogger(ModelComboRow::class.java)
 
     private var currentModels: Map<String, T> = emptyMap()
 
+    companion object {
+        private const val CUSTOM_MODEL_LABEL = "Custom..."
+    }
+
+    val comboRow = ComboRow()
+    val customEntryRow = EntryRow().apply {
+        title = "Custom Model ID"
+        visible = false
+    }
+
     init {
-        title = rowTitle
-        subtitle = rowSubtitle
-        useSubtitle = false // Do not use the _current value_ as the subtitle
-        enableSearch = true // Some providers list *many* models, so allow searching
+        comboRow.apply {
+            title = rowTitle
+            subtitle = rowSubtitle
+            useSubtitle = false // Do not use the _current value_ as the subtitle
+            enableSearch = true // Some providers list *many* models, so allow searching
+        }
         refreshComboRows()
     }
 
@@ -48,15 +61,22 @@ class ModelComboRow<T : SelectableModel>(
 
     private fun refreshComboRowsInternal() {
         val modelList = currentModels.values.toList()
-        val modelNames = modelList.map { it.name }
-        model = StringList(modelNames.toTypedArray())
+        val modelNames = modelList.map { it.name }.toMutableList()
+        modelNames.add(CUSTOM_MODEL_LABEL) // Add the custom option at the end
+        comboRow.model = StringList(modelNames.toTypedArray())
 
         val selectedModelId = getCurrentModelId()
         val predefinedIndex = modelList.indexOfFirst { it.id == selectedModelId }
         if (predefinedIndex >= 0) {
-            selected = predefinedIndex
+            comboRow.selected = predefinedIndex
+            customEntryRow.visible = false
         } else if (modelList.isNotEmpty()) {
-            selected = 0 // Default to the first model
+            comboRow.selected = modelList.size // Index of "Custom..." option
+            customEntryRow.text = selectedModelId
+            customEntryRow.visible = true
+        } else {
+            comboRow.selected = 0 // Default to the first model
+            customEntryRow.visible = false
         }
     }
 
@@ -64,13 +84,28 @@ class ModelComboRow<T : SelectableModel>(
      * Set up notification callbacks. Call this after all widgets are initialized.
      */
     fun setupNotifications() {
-        onNotify("selected") {
-            val selectedIndex = selected
+        comboRow.onNotify("selected") {
+            val selectedIndex = comboRow.selected
             val modelList = currentModels.values.toList()
             if (selectedIndex >= 0 && selectedIndex < modelList.size) {
+                // Predefined model selected
                 val selectedModel = modelList[selectedIndex]
-                logger.info("Model changed to ${selectedModel.name} (${selectedModel.id})")
+                customEntryRow.visible = false
                 onModelIdSelected(selectedModel.id)
+            } else if (selectedIndex == modelList.size) {
+                // Custom option
+                customEntryRow.visible = true
+                val customModelId = customEntryRow.text.trim()
+                if (customModelId.isNotEmpty()) {
+                    onModelIdSelected(customModelId)
+                }
+            }
+        }
+
+        customEntryRow.onNotify("text") {
+            val customModelId = customEntryRow.text.trim()
+            if (customModelId.isNotEmpty()) {
+                onModelIdSelected(customModelId)
             }
         }
     }

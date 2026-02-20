@@ -106,7 +106,8 @@ class AddVoiceModelProviderDialog(
             add(nameEntry)
             add(providerComboRow)
             add(credentialComboRow)
-            add(modelComboRow)
+            add(modelComboRow.comboRow)
+            add(modelComboRow.customEntryRow)
             add(baseUrlEntry)
         }
 

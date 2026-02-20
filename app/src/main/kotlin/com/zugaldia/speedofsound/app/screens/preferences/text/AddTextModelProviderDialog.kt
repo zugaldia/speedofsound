@@ -107,9 +107,11 @@ class AddTextModelProviderDialog(
                 selectedModelId = modelId
                 updateAddButtonState()
             }
-        ).apply {
-            addSuffix(fetchButton)
-        }
+        )
+
+        // Only for text models for now. Technically, we also see voice models when we fetch text models from the
+        // endpoint, but currently we don't have any logic/information to differentiate both.
+        modelComboRow.comboRow.addSuffix(fetchButton)
 
         credentialComboRow = ComboRow().apply {
             title = "Credentials"
@@ -129,7 +131,8 @@ class AddTextModelProviderDialog(
             add(nameEntry)
             add(providerComboRow)
             add(credentialComboRow)
-            add(modelComboRow)
+            add(modelComboRow.comboRow)
+            add(modelComboRow.customEntryRow)
             add(baseUrlEntry)
         }
 
