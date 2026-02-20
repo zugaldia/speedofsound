@@ -15,19 +15,18 @@ class RecordCommand : CliktCommand(name = "record") {
     }
 
     override fun run() {
-        val devices = JvmRecorder.getAvailableDevices()
-        logger.info("Found ${devices.size} audio input device(s):")
-        devices.forEach { device ->
-            logger.info("- ${device.name}: ${device.description}")
-        }
-
         val recorder = JvmRecorder()
         recorder.initialize()
         recorder.enable()
 
+        val devices = recorder.getAvailableDevices()
+        logger.info("Found ${devices.size} audio input device(s):")
+        devices.forEach { device ->
+            logger.info("- ${device.deviceId}: ${device.name} (${device.description})")
+        }
+
         logger.info("Starting 10-second recording from default device...")
         recorder.startRecording()
-
         Thread.sleep(RECORDING_DURATION_MS)
 
         val result = recorder.stopRecording()

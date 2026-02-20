@@ -7,7 +7,7 @@ clean:
 	./gradlew clean
 
 run:
-	SOS_DISABLE_GIO_STORE=true ./gradlew :app:run
+	SOS_DISABLE_GIO_STORE=true SOS_DISABLE_GSTREAMER=false ./gradlew :app:run
 
 build:
 	./gradlew build

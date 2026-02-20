@@ -6,6 +6,7 @@ package com.zugaldia.speedofsound.app
  */
 
 const val ENV_DISABLE_GIO_STORE = "SOS_DISABLE_GIO_STORE"
+const val ENV_DISABLE_GSTREAMER = "SOS_DISABLE_GSTREAMER"
 
 const val MIN_ADW_MAJOR_VERSION = 1
 const val MIN_ADW_MINOR_VERSION = 5

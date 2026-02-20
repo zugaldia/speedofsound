@@ -1,6 +1,8 @@
 package com.zugaldia.speedofsound.app.screens.main
 
+import com.zugaldia.speedofsound.app.ENV_DISABLE_GSTREAMER
 import com.zugaldia.speedofsound.app.POST_HIDE_DELAY_MS
+import com.zugaldia.speedofsound.app.plugins.recorder.GStreamerRecorder
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
 import com.zugaldia.speedofsound.app.portals.TextUtils
 import com.zugaldia.speedofsound.app.settings.AsrProviderManager
@@ -21,7 +23,6 @@ import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
-import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.director.DefaultDirector
 import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
@@ -48,7 +49,13 @@ class MainViewModel(
         private set
 
     private val registry = AppPluginRegistry()
-    private val recorder = JvmRecorder(settingsClient.getRecorderOptions())
+
+    private val recorder = if (System.getenv(ENV_DISABLE_GSTREAMER) == "true") {
+        JvmRecorder(settingsClient.getRecorderOptions())
+    } else {
+        GStreamerRecorder(settingsClient.getRecorderOptions())
+    }
+
     private val director = DefaultDirector(registry, settingsClient.getDirectorOptions())
 
     private val portalsSessionManager = PortalsSessionManager(
@@ -75,7 +82,7 @@ class MainViewModel(
         registry.register(AppPluginCategory.DIRECTOR, director)
 
         // Set active plugins
-        registry.setActiveById(AppPluginCategory.RECORDER, JvmRecorder.ID)
+        registry.setActiveById(AppPluginCategory.RECORDER, recorder.id)
         asrProviderManager.activateSelectedProvider()
         llmProviderManager.activateSelectedProvider()
         registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
@@ -178,30 +185,38 @@ class MainViewModel(
             KEY_CUSTOM_CONTEXT -> director.updateOptions(
                 director.getOptions().copy(customContext = settingsClient.getCustomContext())
             )
+
             KEY_CUSTOM_VOCABULARY -> director.updateOptions(
                 director.getOptions().copy(customVocabulary = settingsClient.getCustomVocabulary())
             )
+
             KEY_TEXT_PROCESSING_ENABLED -> {
                 director.updateOptions(
-                    director.getOptions().copy(enableTextProcessing = settingsClient.getTextProcessingEnabled()))
+                    director.getOptions().copy(enableTextProcessing = settingsClient.getTextProcessingEnabled())
+                )
                 updateModelLabels()
             }
+
             KEY_SELECTED_VOICE_MODEL_PROVIDER_ID -> {
                 asrProviderManager.activateSelectedProvider()
                 updateModelLabels()
             }
+
             KEY_VOICE_MODEL_PROVIDERS -> {
                 asrProviderManager.refreshProviderConfiguration()
                 updateModelLabels()
             }
+
             KEY_SELECTED_TEXT_MODEL_PROVIDER_ID -> {
                 llmProviderManager.activateSelectedProvider()
                 updateModelLabels()
             }
+
             KEY_TEXT_MODEL_PROVIDERS -> {
                 llmProviderManager.refreshProviderConfiguration()
                 updateModelLabels()
             }
+
             KEY_CREDENTIALS -> {
                 asrProviderManager.refreshProviderConfiguration()
                 llmProviderManager.refreshProviderConfiguration()
