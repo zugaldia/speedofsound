@@ -13,6 +13,7 @@ kotlin = "2.3.0"
 kotlinxCoroutines = "1.10.2"
 kotlinxDatetime = "0.7.1"
 kotlinxSerializationJSON = "1.9.0"
+kover = "0.9.7"
 ktor = "3.4.0"
 log4j = "2.25.3"
 onnx = "1.24.1"
@@ -54,4 +55,5 @@ onnxEcosystem = ["onnxRuntime", "onnxRuntimeExtensions"]
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsPlugin" }
