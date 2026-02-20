@@ -1,14 +1,10 @@
 package com.zugaldia.speedofsound.core
 
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import java.net.URI
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -27,25 +23,6 @@ fun generateUniqueId(): String = Uuid.random().toString()
 fun generateTimestamp(): Long {
     val instant = Clock.System.now()
     return instant.epochSeconds * NANOSECONDS_PER_SECOND + instant.nanosecondsOfSecond
-}
-
-/**
- * Generate the local date and time in ISO format. E.g., 2026-01-12T16:13:01.337760845
- */
-@OptIn(ExperimentalTime::class)
-fun getIsoLocalDateTime(): String {
-    val currentMoment: Instant = Clock.System.now()
-    val datetimeInSystemZone: LocalDateTime = currentMoment.toLocalDateTime(TimeZone.currentSystemDefault())
-    return datetimeInSystemZone.toString()
-}
-
-/**
- * Compute the number of milliseconds between two instants.
- * Returns a positive value if [end] is after [start], negative otherwise.
- */
-@OptIn(ExperimentalTime::class)
-fun millisBetween(start: Instant, end: Instant): Long {
-    return (end - start).inWholeMilliseconds
 }
 
 /**
