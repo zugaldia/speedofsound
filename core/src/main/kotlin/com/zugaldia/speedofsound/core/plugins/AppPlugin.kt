@@ -68,7 +68,6 @@ abstract class AppPlugin<Options : AppPluginOptions>(initialOptions: Options) {
      * (model loading, resource allocation) should be deferred to enable() when the plugin becomes active.
      */
     open fun initialize() {
-        log.info("Initializing.")
     }
 
     /**
@@ -78,7 +77,6 @@ abstract class AppPlugin<Options : AppPluginOptions>(initialOptions: Options) {
      * plugin at runtime. Perform resource allocation and model loading here.
      */
     open fun enable() {
-        log.info("Enabling.")
     }
 
     /**

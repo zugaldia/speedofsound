@@ -73,8 +73,6 @@ class MainViewModel(
     private var currentPipelineJob: Job? = null
 
     fun start() {
-        logger.info("Starting.")
-
         // Register and initialize all plugins
         registry.register(AppPluginCategory.RECORDER, recorder)
         asrProviderManager.registerAsrPlugins()
