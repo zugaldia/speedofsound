@@ -7,7 +7,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 // Sherpa ONNX offline Whisper recognizer has a hard 30-second limit, longer audio is truncated
 const val DEFAULT_MAX_RECORDING_DURATION_MS = 30_000L
 
-// Default timeout for LLM polishing operations to ensure quick response
+// Default timeout for LLM polishing operations to ensure a quick response
 const val DEFAULT_LLM_TIMEOUT_MS = 5_000L
 
 const val PROMPT_KEY_INPUT = "{INPUT}"
@@ -17,7 +17,7 @@ const val PROMPT_KEY_VOCABULARY = "{VOCABULARY}"
 
 val DEFAULT_VOCABULARY = listOf(APPLICATION_NAME, "Linux", "GNOME")
 const val DEFAULT_CONTEXT =
-    "This is a voice-to-text transcription captured from a dictation application on a Linux desktop."
+    "This is the raw transcription text captured from a voice dictation application on a Linux desktop."
 
 val PROMPT_TEMPLATE = """
 # Goal
