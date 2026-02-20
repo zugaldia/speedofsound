@@ -6,7 +6,7 @@ export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 clean:
 	./gradlew clean
 
-run:
+run: clean
 	SOS_DISABLE_GIO_STORE=true SOS_DISABLE_GSTREAMER=false ./gradlew :app:run
 
 build:
