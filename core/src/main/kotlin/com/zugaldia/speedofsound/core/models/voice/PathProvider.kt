@@ -1,7 +1,7 @@
 package com.zugaldia.speedofsound.core.models.voice
 
-import com.zugaldia.speedofsound.core.getDataDir
-import com.zugaldia.speedofsound.core.getTmpDataDir
+import com.zugaldia.speedofsound.core.getDataDir as getCoreDataDir
+import com.zugaldia.speedofsound.core.getTmpDataDir as getCoreTmpDataDir
 import java.nio.file.Path
 
 /**
@@ -16,6 +16,6 @@ interface PathProvider {
  * Production implementation that uses the global path functions.
  */
 class DefaultPathProvider : PathProvider {
-    override fun getDataDir(): Path = getDataDir()
-    override fun getTmpDataDir(): Path = getTmpDataDir()
+    override fun getDataDir(): Path = getCoreDataDir()
+    override fun getTmpDataDir(): Path = getCoreTmpDataDir()
 }
