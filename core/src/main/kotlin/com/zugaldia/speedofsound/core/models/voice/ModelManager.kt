@@ -1,35 +1,31 @@
 package com.zugaldia.speedofsound.core.models.voice
 
-import com.zugaldia.speedofsound.core.generateUniqueId
-import com.zugaldia.speedofsound.core.getDataDir
-import com.zugaldia.speedofsound.core.getTmpDataDir
-import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
-import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.BufferedInputStream
 import java.io.File
 import java.nio.file.Path
-import java.security.MessageDigest
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.deleteRecursively
 
-class ModelManager {
+@Suppress("TooManyFunctions")
+class ModelManager(
+    private val pathProvider: PathProvider = DefaultPathProvider(),
+    private val voiceModelCatalog: VoiceModelCatalog = DefaultVoiceModelCatalog(),
+    private val fileSystem: FileSystemOperations = DefaultFileSystemOperations(),
+    private val resourceLoader: ResourceLoader = ClasspathResourceLoader(),
+    private val idGenerator: IdGenerator = DefaultIdGenerator(),
+    private val checksumVerifier: ChecksumVerifier = ChecksumVerifier(),
+    private val archiveExtractor: ArchiveExtractor = ArchiveExtractor(),
+    private val modelFileManager: ModelFileManager = ModelFileManager(pathProvider, fileSystem),
+    private val modelDownloaderFactory: () -> ModelDownloader = { ModelDownloader() }
+) {
     private val log: Logger = LoggerFactory.getLogger(ModelManager::class.java)
 
     private val _events = MutableSharedFlow<ModelManagerEvent>(replay = 0, extraBufferCapacity = 64)
     val events: SharedFlow<ModelManagerEvent> = _events.asSharedFlow()
-
-    companion object {
-        private const val BUFFER_SIZE = 8192
-    }
 
     /**
      * Returns a Path under the data directory in the format "models/modelId" and creates it if it doesn't exist.
@@ -38,283 +34,189 @@ class ModelManager {
      * In other words, **model IDs are globally unique to the application.**
      */
     fun getModelPath(modelId: String): Path {
-        val dataDir = getDataDir()
-        val modelPath = dataDir.resolve("models").resolve(modelId)
-        val dir = modelPath.toFile()
-        if (!dir.exists()) {
-            dir.mkdirs() // Ensure the directory exists
-        }
-
-        return modelPath
+        return modelFileManager.getModelPath(modelId)
     }
 
     fun isModelDownloaded(modelId: String): Boolean {
-        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[modelId] ?: return false
-        val modelPath = getModelPath(modelId)
-        val modelDir = modelPath.toFile()
-        return modelDir.exists() && modelDir.isDirectory &&
-                model.components.all { component ->
-                    val file = modelPath.resolve(component.name).toFile()
-                    file.exists() && file.length() > 0
-                }
+        val model = voiceModelCatalog.getModel(modelId) ?: return false
+        return modelFileManager.isModelDownloaded(modelId, model)
     }
 
-    @OptIn(ExperimentalPathApi::class)
     suspend fun deleteModel(modelId: String): Result<Unit> = runCatching {
-        _events.emit(
-            ModelManagerEvent.Progress(
-                modelId = modelId,
-                operation = ModelManagerEvent.Progress.Operation.DELETING,
-                message = "Deleting $modelId files"
-            )
+        emitProgress(
+            modelId = modelId,
+            operation = ModelManagerEvent.Progress.Operation.DELETING,
+            message = "Deleting $modelId files"
         )
 
         val modelPath = getModelPath(modelId)
-        val modelDir = modelPath.toFile()
-        if (!modelDir.exists()) {
-            _events.emit(
-                ModelManagerEvent.Completed(
-                    modelId = modelId,
-                    operation = ModelManagerEvent.Completed.Operation.DELETE
-                )
-            )
+        if (!fileSystem.exists(modelPath)) {
+            emitCompleted(modelId, ModelManagerEvent.Completed.Operation.DELETE)
             return@runCatching
         }
 
-        modelPath.deleteRecursively()
-        _events.emit(
-            ModelManagerEvent.Completed(
-                modelId = modelId,
-                operation = ModelManagerEvent.Completed.Operation.DELETE
-            )
-        )
+        fileSystem.deleteRecursively(modelPath)
+        emitCompleted(modelId, ModelManagerEvent.Completed.Operation.DELETE)
     }.onFailure { exception ->
-        _events.emit(
-            ModelManagerEvent.Error(
-                modelId = modelId,
-                operation = ModelManagerEvent.Error.Operation.DELETE,
-                message = exception.message ?: "Failed to delete model",
-                exception = exception
-            )
-        )
+        emitError(modelId, ModelManagerEvent.Error.Operation.DELETE, exception)
     }
 
     fun extractDefaultModel(): Result<Unit> = runCatching {
-        if (isModelDownloaded(DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID)) {
-            log.info("Default model already extracted: $DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID")
+        val defaultModelId = voiceModelCatalog.getDefaultModelId()
+        if (isModelDownloaded(defaultModelId)) {
+            log.info("Default model already extracted: $defaultModelId")
             return@runCatching
         }
 
-        log.info("Extracting default model: $DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID")
-        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID]
+        log.info("Extracting default model: $defaultModelId")
+        val model = voiceModelCatalog.getModel(defaultModelId)
             ?: throw IllegalStateException("Default model not found in supported models")
 
-        val modelPath = getModelPath(DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID)
-        for (component in model.components) {
-            val resourcePath = "/models/asr/${component.name}"
-            val inputStream = this::class.java.getResourceAsStream(resourcePath)
-                ?: throw IllegalStateException("Resource not found: $resourcePath")
-
-            val outputFile = modelPath.resolve(component.name).toFile()
-            inputStream.use { input ->
-                outputFile.outputStream().use { output ->
-                    input.copyTo(output)
-                }
-            }
-        }
+        modelFileManager.extractDefaultModelFromResources(defaultModelId, model, resourceLoader).getOrThrow()
     }
 
-    @OptIn(ExperimentalPathApi::class)
-    @Suppress("LongMethod")
     suspend fun downloadModel(modelId: String): Result<Unit> = runCatching {
         if (isModelDownloaded(modelId)) {
-            _events.emit(
-                ModelManagerEvent.Completed(
-                    modelId = modelId,
-                    operation = ModelManagerEvent.Completed.Operation.DOWNLOAD
-                )
-            )
+            emitCompleted(modelId, ModelManagerEvent.Completed.Operation.DOWNLOAD)
             return@runCatching
         }
 
         log.info("Starting download for model: $modelId")
-        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[modelId]
-            ?: throw IllegalArgumentException("Model not found: $modelId")
-        val archiveFile = model.archiveFile
-            ?: throw IllegalArgumentException("Model $modelId does not have an archive file")
-
-        // Create a unique temporary directory for this download to avoid conflicts
-        val tempDir = getTmpDataDir().resolve(generateUniqueId())
-        tempDir.toFile().mkdirs()
+        val model = voiceModelCatalog.getModel(modelId) ?: throw IllegalArgumentException("Model not found: $modelId")
+        val archiveFile = model.archiveFile ?: throw IllegalArgumentException("Model $modelId needs an archive file")
+        val tempDir = createTempDirectory()
 
         try {
-            // Step 1: Download the compressed file
-            val downloadedFile = tempDir.resolve("${modelId}.tar.bz2").toFile()
-            val archiveUrl = archiveFile.url
-                ?: throw IllegalArgumentException("Archive URL not available")
-            ModelDownloader().use { downloader ->
-                coroutineScope {
-                    val progressJob = launch {
-                        downloader.progressFlow.collect { progress ->
-                            _events.emit(
-                                ModelManagerEvent.Progress(
-                                    modelId = modelId,
-                                    operation = ModelManagerEvent.Progress.Operation.DOWNLOADING,
-                                    message = "Downloading $modelId archive",
-                                    bytesProcessed = progress.bytesDownloaded,
-                                    totalBytes = progress.totalBytes,
-                                    percentage = progress.percentage
-                                )
-                            )
-                        }
-                    }
-
-                    try {
-                        downloader.downloadFile(archiveUrl, downloadedFile).getOrThrow()
-                    } finally {
-                        progressJob.cancel()
-                    }
-                }
-            }
-
-            // Step 2: Verify checksum
-            val archiveSha256 = archiveFile.sha256sum
-                ?: throw IllegalArgumentException("Archive SHA256 not available")
-            _events.emit(
-                ModelManagerEvent.Progress(
-                    modelId = modelId,
-                    operation = ModelManagerEvent.Progress.Operation.VERIFYING_CHECKSUM,
-                    message = "Verifying $modelId archive integrity"
-                )
-            )
-            verifySha256(downloadedFile, archiveSha256)
-
-            // Step 3: Extract the tar.bz2 archive
-            _events.emit(
-                ModelManagerEvent.Progress(
-                    modelId = modelId,
-                    operation = ModelManagerEvent.Progress.Operation.EXTRACTING,
-                    message = "Extracting $modelId archive"
-                )
-            )
-            extractTarBz2(downloadedFile, tempDir.toFile())
-
-            // Step 4: Copy the required model files to the destination
-            _events.emit(
-                ModelManagerEvent.Progress(
-                    modelId = modelId,
-                    operation = ModelManagerEvent.Progress.Operation.COPYING_FILES,
-                    message = "Copying $modelId files"
-                )
-            )
-            copyModelFiles(tempDir.toFile(), modelId, model)
-
-            // Step 5: Profit
-            _events.emit(
-                ModelManagerEvent.Completed(
-                    modelId = modelId,
-                    operation = ModelManagerEvent.Completed.Operation.DOWNLOAD
-                )
-            )
+            val downloadedFile = downloadArchive(modelId, archiveFile, tempDir)
+            verifyArchive(modelId, downloadedFile, archiveFile)
+            extractArchive(modelId, downloadedFile, tempDir)
+            copyFiles(modelId, model, tempDir)
+            emitCompleted(modelId, ModelManagerEvent.Completed.Operation.DOWNLOAD)
         } finally {
-            // Clean up the temporary directory and all its contents
-            tempDir.deleteRecursively()
+            cleanupTempDirectory(tempDir)
         }
     }.onFailure { exception ->
+        emitError(modelId, ModelManagerEvent.Error.Operation.DOWNLOAD, exception)
+    }
+
+    private fun createTempDirectory(): Path {
+        val tempDir = pathProvider.getTmpDataDir().resolve(idGenerator.generateUniqueId())
+        fileSystem.mkdirs(tempDir)
+        return tempDir
+    }
+
+    private suspend fun downloadArchive(
+        modelId: String, archiveFile: VoiceModelFile, tempDir: Path
+    ): File {
+        val downloadedFile = tempDir.resolve("${modelId}.tar.bz2").toFile()
+        val archiveUrl = archiveFile.url ?: throw IllegalArgumentException("Archive URL not available")
+        modelDownloaderFactory().use { downloader ->
+            coroutineScope {
+                val progressJob = launch {
+                    downloader.progressFlow.collect { progress ->
+                        emitProgress(
+                            modelId = modelId,
+                            operation = ModelManagerEvent.Progress.Operation.DOWNLOADING,
+                            message = "Downloading $modelId archive",
+                            bytesProcessed = progress.bytesDownloaded,
+                            totalBytes = progress.totalBytes,
+                            percentage = progress.percentage
+                        )
+                    }
+                }
+
+                try {
+                    downloader.downloadFile(archiveUrl, downloadedFile).getOrThrow()
+                } finally {
+                    progressJob.cancel()
+                }
+            }
+        }
+        return downloadedFile
+    }
+
+    private suspend fun verifyArchive(
+        modelId: String, downloadedFile: File, archiveFile: VoiceModelFile
+    ) {
+        val archiveSha256 = archiveFile.sha256sum ?: throw IllegalArgumentException("Archive SHA256 not available")
+        emitProgress(
+            modelId = modelId,
+            operation = ModelManagerEvent.Progress.Operation.VERIFYING_CHECKSUM,
+            message = "Verifying $modelId archive integrity"
+        )
+
+        checksumVerifier.verifySha256(downloadedFile, archiveSha256).getOrThrow()
+    }
+
+    private suspend fun extractArchive(
+        modelId: String, downloadedFile: File, tempDir: Path
+    ) {
+        emitProgress(
+            modelId = modelId,
+            operation = ModelManagerEvent.Progress.Operation.EXTRACTING,
+            message = "Extracting $modelId archive"
+        )
+
+        archiveExtractor.extractTarBz2(downloadedFile, tempDir.toFile()).getOrThrow()
+    }
+
+    private suspend fun copyFiles(
+        modelId: String, model: VoiceModel, tempDir: Path
+    ) {
+        emitProgress(
+            modelId = modelId,
+            operation = ModelManagerEvent.Progress.Operation.COPYING_FILES,
+            message = "Copying $modelId files"
+        )
+
+        modelFileManager.copyModelFiles(tempDir.toFile(), modelId, model).getOrThrow()
+    }
+
+    private fun cleanupTempDirectory(tempDir: Path) {
+        fileSystem.deleteRecursively(tempDir)
+    }
+
+    // Helper methods for event emission
+    private suspend fun emitProgress(
+        modelId: String,
+        operation: ModelManagerEvent.Progress.Operation,
+        message: String,
+        bytesProcessed: Long? = null,
+        totalBytes: Long? = null,
+        percentage: Float? = null
+    ) {
         _events.emit(
-            ModelManagerEvent.Error(
+            ModelManagerEvent.Progress(
                 modelId = modelId,
-                operation = ModelManagerEvent.Error.Operation.DOWNLOAD,
-                message = exception.message ?: "Failed to download model",
-                exception = exception
+                operation = operation,
+                message = message,
+                bytesProcessed = bytesProcessed,
+                totalBytes = totalBytes,
+                percentage = percentage
             )
         )
     }
 
-    /**
-     * Copy model files from the extracted archive to the model destination.
-     * The archive structure is expected to be: {tempDir}/{modelId}/{component files}
-     */
-    private fun copyModelFiles(tempDir: File, modelId: String, model: VoiceModel) {
-        val modelPath = getModelPath(modelId)
-        val extractedModelDir = File(tempDir, modelId)
-        if (!extractedModelDir.exists() || !extractedModelDir.isDirectory) {
-            throw IllegalStateException("Expected directory not found in archive: $modelId")
-        }
-
-        for (component in model.components) {
-            val sourceFile = File(extractedModelDir, component.name)
-            if (!sourceFile.exists()) {
-                throw IllegalStateException("Required file not found in archive: $modelId/${component.name}")
-            }
-
-            val destFile = modelPath.resolve(component.name).toFile()
-            sourceFile.copyTo(destFile, overwrite = true)
-        }
-    }
-
-
-    /**
-     * Extract a tar.bz2 archive to a destination directory.
-     */
-    @Suppress("NestedBlockDepth")
-    private fun extractTarBz2(sourceFile: File, destinationDir: File) {
-        destinationDir.mkdirs()
-        sourceFile.inputStream().use { fileInput ->
-            BufferedInputStream(fileInput).use { bufferedInput ->
-                BZip2CompressorInputStream(bufferedInput).use { bzipInput ->
-                    TarArchiveInputStream(bzipInput).use { tarInput ->
-                        while (true) {
-                            val entry = tarInput.nextEntry ?: break
-                            val outputFile = File(destinationDir, entry.name)
-                            if (entry.isDirectory) {
-                                log.info("Creating directory: ${outputFile.absolutePath}")
-                                outputFile.mkdirs()
-                            } else {
-                                log.info("Extracting file: ${outputFile.absolutePath}")
-                                outputFile.parentFile?.mkdirs()
-                                outputFile.outputStream().use { output ->
-                                    tarInput.copyTo(output)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Compute the SHA256 checksum of a file.
-     * Returns the checksum as a lowercase hexadecimal string.
-     */
-    private fun computeSha256(file: File): String {
-        val digest = MessageDigest.getInstance("SHA-256")
-        file.inputStream().use { input ->
-            val buffer = ByteArray(BUFFER_SIZE)
-            var bytesRead = input.read(buffer)
-            while (bytesRead != -1) {
-                digest.update(buffer, 0, bytesRead)
-                bytesRead = input.read(buffer)
-            }
-        }
-
-        return digest.digest().joinToString("") { "%02x".format(it) }
-    }
-
-    /**
-     * Verify that a file's SHA256 checksum matches the expected value.
-     * Throws IllegalStateException if the checksums don't match.
-     */
-    private fun verifySha256(file: File, expectedChecksum: String) {
-        val actualChecksum = computeSha256(file)
-        if (actualChecksum != expectedChecksum.lowercase()) {
-            throw IllegalStateException(
-                "SHA256 checksum mismatch for ${file.name}. " +
-                        "Expected: $expectedChecksum, Actual: $actualChecksum"
+    private suspend fun emitCompleted(
+        modelId: String, operation: ModelManagerEvent.Completed.Operation
+    ) {
+        _events.emit(
+            ModelManagerEvent.Completed(
+                modelId = modelId, operation = operation
             )
-        } else {
-            log.info("SHA256 checksum verified for ${file.name}")
-        }
+        )
+    }
+
+    private suspend fun emitError(
+        modelId: String, operation: ModelManagerEvent.Error.Operation, exception: Throwable
+    ) {
+        _events.emit(
+            ModelManagerEvent.Error(
+                modelId = modelId,
+                operation = operation,
+                message = exception.message ?: "Operation failed",
+                exception = exception
+            )
+        )
     }
 }
