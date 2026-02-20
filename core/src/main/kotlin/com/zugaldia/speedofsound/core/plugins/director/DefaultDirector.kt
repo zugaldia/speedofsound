@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 
 @Suppress("TooManyFunctions")
 class DefaultDirector(
@@ -142,12 +143,23 @@ class DefaultDirector(
         val currentLlm = llm ?: return null
         emitEvent(DirectorEvent.PolishingStarted)
         val prompt = buildPrompt(rawTranscription)
-        val llmResult = withContext(Dispatchers.IO) { currentLlm.generate(LlmRequest(text = prompt)) }
-        return llmResult.fold(onSuccess = { it.text }, onFailure = { error ->
-            log.error("LLM polishing failed: ${error.message}. Raw transcription was: $rawTranscription.")
-            emitEvent(DirectorEvent.PipelineError(PipelineStage.POLISHING, error))
-            null
-        })
+        val llmResult = withTimeoutOrNull(currentOptions.llmTimeoutMs) {
+            withContext(Dispatchers.IO) { currentLlm.generate(LlmRequest(text = prompt)) }
+        }
+
+        return when {
+            llmResult == null -> {
+                log.warn("LLM timed out after ${currentOptions.llmTimeoutMs}ms. Using raw transcription.")
+                null
+            }
+            llmResult.isSuccess -> llmResult.getOrNull()?.text
+            else -> {
+                val error = llmResult.exceptionOrNull() ?: Exception("Unknown error")
+                log.error("LLM failed: ${error.message}. Raw transcription was: $rawTranscription.")
+                emitEvent(DirectorEvent.PipelineError(PipelineStage.POLISHING, error))
+                null
+            }
+        }
     }
 
     private fun buildPrompt(rawTranscription: String): String {
