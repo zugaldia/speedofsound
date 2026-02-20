@@ -65,9 +65,10 @@ class GStreamerRecorder(
         super.enable()
         try {
             val args = arrayOf<String>()
+            val version = "${Gst.VERSION_MAJOR}.${Gst.VERSION_MINOR}.${Gst.VERSION_MICRO}"
             Gst.init(Out(args))
             pipeline = buildPipeline()
-            log.info("GStreamer initialized.")
+            log.info("GStreamer v$version initialized.")
         } catch (e: Exception) {
             val errorMsg = "Failed to initialize GStreamer: ${e.message}. " +
                 "Ensure GStreamer is installed, or set $ENV_DISABLE_GSTREAMER=true to use the fallback recorder."
