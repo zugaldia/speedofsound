@@ -26,9 +26,20 @@ application {
     mainClass = "com.zugaldia.speedofsound.app.AppKt"
 }
 
+// Determine version: CI release tag > local property > dev fallback
+val appVersion = project.findProperty("releaseVersion") as String?
+    ?: project.findProperty("speedofsound.version") as String?
+    ?: "0.0.0-dev"
+
+// Feature flags from properties
+val disableGioStore = (project.findProperty("speedofsound.disableGioStore") as String?)?.toBoolean() ?: false
+val disableGStreamer = (project.findProperty("speedofsound.disableGStreamer") as String?)?.toBoolean() ?: false
+
 buildConfig {
     packageName("com.zugaldia.speedofsound.app")
-    buildConfigField("String", "VERSION", "\"${project.findProperty("speedofsound.version")}\"")
+    buildConfigField("String", "VERSION", "\"$appVersion\"")
+    buildConfigField("boolean", "DISABLE_GIO_STORE", disableGioStore.toString())
+    buildConfigField("boolean", "DISABLE_GSTREAMER", disableGStreamer.toString())
 }
 
 tasks.shadowJar {
