@@ -20,7 +20,7 @@ onnx = "1.24.1"
 onnxExtensions = "0.13.0"
 openai = "4.17.0"
 shadow = "9.3.1"
-stargate = "0.1.0-20260208175924" # This is the only dependency in the Maven local repo
+stargate = "0.1.0"
 versionsPlugin = "0.53.0"
 
 [libraries]
@@ -43,7 +43,7 @@ onnxRuntime = { module = "com.microsoft.onnxruntime:onnxruntime", version.ref = 
 onnxRuntimeGpu = { module = "com.microsoft.onnxruntime:onnxruntime_gpu", version.ref = "onnx" }
 onnxRuntimeExtensions = { module = "com.microsoft.onnxruntime:onnxruntime-extensions", version.ref = "onnxExtensions" }
 openai = { module = "com.openai:openai-java", version.ref = "openai" }
-stargate = { module = "com.zugaldia.stargate:stargate", version.ref = "stargate" }
+stargate = { module = "com.github.zugaldia:stargate", version.ref = "stargate" }
 
 [bundles]
 javaGiEcosystem = ["javaGiGtk", "javaGiAdw", "javaGiGstreamer"]
