@@ -1,6 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.main
 
-import com.zugaldia.speedofsound.app.ENV_DISABLE_GSTREAMER
+import com.zugaldia.speedofsound.app.isGStreamerDisabled
 import com.zugaldia.speedofsound.app.POST_HIDE_DELAY_MS
 import com.zugaldia.speedofsound.app.plugins.recorder.GStreamerRecorder
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
@@ -50,7 +50,7 @@ class MainViewModel(
 
     private val registry = AppPluginRegistry()
 
-    private val recorder = if (System.getenv(ENV_DISABLE_GSTREAMER) == "true") {
+    private val recorder = if (isGStreamerDisabled()) {
         JvmRecorder(settingsClient.getRecorderOptions())
     } else {
         GStreamerRecorder(settingsClient.getRecorderOptions())

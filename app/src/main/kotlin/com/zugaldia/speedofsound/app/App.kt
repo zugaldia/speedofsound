@@ -62,7 +62,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
     }
 
     private fun buildSettingsStore(): SettingsStore {
-        if (System.getenv(ENV_DISABLE_GIO_STORE)?.lowercase() == "true") {
+        if (isGioStoreDisabled()) {
             logger.info("GIO settings store disabled via $ENV_DISABLE_GIO_STORE, using properties store")
             return PropertiesStore()
         }
