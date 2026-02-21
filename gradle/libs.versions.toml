@@ -4,6 +4,7 @@
 
 [versions]
 anthropic = "2.12.0"
+buildconfig = "6.0.7"
 clikt = "5.1.0"
 commonsCompress = "1.28.0"
 detekt = "2.0.0-alpha.2"
@@ -52,6 +53,7 @@ ktorEcosystem = ["ktorClientCore", "ktorClientCio"]
 onnxEcosystem = ["onnxRuntime", "onnxRuntimeExtensions"]
 
 [plugins]
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

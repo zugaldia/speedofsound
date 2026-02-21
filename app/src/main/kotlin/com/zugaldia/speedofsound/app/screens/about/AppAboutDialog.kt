@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.about
 
+import com.zugaldia.speedofsound.app.BuildConfig
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import org.gnome.adw.AboutDialog
 import org.gnome.gtk.License
@@ -8,7 +9,7 @@ fun buildAboutDialog(): AboutDialog {
     val dialog = AboutDialog()
     dialog.applicationName = APPLICATION_NAME
     dialog.developerName = "Antonio Zugaldia"
-    dialog.version = "0.1.0"
+    dialog.version = BuildConfig.VERSION
     dialog.website = "https://github.com/zugaldia/speedofsound"
     dialog.issueUrl = "https://github.com/zugaldia/speedofsound/issues"
     dialog.licenseType = License.MIT_X11

@@ -2,6 +2,7 @@ plugins {
     // Apply the shared build logic from a convention plugin.
     // The shared code is located in `buildSrc/src/main/kotlin/kotlin-jvm.gradle.kts`.
     id("buildsrc.convention.kotlin-jvm")
+    alias(libs.plugins.buildconfig)
     alias(libs.plugins.detekt)
     alias(libs.plugins.shadow)
     alias(libs.plugins.versions)
@@ -23,6 +24,11 @@ application {
     // See: https://java-gi.org/usage/#linux
     applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
     mainClass = "com.zugaldia.speedofsound.app.AppKt"
+}
+
+buildConfig {
+    packageName("com.zugaldia.speedofsound.app")
+    buildConfigField("String", "VERSION", "\"${project.findProperty("speedofsound.version")}\"")
 }
 
 tasks.shadowJar {
