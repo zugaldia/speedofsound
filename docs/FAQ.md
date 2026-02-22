@@ -42,31 +42,39 @@ worth trying smaller ones first.
 
 Text polishing is an optional step that sends the raw transcript to an LLM for further improvement.
 It is disabled by default and, if enabled, it adds some latency depending on the provider and model you choose.
-
 It is most useful in two ways: giving the LLM instructions (writing style, your intended audience, etc.)
 and supplying a custom vocabulary of names, companies, or technical terms that speech recognition tends to mishear.
 Whisper alone might get you 95% of the way there, polishing with the right context can close that gap.
+
+## Which microphone does the app use? Can I choose one?
+
+The app uses your system default microphone. There is no in-app microphone selector yet, though we
+might add one. Under the hood, recording uses GStreamer with `autoaudiosrc`, which automatically detects
+the appropriate audio source to use. To change the microphone, adjust the default input device in your
+system sound settings.
 
 ## Why do I need to set up a trigger script for the global keyboard shortcut?
 
 The XDG Desktop Global Shortcuts Portal would allow Speed of Sound to register a global shortcut
 automatically, but it is still not widely supported across desktop environments. Until it is, the
 `trigger.sh` script provides a manual alternative that works with whatever shortcut system your
-desktop already has. We know it is awkward and plan to remove this step once portal support improves.
+desktop already has. We know it is awkward and plan to make this step optional once portal support improves.
 
 ## Why is the download so large?
 
 The JAR is around 100 MB because it bundles the Whisper Tiny model, so the app works out of the box
 with no extra setup. Even without the model, the app would still be large because on-device AI
-inference requires native libraries that cannot be stripped out. The size is a deliberate tradeoff
+inference engines require native libraries that cannot be stripped out. The size is a deliberate tradeoff
 in favor of ease of use.
 
 ## Where does the app store my models, settings, and logs?
 
 Audio and transcriptions are never written to disk. They are discarded as soon as they are processed.
 In the future we may add a history or statistics feature, but that is not currently in place.
+Settings are stored using GSettings unless you run the JAR standalone, in which case they are stored
+in a properties file, typically under `$HOME/.local/share/speedofsound/speedofsound.properties`.
 
-Everything else follows standard desktop conventions, which also work correctly in Flatpak and Snap
-environments. Models, settings, and logs are stored under `$SNAP_USER_COMMON` (when running as a Snap),
+File storage follows standard desktop conventions to work correctly in Flatpak and Snap environments.
+Downloaded models are stored under `$SNAP_USER_COMMON` (when running as a Snap),
 or `$XDG_DATA_HOME/speedofsound` (when that variable is set), falling back to
-`~/.local/share/speedofsound`.
+`$HOME/.local/share/speedofsound`.

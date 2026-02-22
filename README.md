@@ -5,7 +5,7 @@
 
 # Speed of Sound
 
-Voice typing for the Linux desktop: press a key, speak your text, and it gets typed into any app on your desktop. Done.
+Voice typing for the Linux desktop: press a key, speak your text, and it types itself. That's it.
 
 ## Features
 
@@ -13,7 +13,7 @@ Voice typing for the Linux desktop: press a key, speak your text, and it gets ty
 - Types the result directly into any focused application using Portals for wide desktop support (X11, Wayland).
 - [Multi-language support](https://github.com/openai/whisper#available-models-and-languages) with switchable primary and secondary languages on the fly.
 - Works out of the box with the built-in Whisper Tiny model. Download additional models from within the app to improve accuracy.
-- *Optional* text polishing with LLMs (Anthropic, Google, OpenAI) providing a custom context and vocabulary.
+- *Optional* text polishing with LLMs (Anthropic, Google, OpenAI), with support for a custom context and vocabulary.
 - Supports self-hosted services like vLLM, Ollama, and llama.cpp (cloud services supported but not required).
 
 ## Getting Started
@@ -21,16 +21,19 @@ Voice typing for the Linux desktop: press a key, speak your text, and it gets ty
 > Note: Support for Flatpak and Snap distribution is underway. If you are familiar with either packaging format and
 > would like to help, please reach out to the author.
 
+> Note: The following sections assume an Ubuntu installation. The specific commands might change in other distributions.
+
 ### Requirements
 
 - **Java 25**: required to run the application.
-- **GStreamer**: required for audio recording.
-- **gdbus**: required to trigger the keyboard shortcut.
+- **GStreamer**: required for audio recording (usually preinstalled, installation docs [here](https://gstreamer.freedesktop.org/documentation/installing/on-linux.html))
+- **gdbus**: required to trigger the keyboard shortcut (usually preinstalled, install `libglib2.0-bin` otherwise).
 
-On Ubuntu LTS, you can install all dependencies with:
+On Ubuntu LTS, you can install Java 25 (current LTS) and make it the default with:
 
 ```bash
-sudo apt install openjdk-25-jdk gstreamer1.0-tools gstreamer1.0-plugins-good libglib2.0-bin
+sudo apt install openjdk-25-jdk
+sudo update-java-alternatives -s java-1.25.0-openjdk-amd64 
 ```
 
 ### Download the app
@@ -49,7 +52,7 @@ chmod +x $HOME/speedofsound/trigger.sh
 
 ### Set up a shortcut
 
-In this step you will assign a global keyboard shortcut that starts and stops dictation.
+In this step, you will assign a global keyboard shortcut that starts and stops dictation.
 The exact steps vary by desktop environment. On GNOME, for example:
 
 1. Open **Settings** and navigate to **Keyboard**.
@@ -61,13 +64,19 @@ The exact steps vary by desktop environment. On GNOME, for example:
     - **Shortcut:** press your desired key combination, e.g. `Super+Z`
 5. Click **Add** to save.
 
+You can add multiple shortcuts targeting the same trigger script if you wish to.
+
 ### Usage
 
-Launch the application with:
+Launch the application like any other Java application:
 
 ```bash
-java --enable-native-access=ALL-UNNAMED -jar $HOME/speedofsound/speedofsound.jar
+java -jar $HOME/speedofsound/speedofsound.jar
 ```
+
+(If you see warnings about using `--enable-native-access=ALL-UNNAMED`, feel free to add it in future invocations.
+These warnings are safe to ignore: they basically mean that [Java GI](https://java-gi.org/) is accessing the
+native GTK and GNOME libraries to render the application UI.)
 
 On the first launch, two things will happen:
 
