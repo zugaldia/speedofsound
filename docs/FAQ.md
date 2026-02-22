@@ -25,7 +25,7 @@ approve that prompt for dictation to work.
 
 ## Why does the app ask for permission to type on my behalf?
 
-This is the XDG Remote Desktop Portal requesting access to simulate keyboard input. It is the standard,
+This is the XDG Remote Desktop Portal requesting access to simulate keyboard input. It is the standard
 sandboxed mechanism for typing into other applications without requiring root or elevated privileges.
 It is also the only way to make typing work inside sandboxed packaging formats like Flatpak and Snap.
 The app cannot type anything without your explicit approval.
@@ -37,6 +37,15 @@ better accuracy, especially for technical vocabulary or challenging accents, dow
 from within the app. All models in the Whisper family are supported (Tiny, Base, Small, Medium, Large, Turbo),
 including English-only and optimized ones ("distilled"). Larger models are slower and use more memory, so it is
 worth trying smaller ones first.
+
+## What does text polishing do, and do I need it?
+
+Text polishing is an optional step that sends the raw transcript to an LLM for further improvement.
+It is disabled by default and, if enabled, it adds some latency depending on the provider and model you choose.
+
+It is most useful in two ways: giving the LLM instructions (writing style, your intended audience, etc.)
+and supplying a custom vocabulary of names, companies, or technical terms that speech recognition tends to mishear.
+Whisper alone might get you 95% of the way there, polishing with the right context can close that gap.
 
 ## Why do I need to set up a trigger script for the global keyboard shortcut?
 
@@ -51,3 +60,13 @@ The JAR is around 100 MB because it bundles the Whisper Tiny model, so the app w
 with no extra setup. Even without the model, the app would still be large because on-device AI
 inference requires native libraries that cannot be stripped out. The size is a deliberate tradeoff
 in favor of ease of use.
+
+## Where does the app store my models, settings, and logs?
+
+Audio and transcriptions are never written to disk. They are discarded as soon as they are processed.
+In the future we may add a history or statistics feature, but that is not currently in place.
+
+Everything else follows standard desktop conventions, which also work correctly in Flatpak and Snap
+environments. Models, settings, and logs are stored under `$SNAP_USER_COMMON` (when running as a Snap),
+or `$XDG_DATA_HOME/speedofsound` (when that variable is set), falling back to
+`~/.local/share/speedofsound`.
