@@ -10,8 +10,9 @@ plugins {
 }
 
 kotlin {
-    // Use Java 25 (latest LTS) for compilation and runtime.
-    jvmToolchain(25)
+    // Use Java 22 (minimum required, Panama FFI finalized) for compilation.
+    // Runtime (Flatpak/Snap) uses Java 25 (latest LTS).
+    jvmToolchain(22)
 }
 
 tasks.withType<Test>().configureEach {
