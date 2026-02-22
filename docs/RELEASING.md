@@ -24,6 +24,7 @@ BuildConfig.VERSION is generated from these sources and displayed in the About d
    git commit -m "chore: bump version to 0.2.0-dev"
    git push origin release/v0.1.0
    # Open a PR and merge it into main
+   # Note: no need to delete the branch manually — GitHub is configured to auto-delete merged branches
    ```
 
 2. Tag the merge commit on `main` and push the tag:

@@ -71,17 +71,13 @@ You can add multiple shortcuts targeting the same trigger script if you wish to.
 Launch the application like any other Java application:
 
 ```bash
-java -jar $HOME/speedofsound/speedofsound.jar
+java --enable-native-access=ALL-UNNAMED -jar $HOME/speedofsound/speedofsound.jar
 ```
-
-(If you see warnings about using `--enable-native-access=ALL-UNNAMED`, feel free to add it in future invocations.
-These warnings are safe to ignore: they basically mean that [Java GI](https://java-gi.org/) is accessing the
-native GTK and GNOME libraries to render the application UI.)
 
 On the first launch, two things will happen:
 
 1. **Model setup**: The built-in Whisper Tiny model is unpacked into your user data folder.
-   This is automatic and happens in the background.
+   This is automatic and the app will start faster in the future.
 2. **Permissions prompt**: The app will ask you to grant permission to type on your behalf.
    To support both X11 and Wayland desktops without requiring root access, Speed of Sound uses XDG Desktop Portals
    for keyboard input. You must approve this prompt for dictation to work.
