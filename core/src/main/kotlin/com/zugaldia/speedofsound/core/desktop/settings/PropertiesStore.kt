@@ -24,6 +24,9 @@ class PropertiesStore(filename: String = DEFAULT_PROPERTIES_FILENAME) : Settings
             } catch (e: IOException) {
                 logger.error("Error loading properties from $filePath: ${e.message}")
             }
+        } else {
+            logger.info("Properties file does not exist yet, creating it: $filePath")
+            save()
         }
     }
 
