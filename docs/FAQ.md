@@ -18,17 +18,17 @@ remains the recommended starting point for everyone.
 
 ## Does it work on Wayland? How about X11?
 
-Yes. Speed of Sound uses XDG Desktop Portals for keyboard input, which works on both X11 and Wayland.
-Under the hood, it uses the [Stargate library](https://github.com/zugaldia/stargate/) by the same author.
-On the first launch you will be prompted to grant the app permission to type on your behalf. You need to
-approve that prompt for dictation to work.
+Yes. Speed of Sound uses [XDG Desktop Portals](https://flatpak.github.io/xdg-desktop-portal/docs/) for keyboard input,
+which works on both X11 and Wayland. Under the hood, it uses the [Stargate library](https://github.com/zugaldia/stargate/)
+by the same author. On the first launch you will be prompted to grant the app permission to type on your behalf.
+You need to approve that prompt for dictation to work.
 
 ## Why does the app ask for permission to type on my behalf?
 
-This is the XDG Remote Desktop Portal requesting access to simulate keyboard input. It is the standard
-sandboxed mechanism for typing into other applications without requiring root or elevated privileges.
-It is also the only way to make typing work inside sandboxed packaging formats like Flatpak and Snap.
-The app cannot type anything without your explicit approval.
+This is the [XDG Remote Desktop Portal](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.RemoteDesktop.html)
+requesting access to simulate keyboard input. It is the standard sandboxed mechanism for typing into other
+applications without requiring root or elevated privileges. It is also the only way to make typing work inside
+sandboxed packaging formats like Flatpak and Snap. The app cannot type anything without your explicit approval.
 
 ## Which Whisper model should I use?
 
@@ -46,19 +46,21 @@ It is most useful in two ways: giving the LLM instructions (writing style, your 
 and supplying a custom vocabulary of names, companies, or technical terms that speech recognition tends to mishear.
 Whisper alone might get you 95% of the way there, polishing with the right context can close that gap.
 
-## Which microphone does the app use? Can I choose one?
+## I have multiple microphones, can I choose which one to use?
 
-The app uses your system default microphone. There is no in-app microphone selector yet, though we
-might add one. Under the hood, recording uses GStreamer with `autoaudiosrc`, which automatically detects
-the appropriate audio source to use. To change the microphone, adjust the default input device in your
-system sound settings.
+No, the app currently uses your system default microphone. There is no in-app microphone selector, though we
+might add one. Under the hood, recording uses
+[GStreamer with `autoaudiosrc`](https://gstreamer.freedesktop.org/documentation/autodetect/autoaudiosrc.html),
+which automatically detects the appropriate audio source to use. To change the microphone, adjust the default
+input device in your system sound settings.
 
 ## Why do I need to set up a trigger script for the global keyboard shortcut?
 
-The XDG Desktop Global Shortcuts Portal would allow Speed of Sound to register a global shortcut
-automatically, but it is still not widely supported across desktop environments. Until it is, the
-`trigger.sh` script provides a manual alternative that works with whatever shortcut system your
-desktop already has. We know it is awkward and plan to make this step optional once portal support improves.
+The [XDG Desktop Global Shortcuts Portal](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.GlobalShortcuts.html)
+would allow Speed of Sound to register a global shortcut automatically, but it is still not widely supported across
+desktop environments. Until it is, the`trigger.sh` script provides a manual alternative that works with whatever
+shortcut system your desktop already has. We know it is awkward and plan to make this step optional once portal
+support improves.
 
 ## Why is the download so large?
 
