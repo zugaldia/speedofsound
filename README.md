@@ -94,6 +94,11 @@ The transcribed text will be typed into whatever application is currently focuse
 
 The in-app shortcuts (all except the global one) are active only while the Speed of Sound window is focused.
 
+## FAQ
+
+Common questions about privacy, cloud providers, Wayland support, model selection, and more are answered
+in the [FAQ](docs/FAQ.md).
+
 ## Support
 
 If you run into any issues, have questions, or need troubleshooting help, please open a ticket on the
