@@ -1,0 +1,36 @@
+id: io.speedofsound.App
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk25
+command: speedofsound
+finish-args:
+  - --share=network       # Access the network
+  - --filesystem=xdg-data # Access the XDG data directory to store local models ($XDG_DATA_HOME or $HOME/.local/share)
+  - --socket=wayland      # Show windows with Wayland
+  - --socket=fallback-x11 # Show windows using X11 if Wayland is not available
+  - --share=ipc           # Share IPC namespace with the host (needed for X11 performance)
+  - --socket=pulseaudio   # Access to PulseAudio (includes mic input)
+  # See: https://github.com/flathub/org.freedesktop.Sdk.Extension.openjdk25
+  - --env=PATH=/app/jre/bin:/app/bin:/usr/bin
+  - --env=JAVA_HOME=/app/jre
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk25/install.sh
+  - name: speedofsound
+    buildsystem: simple
+    build-options:
+      env:
+        PATH: /app/bin:/usr/bin:/usr/lib/sdk/openjdk25/bin
+        JAVA_HOME: /usr/lib/sdk/openjdk25/jvm/openjdk-25
+    build-commands:
+      - install -Dm755 speedofsound.sh /app/bin/speedofsound
+      - install -Dm644 speedofsound.jar /app/bin/speedofsound.jar
+    sources:
+      - type: file
+        path: speedofsound.sh
+      - type: file
+        path: app/build/libs/speedofsound.jar

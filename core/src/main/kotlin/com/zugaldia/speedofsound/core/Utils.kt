@@ -1,0 +1,101 @@
+package com.zugaldia.speedofsound.core
+
+import java.net.URI
+import java.nio.file.Path
+import java.nio.file.Paths
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
+private const val NANOSECONDS_PER_SECOND = 1_000_000_000L
+
+/**
+ * Generate a unique ID using UUID v4.
+ */
+@OptIn(ExperimentalUuidApi::class)
+fun generateUniqueId(): String = Uuid.random().toString()
+
+/**
+ * Generate a timestamp using nanosecond precision since Unix epoch.
+ */
+@OptIn(ExperimentalTime::class)
+fun generateTimestamp(): Long {
+    val instant = Clock.System.now()
+    return instant.epochSeconds * NANOSECONDS_PER_SECOND + instant.nanosecondsOfSecond
+}
+
+/**
+ * Finds a Language by its ISO2 code.
+ *
+ * @param iso2 the two-letter ISO 639-1 language code
+ * @return the matching Language, or null if not found
+ */
+fun languageFromIso2(iso2: String): Language? =
+    Language.all.firstOrNull { it.iso2 == iso2 }
+
+/**
+ * Get the data directory path depending on the environment.
+ * Returns $SNAP_USER_COMMON or $XDG_DATA_HOME (if set), falling back to $HOME/.local/share/speedofsound
+ */
+fun getDataDir(): Path {
+    val snapUserCommon = System.getenv("SNAP_USER_COMMON") // In a Snap
+    val xdgDataHome = System.getenv("XDG_DATA_HOME") // Typically, in a Flatpak
+    val appDataDir = if (!snapUserCommon.isNullOrEmpty()) {
+        Paths.get(snapUserCommon) // Already includes the Snap name
+    } else if (!xdgDataHome.isNullOrEmpty()) {
+        if (APPLICATION_ID in xdgDataHome) {
+            Paths.get(xdgDataHome) // APPLICATION_ID already included in Flatpak sandboxes
+        } else {
+            Paths.get(xdgDataHome, APPLICATION_SHORT)
+        }
+    } else {
+        val home = System.getProperty("user.home")
+        Paths.get(home, ".local", "share", APPLICATION_SHORT)
+    }
+
+    // Ensure it exists
+    val dir = appDataDir.toFile()
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+
+    return appDataDir
+}
+
+/**
+ * Get the temporary data directory path.
+ * Returns {dataDir}/tmp, creating it if it doesn't exist.
+ * This ensures temporary files work in sandboxed environments like Flatpak and Snap.
+ */
+fun getTmpDataDir(): Path {
+    val dataDir = getDataDir()
+    val tmpDir = dataDir.resolve("tmp")
+    val dir = tmpDir.toFile()
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+
+    return tmpDir
+}
+
+/**
+ * Generate a temporary WAV file path with a timestamp.
+ * Format: {tmpDataDir}/speedofsound-{timestamp}.wav
+ */
+fun generateTmpWavFilePath(): Path {
+    val dataDir = getTmpDataDir()
+    val timestamp = generateTimestamp()
+    return dataDir.resolve("$APPLICATION_SHORT-$timestamp.wav")
+}
+
+/**
+ * Validates if a string is a valid URL.
+ *
+ * @param url the URL string to validate
+ * @return true if the URL is valid, false otherwise
+ */
+fun isValidUrl(url: String): Boolean = runCatching {
+    URI(url).toURL()
+    true
+}.getOrDefault(false)

@@ -1,0 +1,76 @@
+package com.zugaldia.speedofsound.app
+
+/*
+ * We generally do not define custom colors. Instead, we rely on the ADW style classes:
+ * https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1.3/style-classes.html
+ */
+
+const val ENV_DISABLE_GIO_STORE = "SOS_DISABLE_GIO_STORE"
+const val ENV_DISABLE_GSTREAMER = "SOS_DISABLE_GSTREAMER"
+
+const val MIN_ADW_MAJOR_VERSION = 1
+const val MIN_ADW_MINOR_VERSION = 5
+
+const val DEFAULT_WINDOW_WIDTH = 400
+const val DEFAULT_WINDOW_HEIGHT = 200
+
+const val DEFAULT_PREFERENCES_DIALOG_WIDTH = 800
+const val DEFAULT_PREFERENCES_DIALOG_HEIGHT = 800
+
+const val DEFAULT_ADD_CREDENTIAL_DIALOG_WIDTH = 500
+const val DEFAULT_ADD_CREDENTIAL_DIALOG_HEIGHT = 300
+
+const val DEFAULT_PROGRESS_BAR_WIDTH = 300
+
+const val DEFAULT_TEXT_VIEW_PADDING = 10
+const val DEFAULT_TEXT_VIEW_HEIGHT = 200
+
+const val DEFAULT_MARGIN = 10
+const val DEFAULT_BOX_SPACING = 10
+
+const val POST_HIDE_DELAY_MS = 100L
+const val SETTINGS_SAVE_DEBOUNCE_MS = 500
+
+// Adw CSS style classes
+// https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1-latest/style-classes.html
+const val STYLE_CLASS_ACCENT = "accent"
+const val STYLE_CLASS_SUCCESS = "success"
+const val STYLE_CLASS_WARNING = "warning"
+const val STYLE_CLASS_ERROR = "error"
+const val STYLE_CLASS_SUGGESTED_ACTION = "suggested-action"
+const val STYLE_CLASS_DESTRUCTIVE_ACTION = "destructive-action"
+const val STYLE_CLASS_BOXED_LIST = "boxed-list"
+const val STYLE_CLASS_DIM_LABEL = "dim-label"
+const val STYLE_CLASS_FLAT = "flat"
+const val STYLE_CLASS_LINKED = "linked"
+
+// Personalization limits
+const val MAX_VOCABULARY_WORDS = 50
+const val MAX_CUSTOM_CONTEXT_CHARS = 2000 // Approximately 3 paragraphs
+
+// Credential limits
+const val MAX_CREDENTIALS = 25
+const val MAX_CREDENTIAL_NAME_LENGTH = 100
+const val MAX_CREDENTIAL_VALUE_LENGTH = 500
+
+// Credential masking
+const val MIN_CREDENTIAL_LENGTH_FOR_MASKING = 10
+const val CREDENTIAL_MASK_PREFIX_LENGTH = 4
+const val CREDENTIAL_MASK_SUFFIX_LENGTH = 4
+
+// Voice + Text model provider limits
+const val MAX_VOICE_MODEL_PROVIDERS = 10
+const val MAX_TEXT_MODEL_PROVIDERS = 10
+const val MAX_PROVIDER_CONFIG_NAME_LENGTH = 100
+const val DEFAULT_ADD_PROVIDER_DIALOG_WIDTH = 600
+const val DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT = 500
+
+const val TRIGGER_ACTION = "trigger"
+
+const val SIGNAL_STAGE_CHANGED = "stage-changed"
+const val SIGNAL_RECORDING_LEVEL = "recording-level"
+const val SIGNAL_PORTALS_RESTORE_TOKEN_MISSING = "portals-restore-token-missing"
+const val SIGNAL_PIPELINE_COMPLETED = "pipeline-completed"
+const val SIGNAL_LANGUAGE_CHANGED = "language-changed"
+const val SIGNAL_ASR_MODEL_CHANGED = "asr-model-changed"
+const val SIGNAL_LLM_MODEL_CHANGED = "llm-model-changed"

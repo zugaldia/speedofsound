@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="speedofsound">
+  <schema id="io.speedofsound.App" path="/io/speedofsound/App/">
+
+    <key name="portals-restore-token" type="s">
+      <default>''</default>
+      <summary>XDG Desktop Portal restore token</summary>
+      <description>Token used to restore remote desktop sessions without requiring user re-authorization.</description>
+    </key>
+
+    <!-- General page -->
+
+    <key name="default-language" type="s">
+      <default>'en'</default>
+      <summary>Default language</summary>
+      <description>ISO 639-1 code for the default language used for speech recognition and text processing.</description>
+    </key>
+    <key name="secondary-language" type="s">
+      <default>'es'</default>
+      <summary>Secondary language</summary>
+      <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
+    </key>
+
+    <!-- Cloud Credentials page -->
+
+    <key name="credentials" type="s">
+      <default>'[]'</default>
+      <summary>Stored credentials</summary>
+      <description>JSON-serialized list of credentials for various services.</description>
+    </key>
+
+    <!-- Voice Models page -->
+
+    <key name="voice-model-providers" type="s">
+      <default>'[]'</default>
+      <summary>Voice model provider configurations</summary>
+      <description>JSON-serialized list of ASR provider configurations for speech recognition.</description>
+    </key>
+    <key name="selected-voice-model-provider-id" type="s">
+      <default>''</default>
+      <summary>Selected voice model provider</summary>
+      <description>The ID of the currently selected voice model provider for speech recognition.</description>
+    </key>
+
+    <!-- Text Models page -->
+
+    <key name="text-processing-enabled" type="b">
+      <default>false</default>
+      <summary>Text processing enabled</summary>
+      <description>Enable LLM-based text processing to polish transcriptions.</description>
+    </key>
+    <key name="text-model-providers" type="s">
+      <default>'[]'</default>
+      <summary>Text model provider configurations</summary>
+      <description>JSON-serialized list of LLM provider configurations.</description>
+    </key>
+    <key name="selected-text-model-provider-id" type="s">
+      <default>''</default>
+      <summary>Selected text model provider</summary>
+      <description>The ID of the currently selected text model provider for text processing.</description>
+    </key>
+
+    <!-- Personalization page -->
+
+    <key name="custom-context" type="s">
+      <default>''</default>
+      <summary>Custom LLM context</summary>
+      <description>Optionally share details like job, location, or writing style to help improve transcriptions.</description>
+    </key>
+    <key name="custom-vocabulary" type="as">
+      <default>[]</default>
+      <summary>Custom vocabulary entries</summary>
+      <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
+    </key>
+
+  </schema>
+</schemalist>
