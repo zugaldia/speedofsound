@@ -48,11 +48,18 @@ class AsrProviderManager(
     private fun applySelectedProviderConfig(setActive: Boolean) {
         val selectedProviderId = settingsClient.getSelectedVoiceModelProviderId()
         val providers = settingsClient.getVoiceModelProviders()
-        val selectedProvider = providers.find { it.id == selectedProviderId } ?: return
-
-        val pluginId = pluginIdForProvider(selectedProvider.provider)
-        val options = settingsClient.resolveVoiceProviderOptions(selectedProvider)
-        applyAsrOptions(pluginId, options)
+        val selectedProvider = providers.find { it.id == selectedProviderId }
+        val pluginId = if (selectedProvider != null) {
+            val options = settingsClient.resolveVoiceProviderOptions(selectedProvider)
+            val id = pluginIdForProvider(selectedProvider.provider)
+            applyAsrOptions(id, options)
+            id
+        } else {
+            // No provider configured yet (e.g., fresh installation with no models downloaded).
+            // Fall back to the default local ASR plugin, so it is always active.
+            logger.info("No ASR provider found for id '$selectedProviderId', falling back to default")
+            SherpaWhisperAsr.ID
+        }
 
         if (setActive) {
             registry.setActiveById(AppPluginCategory.ASR, pluginId)
