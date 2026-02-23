@@ -157,10 +157,8 @@ class MainViewModel(
     private fun collectPortalsSessionState() {
         viewModelScope.launch {
             portalsSessionManager.isSessionDisconnected.collect { isDisconnected ->
-                GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
-                    state.setPortalsSessionDisconnected(isDisconnected)
-                    false // Return false for one-shot execution
-                }
+                // setPortalsSessionDisconnected does not emit a GObject signal, so no need for idleAdd
+                state.setPortalsSessionDisconnected(isDisconnected)
             }
         }
         viewModelScope.launch {
