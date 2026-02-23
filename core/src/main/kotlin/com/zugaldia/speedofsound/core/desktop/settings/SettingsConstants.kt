@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.core.desktop.settings
 
 import com.zugaldia.speedofsound.core.APPLICATION_SHORT
 import com.zugaldia.speedofsound.core.Language
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 
 const val DEFAULT_PROPERTIES_FILENAME = "$APPLICATION_SHORT.properties"
@@ -32,8 +33,7 @@ const val KEY_VOICE_MODEL_PROVIDERS = "voice-model-providers"
 const val DEFAULT_VOICE_MODEL_PROVIDERS = "[]"
 
 const val KEY_SELECTED_VOICE_MODEL_PROVIDER_ID = "selected-voice-model-provider-id"
-const val DEFAULT_VOICE_MODEL_PROVIDER_ID = "default-sherpa-provider"
-const val DEFAULT_SELECTED_VOICE_MODEL_PROVIDER_ID = DEFAULT_VOICE_MODEL_PROVIDER_ID
+const val DEFAULT_SELECTED_VOICE_MODEL_PROVIDER_ID = DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 
 // Text Models page
 
