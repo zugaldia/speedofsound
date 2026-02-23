@@ -5,6 +5,7 @@ import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.generateTmpWavFilePath
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
+import com.zugaldia.speedofsound.core.plugins.recorder.RecorderOptions
 import org.slf4j.LoggerFactory
 
 class RecordCommand : CliktCommand(name = "record") {
@@ -15,15 +16,9 @@ class RecordCommand : CliktCommand(name = "record") {
     }
 
     override fun run() {
-        val recorder = JvmRecorder()
+        val recorder = JvmRecorder(RecorderOptions(enableDebug = true))
         recorder.initialize()
         recorder.enable()
-
-        val devices = recorder.getAvailableDevices()
-        logger.info("Found ${devices.size} audio input device(s):")
-        devices.forEach { device ->
-            logger.info("- ${device.deviceId}: ${device.name} (${device.description})")
-        }
 
         logger.info("Starting 10-second recording from default device...")
         recorder.startRecording()

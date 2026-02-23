@@ -23,6 +23,12 @@ class JvmRecorder(
     @Volatile
     private var isRecording = false
 
+    companion object {
+        const val ID = "RECORDER_JVM"
+        private const val DEFAULT_BUFFER_SIZE = 1024
+        private const val THREAD_JOIN_TIMEOUT_MS = 1000L
+    }
+
     /**
      * Returns whether a recording is currently in progress.
      */
@@ -51,10 +57,19 @@ class JvmRecorder(
             }
     }
 
-    companion object {
-        const val ID = "RECORDER_JVM"
-        private const val DEFAULT_BUFFER_SIZE = 1024
-        private const val THREAD_JOIN_TIMEOUT_MS = 1000L
+    override fun enable() {
+        super.enable()
+        val version = System.getProperty("java.version")
+        log.info("JVM recorder initialized (Java v$version).")
+        if (currentOptions.enableDebug) {
+            val devices = getAvailableDevices()
+            devices.forEach { device ->
+                log.info(
+                    "Found audio input device: id=${device.deviceId}, " +
+                        "name=${device.name}, description=${device.description}"
+                )
+            }
+        }
     }
 
     /**
