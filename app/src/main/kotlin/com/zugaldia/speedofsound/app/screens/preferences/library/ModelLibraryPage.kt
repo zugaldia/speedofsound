@@ -59,7 +59,9 @@ class ModelLibraryPage(
     }
 
     private fun refreshModels() {
-        // Clear existing rows
+        // Clear existing rows. We should investigate a better approach, I believe this is the root cause for some
+        // (java:2230969): Gtk-CRITICAL **: 07:20:05.435: gtk_widget_get_can_focus: assertion 'GTK_IS_WIDGET (widget)'
+        // that we're seeing when downloading/deleting a model (although everything seems to work).
         modelRows.clear()
         while (modelsListBox.firstChild != null) {
             modelsListBox.remove(modelsListBox.firstChild)

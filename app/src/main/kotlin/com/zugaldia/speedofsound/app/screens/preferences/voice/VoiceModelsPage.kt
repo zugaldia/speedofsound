@@ -8,7 +8,7 @@ import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.app.screens.preferences.shared.ActiveProviderComboRow
-import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_VOICE_MODEL_PROVIDER_ID
+import com.zugaldia.speedofsound.core.desktop.settings.SUPPORTED_LOCAL_ASR_MODELS
 import com.zugaldia.speedofsound.core.desktop.settings.VoiceModelProviderSetting
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
@@ -112,7 +112,7 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
         }
 
         // Delete button (only for non-default providers)
-        if (providerSetting.id != DEFAULT_VOICE_MODEL_PROVIDER_ID) {
+        if (providerSetting.id !in SUPPORTED_LOCAL_ASR_MODELS.keys) {
             val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
                 addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
@@ -140,7 +140,7 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
     private fun updateAddProviderButtonState() {
         val providers = viewModel.getVoiceModelProviders()
         // Subtract 1 to account for the default provider when checking the limit
-        val customProviderCount = providers.count { it.id != DEFAULT_VOICE_MODEL_PROVIDER_ID }
+        val customProviderCount = providers.count { it.id !in SUPPORTED_LOCAL_ASR_MODELS.keys }
         val atLimit = customProviderCount >= MAX_VOICE_MODEL_PROVIDERS
         addProviderButton.sensitive = !atLimit
     }

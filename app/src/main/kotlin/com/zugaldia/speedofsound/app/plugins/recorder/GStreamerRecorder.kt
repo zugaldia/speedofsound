@@ -69,6 +69,15 @@ class GStreamerRecorder(
             Gst.init(Out(args))
             pipeline = buildPipeline()
             log.info("GStreamer v$version initialized.")
+            if (currentOptions.enableDebug) {
+                val devices = getAvailableDevices()
+                devices.forEach { device ->
+                    log.info(
+                        "Found audio input device: id=${device.deviceId}, " +
+                            "name=${device.name}, description=${device.description}"
+                    )
+                }
+            }
         } catch (e: Exception) {
             val errorMsg = "Failed to initialize GStreamer: ${e.message}. " +
                 "Ensure GStreamer is installed, or set $ENV_DISABLE_GSTREAMER=true to use the fallback recorder."
@@ -171,9 +180,11 @@ class GStreamerRecorder(
         capsFilter.link(sink)
 
         // Watch the message bus
-        val bus = pipeline.getBus()
-        if (bus != null) {
-            busWatchId = bus.addWatch(0, ::busCall)
+        if (currentOptions.enableDebug) {
+            val bus = pipeline.getBus()
+            if (bus != null) {
+                busWatchId = bus.addWatch(0, ::busCall)
+            }
         }
 
         return pipeline
@@ -285,15 +296,17 @@ class GStreamerRecorder(
     }
 
     private fun cleanup() {
+        // The order of operations is important. We need to set the pipeline to NULL before removing the bus watch.
+        // Otherwise, we might hit a NPE race condition in org.javagi.interop.Arenas.close_cb (root cause unclear).
+        pipeline?.setState(State.NULL)
+        pipeline = null
+        appSink = null
+        synchronized(audioBufferLock) { audioBuffer = null }
         if (busWatchId != 0) {
             Source.remove(busWatchId)
             busWatchId = 0
         }
 
-        pipeline?.setState(State.NULL)
-        pipeline = null
-        appSink = null
-        synchronized(audioBufferLock) { audioBuffer = null }
         log.info("GStreamer pipeline destroyed")
     }
 

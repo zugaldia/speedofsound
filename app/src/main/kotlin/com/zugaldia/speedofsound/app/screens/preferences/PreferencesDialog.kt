@@ -13,7 +13,6 @@ import org.gnome.adw.Banner
 import org.gnome.adw.Dialog
 import org.gnome.adw.HeaderBar
 import org.gnome.adw.ToolbarView
-import org.gnome.glib.GLib
 import org.gnome.gtk.Box
 import org.gnome.gtk.Orientation
 import org.gnome.gtk.Stack
@@ -47,12 +46,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         cloudCredentialsPage = CloudCredentialsPage(viewModel)
         voiceModelsPage = VoiceModelsPage(viewModel)
         textModelsPage = TextModelsPage(viewModel)
-        modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations ->
-            GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
-                operationsBanner.revealed = hasOperations
-                false
-            }
-        }
+        modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         personalizationPage = PersonalizationPage(viewModel)
 
         stack = Stack().apply {

@@ -1,6 +1,6 @@
 package com.zugaldia.speedofsound.core.models.voice
 
-import com.zugaldia.speedofsound.core.generateUniqueId
+import com.zugaldia.speedofsound.core.generateUniqueId as coreGenerateUniqueId
 
 /**
  * Abstraction for generating unique IDs.
@@ -14,6 +14,6 @@ interface IdGenerator {
  */
 class DefaultIdGenerator : IdGenerator {
     override fun generateUniqueId(): String {
-        return generateUniqueId()
+        return coreGenerateUniqueId()
     }
 }

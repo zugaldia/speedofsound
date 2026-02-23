@@ -9,6 +9,7 @@ import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.pluginIdForProvider
 import org.slf4j.LoggerFactory
 
@@ -27,15 +28,16 @@ class AsrProviderManager(
     }
 
     /**
-     * Activates the currently selected ASR provider from settings.
+     * Activates the currently selected ASR provider from settings. Invoked when the MainViewModel starts
+     * or when a new provider is selected in the settings screen (KEY_SELECTED_VOICE_MODEL_PROVIDER_ID changes).
      */
     fun activateSelectedProvider() {
         applySelectedProviderConfig(setActive = true)
     }
 
     /**
-     * Refreshes the configuration for the currently selected provider.
-     * Called when provider settings or credentials change.
+     * Refreshes the configuration for the currently selected provider. Invoked when the list of providers
+     * (KEY_VOICE_MODEL_PROVIDERS) or credentials change (KEY_CREDENTIALS).
      */
     fun refreshProviderConfiguration() {
         applySelectedProviderConfig(setActive = false)
@@ -55,9 +57,9 @@ class AsrProviderManager(
             applyAsrOptions(id, options)
             id
         } else {
-            // No provider configured yet (e.g., fresh installation with no models downloaded).
-            // Fall back to the default local ASR plugin, so it is always active.
-            logger.info("No ASR provider found for id '$selectedProviderId', falling back to default")
+            // No provider configured or a previously available provider was removed.
+            // We fall back to the default local ASR plugin and model.
+            settingsClient.setSelectedVoiceModelProviderId(DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID)
             SherpaWhisperAsr.ID
         }
 
