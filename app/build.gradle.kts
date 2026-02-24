@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":core"))
 
     implementation(libs.kotlinxCoroutines)
+    implementation(libs.kotlinxSerialization)
     implementation(libs.log4jSlf4j2Impl)
     runtimeOnly(libs.log4jCore)
 
