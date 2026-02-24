@@ -93,11 +93,17 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
         add(textProcessingGroup)
         add(providersGroup)
-        loadInitialProviders()
+        loadProviders()
         setupNotifications()
     }
 
-    private fun loadInitialProviders() {
+    fun refreshProviders() {
+        logger.info("Refreshing text model providers")
+        providersListBox.removeAll()
+        loadProviders()
+    }
+
+    private fun loadProviders() {
         val providers = viewModel.getTextModelProviders()
         providers.sortedBy { it.name.lowercase() }.forEach { provider -> addProviderToUI(provider) }
         activeProviderComboRow.updateProviders(providers)

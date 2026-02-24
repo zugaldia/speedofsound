@@ -5,18 +5,21 @@ import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
 
 class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
+    private val primaryComboRow: LanguageComboRow
+    private val secondaryComboRow: LanguageComboRow
+
     init {
         title = "General"
         iconName = "preferences-system-symbolic"
 
-        val primaryComboRow = LanguageComboRow(
+        primaryComboRow = LanguageComboRow(
             rowTitle = "Primary Language",
             rowSubtitle = "Used by default for speech recognition",
             getLanguage = { viewModel.getDefaultLanguage() },
             setLanguage = { viewModel.setDefaultLanguage(it) }
         )
 
-        val secondaryComboRow = LanguageComboRow(
+        secondaryComboRow = LanguageComboRow(
             rowTitle = "Secondary Language",
             rowSubtitle = "Optional language to switch to (right Shift key)",
             getLanguage = { viewModel.getSecondaryLanguage() },
@@ -36,5 +39,10 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         // Set up notifications after all widgets are initialized
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
+    }
+
+    fun refresh() {
+        primaryComboRow.refresh()
+        secondaryComboRow.refresh()
     }
 }

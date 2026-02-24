@@ -9,28 +9,35 @@ import org.slf4j.LoggerFactory
 class LanguageComboRow(
     rowTitle: String,
     rowSubtitle: String,
-    getLanguage: () -> String,
+    private val getLanguage: () -> String,
     private val setLanguage: (String) -> Unit
 ) : ComboRow() {
     private val logger = LoggerFactory.getLogger(LanguageComboRow::class.java)
 
     private val languages = Language.all
+    private var isRefreshing = false
 
     init {
         val languageNames = languages.map { it.name }.toTypedArray()
         val stringList = StringList(languageNames)
-
         title = rowTitle
         subtitle = rowSubtitle
         model = stringList
         useSubtitle = false
         enableSearch = true
+        refresh()
+    }
 
-        // Load initial value
-        val savedIso2 = getLanguage()
-        languageFromIso2(savedIso2)?.let { language ->
-            val index = languages.indexOf(language)
-            if (index >= 0) { selected = index }
+    fun refresh() {
+        isRefreshing = true
+        try {
+            val savedIso2 = getLanguage()
+            languageFromIso2(savedIso2)?.let { language ->
+                val index = languages.indexOf(language)
+                if (index >= 0) { selected = index }
+            }
+        } finally {
+            isRefreshing = false
         }
     }
 
@@ -39,6 +46,7 @@ class LanguageComboRow(
      */
     fun setupNotifications() {
         onNotify("selected") {
+            if (isRefreshing) return@onNotify
             val selectedIndex = selected
             if (selectedIndex in languages.indices) {
                 logger.info("Default language changed to ${languages[selectedIndex].name}")

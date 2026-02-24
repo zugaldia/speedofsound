@@ -71,13 +71,19 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
         }
 
         add(credentialsGroup)
-        loadInitialCredentials()
+        loadCredentials()
     }
 
-    private fun loadInitialCredentials() {
+    private fun loadCredentials() {
         val credentials = viewModel.getCredentials()
         credentials.sortedBy { it.name.lowercase() }.forEach { credential -> addCredentialToUI(credential) }
         updatePlaceholderVisibility()
+    }
+
+    fun refresh() {
+        logger.info("Refreshing cloud credentials")
+        credentialsListBox.removeAll()
+        loadCredentials()
     }
 
     private fun showAddCredentialDialog() {
