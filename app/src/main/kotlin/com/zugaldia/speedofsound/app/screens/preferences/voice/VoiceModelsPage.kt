@@ -70,10 +70,8 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
     }
 
     fun refreshProviders() {
-        logger.info("Loading voice model providers")
-        while (providersListBox.firstChild != null) {
-            providersListBox.remove(providersListBox.firstChild)
-        }
+        logger.info("Refreshing voice model providers")
+        providersListBox.removeAll()
 
         val providers = viewModel.getVoiceModelProviders()
         providers.sortedBy { it.name.lowercase() }.forEach { provider -> addProviderToUI(provider) }

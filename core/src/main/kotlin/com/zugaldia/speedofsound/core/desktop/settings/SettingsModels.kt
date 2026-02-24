@@ -55,3 +55,19 @@ data class TextModelProviderSetting(
     val credentialId: String? = null,
     val baseUrl: String? = null
 ) : SelectableProviderSetting
+
+/**
+ * A serializable snapshot of all exportable user preferences.
+ * Instance-specific settings (portal token, selected provider IDs, text processing toggle) are excluded.
+ */
+@Serializable
+data class SettingsExport(
+    val version: Int = 1,
+    val defaultLanguage: String,
+    val secondaryLanguage: String,
+    val credentials: List<CredentialSetting>,
+    val voiceModelProviders: List<VoiceModelProviderSetting>,
+    val textModelProviders: List<TextModelProviderSetting>,
+    val customContext: String,
+    val customVocabulary: List<String>
+)

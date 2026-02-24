@@ -38,6 +38,7 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
     private val vocabularyListBox: ListBox
     private val instructionsTextView: TextView
     private var saveInstructionsCounter: Int = 0
+    private var isRefreshing = false
 
     init {
         title = "Personalization"
@@ -98,19 +99,31 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
         add(instructionsGroup)
         add(vocabularyGroup)
 
-        loadInitialValues()
+        loadValues()
         instructionsTextView.buffer.onChanged {
+            if (isRefreshing) return@onChanged
             enforceTextLimit()
             scheduleSaveInstructions()
         }
     }
 
-    private fun loadInitialValues() {
+    private fun loadValues() {
         val instructions = viewModel.getCustomContext()
         instructionsTextView.buffer.setText(instructions, -1)
 
         val vocabulary = viewModel.getCustomVocabulary()
         vocabulary.sortedWith(String.CASE_INSENSITIVE_ORDER).forEach { word -> addVocabularyWordToUI(word) }
+    }
+
+    fun refresh() {
+        logger.info("Refreshing personalization settings")
+        isRefreshing = true
+        try {
+            vocabularyListBox.removeAll()
+            loadValues()
+        } finally {
+            isRefreshing = false
+        }
     }
 
     /**

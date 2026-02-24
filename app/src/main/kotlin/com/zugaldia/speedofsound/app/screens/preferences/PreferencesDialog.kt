@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
 import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
 import com.zugaldia.speedofsound.app.screens.preferences.general.GeneralPage
+import com.zugaldia.speedofsound.app.screens.preferences.importexport.ImportExportPage
 import com.zugaldia.speedofsound.app.screens.preferences.library.ModelLibraryPage
 import com.zugaldia.speedofsound.app.screens.preferences.personalization.PersonalizationPage
 import com.zugaldia.speedofsound.app.screens.preferences.text.TextModelsPage
@@ -32,6 +33,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
     private val textModelsPage: TextModelsPage
     private val modelLibraryPage: ModelLibraryPage
     private val personalizationPage: PersonalizationPage
+    private val importExportPage: ImportExportPage
 
     init {
         title = "Preferences"
@@ -48,6 +50,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         textModelsPage = TextModelsPage(viewModel)
         modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         personalizationPage = PersonalizationPage(viewModel)
+        importExportPage = ImportExportPage(viewModel) { refreshAllPages() }
 
         stack = Stack().apply {
             hexpand = true
@@ -58,6 +61,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
             addTitled(voiceModelsPage, "voice_models", "Voice Models")
             addTitled(textModelsPage, "text_models", "Text Models")
             addTitled(personalizationPage, "personalization", "Personalization")
+            addTitled(importExportPage, "import_export", "Import / Export")
 
             // This is to make sure the voice models page includes any models the user just downloaded
             // in the library page, not only the ones that had been downloaded before.
@@ -100,6 +104,16 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         onClosed {
             personalizationPage.forceSaveInstructions()
             modelLibraryPage.shutdown()
+            importExportPage.shutdown()
         }
+    }
+
+    private fun refreshAllPages() {
+        logger.info("Refreshing all preferences pages after import")
+        generalPage.refresh()
+        cloudCredentialsPage.refresh()
+        voiceModelsPage.refreshProviders()
+        textModelsPage.refreshProviders()
+        personalizationPage.refresh()
     }
 }
