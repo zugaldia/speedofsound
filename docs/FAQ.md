@@ -64,8 +64,8 @@ support improves.
 
 ## Why is the download so large?
 
-The JAR is around 100 MB because it bundles the Whisper Tiny model, so the app works out of the box
-with no extra setup. Even without the model, the app would still be large because on-device AI
+The JAR is large because it bundles the ~100 MB Whisper Tiny model, so the app works out of the box
+with no extra setup. Even without the model, the app would still be large because the included on-device AI
 inference engines require native libraries that cannot be stripped out. The size is a deliberate tradeoff
 in favor of ease of use.
 
@@ -80,3 +80,18 @@ File storage follows standard desktop conventions to work correctly in Flatpak a
 Downloaded models are stored under `$SNAP_USER_COMMON` (when running as a Snap),
 or `$XDG_DATA_HOME/speedofsound` (when that variable is set), falling back to
 `$HOME/.local/share/speedofsound`.
+
+## Was this application "vibe-coded"?
+
+If you are asking whether this application was cobbled together in a couple of evenings by sending a few prompts to
+an LLM and hoping for the best, the answer is no. If you are asking whether a coding agent was used to assist during
+development, the answer is yes.
+
+Speed of Sound was built with a deliberate focus on maintainability and correctness, supported by
+a growing test suite. Any AI-generated code was reviewed before being included, if only because the author relies on
+this application for everyday use and wants all users to have the same reliable experience he expects for himself.
+In other words, any bugs or bad design decisions are the author's fault.
+
+The same is expected from any contributors to this project. You may or may not use a coding agent to contribute to
+this project, but the PR author is ultimately responsible for the quality of their contributions. Coding agents are
+not an excuse to take shortcuts. In fact, the opposite is true.
