@@ -3,10 +3,12 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.zugaldia.speedofsound.core.models.text.TextModel
 import com.zugaldia.speedofsound.core.plugins.AppPluginOptions
 import com.zugaldia.speedofsound.core.plugins.SelectableProvider
+import kotlinx.serialization.Serializable
 
 /**
  * Supported LLM providers.
  */
+@Serializable
 enum class LlmProvider(override val displayName: String) : SelectableProvider {
     ANTHROPIC("Anthropic"),
     GOOGLE("Google"),

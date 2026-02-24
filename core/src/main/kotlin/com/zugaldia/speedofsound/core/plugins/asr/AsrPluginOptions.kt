@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.models.voice.VoiceModel
 import com.zugaldia.speedofsound.core.plugins.AppPluginOptions
 import com.zugaldia.speedofsound.core.plugins.SelectableProvider
+import kotlinx.serialization.Serializable
 
 /**
  * Supported ASR providers.
@@ -11,6 +12,7 @@ import com.zugaldia.speedofsound.core.plugins.SelectableProvider
  * @param displayName Human-readable name for the provider
  * @param isLocallyManaged Whether the provider uses models managed in the model library
  */
+@Serializable
 enum class AsrProvider(
     override val displayName: String,
     val isLocallyManaged: Boolean
