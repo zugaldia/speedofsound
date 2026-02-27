@@ -99,6 +99,21 @@ The transcribed text will be typed into whatever application is currently focuse
 
 The in-app shortcuts (all except the global one) are active only while the Speed of Sound window is focused.
 
+## Built with
+
+Speed of Sound stands on the shoulders of these excellent open source projects:
+
+- [Java-GI](https://github.com/jwharm/java-gi) — GTK/GNOME bindings for Java, enabling access to native libraries
+  (including LibAdwaita and GStreamer) via the modern Panama framework.
+- [Sherpa ONNX](https://github.com/k2-fsa/sherpa-onnx) — On-device ASR (and more) using the performant ONNX Runtime,
+  including pre-built models for Whisper and many other popular models.
+- [Whisper](https://github.com/openai/whisper) — OpenAI's open-source speech recognition model.
+  Its release transformed the on-device ASR landscape.
+
+Additionally, Speed of Sound uses [Stargate](https://github.com/zugaldia/stargate), a companion project by the same
+author that provides JVM applications with high-level access to [XDG Desktop Portals](https://flatpak.github.io/xdg-desktop-portal/docs/index.html)
+on Linux. Stargate, in turn, depends on the fantastic [dbus-java](https://github.com/hypfvieh/dbus-java) project.
+
 ## FAQ
 
 Common questions about privacy, cloud providers, Wayland support, model selection, and more are answered
