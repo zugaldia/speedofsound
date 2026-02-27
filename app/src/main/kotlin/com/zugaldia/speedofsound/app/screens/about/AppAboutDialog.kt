@@ -15,10 +15,12 @@ fun buildAboutDialog(): AboutDialog {
     dialog.licenseType = License.MIT_X11
     dialog.copyright = "Copyright (c) 2025-2026 Antonio Zugaldia"
     dialog.addAcknowledgementSection(
-        "Special Thanks",
+        "Built on the Shoulders of Giants",
         arrayOf(
-            "David M. (@hypfvieh) and the Java D-Bus team.",
-            "Jan-Willem Harmannij (@jwharm) and the Java GI team."
+            "The Java-GI team (https://github.com/jwharm/java-gi)",
+            "The Sherpa ONNX team (https://github.com/k2-fsa/sherpa-onnx)",
+            "The Whisper team (https://github.com/openai/whisper)",
+            "The dbus-java team (https://github.com/hypfvieh/dbus-java)",
         )
     )
 
