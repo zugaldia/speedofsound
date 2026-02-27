@@ -19,8 +19,7 @@ val DEFAULT_VOCABULARY = listOf(APPLICATION_NAME, "Linux", "GNOME")
 const val DEFAULT_CONTEXT =
     "This is the raw transcription text captured from a voice dictation application on a Linux desktop."
 
-val PROMPT_TEMPLATE = """
-# Goal
+const val PROMPT_TEMPLATE = """# Goal
 You are an expert copy editor.
 Your goal is to review the following INPUT transcription to improve its quality and readability.
 
@@ -41,11 +40,21 @@ Make sure that the following terms are spelled correctly: $PROMPT_KEY_VOCABULARY
 - Do not add commentary, answers, or timestamps.
 - Preserve the same language as the INPUT.
 
+## Examples
+
+INPUT: what time is it
+OUTPUT: What time is it?
+
+INPUT: well update to the the L T S version. of the linux distribution right away.
+OUTPUT: We'll update to the LTS version of the Linux distribution right away.
+
+INPUT: Open the mail app send an email to John at example dot com and close it
+OUTPUT: Open the mail app, send an email to john@example.com, and close it.
+
 # Transcription
 LANGUAGE: $PROMPT_KEY_LANGUAGE
 INPUT: $PROMPT_KEY_INPUT
-OUTPUT:
-""".trimIndent()
+OUTPUT: """
 
 /**
  * Options for the director plugin.
