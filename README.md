@@ -119,7 +119,12 @@ on Linux. Stargate, in turn, depends on the fantastic [dbus-java](https://github
 Common questions about privacy, cloud providers, Wayland support, model selection, and more are answered
 in the [FAQ](docs/FAQ.md).
 
-## Support
+## Support and Contributions
 
 If you run into any issues, have questions, or need troubleshooting help, please open a ticket on the
-[GitHub issues page](https://github.com/zugaldia/speedofsound/issues).
+[GitHub issues page](https://github.com/zugaldia/speedofsound/issues). Pull requests are also welcome.
+
+There are several ideas already tracked as tickets to improve the project. Everything planned on the
+roadmap has a corresponding issue. If you'd like to contribute, please use those tickets to guide your
+work. You can also use GitHub emoji reactions on issues to vote for the ones that matter most to you,
+which helps with prioritization.
