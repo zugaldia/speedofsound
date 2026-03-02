@@ -52,3 +52,6 @@ speedofsound.flatpak
 
 ### Snap ###
 speedofsound_*.snap
+
+### MkDocs ###
+site/
