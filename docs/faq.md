@@ -9,18 +9,17 @@ Neither is enabled unless you configure it.
 
 ## Why do you support cloud providers at all?
 
-On-device inference is the default and works well for most users. Cloud providers are disabled unless
-you configure them. We added support for them because not everyone has hardware capable of running
+On-device inference is the default and works well for most users, and cloud providers are disabled unless
+you configure them. We added cloud support because not everyone has hardware capable of running
 models that meet their accuracy needs. This matters especially for users who rely on this app for
-accessibility reasons, where transcription quality is not just a preference but a requirement. Cloud
-providers give those users a path to better results without needing a powerful machine. On-device
-remains the recommended starting point for everyone.
+accessibility reasons. Cloud providers give those users a path to better results without needing a powerful machine.
+On-device remains the recommended starting point for everyone.
 
 ## Does it work on Wayland? How about X11?
 
-Yes. Speed of Sound uses [XDG Desktop Portals](https://flatpak.github.io/xdg-desktop-portal/docs/) for keyboard input,
-which works on both X11 and Wayland. Under the hood, it uses the [Stargate library](https://github.com/zugaldia/stargate/)
-by the same author. On the first launch you will be prompted to grant the app permission to type on your behalf.
+Yes to both. Under the hood, Speed of Sound uses [XDG Desktop Portals](https://flatpak.github.io/xdg-desktop-portal/docs/)
+for keyboard input, which works on both X11 and Wayland (powered by the [Stargate library](https://github.com/zugaldia/stargate/)
+by the same author). On the first launch you will be prompted to grant the app permission to type on your behalf.
 You need to approve that prompt for dictation to work.
 
 ## Why does the app ask for permission to type on my behalf?
@@ -58,7 +57,7 @@ input device in your system sound settings.
 
 The [XDG Desktop Global Shortcuts Portal](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.GlobalShortcuts.html)
 would allow Speed of Sound to register a global shortcut automatically, but it is still not widely supported across
-desktop environments. Until it is, the`trigger.sh` script provides a manual alternative that works with whatever
+desktop environments. Until it is, the `trigger.sh` script provides a manual alternative that works with whatever
 shortcut system your desktop already has. We know it is awkward and plan to make this step optional once portal
 support improves.
 
@@ -95,3 +94,13 @@ In other words, any bugs or bad design decisions are the author's fault.
 The same is expected from any contributors to this project. You may or may not use a coding agent to contribute to
 this project, but the PR author is ultimately responsible for the quality of their contributions. Coding agents are
 not an excuse to take shortcuts. In fact, the opposite is true.
+
+## What do I do if I have another question not answered here?
+
+If you run into any issues, have questions, or need troubleshooting help, please open a ticket on the
+[GitHub issues page](https://github.com/zugaldia/speedofsound/issues). Pull requests are also welcome.
+
+There are several ideas already tracked as tickets to improve the project. Everything planned on the
+roadmap has a corresponding issue. If you'd like to contribute, please use those tickets to guide your
+work. You can also use GitHub emoji reactions on issues to vote for the ones that matter most to you,
+which helps with prioritization.

@@ -1,0 +1,41 @@
+site_name: Speed of Sound
+site_url: https://zugaldia.github.io/speedofsound
+site_author: Antonio Zugaldia
+site_description: Voice typing for the Linux desktop
+repo_url: https://github.com/zugaldia/speedofsound
+theme:
+  name: material
+  features:
+    - navigation.footer
+  palette:
+    # See: https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#automatic-light-dark-mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+markdown_extensions:
+  - attr_list
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - User Guide: user-guide.md
+  - FAQ: faq.md
+copyright: Copyleft &copy; 2026 Antonio Zugaldia
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/zugaldia
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/zugaldia.com
+    - icon: fontawesome/solid/globe
+      link: https://zugaldia.com

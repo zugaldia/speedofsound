@@ -1,7 +1,7 @@
 APP_ID = io.speedofsound.App
 export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
-.PHONY: run app-run cli-run build check clean jar-run
+.PHONY: run app-run cli-run build check clean jar-run docs-serve docs-build
 
 clean:
 	./gradlew clean
@@ -54,3 +54,13 @@ snap-install:
 
 snap-remove:
 	snap remove speedofsound
+
+#
+# Docs
+#
+
+docs-serve:
+	mkdocs serve
+
+docs-build:
+	mkdocs build
