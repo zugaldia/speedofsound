@@ -18,7 +18,7 @@ Voice typing for the Linux desktop: press a key, speak your text, and it types i
 
 ## Getting Started
 
-For installation and usage information, see the [documentation site](https://zugaldia.github.io/speedofsound).
+For installation and usage information, see [speedofsound.io](https://speedofsound.io).
 
 ## Built with
 
