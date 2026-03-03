@@ -1,7 +1,15 @@
+<div align="center">
+  <img src="assets/logo/logo-square-512.png" width="250" alt="Speed of Sound logo">
+</div>
+
+<div align="center">
+
 [![Version](https://img.shields.io/github/v/release/zugaldia/speedofsound)](https://github.com/zugaldia/speedofsound/releases)
 [![Build](https://github.com/zugaldia/speedofsound/actions/workflows/build.yml/badge.svg)](https://github.com/zugaldia/speedofsound/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)
+
+</div>
 
 # Speed of Sound
 
