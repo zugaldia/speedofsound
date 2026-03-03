@@ -3,6 +3,7 @@ plugins {
     // The shared code is located in `buildSrc/src/main/kotlin/kotlin-jvm.gradle.kts`.
     id("buildsrc.convention.kotlin-jvm")
     alias(libs.plugins.detekt)
+    alias(libs.plugins.flatpakGradleGenerator)
     alias(libs.plugins.kotlinPluginSerialization)
     alias(libs.plugins.kover)
 }
@@ -27,4 +28,10 @@ dependencies {
     implementation(libs.openai)
 
     testImplementation(kotlin("test"))
+}
+
+tasks.flatpakGradleGenerator {
+    outputFile = file("flatpak-sources.json")
+    downloadDirectory = "${rootProject.projectDir}/offline-repository"
+    excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
 }
