@@ -1,8 +1,16 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = uri("${rootProject.projectDir}/offline-repository") }
+    }
+}
+
 dependencyResolutionManagement {
     // Use Maven Central as the default repository (where Gradle will download dependencies) in all subprojects.
     @Suppress("UnstableApiUsage")
     repositories {
         mavenCentral()
+        maven { url = uri("${rootProject.projectDir}/offline-repository") }
 //        mavenLocal()
 //        maven {
 //            url = uri("https://central.sonatype.com/repository/maven-snapshots/")

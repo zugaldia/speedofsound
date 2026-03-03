@@ -4,6 +4,7 @@ plugins {
     id("buildsrc.convention.kotlin-jvm")
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.flatpakGradleGenerator)
     alias(libs.plugins.shadow)
     alias(libs.plugins.versions)
     application
@@ -45,4 +46,10 @@ buildConfig {
 
 tasks.shadowJar {
     archiveFileName.set("speedofsound.jar")
+}
+
+tasks.flatpakGradleGenerator {
+    outputFile = file("flatpak-sources.json")
+    downloadDirectory = "${rootProject.projectDir}/offline-repository"
+    excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
 }

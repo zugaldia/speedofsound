@@ -1,7 +1,7 @@
 APP_ID = io.speedofsound.App
 export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
-.PHONY: run app-run cli-run build check clean jar-run docs-serve docs-build
+.PHONY: run app-run cli-run build check clean jar-run flatpak-sources docs-serve docs-build
 
 clean:
 	./gradlew clean
@@ -24,6 +24,9 @@ check:
 #
 # Flatpak
 #
+
+flatpak-sources:
+	./gradlew :app:flatpakGradleGenerator :core:flatpakGradleGenerator --no-configuration-cache
 
 flatpak-linter:
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream $(APP_ID).metainfo.xml
