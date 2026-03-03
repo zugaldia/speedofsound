@@ -5,9 +5,14 @@ import com.zugaldia.speedofsound.core.models.text.TextModel
 const val DEFAULT_LLM_GOOGLE_MODEL_ID = "gemini-2.5-flash-lite"
 
 val SUPPORTED_GOOGLE_TEXT_MODELS = mapOf(
-    "gemini-3-pro-preview" to TextModel(
-        id = "gemini-3-pro-preview",
-        name = "Gemini 3 Pro Preview",
+    "gemini-3.1-pro-preview" to TextModel(
+        id = "gemini-3.1-pro-preview",
+        name = "Gemini 3.1 Pro Preview",
+        provider = LlmProvider.GOOGLE
+    ),
+    "gemini-3.1-flash-lite-preview" to TextModel(
+        id = "gemini-3.1-flash-lite-preview",
+        name = "Gemini 3.1 Flash Lite Preview",
         provider = LlmProvider.GOOGLE
     ),
     "gemini-3-flash-preview" to TextModel(
