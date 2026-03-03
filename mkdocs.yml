@@ -5,6 +5,8 @@ site_description: Voice typing for the Linux desktop
 repo_url: https://github.com/zugaldia/speedofsound
 theme:
   name: material
+  logo: assets/logo-square-512.png
+  favicon: assets/apple-touch-icon.png
   features:
     - navigation.footer
   palette:
@@ -15,11 +17,13 @@ theme:
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: brown
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: brown
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
