@@ -14,8 +14,9 @@ BuildConfig.VERSION is generated from these sources and displayed in the About d
 
 ## Steps
 
-1. Create a release branch and open a PR to bump the version:
+1. Create a release branch and open a PR:
    - Update `speedofsound.version` in `gradle.properties` to the *next* development version (e.g. `0.2.0-dev`)
+   - Update `io.speedofsound.App.metainfo.xml` to include the new release explaining what changed from a user perspective.
 
    ```bash
    git checkout -b release/v0.1.0

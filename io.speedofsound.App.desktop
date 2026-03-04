@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Speed of Sound
+Comment=Voice typing for the Linux desktop
+Categories=Utility;Accessibility;
+Keywords=voice;typing;dictation;transcription;speech;microphone;whisper;
+Icon=io.speedofsound.App
+Exec=speedofsound
+Terminal=false
+StartupNotify=true

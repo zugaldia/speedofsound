@@ -7,7 +7,6 @@ sdk-extensions:
 command: speedofsound
 finish-args:
   - --share=network       # Access the network
-  - --filesystem=xdg-data # Access the XDG data directory to store local models ($XDG_DATA_HOME or $HOME/.local/share)
   - --socket=wayland      # Show windows with Wayland
   - --socket=fallback-x11 # Show windows using X11 if Wayland is not available
   - --share=ipc           # Share IPC namespace with the host (needed for X11 performance)
