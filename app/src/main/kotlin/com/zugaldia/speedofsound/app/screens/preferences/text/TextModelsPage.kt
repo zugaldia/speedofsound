@@ -3,7 +3,6 @@ package com.zugaldia.speedofsound.app.screens.preferences.text
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.MAX_TEXT_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
-import com.zugaldia.speedofsound.app.STYLE_CLASS_DESTRUCTIVE_ACTION
 import com.zugaldia.speedofsound.app.STYLE_CLASS_DIM_LABEL
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
@@ -155,7 +154,6 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
         val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
             addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
-            addCssClass(STYLE_CLASS_DESTRUCTIVE_ACTION)
             onClicked {
                 providersListBox.remove(row)
                 onProviderDeleted(providerSetting.id)
