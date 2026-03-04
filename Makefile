@@ -1,13 +1,19 @@
 APP_ID = io.speedofsound.App
 export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
-.PHONY: run app-run cli-run build check clean jar-run flatpak-sources docs-serve docs-build
+.PHONY: run run-light run-dark app-run cli-run build check clean jar-run flatpak-sources docs-serve docs-build
 
 clean:
 	./gradlew clean
 
 run: clean
 	SOS_DISABLE_GIO_STORE=true SOS_DISABLE_GSTREAMER=false ./gradlew :app:run
+
+run-light: clean
+	SOS_DISABLE_GIO_STORE=true SOS_DISABLE_GSTREAMER=false SOS_COLOR_SCHEME=light ./gradlew :app:run
+
+run-dark: clean
+	SOS_DISABLE_GIO_STORE=true SOS_DISABLE_GSTREAMER=false SOS_COLOR_SCHEME=dark ./gradlew :app:run
 
 build:
 	./gradlew build
@@ -30,6 +36,7 @@ flatpak-sources:
 
 flatpak-linter:
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream $(APP_ID).metainfo.xml
+	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest $(APP_ID).yml
 
 flatpak-build: shadow-build
 	flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install builddir $(APP_ID).yml
@@ -39,6 +46,9 @@ flatpak-bundle:
 
 flatpak-run:
 	flatpak run $(APP_ID)
+
+desktop-validate:
+	desktop-file-validate $(APP_ID).desktop
 
 #
 # Snap

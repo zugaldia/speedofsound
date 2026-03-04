@@ -10,6 +10,7 @@ import com.zugaldia.speedofsound.core.APPLICATION_ID
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import org.gnome.adw.Adw
 import org.gnome.adw.Application
+import org.gnome.adw.StyleManager
 import org.gnome.gio.ApplicationFlags
 import org.gnome.gio.SimpleAction
 import org.slf4j.LoggerFactory
@@ -41,6 +42,14 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
                     "Detected libadwaita v$adwVersion, but v1.5 or newer is required. " +
                         "The application might not work correctly."
                 )
+            }
+
+            // Override the color scheme if SOS_COLOR_SCHEME is set. Users should leave this unset
+            // and rely on system preferences instead. Intended for development and troubleshooting
+            // to verify the app's appearance in both light and dark modes.
+            getColorSchemeOverride()?.let { colorScheme ->
+                StyleManager.getDefault().colorScheme = colorScheme
+                logger.info("Color scheme override set to: $colorScheme")
             }
 
             settingsClient = SettingsClient(buildSettingsStore())

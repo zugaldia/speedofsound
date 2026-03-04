@@ -1,41 +1,14 @@
 # Getting Started
 
-> The work to integrate this application in the Flathub and the Snapcraft stores is underway.
+> The work to integrate this application in the Flathub and Snapcraft stores is underway.
 > If you are familiar with either packaging format and would like to help, please reach out to the author.
 > Support for other distribution methods like AppImage, Deb, or RPM is [on the roadmap](https://github.com/zugaldia/speedofsound/issues/4).
 
-## Manual installation
+## 1. Installation
 
-The following instructions assume an Ubuntu installation. The specific commands might change in other distributions.
+Follow the instructions under [Manual Installation](manual-installation.md).
 
-### Requirements
-
-- **Java 25**: required to run the application.
-- **GStreamer**: required for audio recording (usually preinstalled, installation docs [here](https://gstreamer.freedesktop.org/documentation/installing/on-linux.html))
-- **gdbus**: required to trigger the keyboard shortcut (usually preinstalled, install `libglib2.0-bin` otherwise).
-
-On Ubuntu LTS, you can install Java 25 (current LTS) and make it the default with:
-
-```bash
-sudo apt install openjdk-25-jdk
-sudo update-java-alternatives -s java-1.25.0-openjdk-amd64
-```
-
-### Download the app
-
-Go to the [GitHub releases page](https://github.com/zugaldia/speedofsound/releases) and download two files
-from the latest release:
-
-- `speedofsound.jar`: the application
-- `trigger.sh`: the script that triggers a recording from a keyboard shortcut (uses `gdbus` under the hood)
-
-For example, download both files into `$HOME/speedofsound/`. Then make the trigger script executable:
-
-```bash
-chmod +x $HOME/speedofsound/trigger.sh
-```
-
-### Set up a shortcut
+## 2. Set up a shortcut
 
 In this step, you will assign a global keyboard shortcut that starts and stops dictation.
 The exact steps vary by desktop environment. On GNOME, for example:
@@ -50,3 +23,23 @@ The exact steps vary by desktop environment. On GNOME, for example:
 5. Click **Add** to save.
 
 You can add multiple shortcuts targeting the same trigger script if you wish to.
+
+## 3. Accept Remote Desktop Permissions
+
+When Speed of Sound is first launched, the main window displays a banner with a **Start** button.
+Clicking it will prompt your system to grant the application the permissions it needs to type on your behalf.
+
+![Main screen](assets/screenshots/main-banner-light.png#only-light)
+![Main screen](assets/screenshots/main-banner-dark.png#only-dark)
+
+After clicking **Start**, your system will show the Remote Desktop permissions dialog.
+You must check **Allow remote interaction**, which is required for the application to simulate keyboard input.
+You should also check **Remember this selection**. Without it, you will need to re-accept these permissions every
+time you launch Speed of Sound.
+
+![Remote Desktop Permissions Dialog](assets/screenshots/remote-desktop-permissions-light.png#only-light)
+![Remote Desktop Permissions Dialog](assets/screenshots/remote-desktop-permissions-dark.png#only-dark)
+
+Under the hood, Speed of Sound uses the [XDG Desktop Portal](https://flatpak.github.io/xdg-desktop-portal/) standard
+to simulate keyboard input. This is supported by all major desktop environments, including GNOME and KDE,
+and works on both X11 and Wayland.

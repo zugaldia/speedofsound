@@ -27,13 +27,19 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
+extra_css:
+  - stylesheets/extra.css
 markdown_extensions:
   - attr_list
+  - admonition
 nav:
   - Home: index.md
-  - Getting Started: getting-started.md
+  - Getting Started:
+    - getting-started.md
+    - Manual Installation: manual-installation.md
   - User Guide: user-guide.md
   - FAQ: faq.md
+  - Support: support.md
 copyright: Copyleft &copy; 2026 Antonio Zugaldia
 extra:
   social:

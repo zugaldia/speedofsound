@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Antonio Zugaldia -->
+<component type="desktop-application">
+    <id>io.speedofsound.App</id>
+    <name>Speed of Sound</name>
+    <summary>Voice typing for the Linux desktop</summary>
+    <metadata_license>MIT</metadata_license>
+    <project_license>MIT</project_license>
+    <description>
+        <p>
+            Speed of Sound is a voice-typing app for the Linux desktop. Press a key, speak your
+            text, and it types itself into any focused application.
+        </p>
+        <p>
+            By default, transcription runs on-device using Whisper, so no audio ever leaves your machine.
+            The app comes with a built-in multilingual Whisper Tiny model and works out of the box.
+            Additional models can be downloaded from within the app to improve accuracy.
+        </p>
+        <ul>
+            <li>Offline, private transcription with the bundled multilingual Whisper Tiny model</li>
+            <li>Types directly into any app via XDG Desktop Portals (supports X11 and Wayland)</li>
+            <li>Optional text polishing with LLMs, supports self-hosted services like Ollama, vLLM, and llama.cpp</li>
+            <li>Optional cloud providers supported for resource-constrained hardware environments</li>
+        </ul>
+        <p>Please visit speedofsound.io/getting-started after installation.</p>
+    </description>
+
+    <url type="homepage">https://www.speedofsound.io</url>
+    <url type="faq">https://www.speedofsound.io/faq</url>
+    <url type="bugtracker">https://github.com/zugaldia/speedofsound/issues</url>
+    <url type="vcs-browser">https://github.com/zugaldia/speedofsound</url>
+
+    <url type="contact">https://www.zugaldia.com</url>
+    <developer id="com.zugaldia">
+        <name>Antonio Zugaldia</name>
+    </developer>
+
+    <content_rating type="oars-1.1" />
+    <launchable type="desktop-id">io.speedofsound.App.desktop</launchable>
+
+    <screenshots>
+        <screenshot type="default">
+            <caption>The main window</caption>
+            <image>https://www.speedofsound.io/assets/screenshots/main-light.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>The model library</caption>
+            <image>https://www.speedofsound.io/assets/screenshots/preferences-light.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Keyboard shortcuts</caption>
+            <image>https://www.speedofsound.io/assets/screenshots/shortcuts-light.png</image>
+        </screenshot>
+    </screenshots>
+
+    <releases>
+        <release version="0.5.0" date="2026-02-24">
+            <description>
+                <p>
+                    New Import/Export page in Preferences lets you back up your full configuration
+                    (API keys, LLM providers, vocabulary, and language settings) to a JSON file and
+                    restore it on any machine. Also improved the LLM text polishing prompt with better
+                    handling of capitalization, punctuation, and spoken abbreviations.
+                </p>
+            </description>
+        </release>
+        <release version="0.4.0" date="2026-02-23">
+            <description>
+                <p>
+                    Fixed two crashes: one on startup caused by a threading issue in the main view,
+                    and one during shutdown in the audio pipeline. When a previously configured ASR
+                    model is no longer available, the app now automatically falls back to the default
+                    Whisper model instead of crashing. Built-in models no longer show a delete button
+                    in the Voice Models preferences page.
+                </p>
+            </description>
+        </release>
+        <release version="0.3.0" date="2026-02-22">
+            <description>
+                <p>
+                    Lowered the minimum required JDK from 25 to 22, making the app easier to run on
+                    more systems without needing a bleeding-edge Java installation.
+                </p>
+            </description>
+        </release>
+        <release version="0.2.0" date="2026-02-22">
+            <description>
+                <p>
+                    Fixed a crash on fresh installations where no ASR model had been configured yet.
+                    The app now falls back to the default Whisper model automatically on the first run.
+                    Also expanded the FAQ with coverage of privacy, microphone selection, model sizes,
+                    and Wayland/X11 compatibility.
+                </p>
+            </description>
+        </release>
+        <release version="0.1.0" date="2026-02-22">
+            <description>
+                <p>
+                    First release of Speed of Sound. Captures microphone audio, transcribes it
+                    on-device using Whisper via Sherpa ONNX, and types the result into any focused
+                    application using XDG Desktop Portal keyboard simulation. Optional LLM text
+                    polishing is supported via Anthropic, Google, OpenAI, and compatible self-hosted
+                    endpoints such as Ollama, vLLM, and llama.cpp.
+                </p>
+            </description>
+        </release>
+    </releases>
+</component>
