@@ -54,6 +54,16 @@
     </screenshots>
 
     <releases>
+        <release version="0.6.0" date="2026-03-04">
+            <description>
+                <p>
+                    Added Gemini 3.1 Pro and Gemini Flash Lite as available cloud text models,
+                    replacing Gemini 3 Pro. Also improved LLM text polishing quality with
+                    few-shot prompt examples for better handling of commonly spoken language patterns.
+                    Fixed icon visibility for model removal on light mode.
+                </p>
+            </description>
+        </release>
         <release version="0.5.0" date="2026-02-24">
             <description>
                 <p>
