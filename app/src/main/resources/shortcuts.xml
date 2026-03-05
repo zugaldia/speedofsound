@@ -10,7 +10,7 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="title">Start or Stop Listening</property>
-                                <property name="accelerator">s</property>
+                                <property name="accelerator">&lt;Control&gt;s</property>
                             </object>
                         </child>
                         <child>
@@ -22,7 +22,7 @@
                         <child>
                             <object class="GtkShortcutsShortcut">
                                 <property name="title">Minimize Window</property>
-                                <property name="accelerator">m</property>
+                                <property name="accelerator">&lt;Control&gt;m</property>
                             </object>
                         </child>
                         <child>
