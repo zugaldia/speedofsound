@@ -117,8 +117,8 @@ class MainWindow(
         return when {
             key == "Shift_L" -> { viewModel.onPrimaryLanguageSelected(); true }
             key == "Shift_R" -> { viewModel.onSecondaryLanguageSelected(); true }
-            key == "s" || key == "S" -> { viewModel.toggleListening(); true }
-            key == "m" || key == "M" -> { goAway(); true }
+            (key == "s" || key == "S") && ctrlPressed -> { viewModel.toggleListening(); true }
+            (key == "m" || key == "M") && ctrlPressed -> { goAway(); true }
             key == "Escape" -> { viewModel.cancelListening(); true }
             (key == "q" || key == "Q") && ctrlPressed -> { onQuit(); true }
             else -> false
