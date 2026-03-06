@@ -4,6 +4,7 @@ plugins {
     id("buildsrc.convention.kotlin-jvm")
     alias(libs.plugins.detekt)
     alias(libs.plugins.flatpakGradleGenerator)
+    alias(libs.plugins.versions)
     alias(libs.plugins.kotlinPluginSerialization)
     alias(libs.plugins.kover)
 }
