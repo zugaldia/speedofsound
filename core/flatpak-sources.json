@@ -15,66 +15,66 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.12.0/anthropic-java-client-okhttp-2.12.0.jar",
-    "sha512": "1d80ac5368c4aecb89e71babc31fe2aa09b4cafc3ab2ff1894962bf94cd7c6a191410212409d32a53cf330a265258cfb6d2de10510333671691c6b89cd90fea2",
-    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.12.0",
-    "dest-filename": "anthropic-java-client-okhttp-2.12.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar",
+    "sha512": "43a301db6e45bed81297c23b33a11c2e5b11d98d9ecf0621c71732bc872f58fdaecf89c04c69e02c0e61ba71d30baf03e0197fc342476d0411f293b5f5d8ced1",
+    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.15.0",
+    "dest-filename": "anthropic-java-client-okhttp-2.15.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.12.0/anthropic-java-client-okhttp-2.12.0.module",
-    "sha512": "c6dfa9aa46a2ba95c11332c6e54f26329963ad4000592c40e5a7c5a1509b28df5e2fc2043b24ff0e9eb348b9babb5e9c6980d22188391da101db7c292d71f984",
-    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.12.0",
-    "dest-filename": "anthropic-java-client-okhttp-2.12.0.module"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.module",
+    "sha512": "90566b35491ebf9ccdc89a74ab812db332b92869d0c208a10739bb66f4817ae25fe4c26871bf2bf7681b3f152bfbfd72527d92a735c5a276cdd6760d4eae0a48",
+    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.15.0",
+    "dest-filename": "anthropic-java-client-okhttp-2.15.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.12.0/anthropic-java-client-okhttp-2.12.0.pom",
-    "sha512": "2e4ae5314307d8dca4f49ba0cc4d46b725f34a2925833e92de97614ddd16e9ce1d8553aed325e1f65415c383461be2ae8b975cdf46ade9d56a458099ce7b635d",
-    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.12.0",
-    "dest-filename": "anthropic-java-client-okhttp-2.12.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.pom",
+    "sha512": "b9c8676ad89583c3202f83ae1f6f4282bf1f7dd72afec4c87d1b8e11b97151854a31404f42e167ca066f1caee87f0eb4a972ccfc7bcac1255ab51f6012089150",
+    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.15.0",
+    "dest-filename": "anthropic-java-client-okhttp-2.15.0.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.12.0/anthropic-java-core-2.12.0.jar",
-    "sha512": "92af9894470d1c361d93b2b63dbc5ee16837f1416dec09905deaaad88b28c21bd9d5bd3f95b37d1ab6358f321b02fa5be8b465c92886ee642ceb90384e6faab1",
-    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.12.0",
-    "dest-filename": "anthropic-java-core-2.12.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar",
+    "sha512": "b0ae07b39fdb121cdbc5affe98053952613e90564a8860bd7ed4439256c3305c6d6a5f3952937c56dda7b36509d7cb99bed399a59ec716d57bc60768f6865b3e",
+    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.15.0",
+    "dest-filename": "anthropic-java-core-2.15.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.12.0/anthropic-java-core-2.12.0.module",
-    "sha512": "555a222f08cad026e98415ac1506f88e91fdd821122492b9a4845f8384ef267be00b7b4525c3dac87a220e3214e45ee5aff29449e6a8e8881b28b799126dca01",
-    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.12.0",
-    "dest-filename": "anthropic-java-core-2.12.0.module"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.module",
+    "sha512": "2a219d5d48d8d85370e684595515d0e34aaf6c62b41372871dad9e25c864e9b3bc95892d58aa51cbb019a487dc4f70993aca273441670cffdda527d8a60864bb",
+    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.15.0",
+    "dest-filename": "anthropic-java-core-2.15.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.12.0/anthropic-java-core-2.12.0.pom",
-    "sha512": "a2044b42b95184df08aa620f89efe0273d16d80ad9e979f53039b22218198d59baf8f4a335269cc8a109fba169a7d253a1ce8b48c00f60bfbd3752b2fec440dc",
-    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.12.0",
-    "dest-filename": "anthropic-java-core-2.12.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.pom",
+    "sha512": "f2d5175fe101507cc631a0eddb73a62a6c57787777a87397a4e5303e9943aec30e7c5e84c1b04c9fc6b74980a7c132480d3a45abb5ec5c928c750dc6570c2050",
+    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.15.0",
+    "dest-filename": "anthropic-java-core-2.15.0.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.12.0/anthropic-java-2.12.0.jar",
-    "sha512": "56d346bf0d987cb3f5c837450d2bef6598f32feb7fb55efff68473eacf771ec077c0ff22a125dee87cdfd11f162ca2b69bc7ad55b10c9f35dd47155eecb110f3",
-    "dest": "offline-repository/com/anthropic/anthropic-java/2.12.0",
-    "dest-filename": "anthropic-java-2.12.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar",
+    "sha512": "ed9cd9805c0676619629eb2fce5d410c4e184ba4ad0974e4f2ead500ce6964509bce9a4f4a8b78cecf56a1b29c8c858f2cc71422783add87941a3a2744a7e348",
+    "dest": "offline-repository/com/anthropic/anthropic-java/2.15.0",
+    "dest-filename": "anthropic-java-2.15.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.12.0/anthropic-java-2.12.0.module",
-    "sha512": "0435af5cb1b214d7f1fc45ec61c2661aa533c7d6ba886ddfae94bfc89110c40c8fca161a6271cf1e6ceb427f0734036819f70d814f4830a44343f717b57fc12b",
-    "dest": "offline-repository/com/anthropic/anthropic-java/2.12.0",
-    "dest-filename": "anthropic-java-2.12.0.module"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.module",
+    "sha512": "6ba8aad0ba86a18dd1f0013a54f97a03c5a2897e418d12b8cac1b442925b67a531d18f61a4e4fc323063029e060a35dc1511f32b424b64ecb498f97d428cc311",
+    "dest": "offline-repository/com/anthropic/anthropic-java/2.15.0",
+    "dest-filename": "anthropic-java-2.15.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.12.0/anthropic-java-2.12.0.pom",
-    "sha512": "004ccc1dbfc9608f663182d2a6384a747f4d20d3f16095678836f9466c61f7023d54caf05c56afeacdab49a9cce000461cd12dc459922c7b12012c5725ac9e37",
-    "dest": "offline-repository/com/anthropic/anthropic-java/2.12.0",
-    "dest-filename": "anthropic-java-2.12.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.pom",
+    "sha512": "2601eff4fefb8eb8a0cdc4d5120b53048c9508d5e1a45658cf9755618bae63cae1d6781be7ab1db32837c66fc141c427f8d4ce6fee6f9f620cce135ba345a5e1",
+    "dest": "offline-repository/com/anthropic/anthropic-java/2.15.0",
+    "dest-filename": "anthropic-java-2.15.0.pom"
   },
   {
     "type": "file",
@@ -176,10 +176,115 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-ion/2.18.2/jackson-dataformat-ion-2.18.2.pom",
+    "sha512": "1ee0f83cf60ab85c0b9b1c13e4f4c2f1eeecf769dda7b54595f00fa09cbac7d461f176a7aff489d5be7d5947b45d1b017115ccc45f0bfbe3a5b3f45ab2c7ca7f",
+    "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-ion/2.18.2",
+    "dest-filename": "jackson-dataformat-ion-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-properties/2.18.2/jackson-dataformat-properties-2.18.2.pom",
+    "sha512": "a56326062f88a1196e2bbe31e4340709470928211da37cba92e28ff01d8a62d4b5bae34814929bb8573d9ef7c80e6d33f5fbf78b1b52247af7c20f65c6837912",
+    "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-properties/2.18.2",
+    "dest-filename": "jackson-dataformat-properties-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-protobuf/2.18.2/jackson-dataformat-protobuf-2.18.2.pom",
+    "sha512": "272a9eb4d36c3103ff87e1a7106a3f6718f0904e784cd9eab5f2a89ad81a88f4492bb45dff758c37e0ebd8e06425b0964f3fd18be458b86eb6fa639e9bf143fa",
+    "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-protobuf/2.18.2",
+    "dest-filename": "jackson-dataformat-protobuf-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.18.2/jackson-dataformat-smile-2.18.2.pom",
+    "sha512": "5e27f35d4d02c17847a49ae437c3b8ccb014719211a2a7da9b456ac328d42b5b5a27de5e643e16feb8fd94bb66a431e1dd5f2eb9a1047b0a2c81e97dc93034c4",
+    "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.18.2",
+    "dest-filename": "jackson-dataformat-smile-2.18.2.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.18.2/jackson-dataformat-toml-2.18.2.pom",
     "sha512": "099f6b2db55122caa48060e24df1e6394c7347c13ef0c4b061255018a4de2ae8183ca145de0c04e8a77263f7fd8ddab21ba97a21ba3991fe67d4fe44f135afe1",
     "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.18.2",
     "dest-filename": "jackson-dataformat-toml-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.18.2/jackson-dataformat-xml-2.18.2.pom",
+    "sha512": "65a6c7fb6c3f232e294698267bc03bc88699d89f906e2e1b670047865fe9483c67d82ecdb251fb8a7c47340973612358863f4d418282b57cb6a8910e5d316b49",
+    "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.18.2",
+    "dest-filename": "jackson-dataformat-xml-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.2/jackson-dataformat-yaml-2.18.2.pom",
+    "sha512": "489b9ece8514e860a04d28c0e35ae6e52893ab646f670d366627cda1ac4143295d4bec474a45c797a6b109afef92dd780c722cfa381aa5a367ce78df749511e7",
+    "dest": "offline-repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.2",
+    "dest-filename": "jackson-dataformat-yaml-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-eclipse-collections/2.18.2/jackson-datatype-eclipse-collections-2.18.2.pom",
+    "sha512": "3aa4b539f970cc45d0ef8598beb26d7caab6fdafebf69c6a8b3cacf8a67bba600db94783eb113a6bdcd3749f715ef4de0a3be6d6c5a5f92c374d69fb03fcf4b6",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-eclipse-collections/2.18.2",
+    "dest-filename": "jackson-datatype-eclipse-collections-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-guava/2.18.2/jackson-datatype-guava-2.18.2.pom",
+    "sha512": "98751355bd1270d744b5c594493fb7df74cd71bc70f875e16828d58b3a7dbfc2d7e1f3940f814adf143e77572e368dda5a6c9210e6332c70a480466156de68a2",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-guava/2.18.2",
+    "dest-filename": "jackson-datatype-guava-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-hibernate4/2.18.2/jackson-datatype-hibernate4-2.18.2.pom",
+    "sha512": "1dfe838205e47a06062e52d808c11da81bc42f7d3c45de67828c91bbf8646f5a1f3412382b89b995695a5b67f023d340cc6ecfa018466b1ea905a809bb584786",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-hibernate4/2.18.2",
+    "dest-filename": "jackson-datatype-hibernate4-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-hibernate5-jakarta/2.18.2/jackson-datatype-hibernate5-jakarta-2.18.2.pom",
+    "sha512": "8b8dfd03dae56dbd4725dd7f48cb04b42b02fd082a95855cd5cde4991c6219e073f1f57ee0e0edee0f6b313fd9b5a5e0f08c1d07399316d93947f69dfb7c00a1",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-hibernate5-jakarta/2.18.2",
+    "dest-filename": "jackson-datatype-hibernate5-jakarta-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-hibernate5/2.18.2/jackson-datatype-hibernate5-2.18.2.pom",
+    "sha512": "7139fa1185836d824e6e1f337a61ba03f93b0759dd45a8612ea7fba3d0409325790900d65f9f1a779ea9fbdb2f82abaf0438a2c46d6b6938fa29b43d15d7fb20",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-hibernate5/2.18.2",
+    "dest-filename": "jackson-datatype-hibernate5-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-hibernate6/2.18.2/jackson-datatype-hibernate6-2.18.2.pom",
+    "sha512": "50d7ecf05132b2d27417c58cbcd567c0fa5b451e855f273880a1ef1ec89a8e37a228a8ef0528fecc649411077763abe433986c5fe510d799d60710f69f6a5f77",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-hibernate6/2.18.2",
+    "dest-filename": "jackson-datatype-hibernate6-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-hppc/2.18.2/jackson-datatype-hppc-2.18.2.pom",
+    "sha512": "3dfa834e1242602a57193d14fbe013915a9a9944258edd5916413a2a089831f3f4e6abea3ba21a3e3b20192b19bf69f0ed3ab3e70f0f01c2382d290a33cc9b1a",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-hppc/2.18.2",
+    "dest-filename": "jackson-datatype-hppc-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-jakarta-jsonp/2.18.2/jackson-datatype-jakarta-jsonp-2.18.2.pom",
+    "sha512": "a714fd7899c805c742ee444b12e47cbd3f9556d67db84958b4ac8688ce55d5f83f8e2918d27cab858acf2011d35f92e07bfd30412c9b7603065a47f85532e5c7",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-jakarta-jsonp/2.18.2",
+    "dest-filename": "jackson-datatype-jakarta-jsonp-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-jaxrs/2.18.2/jackson-datatype-jaxrs-2.18.2.pom",
+    "sha512": "4017e76cb2a03231968e75a64de9e2e942b93275447b0065ea4d9abb9b05981ce59a836c91ae27f82f83ef1c82d9aebf79083accd487afbe78faa6181cead9b0",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-jaxrs/2.18.2",
+    "dest-filename": "jackson-datatype-jaxrs-2.18.2.pom"
   },
   {
     "type": "file",
@@ -204,6 +309,27 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-joda-money/2.18.2/jackson-datatype-joda-money-2.18.2.pom",
+    "sha512": "8ae8c25b3fdec4f9b44126c12dfb3deb8bf8241b7efffbea1bf043ce236f6262468a13b4a8fe47d68960181f68657b31fd451a36e6c9d43b75c4fc19c0e23ebe",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-joda-money/2.18.2",
+    "dest-filename": "jackson-datatype-joda-money-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-joda/2.18.2/jackson-datatype-joda-2.18.2.pom",
+    "sha512": "3072201ee5b2c471d4c2a20ab7902cda77c13a6e2c0fd6cd5873849184f3cca96cfc0e9e9cfeed58491e11224cb46dc1d147e20c3b35640b7bab4b36b2a2fad5",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-joda/2.18.2",
+    "dest-filename": "jackson-datatype-joda-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-json-org/2.18.2/jackson-datatype-json-org-2.18.2.pom",
+    "sha512": "3b3145ed07a9138d8447896138af78b484eadb0a66e171a0fdbca8bdc8af75c03843fa2693ec7223fd1ee0c43126279464e4f64e393e9cc2d0ec5dd657917d66",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-json-org/2.18.2",
+    "dest-filename": "jackson-datatype-json-org-2.18.2.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar",
     "sha512": "bc1cb3e193996ba0b876baefa99122672bbe617f2de582f5208609efb1bb5886832857406de5b0fd7969fce8c07dba0a672b3f077bac2f7efbc3d0cc252c1ee9",
     "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2",
@@ -222,6 +348,20 @@
     "sha512": "457c0e5cde43e3f8f3f3a2fee0e13dd2f5bb3d3aa9187e227f399bd18788c50112cf7c36f5277f95cf9c2aac08369ebfb5da7d378585e8f037e1b302dbb8ebf4",
     "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2",
     "dest-filename": "jackson-datatype-jsr310-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-jsr353/2.18.2/jackson-datatype-jsr353-2.18.2.pom",
+    "sha512": "8938f137c28917b86d18cb5768660941b26efec408ad20357a6c48c34de70368ef5cae322dcc9f77020fc8805c6d86c1233bb736999386d4e9415741b41cd446",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr353/2.18.2",
+    "dest-filename": "jackson-datatype-jsr353-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/datatype/jackson-datatype-pcollections/2.18.2/jackson-datatype-pcollections-2.18.2.pom",
+    "sha512": "1ad3c1ecf773a2a4bba3a4e49a0b4cb223d734d92f02711a1cd2c23d49e657d31f24e325da3a8ad0363a58461213fec7481a5508ea02977aa719377941a59b39",
+    "dest": "offline-repository/com/fasterxml/jackson/datatype/jackson-datatype-pcollections/2.18.2",
+    "dest-filename": "jackson-datatype-pcollections-2.18.2.pom"
   },
   {
     "type": "file",
@@ -274,6 +414,20 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-base/2.18.2/jackson-jakarta-rs-base-2.18.2.pom",
+    "sha512": "eae19b4771279ce341f8355dd9212a52a7e067cc61d788f0cfa40bf1cecc449471511418898eaf63c39ff3a25fd71401bb11b9f2397e9968ec9c00dbe8bc9956",
+    "dest": "offline-repository/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-base/2.18.2",
+    "dest-filename": "jackson-jakarta-rs-base-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-cbor-provider/2.18.2/jackson-jakarta-rs-cbor-provider-2.18.2.pom",
+    "sha512": "3dd8081f02a0dea471a4f7a79fbac1d0e4fd83c1bb6c5fa3a61d2387e3985b2ebd547273622ec79c3ab6ca261067d3731a76ef0c1cec16da9218098278084de5",
+    "dest": "offline-repository/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-cbor-provider/2.18.2",
+    "dest-filename": "jackson-jakarta-rs-cbor-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-json-provider/2.18.2/jackson-jakarta-rs-json-provider-2.18.2.pom",
     "sha512": "4ceb71678c10176907b8ebdaa856e30c3f1a56f20fb1d39685d5d79c443f5497154d0c0d706aed89a6facf2975c97019835c6222fa540bf2dac6627b790209e2",
     "dest": "offline-repository/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-json-provider/2.18.2",
@@ -281,10 +435,171 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-smile-provider/2.18.2/jackson-jakarta-rs-smile-provider-2.18.2.pom",
+    "sha512": "f4d8b9ae837b00edaa5d54027732dcd4602ab04ce8a3412733baad204bf88b33c26ad3ba7798ca59f5a8626f047faa79fb5ccbcf9c5141daaada80219a177b93",
+    "dest": "offline-repository/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-smile-provider/2.18.2",
+    "dest-filename": "jackson-jakarta-rs-smile-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-xml-provider/2.18.2/jackson-jakarta-rs-xml-provider-2.18.2.pom",
+    "sha512": "f78605a8bed1b86b4b17eee8c440ec667f6414c19caeb61ea129ab4c835f5de52bb9f3c97eccc9e336c38c5fdbf57c1a90b1b8ee5b9e7501deb6749dd15553fc",
+    "dest": "offline-repository/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-xml-provider/2.18.2",
+    "dest-filename": "jackson-jakarta-rs-xml-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-yaml-provider/2.18.2/jackson-jakarta-rs-yaml-provider-2.18.2.pom",
+    "sha512": "2a278a4272ff77f085098657d288de7df1340800375862b6e051be27e4c29aa5b5e6774989b72c3b58839b7c03a76936959a780ec2b76b0d1f366b12cbe767c2",
+    "dest": "offline-repository/com/fasterxml/jackson/jakarta/rs/jackson-jakarta-rs-yaml-provider/2.18.2",
+    "dest-filename": "jackson-jakarta-rs-yaml-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.18.2/jackson-jaxrs-base-2.18.2.pom",
+    "sha512": "d559ba6825b6383a2d86ccd50f9efb409ec4fed5ad4c3baa9e304aaba5e9330f508723fccfaf784cfbd248ebe2cb21f97ba81933dc457212681dec95cc775c22",
+    "dest": "offline-repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/2.18.2",
+    "dest-filename": "jackson-jaxrs-base-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jaxrs/jackson-jaxrs-cbor-provider/2.18.2/jackson-jaxrs-cbor-provider-2.18.2.pom",
+    "sha512": "928cf8ac8f3ef46f62a675149f1d723bb402602b2103433bf0bad16b15b3bc6bbe20be589e779492896200d5d346d811eb8a592ee3a7b4af97ca272e09b18f41",
+    "dest": "offline-repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-cbor-provider/2.18.2",
+    "dest-filename": "jackson-jaxrs-cbor-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.18.2/jackson-jaxrs-json-provider-2.18.2.pom",
+    "sha512": "2a1f9f3c1e4023a514bec8c7cfd09a2bf33dd67c7c01aff327a060962b40f8996e06757096488995f29fc5f476380f796b8476a495c2ce3f446725f181566f68",
+    "dest": "offline-repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/2.18.2",
+    "dest-filename": "jackson-jaxrs-json-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jaxrs/jackson-jaxrs-smile-provider/2.18.2/jackson-jaxrs-smile-provider-2.18.2.pom",
+    "sha512": "50a156f8aab722f9b2a9c309244f4c7d08d72aecf53c179218778cf081336c7f7925dd277983d4c3fac5a558f4699b943e906c88054d8e864915789231949053",
+    "dest": "offline-repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-smile-provider/2.18.2",
+    "dest-filename": "jackson-jaxrs-smile-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jaxrs/jackson-jaxrs-xml-provider/2.18.2/jackson-jaxrs-xml-provider-2.18.2.pom",
+    "sha512": "2bea63256226c4d9712a10f121ee5d965a746d78b152d30de9fccc060b3ead92896a984f4e2cbcd69000d1c93b37af057d077896d9c4ffd969d56f41b21b806f",
+    "dest": "offline-repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-xml-provider/2.18.2",
+    "dest-filename": "jackson-jaxrs-xml-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jaxrs/jackson-jaxrs-yaml-provider/2.18.2/jackson-jaxrs-yaml-provider-2.18.2.pom",
+    "sha512": "7471a445586a9ed957274d20110a3776f689d73bd3c333c33afbbe1a338744d3d2a3654f77714a1aa4c689892b758266a8f1f0e38b02792bdbf9bf633462df70",
+    "dest": "offline-repository/com/fasterxml/jackson/jaxrs/jackson-jaxrs-yaml-provider/2.18.2",
+    "dest-filename": "jackson-jaxrs-yaml-provider-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jr/jackson-jr-all/2.18.2/jackson-jr-all-2.18.2.pom",
+    "sha512": "370bd42a07c8b83eafa37cdd2a5d8504b2c98c889da87f58be161e951102e723ae32f268e2d6aaee8e1040c20db39df7c9deb27b1a20e03278673ab32431d232",
+    "dest": "offline-repository/com/fasterxml/jackson/jr/jackson-jr-all/2.18.2",
+    "dest-filename": "jackson-jr-all-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jr/jackson-jr-annotation-support/2.18.2/jackson-jr-annotation-support-2.18.2.pom",
+    "sha512": "f1bd23c712962cadddf57b348fcbe0b6ab217c1fcce1a4792b955042159a10a17e044c3fc94e8b8fa8839d10a5580b23b90ad0aeb27ca0f2e4f418d0bf43cef1",
+    "dest": "offline-repository/com/fasterxml/jackson/jr/jackson-jr-annotation-support/2.18.2",
+    "dest-filename": "jackson-jr-annotation-support-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jr/jackson-jr-extension-javatime/2.18.2/jackson-jr-extension-javatime-2.18.2.pom",
+    "sha512": "2c69a8f1fe5e3b66162dcbc9249141d5a8947062bfe08fbf424e904c89f9cd943d8a875632f5bec0c4121cd1930fa131849a7f1212045ba31f559178255fc32d",
+    "dest": "offline-repository/com/fasterxml/jackson/jr/jackson-jr-extension-javatime/2.18.2",
+    "dest-filename": "jackson-jr-extension-javatime-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jr/jackson-jr-objects/2.18.2/jackson-jr-objects-2.18.2.pom",
+    "sha512": "69ba3c8869843002ce2d2ce78a071fd409a78d7bd0a28790d60b4c209003317c95296df812a7190305f0c7ef358dfd1ee9aeef413319d9361b1592df034bef31",
+    "dest": "offline-repository/com/fasterxml/jackson/jr/jackson-jr-objects/2.18.2",
+    "dest-filename": "jackson-jr-objects-2.18.2.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jr/jackson-jr-retrofit2/2.18.2/jackson-jr-retrofit2-2.18.2.pom",
     "sha512": "6d73637244357b436ff9deaa4d6777253f6e8c2e32073f3bd2b3297ff128aa64e09348849b05425a620cf90e61399a1463166634d044f2b90346c608a94953c8",
     "dest": "offline-repository/com/fasterxml/jackson/jr/jackson-jr-retrofit2/2.18.2",
     "dest-filename": "jackson-jr-retrofit2-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/jr/jackson-jr-stree/2.18.2/jackson-jr-stree-2.18.2.pom",
+    "sha512": "397fd19df58300dde743eefc35a4e644b4fe8fb56cafa8519b9f6991a3b26af1079fd4c92c6fa7c0ffe511fe7ae17b2115d1210debd7bfd0d40563eacfed6a0f",
+    "dest": "offline-repository/com/fasterxml/jackson/jr/jackson-jr-stree/2.18.2",
+    "dest-filename": "jackson-jr-stree-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-afterburner/2.18.2/jackson-module-afterburner-2.18.2.pom",
+    "sha512": "d6f6578d4abc5814babb3b1b6d0890551312f1d4be80940c2a2d63954c88f581510d8c119c3e572e6897624a7ede3042b3b79b9e046b512b19363ecad7371dfe",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-afterburner/2.18.2",
+    "dest-filename": "jackson-module-afterburner-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-android-record/2.18.2/jackson-module-android-record-2.18.2.pom",
+    "sha512": "c5385eb5b356b13e4d98e8e526b98e39289f946dd03ef56e7890eb12f878d968f64b92ad6f0930e24ca561a9e075e3e1441e0162b59314f7455d69e2f5d933d1",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-android-record/2.18.2",
+    "dest-filename": "jackson-module-android-record-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-blackbird/2.18.2/jackson-module-blackbird-2.18.2.pom",
+    "sha512": "07c37aeb78614bd74642a6e2ec04d7d92d21d5ce7da249c22ad86f34b269cc3bf552fd9db885865e458ae894b51c1c2755dfc5ba1c37a2dee489c45354acf67b",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-blackbird/2.18.2",
+    "dest-filename": "jackson-module-blackbird-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-guice/2.18.2/jackson-module-guice-2.18.2.pom",
+    "sha512": "258028a7d84fade9bf7a2072d1b96edbb34688032ea637e6f94559e3a7edac3d877f80ed50730f50a83cace0548e9dfcf4bbc8669c12c4364545d6368ba03721",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-guice/2.18.2",
+    "dest-filename": "jackson-module-guice-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-guice7/2.18.2/jackson-module-guice7-2.18.2.pom",
+    "sha512": "1eaf2af5e4f952db3b332eae560717c141bd73f6c1d810abbdfd5af23441c403e0211f75f61db1fa02d1f5bbff7bb8aab1b5773271bcbbdd979a89f3c888be3e",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-guice7/2.18.2",
+    "dest-filename": "jackson-module-guice7-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-jakarta-xmlbind-annotations/2.18.2/jackson-module-jakarta-xmlbind-annotations-2.18.2.pom",
+    "sha512": "28b116425f6277937fa19caeade59c1edd2ce7c734ea2e668efc57a99a10366d9d160e5d2616f78f59f9b2cc1f2f1db9293b0d27c4b72ea225063dbc2d859182",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-jakarta-xmlbind-annotations/2.18.2",
+    "dest-filename": "jackson-module-jakarta-xmlbind-annotations-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.18.2/jackson-module-jaxb-annotations-2.18.2.pom",
+    "sha512": "36e4595e5fe8c73ff17b85c1832cabcca3dfc7292d32e9eb4c057e6f2ddc1bee4739b266362019c45db9ae4002976af3118b73aebf2d39d30dbaabb53d47431b",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.18.2",
+    "dest-filename": "jackson-module-jaxb-annotations-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-jsonSchema-jakarta/2.18.2/jackson-module-jsonSchema-jakarta-2.18.2.pom",
+    "sha512": "56c13f27958e8984bf7efe62d10add553228c56742ce8a9f8a75b8e120b4e22ead539a72bbac5a3918b8d93fb4682f636bdb3c7c33aaa08f35fa233eb86c00cb",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-jsonSchema-jakarta/2.18.2",
+    "dest-filename": "jackson-module-jsonSchema-jakarta-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-jsonSchema/2.18.2/jackson-module-jsonSchema-2.18.2.pom",
+    "sha512": "74c54f78225c5116a789500a340338acbf867bad642237beb28f29436e9531c4eb3393744b8016b5ac6f43dc9d92400740c4c83536cd67915405bc151d3e96c8",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-jsonSchema/2.18.2",
+    "dest-filename": "jackson-module-jsonSchema-2.18.2.pom"
   },
   {
     "type": "file",
@@ -306,6 +621,69 @@
     "sha512": "d0dc61d6e2646950a4fb4dd5356795d2757d469c3520025c29220d43cb24f0eecc5cc1e62085d8b4bc6efea86d0f65f008bef15c772e9c81101c095e0100fa4f",
     "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.18.2",
     "dest-filename": "jackson-module-kotlin-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-mrbean/2.18.2/jackson-module-mrbean-2.18.2.pom",
+    "sha512": "cba8d91708cf85ecbc780297eab3c8afd4adefc0f6220841ca24c99a8cc48ba1a27e75cf703dc726c8ab57881940e2f3860f2dc704136748901484fcbcaa51fb",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-mrbean/2.18.2",
+    "dest-filename": "jackson-module-mrbean-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-no-ctor-deser/2.18.2/jackson-module-no-ctor-deser-2.18.2.pom",
+    "sha512": "a40c2ce40c0c5d1d0ed676bfbd68ce74af6d8b682860a8d07cba878a5b3a136c74a8759decc2d32d6bcdf6fcfe1bfc385c4c595133b3e886a05e63fd2d3ff14d",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-no-ctor-deser/2.18.2",
+    "dest-filename": "jackson-module-no-ctor-deser-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-osgi/2.18.2/jackson-module-osgi-2.18.2.pom",
+    "sha512": "68131abceea46491ae6f2a0a30cb68ea421cb9069189e5b4bf1e42925aee17b333f58dda582cf834568b50b5fb8b833675cfd8c0127e11c91d24ed885162bb04",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-osgi/2.18.2",
+    "dest-filename": "jackson-module-osgi-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.2/jackson-module-parameter-names-2.18.2.pom",
+    "sha512": "2bacfb12da3f56768938e4426a98e32df6d3cd9cd1f0fea0acf178d1c10baec45affd77a5a11ca9ca4f0f075d83ad99ef4323a0ef057f1ed7e4bcc87807355fe",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.2",
+    "dest-filename": "jackson-module-parameter-names-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-paranamer/2.18.2/jackson-module-paranamer-2.18.2.pom",
+    "sha512": "f493c7405eb937cb6d4265bc2698c645b6a11987ef36da362e82cca2a4c42835df9adc7ed31761d7ac0a2c965f2d7a8e2ac1c3d15bad20379c0f298ed260cba6",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-paranamer/2.18.2",
+    "dest-filename": "jackson-module-paranamer-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-scala_2.11/2.18.2/jackson-module-scala_2.11-2.18.2.pom",
+    "sha512": "8560f8aca7dc748fe3a434a953a19a2b5b1d3fdad1d47adadc52a2ae4acf5feb8dfdb2c6566c5f1bdf6344f3e24ccffd48bc5b35782725ba6879472b9c23b779",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-scala_2.11/2.18.2",
+    "dest-filename": "jackson-module-scala_2.11-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-scala_2.12/2.18.2/jackson-module-scala_2.12-2.18.2.pom",
+    "sha512": "3cfb2a341077026c84b16101cd22e626785ff2c0086ae1cee89c034962ee3ab92938363f45b69903093a06a236b56e579cfd472f48e3460b915f61acbdf657fe",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-scala_2.12/2.18.2",
+    "dest-filename": "jackson-module-scala_2.12-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.18.2/jackson-module-scala_2.13-2.18.2.pom",
+    "sha512": "9f7edb3edbeedb0fa0f2dccdd47f4ca7c7cc197fd879c2ff736dcb12a97eca63ec1c96bae4c766ba8c10ce21b2f7f8de4a3843c32a309833c89be77c96b11f9c",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.18.2",
+    "dest-filename": "jackson-module-scala_2.13-2.18.2.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/fasterxml/jackson/module/jackson-module-scala_3/2.18.2/jackson-module-scala_3-2.18.2.pom",
+    "sha512": "699281ca6106637244935e4f34e5fe6657863ec29cfac753e56a99b32f3001f61160a9cd9b09cc3d3ed539ffb1ee0663bccbb68ce4d95210ce88c8daa9bbfed8",
+    "dest": "offline-repository/com/fasterxml/jackson/module/jackson-module-scala_3/2.18.2",
+    "dest-filename": "jackson-module-scala_3-2.18.2.pom"
   },
   {
     "type": "file",
@@ -341,6 +719,34 @@
     "sha512": "7c9d51b7fd00d0ea30d00d048ce2e9ab3ec1bae3073f9f52d034a66572d5e6680992e42695e649d826c1a3f4b8f089460df8d2549afd15afe45488b6f9984528",
     "dest": "offline-repository/com/fasterxml/oss-parent/68",
     "dest-filename": "oss-parent-68.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/github/ben-manes/gradle-versions-plugin/0.53.0/gradle-versions-plugin-0.53.0.jar",
+    "sha512": "c28e3bcf6d8e8cd54086d52665474156962d211e9861785ef0b1ecab3272f8baba5ba9900293362f788163381276d9d2f502a69a05cd07eccb51d015ae36419a",
+    "dest": "offline-repository/com/github/ben-manes/gradle-versions-plugin/0.53.0",
+    "dest-filename": "gradle-versions-plugin-0.53.0.jar"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/github/ben-manes/gradle-versions-plugin/0.53.0/gradle-versions-plugin-0.53.0.module",
+    "sha512": "7b84e913fcce7f42f20b8f1ff1396609b11398c0321c2f5997a49b25dfd3574a66f06575c6fbdf7aa0032c6755789fb3788e8d1fa86bfaaa9df3d2d2e15c774f",
+    "dest": "offline-repository/com/github/ben-manes/gradle-versions-plugin/0.53.0",
+    "dest-filename": "gradle-versions-plugin-0.53.0.module"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/github/ben-manes/gradle-versions-plugin/0.53.0/gradle-versions-plugin-0.53.0.pom",
+    "sha512": "bed41fbcda79db623fad65c97d1ef4c6172a8e3a32b1a960d6e6400c3b194bf3d7e8d39d4652f6c74324442bd83e250f7ed7e1b05f403c8eef28bf66cbe1ce1f",
+    "dest": "offline-repository/com/github/ben-manes/gradle-versions-plugin/0.53.0",
+    "dest-filename": "gradle-versions-plugin-0.53.0.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/github/ben-manes/versions/com.github.ben-manes.versions.gradle.plugin/0.53.0/com.github.ben-manes.versions.gradle.plugin-0.53.0.pom",
+    "sha512": "137e55cf08227f98bd782b00b788e8457c4c532e9db6299f93c1e89a8ae1b2fc515ad8d6f202324f439bfceb48067b5a401a75b96c649201d1e67e710a75b8e9",
+    "dest": "offline-repository/com/github/ben-manes/versions/com.github.ben-manes.versions.gradle.plugin/0.53.0",
+    "dest-filename": "com.github.ben-manes.versions.gradle.plugin-0.53.0.pom"
   },
   {
     "type": "file",
@@ -708,17 +1114,17 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.37.0/google-genai-1.37.0.jar",
-    "sha512": "b9925cfc8a9c0b677d7fa6c0bce5ed5e9badfa26af666faf674be744643ee044c690bdc3ffad41d757b5e4a16b4559487c367975cc61ad51fc3f93541d33bc7a",
-    "dest": "offline-repository/com/google/genai/google-genai/1.37.0",
-    "dest-filename": "google-genai-1.37.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.42.0/google-genai-1.42.0.jar",
+    "sha512": "c535ee3a9d6d2d20620ce90a78e2127fcd2e1cea8794c1aff43f9a66ee0765f1e6335c5c4f14c269bcbce2a76778b3e05c42a189f5a517c004c7d3a158b61f9c",
+    "dest": "offline-repository/com/google/genai/google-genai/1.42.0",
+    "dest-filename": "google-genai-1.42.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.37.0/google-genai-1.37.0.pom",
-    "sha512": "441ae61bf9f9bc9695cbb609c76300c652a44036490a1117d9684bccca17ca1cf46cbbb126414197b0ecdaef58d4f69b394a84f16f9f1c2f574b0b6984b203ea",
-    "dest": "offline-repository/com/google/genai/google-genai/1.37.0",
-    "dest-filename": "google-genai-1.37.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.42.0/google-genai-1.42.0.pom",
+    "sha512": "3a53e14c0714e213bfa559f4daddf76fe5a0c7c5babc421483c3e13b06d014deda0122347d54eb30c0cc59f6788bfd7d1a64c9e012e832783fc75ad8407945bc",
+    "dest": "offline-repository/com/google/genai/google-genai/1.42.0",
+    "dest-filename": "google-genai-1.42.0.pom"
   },
   {
     "type": "file",
@@ -869,66 +1275,108 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.17.0/openai-java-client-okhttp-4.17.0.jar",
-    "sha512": "7a7cde2976ccbd7771eb4d59840c7e8ce0328c354dc87525979e2cfd1b8db29d3767d598ca9eb031845e5af626c8582384dd385e3fc273cbf51b7b9c2b27ff47",
-    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.17.0",
-    "dest-filename": "openai-java-client-okhttp-4.17.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.26.0/openai-java-client-okhttp-4.26.0.jar",
+    "sha512": "1fb79b835bf7e7de8078a7088dbde122c8614eab173b22447a1856b89901b260353c138001e22407ebe34579b117f77d94d80c85b919595d25eae75b9fc2af42",
+    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.26.0",
+    "dest-filename": "openai-java-client-okhttp-4.26.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.17.0/openai-java-client-okhttp-4.17.0.module",
-    "sha512": "f18c1c41a060909ffff7067684704945b1606f17553c3da3f800bd65a3f211c9b59b00f29ca3e3def26ec91823e5d9f6310eac87e504977de115f5983e8f1b71",
-    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.17.0",
-    "dest-filename": "openai-java-client-okhttp-4.17.0.module"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.26.0/openai-java-client-okhttp-4.26.0.module",
+    "sha512": "666ea5de66583315677dae0e2e1f8d26846d77e272ba639c09c76146e4475a2dc3d4b4a935b33632c08cd40780e9f826a41d4ea1409e6e7443362075c9b4bfa9",
+    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.26.0",
+    "dest-filename": "openai-java-client-okhttp-4.26.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.17.0/openai-java-client-okhttp-4.17.0.pom",
-    "sha512": "fa501f37c5a531a8303a1af38e26e0aa3d422246c3dc0c9c700bf0f107d15ca26cf525c14670b5c1bbb685cfe70934ab24948c13da4bb9037d83ea7e5b0a0a34",
-    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.17.0",
-    "dest-filename": "openai-java-client-okhttp-4.17.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.26.0/openai-java-client-okhttp-4.26.0.pom",
+    "sha512": "91877739659290539d4be3c613cbff76fef6f034901cdb4ac9dabd002e7562d88abb065b03444e3e22b3284dad9c0966283e7c7d6ba87d614e79fa6ceaa968ea",
+    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.26.0",
+    "dest-filename": "openai-java-client-okhttp-4.26.0.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.17.0/openai-java-core-4.17.0.jar",
-    "sha512": "5c6ac5757be72f7e46cee2e03a98c35fc6bf95c0cbfbd6aca54d66d2848a4db5d0db3c7729919aa635822fe96b2d2f1f945f3dc663f2ca9b7ab38337020f2286",
-    "dest": "offline-repository/com/openai/openai-java-core/4.17.0",
-    "dest-filename": "openai-java-core-4.17.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.26.0/openai-java-core-4.26.0.jar",
+    "sha512": "cd7f9d4695c8adecf4ebc8735f27e01d2a85e19d56e4b3271b98bf63455e737d8dbfdf754fc88c334d17a04e0a41c9bbfdb949df0e57e6ad4d811a32e7ad2f01",
+    "dest": "offline-repository/com/openai/openai-java-core/4.26.0",
+    "dest-filename": "openai-java-core-4.26.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.17.0/openai-java-core-4.17.0.module",
-    "sha512": "a3c9e79dc2d0e118f54b6ab43a9a6c1d8b9949d374098ed41cfa5492625d18d54037190d0d2f1f862e3e9a40d083100a2a6cb76a64b7cea615942f77cd60cce9",
-    "dest": "offline-repository/com/openai/openai-java-core/4.17.0",
-    "dest-filename": "openai-java-core-4.17.0.module"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.26.0/openai-java-core-4.26.0.module",
+    "sha512": "b4a9635673595a0389051df86d4ebbb62a27eff184525df661b23a494383c1fd16e72b13dba4d11d34f4fa4291d4228375464d05b87caccc059ef248937789d5",
+    "dest": "offline-repository/com/openai/openai-java-core/4.26.0",
+    "dest-filename": "openai-java-core-4.26.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.17.0/openai-java-core-4.17.0.pom",
-    "sha512": "d02298143edd62a56047270c4c8c3fa2ebb6123011785fc449a593decafe0263180759d3c27c36abf15edd67362d6d2b89c59b21b2267176d65ae7decf5be6bd",
-    "dest": "offline-repository/com/openai/openai-java-core/4.17.0",
-    "dest-filename": "openai-java-core-4.17.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.26.0/openai-java-core-4.26.0.pom",
+    "sha512": "da3f0f5dcdeb67fb580bd523d7673e0f008dad0fe07cd8dc1aa55dd9ab5272601a60a8b1830e5b38b4ecce80dc4c7a3a4cb6a34c88a3beab17745c071c5cee90",
+    "dest": "offline-repository/com/openai/openai-java-core/4.26.0",
+    "dest-filename": "openai-java-core-4.26.0.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.17.0/openai-java-4.17.0.jar",
-    "sha512": "c15ec7473125b89764895a6f25f734135e5ec6f83aaea86308f92c0f5b62298ea0ab29ecc34746da16c07b999aeb12f7b59e35483c31773f9cd632240aa33a1e",
-    "dest": "offline-repository/com/openai/openai-java/4.17.0",
-    "dest-filename": "openai-java-4.17.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.26.0/openai-java-4.26.0.jar",
+    "sha512": "1e41347bddb95e73ec614a88ab009c657bf1542607836de3a9eb2708d2be64b741f07adb5e9a89a29e6aea85642599a46ef5c640705c9141568983742572ef31",
+    "dest": "offline-repository/com/openai/openai-java/4.26.0",
+    "dest-filename": "openai-java-4.26.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.17.0/openai-java-4.17.0.module",
-    "sha512": "78e806b23e62408aa89a1f6ef3f641c6ba28b6b5306f3d429e6fb5789f2b2fc5749c8f3fc5e3157977b9efed9028019aa7236f61cc0b8a77965fc24488802935",
-    "dest": "offline-repository/com/openai/openai-java/4.17.0",
-    "dest-filename": "openai-java-4.17.0.module"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.26.0/openai-java-4.26.0.module",
+    "sha512": "36b2f4fcc41808b195fb66cf053140e9f2ebd44633278c1994cb702ad0aa458ca22da15197c76f33f0a7f4a4847c5365318c78006078f4b5f0d0f783e59108a7",
+    "dest": "offline-repository/com/openai/openai-java/4.26.0",
+    "dest-filename": "openai-java-4.26.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.17.0/openai-java-4.17.0.pom",
-    "sha512": "e42d3eba7ea7759954a49d8d412c96be669932d49d6ba481995260986a0308ab903814e7111d065af478789dcaf71ba8e51b49a14a28b0411afec0b1c34e9dd7",
-    "dest": "offline-repository/com/openai/openai-java/4.17.0",
-    "dest-filename": "openai-java-4.17.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.26.0/openai-java-4.26.0.pom",
+    "sha512": "0f6e09daf96753618ef04bb14f92b736eb98952c78e1e6afb9ef53328e45d27b2de48f4f8abbead08a0701d89170c1f9506adcd45057c1657dee9f9eeba0013b",
+    "dest": "offline-repository/com/openai/openai-java/4.26.0",
+    "dest-filename": "openai-java-4.26.0.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/squareup/moshi/moshi-kotlin/1.12.0/moshi-kotlin-1.12.0.jar",
+    "sha512": "8274888bb124316940c156b399e12bee2e7cbe5f17c7b1dd0870b4601846d9b8f4eefd98e66be2a14b1ae7a3a356a929e3826d363880509987ed5d8ed71385e6",
+    "dest": "offline-repository/com/squareup/moshi/moshi-kotlin/1.12.0",
+    "dest-filename": "moshi-kotlin-1.12.0.jar"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/squareup/moshi/moshi-kotlin/1.12.0/moshi-kotlin-1.12.0.module",
+    "sha512": "003ea42bb848205cc6f208f4cbc4d41155be918455ccd0d667bd18c1ea25dd759ad6c847ecb05f495543d1fc820c44bf16702a1dcc0ce4a82ca8e2ed5bfd7b7b",
+    "dest": "offline-repository/com/squareup/moshi/moshi-kotlin/1.12.0",
+    "dest-filename": "moshi-kotlin-1.12.0.module"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/squareup/moshi/moshi-kotlin/1.12.0/moshi-kotlin-1.12.0.pom",
+    "sha512": "b734c7a7d861c709b4781563109756cb9f76b47a709bc730acb8961862ce45da614c39a396dcb205d7357df4a6387f632908fc9536f855adfe2a0462c978a542",
+    "dest": "offline-repository/com/squareup/moshi/moshi-kotlin/1.12.0",
+    "dest-filename": "moshi-kotlin-1.12.0.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/squareup/moshi/moshi/1.12.0/moshi-1.12.0.jar",
+    "sha512": "b534a18e3e9ab01fb4bf02a750c25759a9fed1b86ef8701c1508c8650b686b2d80be3333cdade09044f516ee12cc19719d250bd7f15eb66d2e3f724aa77804cf",
+    "dest": "offline-repository/com/squareup/moshi/moshi/1.12.0",
+    "dest-filename": "moshi-1.12.0.jar"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/squareup/moshi/moshi/1.12.0/moshi-1.12.0.module",
+    "sha512": "c5119c9668fa85ed77607188a8fd379895ed87c7ac3d553172c602924723b4a27e99e7905e20b8bdfcde72d3340055d1aa38d57acebefd1bbd08b68783980a50",
+    "dest": "offline-repository/com/squareup/moshi/moshi/1.12.0",
+    "dest-filename": "moshi-1.12.0.module"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/com/squareup/moshi/moshi/1.12.0/moshi-1.12.0.pom",
+    "sha512": "1882458d3b7ddec87bf71ba597b31619f3362325e9db48a5a90c788bcf31a102678dd4dc3e8c435d05eda00480d079b54cd531243b17548020e7ec427dc8ce0e",
+    "dest": "offline-repository/com/squareup/moshi/moshi/1.12.0",
+    "dest-filename": "moshi-1.12.0.pom"
   },
   {
     "type": "file",
@@ -1041,20 +1489,6 @@
     "sha512": "db6bfb4d59e6d05d89ec5cca7ceb89c7493398c8b047046066a19db01cd9b4b32873bcce1be531fea85be4be651b836ad2cb698072b5705fd3491c0743884758",
     "dest": "offline-repository/commons-io/commons-io/2.20.0",
     "dest-filename": "commons-io-2.20.0.pom"
-  },
-  {
-    "type": "file",
-    "url": "https://plugins.gradle.org/m2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar",
-    "sha512": "ed00dbfabd9ae00efa26dd400983601d076fe36408b7d6520084b447e5d1fa527ce65bd6afdcb58506c3a808323d28e88f26cb99c6f5db9ff64f6525ecdfa557",
-    "dest": "offline-repository/commons-logging/commons-logging/1.2",
-    "dest-filename": "commons-logging-1.2.jar"
-  },
-  {
-    "type": "file",
-    "url": "https://plugins.gradle.org/m2/commons-logging/commons-logging/1.2/commons-logging-1.2.pom",
-    "sha512": "75bef548eea62ab04569791f2fdeed3d0a61edae0534aa035a905dc1d011988fc0f06f52bde377f44e94e6afd4380197148120b152b7a4d20628fb6236cc7261",
-    "dest": "offline-repository/commons-logging/commons-logging/1.2",
-    "dest-filename": "commons-logging-1.2.pom"
   },
   {
     "type": "file",
@@ -1751,549 +2185,549 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio-jvm/3.4.0/ktor-client-cio-jvm-3.4.0.jar",
-    "sha512": "bcc2537a2d7a9be7cf39fe84e0a47a45b49d1e22dc8b0810039b97c8a6cea77585c5b9d723901beaff64bc59ee214f9f65fa5310d35deed3aa0f68db2930e093",
-    "dest": "offline-repository/io/ktor/ktor-client-cio-jvm/3.4.0",
-    "dest-filename": "ktor-client-cio-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio-jvm/3.4.1/ktor-client-cio-jvm-3.4.1.jar",
+    "sha512": "f1649141498ce27c84cecec8179272dae7c838bb8c0782ec63bc1d0fb49b38603db494ac819f7dcacb9da090d082934cf30c0e515014524ebccc282b1a76b585",
+    "dest": "offline-repository/io/ktor/ktor-client-cio-jvm/3.4.1",
+    "dest-filename": "ktor-client-cio-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio-jvm/3.4.0/ktor-client-cio-jvm-3.4.0.module",
-    "sha512": "ca998f3d21c11b0e3af8bac46ff8c3e32d88d75d2d1fcd2590ee79fc86c4c017dbc94e99eb3c746cab9754c5560641ec33ae3febe09ff51c13f271968fa21cbc",
-    "dest": "offline-repository/io/ktor/ktor-client-cio-jvm/3.4.0",
-    "dest-filename": "ktor-client-cio-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio-jvm/3.4.1/ktor-client-cio-jvm-3.4.1.module",
+    "sha512": "2f8a7622d2a6655ecba0d19e2ea69cd284a485518d7c7d24b90e9ea303ea6548bf642d7390287192640fe6203e9fae61a9aa5e54b0f7dc38fea83124415c1aee",
+    "dest": "offline-repository/io/ktor/ktor-client-cio-jvm/3.4.1",
+    "dest-filename": "ktor-client-cio-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio-jvm/3.4.0/ktor-client-cio-jvm-3.4.0.pom",
-    "sha512": "1807de9887750e59e5a1287713191c65ea1710739fc14f77fd801b9c6522618e267eabaeae4bbe701193cb8a4a46c9d94901a6978f981b8ef9cd74de05b5894c",
-    "dest": "offline-repository/io/ktor/ktor-client-cio-jvm/3.4.0",
-    "dest-filename": "ktor-client-cio-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio-jvm/3.4.1/ktor-client-cio-jvm-3.4.1.pom",
+    "sha512": "c858e2f4280687503fd2fbd4a4b79992b9a8f4ed6b035d8f09d50b7716a9fc88cbfe3c74a62a3637da85ee4a86be1985a55d93b24187519740bbc3fdd93218a0",
+    "dest": "offline-repository/io/ktor/ktor-client-cio-jvm/3.4.1",
+    "dest-filename": "ktor-client-cio-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio/3.4.0/../../ktor-client-cio-jvm/3.4.0/ktor-client-cio-jvm-3.4.0.module",
-    "sha512": "ca998f3d21c11b0e3af8bac46ff8c3e32d88d75d2d1fcd2590ee79fc86c4c017dbc94e99eb3c746cab9754c5560641ec33ae3febe09ff51c13f271968fa21cbc",
-    "dest": "offline-repository/io/ktor/ktor-client-cio/3.4.0/../../ktor-client-cio-jvm/3.4.0",
-    "dest-filename": "ktor-client-cio-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio/3.4.1/../../ktor-client-cio-jvm/3.4.1/ktor-client-cio-jvm-3.4.1.module",
+    "sha512": "2f8a7622d2a6655ecba0d19e2ea69cd284a485518d7c7d24b90e9ea303ea6548bf642d7390287192640fe6203e9fae61a9aa5e54b0f7dc38fea83124415c1aee",
+    "dest": "offline-repository/io/ktor/ktor-client-cio/3.4.1/../../ktor-client-cio-jvm/3.4.1",
+    "dest-filename": "ktor-client-cio-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio/3.4.0/ktor-client-cio-3.4.0.module",
-    "sha512": "8636ed10df53caf2f69d2f807bf6a4decefe384769a765ff16f9d2e6d4977ea0cb36e8e3dd1d33afd4ceabf413fd88b31858b477246156aa6524df89ecfcbbac",
-    "dest": "offline-repository/io/ktor/ktor-client-cio/3.4.0",
-    "dest-filename": "ktor-client-cio-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio/3.4.1/ktor-client-cio-3.4.1.module",
+    "sha512": "75f2b0cb9cab67aaed6fac95230e4a9da99fe5dede8d702f5a195cede3ad28a5bb0d08c26a596eb65002ba3bb6df407743c23a6d00666aa9273a46fcec407bba",
+    "dest": "offline-repository/io/ktor/ktor-client-cio/3.4.1",
+    "dest-filename": "ktor-client-cio-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio/3.4.0/ktor-client-cio-3.4.0.pom",
-    "sha512": "3986a365f255093fd3e9738cb2fdc2ee4358f2f49d9e57c64e2e6f8f61133130a0bc629d94f67b68d149a516d9bee4a390f69077479589f4a0f9a338a100b8f0",
-    "dest": "offline-repository/io/ktor/ktor-client-cio/3.4.0",
-    "dest-filename": "ktor-client-cio-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-cio/3.4.1/ktor-client-cio-3.4.1.pom",
+    "sha512": "c4bda555543a8c83eed7da2499bb4f0bba7d24c69daac56a3b1afd6b3f61a7e8804b9fd305651cd77277ab612271c03de493fa8cedd613d46f0c80077e176d21",
+    "dest": "offline-repository/io/ktor/ktor-client-cio/3.4.1",
+    "dest-filename": "ktor-client-cio-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core-jvm/3.4.0/ktor-client-core-jvm-3.4.0.jar",
-    "sha512": "93127c846b605117238ab3cfa1786c69a0d4233e817c76270e3001db4a6c4a28c4561186af21bf2b181e56d4cf4f7d7c0334cf9eddcd3d6371a657b5d645d0c2",
-    "dest": "offline-repository/io/ktor/ktor-client-core-jvm/3.4.0",
-    "dest-filename": "ktor-client-core-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core-jvm/3.4.1/ktor-client-core-jvm-3.4.1.jar",
+    "sha512": "3cd09eaf9aeaa3b4d339f6af71dc280e92d09e6ea3ad97224192b1d58537b1156b4a2bb3239731fa143b6440ebc1f39b7d21fd566fd1d2aa2c5151a1bd54dfcb",
+    "dest": "offline-repository/io/ktor/ktor-client-core-jvm/3.4.1",
+    "dest-filename": "ktor-client-core-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core-jvm/3.4.0/ktor-client-core-jvm-3.4.0.module",
-    "sha512": "454fc0c777d851164dc055cf8a0ea91dd56adf87015e9702484ede7dbc7b260df2ad7d2a050e529551b2cb4f835bac9e8185ddb8572a290833a283ce732952e2",
-    "dest": "offline-repository/io/ktor/ktor-client-core-jvm/3.4.0",
-    "dest-filename": "ktor-client-core-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core-jvm/3.4.1/ktor-client-core-jvm-3.4.1.module",
+    "sha512": "57f65a96409c85b29e607732f08a6069c64c01f52ddaa1b7e48b231c2a3a7a1b2ec5725e581f0d1bae71346538bc19e5abc74c57a17c6465657d7e92c5d2281a",
+    "dest": "offline-repository/io/ktor/ktor-client-core-jvm/3.4.1",
+    "dest-filename": "ktor-client-core-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core-jvm/3.4.0/ktor-client-core-jvm-3.4.0.pom",
-    "sha512": "d4d505410728910c8a19b0d915d266fde7848e8f5beb6b951971ba0a184178c3d12d441f110cfadf3e86f766adaf4bc6f8b84d2518aaced0a0c11ae4ebb0974d",
-    "dest": "offline-repository/io/ktor/ktor-client-core-jvm/3.4.0",
-    "dest-filename": "ktor-client-core-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core-jvm/3.4.1/ktor-client-core-jvm-3.4.1.pom",
+    "sha512": "0ad74381f3e0579ef4aa5520defe5e23c4155ae70084ea2d5eb102710fad2d675496feef81be7792901ac60c8af39c9a610e3f9e58b6caa6d5fe9e166c980f89",
+    "dest": "offline-repository/io/ktor/ktor-client-core-jvm/3.4.1",
+    "dest-filename": "ktor-client-core-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core/3.4.0/../../ktor-client-core-jvm/3.4.0/ktor-client-core-jvm-3.4.0.module",
-    "sha512": "454fc0c777d851164dc055cf8a0ea91dd56adf87015e9702484ede7dbc7b260df2ad7d2a050e529551b2cb4f835bac9e8185ddb8572a290833a283ce732952e2",
-    "dest": "offline-repository/io/ktor/ktor-client-core/3.4.0/../../ktor-client-core-jvm/3.4.0",
-    "dest-filename": "ktor-client-core-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core/3.4.1/../../ktor-client-core-jvm/3.4.1/ktor-client-core-jvm-3.4.1.module",
+    "sha512": "57f65a96409c85b29e607732f08a6069c64c01f52ddaa1b7e48b231c2a3a7a1b2ec5725e581f0d1bae71346538bc19e5abc74c57a17c6465657d7e92c5d2281a",
+    "dest": "offline-repository/io/ktor/ktor-client-core/3.4.1/../../ktor-client-core-jvm/3.4.1",
+    "dest-filename": "ktor-client-core-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core/3.4.0/ktor-client-core-3.4.0.module",
-    "sha512": "4ca0ac613a363bda093e082a69443e677ba655503d0f81302ef254659ae286ace0d8169ae1b620f32b2b50b0dd2c71f2409137ee2b3cce41847342e803fa161e",
-    "dest": "offline-repository/io/ktor/ktor-client-core/3.4.0",
-    "dest-filename": "ktor-client-core-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core/3.4.1/ktor-client-core-3.4.1.module",
+    "sha512": "2369c0878912f1e47aed02b56832ed1b51c44b7113990c0dc72c88e1fe32aac9e2467e84273d191532e09df1d3a559a68660d7f48cfa6e057454cf0617fa118c",
+    "dest": "offline-repository/io/ktor/ktor-client-core/3.4.1",
+    "dest-filename": "ktor-client-core-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core/3.4.0/ktor-client-core-3.4.0.pom",
-    "sha512": "514ca419c3901a77fdd265525fd8739a5be97af626cb4a3a721a07a2456be3d23c9b0e30f03602ce0cd951d1764143895d294274942616ad9006ae4001889fff",
-    "dest": "offline-repository/io/ktor/ktor-client-core/3.4.0",
-    "dest-filename": "ktor-client-core-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-client-core/3.4.1/ktor-client-core-3.4.1.pom",
+    "sha512": "05d699ad75787a927f35742e88ba2a4a29b39e4d94797d8a98edb9e7407a167ea302168f4476d66e56e53feb3d1cab26123115b7ae12ab352c0e93a3752647ed",
+    "dest": "offline-repository/io/ktor/ktor-client-core/3.4.1",
+    "dest-filename": "ktor-client-core-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events-jvm/3.4.0/ktor-events-jvm-3.4.0.jar",
-    "sha512": "33864efe33f3c6f91d8d2f0c1dd48c5c5bf491505ae38a3f59a7e891c1dd48c28b30fe6e0d11f5fc2702ca0833eebbbcd467d6fecff1f6cda2cb32c1e33fd3d4",
-    "dest": "offline-repository/io/ktor/ktor-events-jvm/3.4.0",
-    "dest-filename": "ktor-events-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events-jvm/3.4.1/ktor-events-jvm-3.4.1.jar",
+    "sha512": "ed0d3906299cdd16f3074935f7cf0bedce842febf53e692cced90d33e76cedc6f0b9433c0021c74736a4ea920c2771156f4e35776023cb6e7359caeedf3db947",
+    "dest": "offline-repository/io/ktor/ktor-events-jvm/3.4.1",
+    "dest-filename": "ktor-events-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events-jvm/3.4.0/ktor-events-jvm-3.4.0.module",
-    "sha512": "6511e76da8c31517298cf665f49785e29a03d70ba00a5d4ee62fc914beb7576fe092cd95b4b6ef8f3970e4c1e342bdf6cd80110af618afd698e7e2193668c29a",
-    "dest": "offline-repository/io/ktor/ktor-events-jvm/3.4.0",
-    "dest-filename": "ktor-events-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events-jvm/3.4.1/ktor-events-jvm-3.4.1.module",
+    "sha512": "0789529afe8cb7933c642e6697d63d97a0ed7957c85fc012e7917e0007ac2ca19e7dae1bcc2f3b3f24bb9358f461866da8e1ce4f62008a245cd2e8d55a992d81",
+    "dest": "offline-repository/io/ktor/ktor-events-jvm/3.4.1",
+    "dest-filename": "ktor-events-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events-jvm/3.4.0/ktor-events-jvm-3.4.0.pom",
-    "sha512": "2eb12963f0473c9dde6b06c07494ef50557c559a563c45c88e2c22ed65447655a98f06e94da0ee39328810e90dd267d13e1994ac13587f7498fe5de1e71b2c20",
-    "dest": "offline-repository/io/ktor/ktor-events-jvm/3.4.0",
-    "dest-filename": "ktor-events-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events-jvm/3.4.1/ktor-events-jvm-3.4.1.pom",
+    "sha512": "d5b296651e6a0bd84f937e378142695c3bcb769ca9ce5c0bf58d75208421a90ce39f0289681965e0137fe79eb99047a6b998029f49c1b012363cad2149a6e748",
+    "dest": "offline-repository/io/ktor/ktor-events-jvm/3.4.1",
+    "dest-filename": "ktor-events-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events/3.4.0/../../ktor-events-jvm/3.4.0/ktor-events-jvm-3.4.0.module",
-    "sha512": "6511e76da8c31517298cf665f49785e29a03d70ba00a5d4ee62fc914beb7576fe092cd95b4b6ef8f3970e4c1e342bdf6cd80110af618afd698e7e2193668c29a",
-    "dest": "offline-repository/io/ktor/ktor-events/3.4.0/../../ktor-events-jvm/3.4.0",
-    "dest-filename": "ktor-events-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events/3.4.1/../../ktor-events-jvm/3.4.1/ktor-events-jvm-3.4.1.module",
+    "sha512": "0789529afe8cb7933c642e6697d63d97a0ed7957c85fc012e7917e0007ac2ca19e7dae1bcc2f3b3f24bb9358f461866da8e1ce4f62008a245cd2e8d55a992d81",
+    "dest": "offline-repository/io/ktor/ktor-events/3.4.1/../../ktor-events-jvm/3.4.1",
+    "dest-filename": "ktor-events-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events/3.4.0/ktor-events-3.4.0.module",
-    "sha512": "233c614a4124355b4aeb49eb5d931a3739e76bc5cd52a4381bda6080fcff96221f3629a5e31cc58d4bdb69a2f24cb67fb1373f30d48abf70ec56a049c640e461",
-    "dest": "offline-repository/io/ktor/ktor-events/3.4.0",
-    "dest-filename": "ktor-events-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events/3.4.1/ktor-events-3.4.1.module",
+    "sha512": "dfd637eb42352ca2a97011b3a22dc530e7ff3a08b67ebf0c58290a72cdb09f72ef493fb843311a7e7022ff9c2fdbc0e0a728faf5afa50a2213e9b4caef8cd374",
+    "dest": "offline-repository/io/ktor/ktor-events/3.4.1",
+    "dest-filename": "ktor-events-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events/3.4.0/ktor-events-3.4.0.pom",
-    "sha512": "51cd3d52e98e430bbb5f9a7ade3e0d9c21e68ef262c14debc67c3c90c31216058d7462f58d5d5bc40ede4102ea107117359650a565e14c9525f7bb9c4ee99f0f",
-    "dest": "offline-repository/io/ktor/ktor-events/3.4.0",
-    "dest-filename": "ktor-events-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-events/3.4.1/ktor-events-3.4.1.pom",
+    "sha512": "f42b2a69fecaa13584085c30697055e2b9ff42cadbdaca0b2f1d82ea6492c983be294ed5b02cfaf7980f8238bae2291bbbb04f43c2dc4f3aaa9db3d617d2a06c",
+    "dest": "offline-repository/io/ktor/ktor-events/3.4.1",
+    "dest-filename": "ktor-events-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio-jvm/3.4.0/ktor-http-cio-jvm-3.4.0.jar",
-    "sha512": "e0f008ac63ae08ad2b1f11b4a6f5ef11fc6e2f47cd0bf01669c2ba299ff45894bcecd5fe8203b68aec3fe0d94d799d939afbeb11cf172096ecdc8229b32d4f46",
-    "dest": "offline-repository/io/ktor/ktor-http-cio-jvm/3.4.0",
-    "dest-filename": "ktor-http-cio-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio-jvm/3.4.1/ktor-http-cio-jvm-3.4.1.jar",
+    "sha512": "f533c3e3ae40500b9872383fefbe66ad5f834f80ccfa20778bde873e318d7bc27919da8e60d6b371c1cb5c82e50e0caab95be83358b17a71b6c4ee0717fd1f88",
+    "dest": "offline-repository/io/ktor/ktor-http-cio-jvm/3.4.1",
+    "dest-filename": "ktor-http-cio-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio-jvm/3.4.0/ktor-http-cio-jvm-3.4.0.module",
-    "sha512": "907c05600c54c5a2a9ecc982466dcbf39d1d153f9681e4fa0102a7fd5723e1598086015fd2f91fcb81aa9332771664b2ca535666381a741e53f8e8cd686fe9f0",
-    "dest": "offline-repository/io/ktor/ktor-http-cio-jvm/3.4.0",
-    "dest-filename": "ktor-http-cio-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio-jvm/3.4.1/ktor-http-cio-jvm-3.4.1.module",
+    "sha512": "e4c9eb9bf70a4f017acb7e338142e4672af9d8d5f2a2f94fc9fe21fef67d7a5e33f061195c16b843aae8b2bc00ba8e788717da9ad9684b9ed79774aeaa8f39c9",
+    "dest": "offline-repository/io/ktor/ktor-http-cio-jvm/3.4.1",
+    "dest-filename": "ktor-http-cio-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio-jvm/3.4.0/ktor-http-cio-jvm-3.4.0.pom",
-    "sha512": "6569892c75edda0dff2f3b97116c9daaa172230f46b6e43aa0ab914e93de2e1055cb1955fa38b695303fca15655eeb94f4c56ee36d1558509fc34f0117a03d2e",
-    "dest": "offline-repository/io/ktor/ktor-http-cio-jvm/3.4.0",
-    "dest-filename": "ktor-http-cio-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio-jvm/3.4.1/ktor-http-cio-jvm-3.4.1.pom",
+    "sha512": "6c65e0646336dbe13c130726cc432e02b5fbb93c256db77d2b2bf729c218397477ea38aa391de1e3d7ba12a825a6d982a633e5c259c9480e8f7c6a6e8f68800b",
+    "dest": "offline-repository/io/ktor/ktor-http-cio-jvm/3.4.1",
+    "dest-filename": "ktor-http-cio-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio/3.4.0/../../ktor-http-cio-jvm/3.4.0/ktor-http-cio-jvm-3.4.0.module",
-    "sha512": "907c05600c54c5a2a9ecc982466dcbf39d1d153f9681e4fa0102a7fd5723e1598086015fd2f91fcb81aa9332771664b2ca535666381a741e53f8e8cd686fe9f0",
-    "dest": "offline-repository/io/ktor/ktor-http-cio/3.4.0/../../ktor-http-cio-jvm/3.4.0",
-    "dest-filename": "ktor-http-cio-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio/3.4.1/../../ktor-http-cio-jvm/3.4.1/ktor-http-cio-jvm-3.4.1.module",
+    "sha512": "e4c9eb9bf70a4f017acb7e338142e4672af9d8d5f2a2f94fc9fe21fef67d7a5e33f061195c16b843aae8b2bc00ba8e788717da9ad9684b9ed79774aeaa8f39c9",
+    "dest": "offline-repository/io/ktor/ktor-http-cio/3.4.1/../../ktor-http-cio-jvm/3.4.1",
+    "dest-filename": "ktor-http-cio-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio/3.4.0/ktor-http-cio-3.4.0.module",
-    "sha512": "c6c26925584c49f2f40c4d884afa6f280eb8e2c3155a06b20f4f7ff5b00fbaee7615550a21ca9ef887b0cfefcccd5c12451b73658736a35497615a77135dcb25",
-    "dest": "offline-repository/io/ktor/ktor-http-cio/3.4.0",
-    "dest-filename": "ktor-http-cio-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio/3.4.1/ktor-http-cio-3.4.1.module",
+    "sha512": "2665b7da2725e437730fb8f74de8575372278b14fc0df604996a67945b1f10d488adbea567a7640572ca11924d65d06d9296bf6b6ee3e3bef92553064110cd90",
+    "dest": "offline-repository/io/ktor/ktor-http-cio/3.4.1",
+    "dest-filename": "ktor-http-cio-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio/3.4.0/ktor-http-cio-3.4.0.pom",
-    "sha512": "5406516493e1f9012df5a58de1ec67b10ca5044a35a21360a3ef447f14bae628bda6cb3eac8592d69ef95d082cdcc57916a60d0e176afa93df16e1493e371d90",
-    "dest": "offline-repository/io/ktor/ktor-http-cio/3.4.0",
-    "dest-filename": "ktor-http-cio-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-cio/3.4.1/ktor-http-cio-3.4.1.pom",
+    "sha512": "067bd9bc0314f63d123d4cb5df8f0b84c9023b99c79187177e6e1dec0c49cd7f45f06058061031bd50d1f5dccac52b017a9aa58cd4e677e6014e7ce118316941",
+    "dest": "offline-repository/io/ktor/ktor-http-cio/3.4.1",
+    "dest-filename": "ktor-http-cio-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-jvm/3.4.0/ktor-http-jvm-3.4.0.jar",
-    "sha512": "86002ecc21b98677f3926a0b6361216cbe5a77f605531280985805d95f3964766be5ffd2c2b8c7db53ffe2acd50f1136cb271f4416ad0dcda5e487c2b7b551d8",
-    "dest": "offline-repository/io/ktor/ktor-http-jvm/3.4.0",
-    "dest-filename": "ktor-http-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-jvm/3.4.1/ktor-http-jvm-3.4.1.jar",
+    "sha512": "be34f5259dc9be336cd6f82509dfd3afb93aa0e3014574b2503a190653fbadf17c570a1b711099a752414ffd9cc7263d6ffab0ddb3fc318efab183cd5357bd60",
+    "dest": "offline-repository/io/ktor/ktor-http-jvm/3.4.1",
+    "dest-filename": "ktor-http-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-jvm/3.4.0/ktor-http-jvm-3.4.0.module",
-    "sha512": "c0d5ee8e6e90e44d492487605b998c22f03f9c4cf12c7b8e10808001852de7141ba482a511f4a0827a5fb5b780d0bf2f6e4301dfbf26d2887de0c348700e2293",
-    "dest": "offline-repository/io/ktor/ktor-http-jvm/3.4.0",
-    "dest-filename": "ktor-http-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-jvm/3.4.1/ktor-http-jvm-3.4.1.module",
+    "sha512": "02cd40e7ed7aba70f9f3aa3b253f62e118885217fe75b1d282ade09be97d5d4a8db9ea9707f483eeec88faa792ead02c2ab6e0f33f7ebdb151a8951c65338eb7",
+    "dest": "offline-repository/io/ktor/ktor-http-jvm/3.4.1",
+    "dest-filename": "ktor-http-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-jvm/3.4.0/ktor-http-jvm-3.4.0.pom",
-    "sha512": "57ddb41e0961edaa57800163d6245fd40df429a91c7e0ca1b8ec1bb9b94b3da53cdfeae2016a75cf3062fa396a1c7af9aa02bb103aa4181515d276c96f1ac9af",
-    "dest": "offline-repository/io/ktor/ktor-http-jvm/3.4.0",
-    "dest-filename": "ktor-http-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http-jvm/3.4.1/ktor-http-jvm-3.4.1.pom",
+    "sha512": "35d379f52bd39d5d7ca618520c00f6d64ce34a531525a5d532741b61154c2f46fc62c1cb64b89c2bd4a367952f9e20e408eceb6a3351eb589fb3ba199e90855b",
+    "dest": "offline-repository/io/ktor/ktor-http-jvm/3.4.1",
+    "dest-filename": "ktor-http-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http/3.4.0/../../ktor-http-jvm/3.4.0/ktor-http-jvm-3.4.0.module",
-    "sha512": "c0d5ee8e6e90e44d492487605b998c22f03f9c4cf12c7b8e10808001852de7141ba482a511f4a0827a5fb5b780d0bf2f6e4301dfbf26d2887de0c348700e2293",
-    "dest": "offline-repository/io/ktor/ktor-http/3.4.0/../../ktor-http-jvm/3.4.0",
-    "dest-filename": "ktor-http-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http/3.4.1/../../ktor-http-jvm/3.4.1/ktor-http-jvm-3.4.1.module",
+    "sha512": "02cd40e7ed7aba70f9f3aa3b253f62e118885217fe75b1d282ade09be97d5d4a8db9ea9707f483eeec88faa792ead02c2ab6e0f33f7ebdb151a8951c65338eb7",
+    "dest": "offline-repository/io/ktor/ktor-http/3.4.1/../../ktor-http-jvm/3.4.1",
+    "dest-filename": "ktor-http-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http/3.4.0/ktor-http-3.4.0.module",
-    "sha512": "9828795873d6581ca747d50166eb328d0bbae339a8cf70d18650f919a83eda78a8597a3b834b2e1b65a082637ccd881dbcada0eaed6fef81c2832c0fa30e6948",
-    "dest": "offline-repository/io/ktor/ktor-http/3.4.0",
-    "dest-filename": "ktor-http-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http/3.4.1/ktor-http-3.4.1.module",
+    "sha512": "ccd3aa5002e629c7048b90372b97532f28045c51969d183764d05245aca6bdad2dfbdeb47d7ea88af2dcc3df2764b15717bf97210db37275a7b692e9adef6f81",
+    "dest": "offline-repository/io/ktor/ktor-http/3.4.1",
+    "dest-filename": "ktor-http-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http/3.4.0/ktor-http-3.4.0.pom",
-    "sha512": "67dee2380feaada6a07aa6432745c0005367776fb1ab0b0cb425dbe9519b7667caeb3c142184ea01598e03fdde9ae66518631f17a16db6ba1667b5448d6b03c6",
-    "dest": "offline-repository/io/ktor/ktor-http/3.4.0",
-    "dest-filename": "ktor-http-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-http/3.4.1/ktor-http-3.4.1.pom",
+    "sha512": "4d1ec0588a8f1cf9ef715ebf0a6557bd2e73281d094388056702997cc06fa24c4d4c9723307e9e361777595073bb851d39183be1bb59192e06aee3456e2a1901",
+    "dest": "offline-repository/io/ktor/ktor-http/3.4.1",
+    "dest-filename": "ktor-http-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io-jvm/3.4.0/ktor-io-jvm-3.4.0.jar",
-    "sha512": "493b6339009e27d63be548b834e5f8adbcad59876feb1b5551600c333d2fbe834cc512da2ea34643dcff756d331b0bacf7dc00e673630eefe436a444d84f2007",
-    "dest": "offline-repository/io/ktor/ktor-io-jvm/3.4.0",
-    "dest-filename": "ktor-io-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io-jvm/3.4.1/ktor-io-jvm-3.4.1.jar",
+    "sha512": "ff046d6833a50db1ad75cc3e6fc861468f38c1cc7bc6d3093034976268adbccd434654c60c26d20b93c46eac0eab865b0e2fbe4623adf2708379a756007a0280",
+    "dest": "offline-repository/io/ktor/ktor-io-jvm/3.4.1",
+    "dest-filename": "ktor-io-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io-jvm/3.4.0/ktor-io-jvm-3.4.0.module",
-    "sha512": "7ad34833659bab526659ec0cb10f3b7a3e6cb957ce3e74d8c4935c133df7cd5de5ef2ff906c606cf345908d20f5dae2b1cf24165eadaeaf3e9eaa6cb10dd381a",
-    "dest": "offline-repository/io/ktor/ktor-io-jvm/3.4.0",
-    "dest-filename": "ktor-io-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io-jvm/3.4.1/ktor-io-jvm-3.4.1.module",
+    "sha512": "3731dc191adf9ed4b5b8592eee10782b7d0d1c3f14218b617be7e736f571d4462230d27611435d6d74d17a19c0f57a04a58585bedcb6317f55a299bee22c1821",
+    "dest": "offline-repository/io/ktor/ktor-io-jvm/3.4.1",
+    "dest-filename": "ktor-io-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io-jvm/3.4.0/ktor-io-jvm-3.4.0.pom",
-    "sha512": "bf66bf42736a0d1bf50087fdd02eb0ed2e77eb462a3590cb50d6206ccc86a5476f8e556df71f4d19796f558512fc88caff8a025705b5811b3fbf083ea2b31219",
-    "dest": "offline-repository/io/ktor/ktor-io-jvm/3.4.0",
-    "dest-filename": "ktor-io-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io-jvm/3.4.1/ktor-io-jvm-3.4.1.pom",
+    "sha512": "0d6de20d85839a1199b386b35d884801490170a50cb8d36a2c04c3cd1b1572496188c5a360114a7ef8cea4aecce36dc768174420254c4b7e8efb61af12f97dc0",
+    "dest": "offline-repository/io/ktor/ktor-io-jvm/3.4.1",
+    "dest-filename": "ktor-io-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io/3.4.0/../../ktor-io-jvm/3.4.0/ktor-io-jvm-3.4.0.module",
-    "sha512": "7ad34833659bab526659ec0cb10f3b7a3e6cb957ce3e74d8c4935c133df7cd5de5ef2ff906c606cf345908d20f5dae2b1cf24165eadaeaf3e9eaa6cb10dd381a",
-    "dest": "offline-repository/io/ktor/ktor-io/3.4.0/../../ktor-io-jvm/3.4.0",
-    "dest-filename": "ktor-io-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io/3.4.1/../../ktor-io-jvm/3.4.1/ktor-io-jvm-3.4.1.module",
+    "sha512": "3731dc191adf9ed4b5b8592eee10782b7d0d1c3f14218b617be7e736f571d4462230d27611435d6d74d17a19c0f57a04a58585bedcb6317f55a299bee22c1821",
+    "dest": "offline-repository/io/ktor/ktor-io/3.4.1/../../ktor-io-jvm/3.4.1",
+    "dest-filename": "ktor-io-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io/3.4.0/ktor-io-3.4.0.module",
-    "sha512": "72aad672cf73ad92324de5b6e2d923fe143ddd160ee8fe3de7a515eca1f93d2f0202896b10412835c9cc976a81e59f278765e6d3b4f0aa1d6115358bc9eedc19",
-    "dest": "offline-repository/io/ktor/ktor-io/3.4.0",
-    "dest-filename": "ktor-io-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io/3.4.1/ktor-io-3.4.1.module",
+    "sha512": "1c59291175cc8a9caed1da4c70a0f117cdbd5b9a23f56089666105157db599a17adcb15a1269959edbb5d63e21c5918072ef470fadfe21961db0b8e6dfbcf5dd",
+    "dest": "offline-repository/io/ktor/ktor-io/3.4.1",
+    "dest-filename": "ktor-io-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io/3.4.0/ktor-io-3.4.0.pom",
-    "sha512": "69361b1b2f6e74e9d0a87f552a6a605b117f88a4735d5b18266c88e96d10951111ea8afcc385612ba51156f8d1b89ebdae20a193f84660219244c16e065fde04",
-    "dest": "offline-repository/io/ktor/ktor-io/3.4.0",
-    "dest-filename": "ktor-io-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-io/3.4.1/ktor-io-3.4.1.pom",
+    "sha512": "c53aff3ef4df3cfd71a654d1e5edaf1953b9b63c4b0981dc3beba04fd44982867bb5b9e3d47a41a9d6178fd10d7d3928375d986c4150e5868e8611cc7250fcc0",
+    "dest": "offline-repository/io/ktor/ktor-io/3.4.1",
+    "dest-filename": "ktor-io-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-jvm/3.4.0/ktor-network-jvm-3.4.0.jar",
-    "sha512": "4bddc6d36b5bed26f6182a21634bed70a64c5ddfec6d46c8f9ee921baafa6ea3dc3590e31c05a50813b3d1588b1e826ead91c6bc1fcad9415d1322c30a5ef7f7",
-    "dest": "offline-repository/io/ktor/ktor-network-jvm/3.4.0",
-    "dest-filename": "ktor-network-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-jvm/3.4.1/ktor-network-jvm-3.4.1.jar",
+    "sha512": "75e465a1879e1a4928edcc5cf5a51b7995003dc84f1580281835e72c7af18f94749cbe4920cfbf80acace982d6e4332dc360208e757a400a073cf2460fe6a925",
+    "dest": "offline-repository/io/ktor/ktor-network-jvm/3.4.1",
+    "dest-filename": "ktor-network-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-jvm/3.4.0/ktor-network-jvm-3.4.0.module",
-    "sha512": "7a0d5a8e0413e5bda278741cfe69e0af910ff2fdc58dfafbda567734b47a39f03d6de0e59112d7113a8cea1edd1fdce33109aa0e5d99b3820ba7f3a1d5bb13e7",
-    "dest": "offline-repository/io/ktor/ktor-network-jvm/3.4.0",
-    "dest-filename": "ktor-network-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-jvm/3.4.1/ktor-network-jvm-3.4.1.module",
+    "sha512": "88d6508eb8975e59e0c427565fa93c7631ac72fe68db081c0636f75b5194165b5213901c4903643c90e0600f7e2d4d2bcdb67f68948b5ef73012d7b375f573d0",
+    "dest": "offline-repository/io/ktor/ktor-network-jvm/3.4.1",
+    "dest-filename": "ktor-network-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-jvm/3.4.0/ktor-network-jvm-3.4.0.pom",
-    "sha512": "fa5908c584671f65303e14cd4b9718515d8672f9d37973bc94befe4840bb9e20b04a61ee9e0b4a3aca5e99d59600e900d4c398796da2fdd35310d32c8cb08cd7",
-    "dest": "offline-repository/io/ktor/ktor-network-jvm/3.4.0",
-    "dest-filename": "ktor-network-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-jvm/3.4.1/ktor-network-jvm-3.4.1.pom",
+    "sha512": "bc90429320bb3a3010f2c71eb7540142b30ccb3f492248954b8696a6277e88e61d9b2687faaac19ab7c1a0e3a24c1d34fc9d2a776f728c06f1e1338296da9103",
+    "dest": "offline-repository/io/ktor/ktor-network-jvm/3.4.1",
+    "dest-filename": "ktor-network-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls-jvm/3.4.0/ktor-network-tls-jvm-3.4.0.jar",
-    "sha512": "3ffd2dcc1400f4147209b3526d5a1da75cd8c14a3e81236615973ff4beecd5ca8e581186ba1384d950c937315cf9601ee7b8e5b6be84adcf3620544a559950d1",
-    "dest": "offline-repository/io/ktor/ktor-network-tls-jvm/3.4.0",
-    "dest-filename": "ktor-network-tls-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls-jvm/3.4.1/ktor-network-tls-jvm-3.4.1.jar",
+    "sha512": "f7c4fe41a75f35de570e11dc60548431376ffa7029a4afb3ea16eeee3a23a08f840ea614fcc437d63d108a13fb2c3c725cc651f40f4e2f05bd06d4a0bee84aa3",
+    "dest": "offline-repository/io/ktor/ktor-network-tls-jvm/3.4.1",
+    "dest-filename": "ktor-network-tls-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls-jvm/3.4.0/ktor-network-tls-jvm-3.4.0.module",
-    "sha512": "5db670ac72a543694a2e759ecc962a1d1520d203c6884092af9c7e27dd84201a0115f8e4de77e22768a509822c136655e6f5941291db307651d66e0eb7522cef",
-    "dest": "offline-repository/io/ktor/ktor-network-tls-jvm/3.4.0",
-    "dest-filename": "ktor-network-tls-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls-jvm/3.4.1/ktor-network-tls-jvm-3.4.1.module",
+    "sha512": "b4ea6ba6a5240de741070e432d3413c9d721f18a61bdfdbda980dce77c3c1e1bccf537b3c66db75a03d96ba76b9b798e4edb19e3b43182f76c83fd377a210390",
+    "dest": "offline-repository/io/ktor/ktor-network-tls-jvm/3.4.1",
+    "dest-filename": "ktor-network-tls-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls-jvm/3.4.0/ktor-network-tls-jvm-3.4.0.pom",
-    "sha512": "de1ef605fda675576d93113cc0c36c87f95f0736b83c0c576ef349c2ade07973ca68b12ad825dabf5b9b26d3e99461495342d54fb795340c6d30a01f53833c38",
-    "dest": "offline-repository/io/ktor/ktor-network-tls-jvm/3.4.0",
-    "dest-filename": "ktor-network-tls-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls-jvm/3.4.1/ktor-network-tls-jvm-3.4.1.pom",
+    "sha512": "2599dad2fa45aab2209ec82ae1c74e75f272906df64ee4c8c1c4280c66428769f60886fae995f6ad380df8526a6b727422f1997a7dcb664c6dc0f3309a9c86ad",
+    "dest": "offline-repository/io/ktor/ktor-network-tls-jvm/3.4.1",
+    "dest-filename": "ktor-network-tls-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls/3.4.0/../../ktor-network-tls-jvm/3.4.0/ktor-network-tls-jvm-3.4.0.module",
-    "sha512": "5db670ac72a543694a2e759ecc962a1d1520d203c6884092af9c7e27dd84201a0115f8e4de77e22768a509822c136655e6f5941291db307651d66e0eb7522cef",
-    "dest": "offline-repository/io/ktor/ktor-network-tls/3.4.0/../../ktor-network-tls-jvm/3.4.0",
-    "dest-filename": "ktor-network-tls-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls/3.4.1/../../ktor-network-tls-jvm/3.4.1/ktor-network-tls-jvm-3.4.1.module",
+    "sha512": "b4ea6ba6a5240de741070e432d3413c9d721f18a61bdfdbda980dce77c3c1e1bccf537b3c66db75a03d96ba76b9b798e4edb19e3b43182f76c83fd377a210390",
+    "dest": "offline-repository/io/ktor/ktor-network-tls/3.4.1/../../ktor-network-tls-jvm/3.4.1",
+    "dest-filename": "ktor-network-tls-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls/3.4.0/ktor-network-tls-3.4.0.module",
-    "sha512": "e1af93ba29162c476b712e768edc5fc73315228c210bc25c95120070e0e558883c7547c72a0d480fbda81b63d66f41c1c05341448bf8aab4d716da7dab8360d9",
-    "dest": "offline-repository/io/ktor/ktor-network-tls/3.4.0",
-    "dest-filename": "ktor-network-tls-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls/3.4.1/ktor-network-tls-3.4.1.module",
+    "sha512": "aa69b18f16235c5fa996d97de0d9af356748c43cc9dabff94e0cd2b8147f0d568249323830809a88b5c72f6d6abe7accebcf5c3c709a798cca9681ace23b20a3",
+    "dest": "offline-repository/io/ktor/ktor-network-tls/3.4.1",
+    "dest-filename": "ktor-network-tls-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls/3.4.0/ktor-network-tls-3.4.0.pom",
-    "sha512": "c0a529b0a5e42570ae6b03ee8662e3c2d222206587592ef91fda296a508f0977afa86467b6f2214398ca9290b47071ee8015a754e5d0338a486adc25d756d606",
-    "dest": "offline-repository/io/ktor/ktor-network-tls/3.4.0",
-    "dest-filename": "ktor-network-tls-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network-tls/3.4.1/ktor-network-tls-3.4.1.pom",
+    "sha512": "86ab87773a53f79251ad0c56fbcd07a5d2f40864540c0d6d7c934900e6aa672b25a99833ef68d1dface4e102c456fdf976002a75c32ff5e5f710193710676ad2",
+    "dest": "offline-repository/io/ktor/ktor-network-tls/3.4.1",
+    "dest-filename": "ktor-network-tls-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network/3.4.0/../../ktor-network-jvm/3.4.0/ktor-network-jvm-3.4.0.module",
-    "sha512": "7a0d5a8e0413e5bda278741cfe69e0af910ff2fdc58dfafbda567734b47a39f03d6de0e59112d7113a8cea1edd1fdce33109aa0e5d99b3820ba7f3a1d5bb13e7",
-    "dest": "offline-repository/io/ktor/ktor-network/3.4.0/../../ktor-network-jvm/3.4.0",
-    "dest-filename": "ktor-network-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network/3.4.1/../../ktor-network-jvm/3.4.1/ktor-network-jvm-3.4.1.module",
+    "sha512": "88d6508eb8975e59e0c427565fa93c7631ac72fe68db081c0636f75b5194165b5213901c4903643c90e0600f7e2d4d2bcdb67f68948b5ef73012d7b375f573d0",
+    "dest": "offline-repository/io/ktor/ktor-network/3.4.1/../../ktor-network-jvm/3.4.1",
+    "dest-filename": "ktor-network-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network/3.4.0/ktor-network-3.4.0.module",
-    "sha512": "d8818ab270760a5fff352e269f21265d9bca90f59c1d9620fc828c4332dcade0458b93f8e73612de211acd4f24f49e9f1d514d6890cb3dc0d8b6a64c72b4e7c0",
-    "dest": "offline-repository/io/ktor/ktor-network/3.4.0",
-    "dest-filename": "ktor-network-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network/3.4.1/ktor-network-3.4.1.module",
+    "sha512": "9514b4600122bb6ca02a211c656bbc78239c43b3ba9edd31ae934809ab2ee570185cb453a0009422c142444bdc58093c4f22ca18260fb4e137aa613d18b81f9c",
+    "dest": "offline-repository/io/ktor/ktor-network/3.4.1",
+    "dest-filename": "ktor-network-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network/3.4.0/ktor-network-3.4.0.pom",
-    "sha512": "15c8a0b53c21ae39c8c53eb1c6c3a4322014db80f7eb88f6534d67e7babb8ac1ae61297178f319963259ddb157d57d2561d8f57358fd2e996e0ab0479d5b4c21",
-    "dest": "offline-repository/io/ktor/ktor-network/3.4.0",
-    "dest-filename": "ktor-network-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-network/3.4.1/ktor-network-3.4.1.pom",
+    "sha512": "1f1728077bbe74f88c969379bb9a2da4bb21ff559f924635d343d767458f920e43b63abda35aef698ce0349842e91a8c13cd4ca3a6e90eea4f2bdf26bd047eb5",
+    "dest": "offline-repository/io/ktor/ktor-network/3.4.1",
+    "dest-filename": "ktor-network-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization-jvm/3.4.0/ktor-serialization-jvm-3.4.0.jar",
-    "sha512": "2835cf8f605f89cfdac308dc775998a6c82a1291bdb5aaa74ca4da91b08b4bf5ac43f11e4c586a2cc74a7e4202760be842e50ebc24acca485ed1cb11a495a077",
-    "dest": "offline-repository/io/ktor/ktor-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-serialization-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization-jvm/3.4.1/ktor-serialization-jvm-3.4.1.jar",
+    "sha512": "95cd4a2517fa7288d6bad07693fb9c569a7a5c2432b1e78671158ccc150310e390d36ac5ba92e71a3e8d274acf28242a196811de53c6ca280741d943f5015553",
+    "dest": "offline-repository/io/ktor/ktor-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-serialization-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization-jvm/3.4.0/ktor-serialization-jvm-3.4.0.module",
-    "sha512": "d690d301b2db9e32a16490661d27c08d6c7dbc563ee0f49398f481fdf889e3adf0d1114f845722dca79dfc2e5baff0dbff808c2159a1e718e161a090cd2cb5b4",
-    "dest": "offline-repository/io/ktor/ktor-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-serialization-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization-jvm/3.4.1/ktor-serialization-jvm-3.4.1.module",
+    "sha512": "3431e3ab99f806cdb29f4b20a5734bba8bf740dbbbe372a10aefce402333ce50b1ac2aff0fe6334abc662920d1f14b1d655874d564296e2881ceef35483ad4fb",
+    "dest": "offline-repository/io/ktor/ktor-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-serialization-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization-jvm/3.4.0/ktor-serialization-jvm-3.4.0.pom",
-    "sha512": "587d2eada3cc8f0fddbfcb476d53e78392607e525c9d325d55a21aff632ff5c7d31bd760a6d8d9b2cb3e7c08ca661171a208bc1fd994b61d7dc5d58f48fe51d5",
-    "dest": "offline-repository/io/ktor/ktor-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-serialization-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization-jvm/3.4.1/ktor-serialization-jvm-3.4.1.pom",
+    "sha512": "4e893d970d70df0e5dc87e3494866f84675e61f7d0633ef954f580f389815cd752cbeddba91ed2e7650002917056d87747437ffd16509b7bbb651a2c9f33a28c",
+    "dest": "offline-repository/io/ktor/ktor-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-serialization-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization/3.4.0/../../ktor-serialization-jvm/3.4.0/ktor-serialization-jvm-3.4.0.module",
-    "sha512": "d690d301b2db9e32a16490661d27c08d6c7dbc563ee0f49398f481fdf889e3adf0d1114f845722dca79dfc2e5baff0dbff808c2159a1e718e161a090cd2cb5b4",
-    "dest": "offline-repository/io/ktor/ktor-serialization/3.4.0/../../ktor-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-serialization-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization/3.4.1/../../ktor-serialization-jvm/3.4.1/ktor-serialization-jvm-3.4.1.module",
+    "sha512": "3431e3ab99f806cdb29f4b20a5734bba8bf740dbbbe372a10aefce402333ce50b1ac2aff0fe6334abc662920d1f14b1d655874d564296e2881ceef35483ad4fb",
+    "dest": "offline-repository/io/ktor/ktor-serialization/3.4.1/../../ktor-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-serialization-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization/3.4.0/ktor-serialization-3.4.0.module",
-    "sha512": "d97157b0b0d0d28908b8273f93fa62cbbbec09c115a2fdfec1c9d98437b07190c8b6c1bf70b95378b14947a1463334d47af33369691abe277f9ca5dc98990784",
-    "dest": "offline-repository/io/ktor/ktor-serialization/3.4.0",
-    "dest-filename": "ktor-serialization-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization/3.4.1/ktor-serialization-3.4.1.module",
+    "sha512": "d6c2fb7e80f8200d0d12a1a9ca599498cd0a27a14cd7d351ec677465093207b553d57f6f3686803a0b26a018cbf1bc852b170450cdf7ac539d7a890353350157",
+    "dest": "offline-repository/io/ktor/ktor-serialization/3.4.1",
+    "dest-filename": "ktor-serialization-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization/3.4.0/ktor-serialization-3.4.0.pom",
-    "sha512": "0a69b4110c4248f49a8f10e2eda97051b66d044bc8289ee8531e85b6015bc62aa301de6480a2c44bddc769b80ccca886568b8f4f12bedd8e6e2ee377f48a545c",
-    "dest": "offline-repository/io/ktor/ktor-serialization/3.4.0",
-    "dest-filename": "ktor-serialization-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-serialization/3.4.1/ktor-serialization-3.4.1.pom",
+    "sha512": "ffe512a4567ea411571c622eb774e174b97a6ef617125e265cc0e0d8f6a22c21901c1baaa4fd90e81e604c50717f0e0b4c75fb620c074fc77b3029346c7a54e0",
+    "dest": "offline-repository/io/ktor/ktor-serialization/3.4.1",
+    "dest-filename": "ktor-serialization-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse-jvm/3.4.0/ktor-sse-jvm-3.4.0.jar",
-    "sha512": "70c8873934e6567d26d38b0dcea32bd39ec7d0f2088df168f1bb5b159956ec1d8e43f775c4987e8042062b1826324bf9da86f458debc62cc49897e878c1675d6",
-    "dest": "offline-repository/io/ktor/ktor-sse-jvm/3.4.0",
-    "dest-filename": "ktor-sse-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse-jvm/3.4.1/ktor-sse-jvm-3.4.1.jar",
+    "sha512": "39a846a27df264d679296bdc284c97822cfa70419c889eb0e850b032b8b5714fddaf3b044dc02a5f8db8fa5793b6867cc993e23977dc0db5efecd5ffdc1c7c6e",
+    "dest": "offline-repository/io/ktor/ktor-sse-jvm/3.4.1",
+    "dest-filename": "ktor-sse-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse-jvm/3.4.0/ktor-sse-jvm-3.4.0.module",
-    "sha512": "c6f4e5a313b521d71edbc7c61abe823370d4df606e7fa07b92aa5409e5ada2ae5ae9737a0df85919f4e1d6a7c25e9855c2818474b79818fe200796a5a28e553b",
-    "dest": "offline-repository/io/ktor/ktor-sse-jvm/3.4.0",
-    "dest-filename": "ktor-sse-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse-jvm/3.4.1/ktor-sse-jvm-3.4.1.module",
+    "sha512": "a74e82b472c6e87f425f4513393e6d21e222ee1c89ce035d4154fd34042035d292997de9bfff4a1c91049dae3cda3ee67fc620ebdc88bbcc7225746f8a1c9dd5",
+    "dest": "offline-repository/io/ktor/ktor-sse-jvm/3.4.1",
+    "dest-filename": "ktor-sse-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse-jvm/3.4.0/ktor-sse-jvm-3.4.0.pom",
-    "sha512": "1e336075c24c6093e629d7e5ddf8ab30647f2fe596c84885a3d205487809049de00d4069575e84a4f0fb5241e1a4bf337c788e11589388caa287c22b08da9719",
-    "dest": "offline-repository/io/ktor/ktor-sse-jvm/3.4.0",
-    "dest-filename": "ktor-sse-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse-jvm/3.4.1/ktor-sse-jvm-3.4.1.pom",
+    "sha512": "3cd8a9edd4188591ede39a4b13d46525e8e1ca1bd3b423ce2bf8e501998e2fe9d6f20490b57e2afa9d692733c9f2cccf6d944064403a6a53be4098025625a06e",
+    "dest": "offline-repository/io/ktor/ktor-sse-jvm/3.4.1",
+    "dest-filename": "ktor-sse-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse/3.4.0/../../ktor-sse-jvm/3.4.0/ktor-sse-jvm-3.4.0.module",
-    "sha512": "c6f4e5a313b521d71edbc7c61abe823370d4df606e7fa07b92aa5409e5ada2ae5ae9737a0df85919f4e1d6a7c25e9855c2818474b79818fe200796a5a28e553b",
-    "dest": "offline-repository/io/ktor/ktor-sse/3.4.0/../../ktor-sse-jvm/3.4.0",
-    "dest-filename": "ktor-sse-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse/3.4.1/../../ktor-sse-jvm/3.4.1/ktor-sse-jvm-3.4.1.module",
+    "sha512": "a74e82b472c6e87f425f4513393e6d21e222ee1c89ce035d4154fd34042035d292997de9bfff4a1c91049dae3cda3ee67fc620ebdc88bbcc7225746f8a1c9dd5",
+    "dest": "offline-repository/io/ktor/ktor-sse/3.4.1/../../ktor-sse-jvm/3.4.1",
+    "dest-filename": "ktor-sse-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse/3.4.0/ktor-sse-3.4.0.module",
-    "sha512": "03be1cc20473ae761d68d9bede830792d4bfc7c64a72572b494eb9aa251dd891ce4dd982702be71e89538a57f6b551dec2ec82303fd8519337c9378205bc21fa",
-    "dest": "offline-repository/io/ktor/ktor-sse/3.4.0",
-    "dest-filename": "ktor-sse-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse/3.4.1/ktor-sse-3.4.1.module",
+    "sha512": "b9b25854a3de93b9339e4069f0fe0bb38b5b04d32efc182bcb25625064cec0e8385e2f86074c7f49e09c8adcde141a1f417202fc23e60a990f6c19be0ae7ac47",
+    "dest": "offline-repository/io/ktor/ktor-sse/3.4.1",
+    "dest-filename": "ktor-sse-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse/3.4.0/ktor-sse-3.4.0.pom",
-    "sha512": "f3414006401f12c9209d69457406d074bf557f28750dbeed3e2fc499fe12b1527a0fe61a37b70677887b9e837391acba2b361b56e389761ea50e07eba3c5cd7c",
-    "dest": "offline-repository/io/ktor/ktor-sse/3.4.0",
-    "dest-filename": "ktor-sse-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-sse/3.4.1/ktor-sse-3.4.1.pom",
+    "sha512": "8cc8cd9b01dbb5d020f6f6a591a76183ad03ee298a5dd3dfc4ad878522d5789f5ed279a6ec7f0dc7bdad00d7b7450af675e8aedf5bd7e3821951440f99218087",
+    "dest": "offline-repository/io/ktor/ktor-sse/3.4.1",
+    "dest-filename": "ktor-sse-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils-jvm/3.4.0/ktor-utils-jvm-3.4.0.jar",
-    "sha512": "167a52204a8008cfad13b0483b42660bff1802e8990e63f63c22d1f6372b63b8955c6c947b7222d7e12eb6fb371221f2bf2fa17c34249bee5535d7290cc487c7",
-    "dest": "offline-repository/io/ktor/ktor-utils-jvm/3.4.0",
-    "dest-filename": "ktor-utils-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils-jvm/3.4.1/ktor-utils-jvm-3.4.1.jar",
+    "sha512": "930901c26dcd1ec39db53a9355d094486edf9eaab5e3d2b3011cdf0a6ef7984cd12e8769a855c0ee4bb276c7bcbc8f08f9282dbbf7c2f9347304fb33b3e6b674",
+    "dest": "offline-repository/io/ktor/ktor-utils-jvm/3.4.1",
+    "dest-filename": "ktor-utils-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils-jvm/3.4.0/ktor-utils-jvm-3.4.0.module",
-    "sha512": "6e73198e9e9329ae35f711196d8c0606e1819a011f6b83a2f505e407411e9c2c434e4d1a524e410b47ff33d41627086323b99ce7628bba0b2020e3c2549d8d41",
-    "dest": "offline-repository/io/ktor/ktor-utils-jvm/3.4.0",
-    "dest-filename": "ktor-utils-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils-jvm/3.4.1/ktor-utils-jvm-3.4.1.module",
+    "sha512": "a791794626181f8888b82119db061a2c683f4b10526758720a02d1dbbe84ef43982f16dfea823fed2242144331d7116c7483ea6b3264165aadba1749b3a6d6b7",
+    "dest": "offline-repository/io/ktor/ktor-utils-jvm/3.4.1",
+    "dest-filename": "ktor-utils-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils-jvm/3.4.0/ktor-utils-jvm-3.4.0.pom",
-    "sha512": "aee39cafff63c4252648e39d0694a38892fae1b31b84db1756bf39ddb8de4a84b428b54f8d77813851fdc1761b7f2441fafe678f1c80b713e40f3aa763842dee",
-    "dest": "offline-repository/io/ktor/ktor-utils-jvm/3.4.0",
-    "dest-filename": "ktor-utils-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils-jvm/3.4.1/ktor-utils-jvm-3.4.1.pom",
+    "sha512": "5fdc0261ac15bb4b1b5120e703f1c35e03be1dbf9d99af2b231601e8dd1c1d11544b0b3b9396781f0dcaed3df55266a905712b0884a296c02cb95bbfcb8add79",
+    "dest": "offline-repository/io/ktor/ktor-utils-jvm/3.4.1",
+    "dest-filename": "ktor-utils-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils/3.4.0/../../ktor-utils-jvm/3.4.0/ktor-utils-jvm-3.4.0.module",
-    "sha512": "6e73198e9e9329ae35f711196d8c0606e1819a011f6b83a2f505e407411e9c2c434e4d1a524e410b47ff33d41627086323b99ce7628bba0b2020e3c2549d8d41",
-    "dest": "offline-repository/io/ktor/ktor-utils/3.4.0/../../ktor-utils-jvm/3.4.0",
-    "dest-filename": "ktor-utils-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils/3.4.1/../../ktor-utils-jvm/3.4.1/ktor-utils-jvm-3.4.1.module",
+    "sha512": "a791794626181f8888b82119db061a2c683f4b10526758720a02d1dbbe84ef43982f16dfea823fed2242144331d7116c7483ea6b3264165aadba1749b3a6d6b7",
+    "dest": "offline-repository/io/ktor/ktor-utils/3.4.1/../../ktor-utils-jvm/3.4.1",
+    "dest-filename": "ktor-utils-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils/3.4.0/ktor-utils-3.4.0.module",
-    "sha512": "e923bf27ebe2fc08eaefc6d93f11d4c62b9e9407f396fb919573ff2b70cda5d67510eeb25157bb36179b9b45a0cf4d1142c7780120f31b16b429a611f06e7ed2",
-    "dest": "offline-repository/io/ktor/ktor-utils/3.4.0",
-    "dest-filename": "ktor-utils-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils/3.4.1/ktor-utils-3.4.1.module",
+    "sha512": "80fea9f0f796f5d85168ce7b135810c80330d0dc5d6ca54a2edc1fd2a54a22165b07e2b891515aea055071d637b5970c65e98be059cfd1c02bf16a5e0d7b5954",
+    "dest": "offline-repository/io/ktor/ktor-utils/3.4.1",
+    "dest-filename": "ktor-utils-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils/3.4.0/ktor-utils-3.4.0.pom",
-    "sha512": "55468d197489538c3844a4b6032aaa81bb8d299289efdefaabf128e9d1ff26e72d04a333a6d7312e4447fc231d1c5212f90035d345858ebf688a32963e1475ee",
-    "dest": "offline-repository/io/ktor/ktor-utils/3.4.0",
-    "dest-filename": "ktor-utils-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-utils/3.4.1/ktor-utils-3.4.1.pom",
+    "sha512": "baa7f0aaa0274e6d6eed9970d8d6a45b05fd61858036d924cbe058e95b2f12cdfe16007c75066dafafaecc779b20d7e31a5cd5c055e8bceb2243d2296dad5374",
+    "dest": "offline-repository/io/ktor/ktor-utils/3.4.1",
+    "dest-filename": "ktor-utils-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization-jvm/3.4.0/ktor-websocket-serialization-jvm-3.4.0.jar",
-    "sha512": "3e895604a08d959d70a4019b4d96f767be3c8ef6569952039ad5eb5bd90d7f86d288a477e355dc2556ba65cab793ed3946a6db8b71d9f315cc67bcf95330f728",
-    "dest": "offline-repository/io/ktor/ktor-websocket-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-websocket-serialization-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization-jvm/3.4.1/ktor-websocket-serialization-jvm-3.4.1.jar",
+    "sha512": "c0760142b7a7c072a12294fb3e28d66c04c937a2773e4f524643aa70c43fbd269927c89beb78bfa6b7e6d29bcca71565dca8232d8186ab19352e44d6c6d94360",
+    "dest": "offline-repository/io/ktor/ktor-websocket-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-websocket-serialization-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization-jvm/3.4.0/ktor-websocket-serialization-jvm-3.4.0.module",
-    "sha512": "e94fbe3344b7aa861f843354af88e5235c1fb2ed094eb5280c1d749b66a25ad6e78fb7d0ab84fa05a7eb42bcfc0652d798a8997962ef0a19e5338b4ae0595b3e",
-    "dest": "offline-repository/io/ktor/ktor-websocket-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-websocket-serialization-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization-jvm/3.4.1/ktor-websocket-serialization-jvm-3.4.1.module",
+    "sha512": "51e767e2054249e7b4c9d4e86fa6757e67c31a1090497b977143f5516d9daae463a598e4cf1e71f1406606e055c9e63e3939144fa379307ee2069b37908f0822",
+    "dest": "offline-repository/io/ktor/ktor-websocket-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-websocket-serialization-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization-jvm/3.4.0/ktor-websocket-serialization-jvm-3.4.0.pom",
-    "sha512": "27d1f240459e977fb9c0eb8fcb3882713233753fe4d1c2ae55b69794b8546dd016ca51e78c5fd8a0998e7ae358a0c923369d5c2dbd943c9cbf59ef6dddb2695e",
-    "dest": "offline-repository/io/ktor/ktor-websocket-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-websocket-serialization-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization-jvm/3.4.1/ktor-websocket-serialization-jvm-3.4.1.pom",
+    "sha512": "3c609263560427f6d248c66a1e922895cc18697da8874b14890e4e36ae556d4cdc37f6772577113b3a488504609bc57876d8f40b40e0d20ec9cb0c23459d83dd",
+    "dest": "offline-repository/io/ktor/ktor-websocket-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-websocket-serialization-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization/3.4.0/../../ktor-websocket-serialization-jvm/3.4.0/ktor-websocket-serialization-jvm-3.4.0.module",
-    "sha512": "e94fbe3344b7aa861f843354af88e5235c1fb2ed094eb5280c1d749b66a25ad6e78fb7d0ab84fa05a7eb42bcfc0652d798a8997962ef0a19e5338b4ae0595b3e",
-    "dest": "offline-repository/io/ktor/ktor-websocket-serialization/3.4.0/../../ktor-websocket-serialization-jvm/3.4.0",
-    "dest-filename": "ktor-websocket-serialization-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization/3.4.1/../../ktor-websocket-serialization-jvm/3.4.1/ktor-websocket-serialization-jvm-3.4.1.module",
+    "sha512": "51e767e2054249e7b4c9d4e86fa6757e67c31a1090497b977143f5516d9daae463a598e4cf1e71f1406606e055c9e63e3939144fa379307ee2069b37908f0822",
+    "dest": "offline-repository/io/ktor/ktor-websocket-serialization/3.4.1/../../ktor-websocket-serialization-jvm/3.4.1",
+    "dest-filename": "ktor-websocket-serialization-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization/3.4.0/ktor-websocket-serialization-3.4.0.module",
-    "sha512": "d4c78750c040a2014c8ef5b4b43d710b937febd84861ac584bc3b28955553be07fd86061afb1323576da52382154cadccf5edb96fa5b7810a113d750a17c6f5e",
-    "dest": "offline-repository/io/ktor/ktor-websocket-serialization/3.4.0",
-    "dest-filename": "ktor-websocket-serialization-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization/3.4.1/ktor-websocket-serialization-3.4.1.module",
+    "sha512": "08a01a5612718e7aaf908c4377e4b7f17c8092f26e6e8a5e4be16b27ab5deb5e07bda197f030c187de3d354d425c5f728920ce0ef0dba8500504e592b7d3e1a7",
+    "dest": "offline-repository/io/ktor/ktor-websocket-serialization/3.4.1",
+    "dest-filename": "ktor-websocket-serialization-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization/3.4.0/ktor-websocket-serialization-3.4.0.pom",
-    "sha512": "ca47291ae49f4af6b15afd228caf2c88b7b835a9124f1ee3a8aa67fcf22f28abd2b0e744143f00a4ffd16a67d3645c73edfa51ac476239cdbccf041ee509cb12",
-    "dest": "offline-repository/io/ktor/ktor-websocket-serialization/3.4.0",
-    "dest-filename": "ktor-websocket-serialization-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websocket-serialization/3.4.1/ktor-websocket-serialization-3.4.1.pom",
+    "sha512": "829872ff59d9e8426eb1b14946469c7471884653b4741e5baad56de92064437d1af3123aafd57d0f3ecc3a2b6ec1f3fedf49e8676ffb80b1ebd54f24163df148",
+    "dest": "offline-repository/io/ktor/ktor-websocket-serialization/3.4.1",
+    "dest-filename": "ktor-websocket-serialization-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets-jvm/3.4.0/ktor-websockets-jvm-3.4.0.jar",
-    "sha512": "c5e632d9ed52ac978789dc3add02f05e05676ac9475947ebf917a5115286f1e7fc66b0e3d36f224357209e1cf722f2162f99347f72cfe3cc4a083782656d64a1",
-    "dest": "offline-repository/io/ktor/ktor-websockets-jvm/3.4.0",
-    "dest-filename": "ktor-websockets-jvm-3.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets-jvm/3.4.1/ktor-websockets-jvm-3.4.1.jar",
+    "sha512": "b97bc194c2f507b072b7eb9327b51e341c6f97e9785fed7a9c3ba4d84f59e72ed763f647dc8a6d4c56e2787617e39e3f04c30202d851a80279668561b28d27ad",
+    "dest": "offline-repository/io/ktor/ktor-websockets-jvm/3.4.1",
+    "dest-filename": "ktor-websockets-jvm-3.4.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets-jvm/3.4.0/ktor-websockets-jvm-3.4.0.module",
-    "sha512": "6eb9c0117c004790629e7e559b4b001a62a6980da182d537c14a652b45a2a1a971e840d09c04b4b1a6eb218e0f8ec99e5fc68b1d2d14437b7b958fbe02e85f09",
-    "dest": "offline-repository/io/ktor/ktor-websockets-jvm/3.4.0",
-    "dest-filename": "ktor-websockets-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets-jvm/3.4.1/ktor-websockets-jvm-3.4.1.module",
+    "sha512": "81dd4846dbe38739e34f30f5b01528641981d0b247789c54bb7e922111c92612dd079730acdff2ba6087b64bad60fcfb0b18519fe5bcc0173f0a04cd5f5f6a73",
+    "dest": "offline-repository/io/ktor/ktor-websockets-jvm/3.4.1",
+    "dest-filename": "ktor-websockets-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets-jvm/3.4.0/ktor-websockets-jvm-3.4.0.pom",
-    "sha512": "8fce88d2f1e8cd471280dad402bb41026ec350923fc3ded7c7afc2a78fd29a73f695f930b8f7c6783867311df28220eb8406cfd064e9ef4368a757f8f605b538",
-    "dest": "offline-repository/io/ktor/ktor-websockets-jvm/3.4.0",
-    "dest-filename": "ktor-websockets-jvm-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets-jvm/3.4.1/ktor-websockets-jvm-3.4.1.pom",
+    "sha512": "ea1381edd6c4758203c76aed39122909f87491dda93a0f0cf16cd7ed85c1fbfeaee64cf333d99edcd0c8632b19fffb3bb93815181c40892f932b90e6ac153c78",
+    "dest": "offline-repository/io/ktor/ktor-websockets-jvm/3.4.1",
+    "dest-filename": "ktor-websockets-jvm-3.4.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets/3.4.0/../../ktor-websockets-jvm/3.4.0/ktor-websockets-jvm-3.4.0.module",
-    "sha512": "6eb9c0117c004790629e7e559b4b001a62a6980da182d537c14a652b45a2a1a971e840d09c04b4b1a6eb218e0f8ec99e5fc68b1d2d14437b7b958fbe02e85f09",
-    "dest": "offline-repository/io/ktor/ktor-websockets/3.4.0/../../ktor-websockets-jvm/3.4.0",
-    "dest-filename": "ktor-websockets-jvm-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets/3.4.1/../../ktor-websockets-jvm/3.4.1/ktor-websockets-jvm-3.4.1.module",
+    "sha512": "81dd4846dbe38739e34f30f5b01528641981d0b247789c54bb7e922111c92612dd079730acdff2ba6087b64bad60fcfb0b18519fe5bcc0173f0a04cd5f5f6a73",
+    "dest": "offline-repository/io/ktor/ktor-websockets/3.4.1/../../ktor-websockets-jvm/3.4.1",
+    "dest-filename": "ktor-websockets-jvm-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets/3.4.0/ktor-websockets-3.4.0.module",
-    "sha512": "c3fbc677a5920245d6a1d4760d7d6c6f749ca9e2081127543260d230d260c15a341d302d0518170a1fa0804ace90b102f98ff12106868e3944bb74d6d37c8998",
-    "dest": "offline-repository/io/ktor/ktor-websockets/3.4.0",
-    "dest-filename": "ktor-websockets-3.4.0.module"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets/3.4.1/ktor-websockets-3.4.1.module",
+    "sha512": "104566381280753a3bee7ae57dd8f65bf54a373b15c8f9c74ece4088c08629fb6c9e5a79ebf3a301ed89df8c2763f3fd3150d8526ca330e470a34af9b15b5c9a",
+    "dest": "offline-repository/io/ktor/ktor-websockets/3.4.1",
+    "dest-filename": "ktor-websockets-3.4.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets/3.4.0/ktor-websockets-3.4.0.pom",
-    "sha512": "abf96a01db520b9db71b7223ce4d0e9f1acc9ea0c5506c7abbb5481e129b6d901de46941e9672de7f14d8dfa64840ce9b0046fafad90f8669204f52bb91e268b",
-    "dest": "offline-repository/io/ktor/ktor-websockets/3.4.0",
-    "dest-filename": "ktor-websockets-3.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/io/ktor/ktor-websockets/3.4.1/ktor-websockets-3.4.1.pom",
+    "sha512": "f6e0232ef229361dbad2395be7b25c7990b4c692215098b29c7fdae039a3bbe6a8e6406d006043eb6d54bbc8e7e7396dd9a22a0a48198185ff71d2ceed566664",
+    "dest": "offline-repository/io/ktor/ktor-websockets/3.4.1",
+    "dest-filename": "ktor-websockets-3.4.1.pom"
   },
   {
     "type": "file",
@@ -2374,6 +2808,13 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/junit/junit/4.13.1/junit-4.13.1.pom",
+    "sha512": "919c6fc7a6fab977129181d2b7d06c77fa1efe4c0152204c2fd913cf4a22da0a91bf0ac36051d318cb436d6f9b34defe83ce42c56ddf035abca47a73643c3ea9",
+    "dest": "offline-repository/junit/junit/4.13.1",
+    "dest-filename": "junit-4.13.1.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.pom",
     "sha512": "e97314f002e59a160b12f20dfcaf2d08b20b20b823ca381b6bf5c388ccc87a1de0607ef625ee44871e01038ef7cbfc20776485e39a219565845c18096d33eee3",
     "dest": "offline-repository/net/bytebuddy/byte-buddy-agent/1.14.13",
@@ -2392,13 +2833,6 @@
     "sha512": "93b78fac40ca4de12d5a2fb4e339ba9e3c40a25ddcfe58272dc2a8e4b36d2c7cc51075aa2a25f0b3c1d4bd3142551e77847d1bd5599c60f5d50d548b72b74bfa",
     "dest": "offline-repository/net/java/jvnet-parent/3",
     "dest-filename": "jvnet-parent-3.pom"
-  },
-  {
-    "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/apache/apache/13/apache-13.pom",
-    "sha512": "3b25f9f51a7ee9647fe2e1287e75a67ccdf3f08055bec20c6a60b290876afc691f16b23ab3df7b733695b828411b716a0b3509c22ec6fb0c5dce4f21811ae434",
-    "dest": "offline-repository/org/apache/apache/13",
-    "dest-filename": "apache-13.pom"
   },
   {
     "type": "file",
@@ -2455,13 +2889,6 @@
     "sha512": "8ea9b9e8605b841f95e856918cd21913e9955e42f5c4c487ba9580252a15163ed910a0aed39720394f2a80813015af99849aa2768254531c1cf75fab22036b00",
     "dest": "offline-repository/org/apache/commons/commons-lang3/3.18.0",
     "dest-filename": "commons-lang3-3.18.0.pom"
-  },
-  {
-    "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/apache/commons/commons-parent/34/commons-parent-34.pom",
-    "sha512": "364ede203a23157ec601d28ff141c0c69759fc5c483e44e346fa1592403f343f0722f7763243b2ee7a190c7a744b1cce1f40247f5a6c7b3dbfbf487c505a40bf",
-    "dest": "offline-repository/org/apache/commons/commons-parent/34",
-    "dest-filename": "commons-parent-34.pom"
   },
   {
     "type": "file",
@@ -2899,6 +3326,13 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-bom/2.0.21/kotlin-bom-2.0.21.pom",
+    "sha512": "88c8dea4b08e04982b2882f84609a7c4339205ff449a6c6272b103a84ff3ba5e048eebc9ab36df0e69bb061f27619e2128532b9fb09c5b99178588fb8ac4461b",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-bom/2.0.21",
+    "dest-filename": "kotlin-bom-2.0.21.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-build-tools-api/2.3.10/kotlin-build-tools-api-2.3.10.jar",
     "sha512": "6b8619c015fc3fc0e1668649358adead2916909f713e2be988a9799183e94a9ccbc5dc46610aef96da66e74eccfe77233719641e068d2f4f90d66d1ed6aae9d1",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-build-tools-api/2.3.10",
@@ -3186,6 +3620,20 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-reflect/2.2.21/kotlin-reflect-2.2.21.jar",
+    "sha512": "168b2f8bd3c0c395a78d9bc237dde726eea63090407c448c3deef2916661c19e1c7013f5a13f5a16578694a2a0842a985f1f6c7c519a48858b35a1a602ad9406",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-reflect/2.2.21",
+    "dest-filename": "kotlin-reflect-2.2.21.jar"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-reflect/2.2.21/kotlin-reflect-2.2.21.pom",
+    "sha512": "5dc41f2190d67113f960c615afe5bee951d1384ef8886f8b68a699f8ff3ca7e816e2f67528fc9c9b8809cc4a559666fe01438f85ee95d82cc876abca4db31603",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-reflect/2.2.21",
+    "dest-filename": "kotlin-reflect-2.2.21.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-reflect/2.3.0/kotlin-reflect-2.3.0.jar",
     "sha512": "4c015040675028f553d4ebe5edf487a2288d8d20a2b95269a241e141d4087a23a98878d123b31da5a8637bd5f2daf9548a1df9f93a834ffd054e2befd8213de9",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-reflect/2.3.0",
@@ -3368,13 +3816,6 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.jar",
-    "sha512": "3ed41f0dc53bacac17004e8a205f3ecbe341dfb8ebe200f75b5edf19beea655679958c1e87f5dfd356784fff36a39c0169972f6f3bd32a14d038b17b59e1c4d7",
-    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0",
-    "dest-filename": "kotlin-stdlib-jdk7-1.8.0.jar"
-  },
-  {
-    "type": "file",
     "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0/kotlin-stdlib-jdk7-1.8.0.pom",
     "sha512": "f18fd89c03d5abccf2eb2a8306044dc505e29a2bb97e2d8afdd102d7d8c42908494182daa6133e8dceb221c8bcb9a52f62c7a7232c6657abb9c91c77b2a65af7",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.0",
@@ -3396,6 +3837,20 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.0.21/kotlin-stdlib-jdk7-2.0.21.jar",
+    "sha512": "6d79df42475c37e332c06da5ffa870589a04e676cd99c292500d10ebc4556d36659440157eb6d88dc813df12126826db7722fd3667f23463011dd284b89fe2d8",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.0.21",
+    "dest-filename": "kotlin-stdlib-jdk7-2.0.21.jar"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.0.21/kotlin-stdlib-jdk7-2.0.21.pom",
+    "sha512": "881b72f53a04a0b26787c77a58303988f992844168e49c315ea78b8ee97cb5cc24305d65aaddb0b54694b3e4a3936de22e1d146bbb97c67d7a233b1533a9e7e2",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.0.21",
+    "dest-filename": "kotlin-stdlib-jdk7-2.0.21.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.3.0/kotlin-stdlib-jdk7-2.3.0.jar",
     "sha512": "133a76883131006185eab1bbc258557037cca3d6ed06739a32b1f709c6c6bfc5ddb32f898a8d50ffbb7cebdbb76bc504f3dbbd9bd811707ed33c9cb258af785b",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.3.0",
@@ -3407,13 +3862,6 @@
     "sha512": "3e97f4dd1fc3f6e44451876809f78dd182a1f5c1bb1841ab196d6b16b973df949ab00eb8c1b229acb375e8ca9f18a255093b70e93dc6659d5d11da114bb1bd87",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.3.0",
     "dest-filename": "kotlin-stdlib-jdk7-2.3.0.pom"
-  },
-  {
-    "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0/kotlin-stdlib-jdk8-1.8.0.jar",
-    "sha512": "a85e81accfeefc7038ae61e003927824e7289557c53e96921e1cecc1c19a63b4aef06ded2fb7439227737e4676bc23a20c9602cf85ccd40619f15b7cfb36603b",
-    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.0",
-    "dest-filename": "kotlin-stdlib-jdk8-1.8.0.jar"
   },
   {
     "type": "file",
@@ -3438,6 +3886,20 @@
   },
   {
     "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.0.21/kotlin-stdlib-jdk8-2.0.21.jar",
+    "sha512": "8ca85069e6f90da6fe2942e0162676c16c9b45cfa4da7a26b9811e4f1f89c7b859416dc8353c58819c6726ba463546ad7720a859a325a106f4bc606c57f67ee9",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.0.21",
+    "dest-filename": "kotlin-stdlib-jdk8-2.0.21.jar"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.0.21/kotlin-stdlib-jdk8-2.0.21.pom",
+    "sha512": "334cb373424c369215261f639a57fef1b9780ed705af93c1c3e9ec074f6a9dfb3269d480bec841ca89dc990df11cd72ff09174cb43e54fdadf962f1a9f40afdc",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.0.21",
+    "dest-filename": "kotlin-stdlib-jdk8-2.0.21.pom"
+  },
+  {
+    "type": "file",
     "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.3.0/kotlin-stdlib-jdk8-2.3.0.jar",
     "sha512": "522ba4ee4c82627b1b0ab33082d75db0a32a6881622b3712b43da02816ceed31ef5f531536242cce8f97bf7917066a52c1588f7ffd869a431d91821b6dc93cf7",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.3.0",
@@ -3449,6 +3911,13 @@
     "sha512": "cd9df8cdd23c2fa0b4cf9044c64cf5bbf8c004bd3cc3e7ca78ca9c63a9b66431870eb5c839d134395088503f0f999e48051cbded83bbda8d4298e212c08bfd89",
     "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.3.0",
     "dest-filename": "kotlin-stdlib-jdk8-2.3.0.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-stdlib/2.0.21/kotlin-stdlib-2.0.21.pom",
+    "sha512": "8b1f1ffcd1fdc8f71183f80fad469036a6bdfce169c5691484070259fc37d3eab7879e0658ef605e5609469a18c9c16f77f3123de1f0605153feff616985beb0",
+    "dest": "offline-repository/org/jetbrains/kotlin/kotlin-stdlib/2.0.21",
+    "dest-filename": "kotlin-stdlib-2.0.21.pom"
   },
   {
     "type": "file",
@@ -4765,6 +5234,13 @@
     "sha512": "5b16a209843c18a478a0a16dff83ae1c75eedbdeadc15a958d536a36631d4d39a9998e085c165a79ced8ad187f021e2f3cd4068856ca174db35657ef5a473c5a",
     "dest": "offline-repository/org/slf4j/slf4j-parent/2.0.17",
     "dest-filename": "slf4j-parent-2.0.17.pom"
+  },
+  {
+    "type": "file",
+    "url": "https://plugins.gradle.org/m2/org/slf4j/slf4j-simple/2.0.13/slf4j-simple-2.0.13.pom",
+    "sha512": "84257236a096c2ac22fa80cc423624fc46b297bb941693c0bacef6b3ec9bf236100e8ff993f4710d17aad600da98da4378cac79129633946aa06aa9ae12c777e",
+    "dest": "offline-repository/org/slf4j/slf4j-simple/2.0.13",
+    "dest-filename": "slf4j-simple-2.0.13.pom"
   },
   {
     "type": "file",
