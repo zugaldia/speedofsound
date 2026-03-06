@@ -1,7 +1,5 @@
-fs = import('fs')
-
 project('speedofsound',
-          version: fs.read('VERSION').strip(),
+          version: run_command('cat', 'VERSION', check: true).stdout().strip(),
     meson_version: '>= 1.0.0'
 )
 
