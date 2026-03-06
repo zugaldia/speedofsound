@@ -3,7 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.openai.models.ChatModel
 import com.zugaldia.speedofsound.core.models.text.TextModel
 
-val DEFAULT_LLM_OPENAI_MODEL_ID = ChatModel.GPT_5_2.asString()
+val DEFAULT_LLM_OPENAI_MODEL_ID = ChatModel.GPT_5_4.asString()
 
 val SUPPORTED_OPENAI_TEXT_MODELS = mapOf(
     ChatModel.GPT_5_4.asString() to TextModel(
