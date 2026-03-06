@@ -21,9 +21,9 @@ dictation from any application.
 | Shortcut      | Action                                                                                |
 |---------------|---------------------------------------------------------------------------------------|
 | `Super+Z`     | Start or stop dictation (global, configured in [Getting Started](getting-started.md)) |
-| `S`           | Start or stop listening (while the app window is focused)                             |
+| `Ctrl+S`      | Start or stop listening (while the app window is focused)                             |
 | `Escape`      | Cancel listening                                                                      |
-| `M`           | Minimize window                                                                       |
+| `Ctrl+M`      | Minimize window                                                                       |
 | `Left Shift`  | Select primary language                                                               |
 | `Right Shift` | Select secondary language                                                             |
 | `Ctrl+Q`      | Quit                                                                                  |
