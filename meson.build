@@ -1,5 +1,7 @@
+fs = import('fs')
+
 project('speedofsound',
-          version: '0.1.0',
+          version: fs.read('VERSION').strip(),
     meson_version: '>= 1.0.0'
 )
 
@@ -31,8 +33,9 @@ custom_target('gradle',
              install: true,
          install_dir: [ get_option('bindir'), get_option('prefix') / 'lib' ],
               output: [ app_name, 'speedofsound.jar' ],
-             command: [ gradle, '-p', gradle_dir ] + gradle_offline_args + [ 'installShadowDist',
-		                '&&', 'mv', gradle_install_dir / 'bin' / app_name, '@OUTPUT0@',
-		                '&&', 'mv', gradle_install_dir / 'lib' / 'speedofsound.jar', '@OUTPUT1@'
+             command: [ gradle, '-p', gradle_dir ] + gradle_offline_args +
+                      [ '-PreleaseVersion=' + meson.project_version(), 'installShadowDist',
+                        '&&', 'mv', gradle_install_dir / 'bin' / app_name, '@OUTPUT0@',
+                        '&&', 'mv', gradle_install_dir / 'lib' / 'speedofsound.jar', '@OUTPUT1@'
                       ]
 )

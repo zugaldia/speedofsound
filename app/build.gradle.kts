@@ -28,9 +28,9 @@ application {
     applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED") // See: https://java-gi.org/usage/#linux
 }
 
-// Determine the version: CI release tag > local property > dev fallback
+// Determine the version: CI release tag > VERSION file + dev suffix > fallback
 val appVersion = project.findProperty("releaseVersion") as String?
-    ?: project.findProperty("speedofsound.version") as String?
+    ?: rootProject.file("VERSION").let { if (it.exists()) "${it.readText().trim()}-dev" else null }
     ?: "0.0.0-dev"
 
 // Feature flags from properties
