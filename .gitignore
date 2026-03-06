@@ -42,9 +42,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### Project ###
-BACKLOG.md
-
 ### Flatpak ###
 .flatpak-builder/
 repo/
