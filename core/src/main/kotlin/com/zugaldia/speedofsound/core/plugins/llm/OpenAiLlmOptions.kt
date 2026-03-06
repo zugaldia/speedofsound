@@ -6,14 +6,14 @@ import com.zugaldia.speedofsound.core.models.text.TextModel
 val DEFAULT_LLM_OPENAI_MODEL_ID = ChatModel.GPT_5_2.asString()
 
 val SUPPORTED_OPENAI_TEXT_MODELS = mapOf(
+    ChatModel.GPT_5_4.asString() to TextModel(
+        id = ChatModel.GPT_5_4.asString(),
+        name = "GPT 5.4",
+        provider = LlmProvider.OPENAI
+    ),
     ChatModel.GPT_5_2_PRO.asString() to TextModel(
         id = ChatModel.GPT_5_2_PRO.asString(),
         name = "GPT 5.2 Pro",
-        provider = LlmProvider.OPENAI
-    ),
-    ChatModel.GPT_5_2.asString() to TextModel(
-        id = ChatModel.GPT_5_2.asString(),
-        name = "GPT 5.2",
         provider = LlmProvider.OPENAI
     ),
     ChatModel.GPT_5_1_MINI.asString() to TextModel(
