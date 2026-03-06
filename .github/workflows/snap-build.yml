@@ -1,0 +1,24 @@
+name: Snap Build
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+jobs:
+  snap:
+    name: "Snap"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: snapcore/action-build@v1

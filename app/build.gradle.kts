@@ -23,12 +23,12 @@ dependencies {
 }
 
 application {
-    // See: https://java-gi.org/usage/#linux
-    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
+    applicationName = "speedofsound"
     mainClass = "com.zugaldia.speedofsound.app.AppKt"
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED") // See: https://java-gi.org/usage/#linux
 }
 
-// Determine version: CI release tag > local property > dev fallback
+// Determine the version: CI release tag > local property > dev fallback
 val appVersion = project.findProperty("releaseVersion") as String?
     ?: project.findProperty("speedofsound.version") as String?
     ?: "0.0.0-dev"
@@ -50,6 +50,5 @@ tasks.shadowJar {
 
 tasks.flatpakGradleGenerator {
     outputFile = file("flatpak-sources.json")
-    downloadDirectory = "${rootProject.projectDir}/offline-repository"
-    excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
+    downloadDirectory = "offline-repository"
 }

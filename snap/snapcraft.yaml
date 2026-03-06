@@ -1,8 +1,13 @@
 name: speedofsound
-version: '0.1'
+adopt-info: speedofsound
 summary: Voice typing for the Linux desktop.
 description: |
   Voice typing for the Linux desktop.
+  - Offline, on-device transcription using Whisper. No data leaves your machine.
+  - Types the result directly into any focused application using Portals for wide desktop support (X11, Wayland).
+  - Works out of the box with the built-in multilingual Whisper Tiny model. Download additional models from within the app to improve accuracy.
+  - Optional text polishing with LLMs (Anthropic, Google, OpenAI), with support for custom context and vocabulary.
+  - Supports self-hosted services like vLLM, Ollama, and llama.cpp (cloud services supported but not required).
 
 base: core24
 grade: stable
@@ -33,25 +38,44 @@ parts:
       - libasound2 # See snap/asound.conf
       - libasound2-plugins
   speedofsound:
-    plugin: dump
+    plugin: meson
     source: .
     source-type: local
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+    build-packages:
+      - openjdk-25-jdk
+    build-environment:
+      - JAVA_HOME: /usr/lib/jvm/java-25-openjdk-amd64
+      - PATH: /usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
+    parse-info: [ usr/share/metainfo/io.speedofsound.App.metainfo.xml ]
+  alsa-conf:
+    plugin: dump
+    source: snap
     organize:
-      app/build/libs/speedofsound.jar: app/bin/speedofsound.jar
-      speedofsound.sh: bin/speedofsound
-      snap/asound.conf: etc/asound.conf
+      asound.conf: etc/asound.conf
     stage:
-      - app/bin/speedofsound.jar
-      - bin/speedofsound
       - etc/asound.conf
+slots:
+  speedofsound:
+    interface: dbus
+    bus: session
+    name: io.speedofsound.App
+
 apps:
   speedofsound:
     extensions: [ gnome ]
-    command: bin/speedofsound
+    command: usr/bin/speedofsound
+    common-id: io.speedofsound.App
+    desktop: usr/share/applications/io.speedofsound.App.desktop
+    slots:
+      - speedofsound
     plugs:
       - network       # Enables network access
       - audio-record  # Allows audio recording
       - alsa          # Java (javax.sound) uses ALSA
+      - gsettings     # GSettings access for GioStore
     environment:
       JAVA_HOME: $SNAP/usr/lib/jvm/java-25-openjdk-amd64
       PATH: $SNAP/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH

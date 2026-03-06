@@ -1,0 +1,31 @@
+name: Flatpak Build
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: io.speedofsound.App.yml
+          bundle: speedofsound.flatpak
+          cache-key: flatpak-builder-${{ github.sha }}

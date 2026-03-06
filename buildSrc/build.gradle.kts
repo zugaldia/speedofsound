@@ -3,13 +3,15 @@ plugins {
     // Convention plugins are located in `src/main/kotlin`, with the file extension `.gradle.kts`,
     // and are applied in the project's `build.gradle.kts` files as required.
     `kotlin-dsl`
-}
-
-kotlin {
-    jvmToolchain(22)
+    alias(libs.plugins.flatpakGradleGenerator)
 }
 
 dependencies {
     // Add a dependency on the Kotlin Gradle plugin, so that convention plugins can apply it.
     implementation(libs.kotlinGradlePlugin)
+}
+
+tasks.flatpakGradleGenerator {
+    outputFile = file("flatpak-sources.json")
+    downloadDirectory = "offline-repository"
 }
