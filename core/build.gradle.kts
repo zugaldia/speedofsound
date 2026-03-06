@@ -33,6 +33,5 @@ dependencies {
 
 tasks.flatpakGradleGenerator {
     outputFile = file("flatpak-sources.json")
-    downloadDirectory = "${rootProject.projectDir}/offline-repository"
-    excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
+    downloadDirectory = "offline-repository"
 }

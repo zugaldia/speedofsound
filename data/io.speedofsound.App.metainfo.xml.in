@@ -27,8 +27,10 @@
 
     <url type="homepage">https://www.speedofsound.io</url>
     <url type="faq">https://www.speedofsound.io/faq</url>
-    <url type="bugtracker">https://github.com/zugaldia/speedofsound/issues</url>
+    <url type="help">https://www.speedofsound.io/support</url>
     <url type="vcs-browser">https://github.com/zugaldia/speedofsound</url>
+    <url type="bugtracker">https://github.com/zugaldia/speedofsound/issues</url>
+    <url type="contribute">https://github.com/zugaldia/speedofsound/blob/main/README.md</url>
 
     <url type="contact">https://www.zugaldia.com</url>
     <developer id="com.zugaldia">
@@ -55,6 +57,7 @@
 
     <releases>
         <release version="0.6.0" date="2026-03-04">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.6.0</url>
             <description>
                 <p>
                     Added Gemini 3.1 Pro and Gemini Flash Lite as available cloud text models,
@@ -65,6 +68,7 @@
             </description>
         </release>
         <release version="0.5.0" date="2026-02-24">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.5.0</url>
             <description>
                 <p>
                     New Import/Export page in Preferences lets you back up your full configuration
@@ -75,6 +79,7 @@
             </description>
         </release>
         <release version="0.4.0" date="2026-02-23">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.4.0</url>
             <description>
                 <p>
                     Fixed two crashes: one on startup caused by a threading issue in the main view,
@@ -86,6 +91,7 @@
             </description>
         </release>
         <release version="0.3.0" date="2026-02-22">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.3.0</url>
             <description>
                 <p>
                     Lowered the minimum required JDK from 25 to 22, making the app easier to run on
@@ -94,6 +100,7 @@
             </description>
         </release>
         <release version="0.2.0" date="2026-02-22">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.2.0</url>
             <description>
                 <p>
                     Fixed a crash on fresh installations where no ASR model had been configured yet.
@@ -104,6 +111,7 @@
             </description>
         </release>
         <release version="0.1.0" date="2026-02-22">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.1.0</url>
             <description>
                 <p>
                     First release of Speed of Sound. Captures microphone audio, transcribes it

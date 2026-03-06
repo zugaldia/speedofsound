@@ -67,7 +67,7 @@ class StatusWidget(
         menu.appendSection(null, quitSection)
 
         val menuButton = MenuButton()
-        menuButton.iconName = "settings-symbolic"
+        menuButton.iconName = "preferences-system-symbolic"
         menuButton.hexpand = true
         menuButton.halign = Align.END
         menuButton.cssClasses = arrayOf("flat")

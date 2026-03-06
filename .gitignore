@@ -39,11 +39,12 @@ bin/
 ### VS Code ###
 .vscode/
 
+### Claude Code ###
+.claude/*
+!.claude/skills/
+
 ### Mac OS ###
 .DS_Store
-
-### Project ###
-BACKLOG.md
 
 ### Flatpak ###
 .flatpak-builder/

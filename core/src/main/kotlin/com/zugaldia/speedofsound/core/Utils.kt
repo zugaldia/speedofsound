@@ -90,6 +90,32 @@ fun generateTmpWavFilePath(): Path {
 }
 
 /**
+ * Represents the runtime environment in which the application is running.
+ */
+enum class RuntimeEnvironment(val label: String) {
+    FLATPAK("Flatpak"),
+    SNAP("Snap"),
+    JVM("JVM"),
+}
+
+/**
+ * Detects the runtime environment (Flatpak, Snap, or regular JVM Linux).
+ */
+fun getRuntimeEnvironment(): RuntimeEnvironment {
+    // https://snapcraft.io/docs/reference/development/environment-variables/
+    val isSnap = !System.getenv("SNAP_NAME").isNullOrEmpty()
+
+    // https://docs.flatpak.org/en/latest/flatpak-command-reference.html
+    val isFlatpak = !System.getenv("FLATPAK_ID").isNullOrEmpty()
+
+    return when {
+        isSnap -> RuntimeEnvironment.SNAP
+        isFlatpak -> RuntimeEnvironment.FLATPAK
+        else -> RuntimeEnvironment.JVM
+    }
+}
+
+/**
  * Validates if a string is a valid URL.
  *
  * @param url the URL string to validate

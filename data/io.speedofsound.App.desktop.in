@@ -9,3 +9,4 @@ Icon=io.speedofsound.App
 Exec=speedofsound
 Terminal=false
 StartupNotify=true
+DBusActivatable=true
