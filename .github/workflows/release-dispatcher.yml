@@ -50,6 +50,8 @@ jobs:
   release-github:
     needs: check-release
     if: needs.check-release.outputs.new_release == 'true'
+    permissions:
+      contents: write
     uses: ./.github/workflows/release-github.yml
     with:
       version: ${{ needs.check-release.outputs.version }}
