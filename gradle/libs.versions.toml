@@ -3,6 +3,9 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
+#
+# IMPORTANT: After updating any dependency version, regenerate the Flatpak sources files with `make flatpak-sources`
+#
 anthropic = "2.15.0"
 buildconfig = "6.0.8"
 clikt = "5.1.0"
