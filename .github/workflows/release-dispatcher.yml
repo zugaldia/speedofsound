@@ -1,0 +1,56 @@
+name: Release Dispatcher
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  check-release:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.detect.outputs.version }}
+      channel: ${{ steps.detect.outputs.channel }}
+      new_release: ${{ steps.detect.outputs.new_release }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history needed to check if the version tag already exists
+      - name: Detect version and check for existing tag
+        id: detect
+        run: |
+          # Determine channel from version string
+          VERSION=$(cat VERSION | tr -d '[:space:]')
+          if [[ "$VERSION" == *"alpha"* ]]; then
+            CHANNEL="alpha"
+          elif [[ "$VERSION" == *"beta"* ]]; then
+            CHANNEL="beta"
+          else
+            CHANNEL="stable"
+          fi
+
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "channel=${CHANNEL}" >> $GITHUB_OUTPUT
+
+          # Check if tag already exists
+          TAG="v${VERSION}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping release."
+            echo "new_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $TAG does not exist, creating it."
+            git tag "$TAG"
+            git push origin "$TAG"
+            echo "new_release=true" >> $GITHUB_OUTPUT
+          fi
+
+  release-github:
+    needs: check-release
+    if: needs.check-release.outputs.new_release == 'true'
+    uses: ./.github/workflows/release-github.yml
+    with:
+      version: ${{ needs.check-release.outputs.version }}
+      channel: ${{ needs.check-release.outputs.channel }}

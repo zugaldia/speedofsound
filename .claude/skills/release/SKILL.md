@@ -8,12 +8,18 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git *), Bash(gh *)
 
 Create a new release for Speed of Sound version $ARGUMENTS.
 
+Release channels:
+- **alpha** (e.g. `1.2.3-alpha.1`): GitHub pre-release only.
+- **beta** (e.g. `1.2.3-beta.1`): GitHub pre-release + Snapcraft/Flathub beta channels.
+- **stable** (e.g. `1.2.3`): GitHub release + Snapcraft/Flathub stable channels.
+
 Follow these steps exactly:
 
 ## 1. Validate input
 
 Confirm the version argument looks like `X.Y.Z` (semantic version, no leading `v`).
-If not provided or invalid, stop and ask the user for the correct version.
+Pre-release versions following the SemVer structure are also allowed, e.g. `X.Y.Z-alpha.N` or
+`X.Y.Z-beta.N`. If not provided or invalid, stop and ask the user for the correct version.
 
 Set `RELEASE_VERSION` = `$ARGUMENTS`.
 
@@ -33,7 +39,7 @@ git checkout -b release/v$ARGUMENTS
 
 To build the release notes:
 
-   1. Find the most recent release tag: `git describe --tags --abbrev=0`
+1. Find the most recent release tag: `git describe --tags --abbrev=0`
 2. Get the tag date and list PRs merged since then:
    ```bash
    TAG_DATE=$(git for-each-ref --format='%(creatordate:short)' refs/tags/<previous-tag>)
@@ -73,16 +79,15 @@ gh pr create \
   --body "Release v$ARGUMENTS
 
 - Updates \`VERSION\` to \`$ARGUMENTS\`
-- Adds release notes to \`metainfo.xml.in\`
-
-After merging, the \`tag-release\` workflow will automatically create and push the \`v$ARGUMENTS\` tag,
-triggering the CI release build."
+- Adds release notes to \`metainfo.xml.in\`"
 ```
 
-## 6. Post-merge steps (remind the user)
+## 6. Post-merge
 
-After the PR is merged, the `tag-release` workflow will automatically create
-and push the `v$ARGUMENTS` tag, which triggers the release build.
+Once the PR is merged to `main`, the `release-dispatcher` workflow runs automatically. It reads the `VERSION` file,
+creates the `v$ARGUMENTS` tag if it doesn't already exist, and triggers the `release-*` workflows to build and
+publish the releases. If the version contains `alpha` or `beta`, the GitHub release is automatically marked as a
+pre-release.
 
 Remind the user to:
 1. Monitor the workflows at: https://github.com/zugaldia/speedofsound/actions
