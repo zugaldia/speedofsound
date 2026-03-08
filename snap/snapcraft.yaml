@@ -49,7 +49,7 @@ parts:
     build-environment:
       - JAVA_HOME: /usr/lib/jvm/java-25-openjdk-amd64
       - PATH: /usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
-    parse-info: [ usr/share/metainfo/io.speedofsound.App.metainfo.xml ]
+    parse-info: [ usr/share/metainfo/io.speedofsound.SpeedOfSound.metainfo.xml ]
   alsa-conf:
     plugin: dump
     source: snap
@@ -61,14 +61,14 @@ slots:
   speedofsound:
     interface: dbus
     bus: session
-    name: io.speedofsound.App
+    name: io.speedofsound.SpeedOfSound
 
 apps:
   speedofsound:
     extensions: [ gnome ]
     command: usr/bin/speedofsound
-    common-id: io.speedofsound.App
-    desktop: usr/share/applications/io.speedofsound.App.desktop
+    common-id: io.speedofsound.SpeedOfSound
+    desktop: usr/share/applications/io.speedofsound.SpeedOfSound.desktop
     slots:
       - speedofsound
     plugs:

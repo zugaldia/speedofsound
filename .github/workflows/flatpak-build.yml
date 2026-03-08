@@ -26,6 +26,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          manifest-path: io.speedofsound.App.yml
+          manifest-path: io.speedofsound.SpeedOfSound.yml
           bundle: speedofsound.flatpak
           cache-key: flatpak-builder-${{ github.sha }}

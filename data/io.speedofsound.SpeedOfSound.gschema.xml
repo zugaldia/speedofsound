@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="speedofsound">
-  <schema id="io.speedofsound.App" path="/io/speedofsound/App/">
+  <schema id="io.speedofsound.SpeedOfSound" path="/io/speedofsound/SpeedOfSound/">
 
     <key name="portals-restore-token" type="s">
       <default>''</default>

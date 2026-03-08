@@ -62,7 +62,7 @@ Desktop Portal via Stargate.
 - **JVM flag required:** `--enable-native-access=ALL-UNNAMED` (for java-gi native bindings)
 - Sherpa ONNX JARs are local in `core/libs/` (x64 + aarch64, version 1.12.23)
 - ASR models stored in `$XDG_DATA_HOME/speedofsound/models/` (or `~/.local/share/speedofsound/models/`)
-- Application ID: `io.speedofsound.App`
+- Application ID: `io.speedofsound.SpeedOfSound`
 
 ## Conventions
 

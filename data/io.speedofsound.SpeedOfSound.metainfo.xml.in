@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2026 Antonio Zugaldia -->
 <component type="desktop-application">
-    <id>io.speedofsound.App</id>
+    <id>io.speedofsound.SpeedOfSound</id>
     <name>Speed of Sound</name>
     <summary>Voice typing for the Linux desktop</summary>
     <metadata_license>MIT</metadata_license>
@@ -38,7 +38,7 @@
     </developer>
 
     <content_rating type="oars-1.1" />
-    <launchable type="desktop-id">io.speedofsound.App.desktop</launchable>
+    <launchable type="desktop-id">io.speedofsound.SpeedOfSound.desktop</launchable>
 
     <screenshots>
         <screenshot type="default">

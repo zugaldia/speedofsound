@@ -1,7 +1,7 @@
 package com.zugaldia.speedofsound.core
 
 const val APPLICATION_NAME = "Speed of Sound"
-const val APPLICATION_ID = "io.speedofsound.App"
+const val APPLICATION_ID = "io.speedofsound.SpeedOfSound"
 const val APPLICATION_SHORT = "speedofsound"
 
 const val ANTHROPIC_ENVIRONMENT_VARIABLE = "ANTHROPIC_API_KEY"

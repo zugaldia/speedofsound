@@ -5,9 +5,9 @@ package com.zugaldia.speedofsound.app.settings
  *
  * It can be managed from the CLI. Examples:
  *
- * gsettings list-keys io.speedofsound.App
- * gsettings get io.speedofsound.App language
- * gsettings set io.speedofsound.App language en
+ * gsettings list-keys io.speedofsound.SpeedOfSound
+ * gsettings get io.speedofsound.SpeedOfSound language
+ * gsettings set io.speedofsound.SpeedOfSound language en
  *
  */
 
@@ -38,7 +38,7 @@ class GioStore(val schemaId: String = APPLICATION_ID): SettingsStore {
         if (settingsSchema?.hasKey(key) != true) {
             // We throw the exception ourselves because otherwise the GLib-GIO-ERROR
             // is not caught and crashes the app. Example:
-            // GLib-GIO-ERROR **: Settings schema 'io.speedofsound.App' does not contain a key named 'x'
+            // GLib-GIO-ERROR **: Settings schema 'io.speedofsound.SpeedOfSound' does not contain a key named 'x'
             throw IllegalArgumentException("Schema ($schemaId) or key ($key) not found")
         }
     }

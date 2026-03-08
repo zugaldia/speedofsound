@@ -1,4 +1,4 @@
-application_id = 'io.speedofsound.App'
+application_id = 'io.speedofsound.SpeedOfSound'
 
 scalable_dir = 'hicolor' / 'scalable' / 'apps'
 install_data(
