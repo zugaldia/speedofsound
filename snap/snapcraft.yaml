@@ -73,8 +73,9 @@ apps:
       - speedofsound
     plugs:
       - network       # Enables network access
-      - audio-record  # Allows audio recording
-      - alsa          # Java (javax.sound) uses ALSA
+      - audio-record   # Allows audio recording (microphone)
+      - audio-playback # Required alongside audio-record by Snap Store policy
+      - alsa           # Java (javax.sound) uses ALSA
       - gsettings     # GSettings access for GioStore
     environment:
       JAVA_HOME: $SNAP/usr/lib/jvm/java-25-openjdk-amd64
