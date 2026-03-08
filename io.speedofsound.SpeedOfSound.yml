@@ -28,8 +28,6 @@ modules:
     build-options:
       append-path: "/usr/lib/sdk/openjdk25/gradle/bin:/usr/lib/sdk/openjdk25/jvm/openjdk-25/bin"
     sources:
-      - type: dir
-        path: .
       - buildSrc/flatpak-sources.json
       - core/flatpak-sources.json
       - app/flatpak-sources.json
