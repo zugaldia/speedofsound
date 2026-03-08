@@ -35,7 +35,7 @@ git checkout -b release/v$ARGUMENTS
 **a. `VERSION`** — set contents to exactly `RELEASE_VERSION` with a trailing newline.
 (`meson.build` and `build.gradle.kts` both read from this file automatically.)
 
-**b. `data/io.speedofsound.App.metainfo.xml.in`** — add a new `<release>` entry inside `<releases>`.
+**b. `data/io.speedofsound.SpeedOfSound.metainfo.xml.in`** — add a new `<release>` entry inside `<releases>`.
 
 To build the release notes:
 
@@ -65,7 +65,7 @@ The entry must follow this exact format (see existing entries for reference):
 ## 4. Stage and commit
 
 ```bash
-git add VERSION data/io.speedofsound.App.metainfo.xml.in
+git add VERSION data/io.speedofsound.SpeedOfSound.metainfo.xml.in
 git commit -m "chore: release v$ARGUMENTS"
 git push origin release/v$ARGUMENTS
 ```

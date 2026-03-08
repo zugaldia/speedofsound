@@ -1,4 +1,4 @@
-APP_ID = io.speedofsound.App
+APP_ID = io.speedofsound.SpeedOfSound
 export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
 .PHONY: clean run run-light run-dark build shadow-build shadow-run check \
