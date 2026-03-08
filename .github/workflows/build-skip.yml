@@ -1,0 +1,16 @@
+name: Build (skip)
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Build skipped for docs-only changes"
