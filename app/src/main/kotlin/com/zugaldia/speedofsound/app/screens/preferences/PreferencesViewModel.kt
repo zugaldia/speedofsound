@@ -79,4 +79,14 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
 
     fun getCustomVocabulary(): List<String> = settingsClient.getCustomVocabulary()
     fun setCustomVocabulary(value: List<String>): Boolean = settingsClient.setCustomVocabulary(value)
+
+    /*
+     * Advanced page
+     */
+
+    fun getPostHideDelayMs(): Int = settingsClient.getPostHideDelayMs()
+    fun setPostHideDelayMs(value: Int): Boolean = settingsClient.setPostHideDelayMs(value)
+
+    fun getTypingDelayMs(): Int = settingsClient.getTypingDelayMs()
+    fun setTypingDelayMs(value: Int): Boolean = settingsClient.setTypingDelayMs(value)
 }

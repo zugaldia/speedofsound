@@ -90,4 +90,20 @@ class GioStore(val schemaId: String = APPLICATION_ID): SettingsStore {
         logger.error("Error setting boolean value ($key -> $value): ${e.message}")
         false
     }
+
+    override fun getInt(key: String, defaultValue: Int): Int = try {
+        ensureKeyExists(key)
+        settings?.getInt(key) ?: defaultValue
+    } catch (e: IllegalArgumentException) {
+        logger.error("Error getting int setting ($key), using default ($defaultValue): ${e.message}")
+        defaultValue
+    }
+
+    override fun setInt(key: String, value: Int): Boolean = try {
+        ensureKeyExists(key)
+        settings?.setInt(key, value) ?: false
+    } catch (e: IllegalArgumentException) {
+        logger.error("Error setting int value ($key -> $value): ${e.message}")
+        false
+    }
 }

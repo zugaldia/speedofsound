@@ -8,4 +8,6 @@ interface SettingsStore {
     fun setStringArray(key: String, value: List<String>): Boolean
     fun getBoolean(key: String, defaultValue: Boolean): Boolean
     fun setBoolean(key: String, value: Boolean): Boolean
+    fun getInt(key: String, defaultValue: Int): Int
+    fun setInt(key: String, value: Int): Boolean
 }

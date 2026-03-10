@@ -24,12 +24,12 @@ class PortalsClient {
             persistMode = PersistMode.UNTIL_REVOKED
         )
 
-    suspend fun typeText(text: List<Int>, delayMs: Long = 10L) {
+    suspend fun typeText(text: List<Int>, delayMs: Long) {
         logger.info("Typing ${text.size} characters.")
         for (key in text) {
             portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.PRESSED)
             portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.RELEASED)
-            delay(delayMs)
+            if (delayMs > 0) delay(delayMs)
         }
     }
 }

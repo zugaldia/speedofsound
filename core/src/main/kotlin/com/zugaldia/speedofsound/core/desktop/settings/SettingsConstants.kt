@@ -46,6 +46,14 @@ const val DEFAULT_TEXT_MODEL_PROVIDERS = "[]"
 const val KEY_SELECTED_TEXT_MODEL_PROVIDER_ID = "selected-text-model-provider-id"
 const val DEFAULT_SELECTED_TEXT_MODEL_PROVIDER_ID = ""
 
+// Advanced page
+
+const val KEY_POST_HIDE_DELAY_MS = "post-hide-delay-ms"
+const val DEFAULT_POST_HIDE_DELAY_MS = 100
+
+const val KEY_TYPING_DELAY_MS = "typing-delay-ms"
+const val DEFAULT_TYPING_DELAY_MS = 10
+
 // Personalization page
 
 const val KEY_CUSTOM_CONTEXT = "custom-context"

@@ -29,7 +29,6 @@ const val DEFAULT_TEXT_VIEW_HEIGHT = 200
 const val DEFAULT_MARGIN = 10
 const val DEFAULT_BOX_SPACING = 10
 
-const val POST_HIDE_DELAY_MS = 100L
 const val SETTINGS_SAVE_DEBOUNCE_MS = 500
 
 // Adw CSS style classes

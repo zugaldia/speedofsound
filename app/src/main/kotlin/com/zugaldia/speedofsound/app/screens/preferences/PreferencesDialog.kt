@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.preferences
 
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
+import com.zugaldia.speedofsound.app.screens.preferences.advanced.AdvancedPage
 import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
 import com.zugaldia.speedofsound.app.screens.preferences.general.GeneralPage
 import com.zugaldia.speedofsound.app.screens.preferences.importexport.ImportExportPage
@@ -34,6 +35,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
     private val modelLibraryPage: ModelLibraryPage
     private val personalizationPage: PersonalizationPage
     private val importExportPage: ImportExportPage
+    private val advancedPage: AdvancedPage
 
     init {
         title = "Preferences"
@@ -51,6 +53,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         personalizationPage = PersonalizationPage(viewModel)
         importExportPage = ImportExportPage(viewModel) { refreshAllPages() }
+        advancedPage = AdvancedPage(viewModel)
 
         stack = Stack().apply {
             hexpand = true
@@ -61,6 +64,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
             addTitled(voiceModelsPage, "voice_models", "Voice Models")
             addTitled(textModelsPage, "text_models", "Text Models")
             addTitled(personalizationPage, "personalization", "Personalization")
+            addTitled(advancedPage, "advanced", "Advanced")
             addTitled(importExportPage, "import_export", "Import / Export")
 
             // This is to make sure the voice models page includes any models the user just downloaded

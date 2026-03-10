@@ -71,6 +71,14 @@ class PropertiesStore(filename: String = DEFAULT_PROPERTIES_FILENAME) : Settings
         return save()
     }
 
+    override fun getInt(key: String, defaultValue: Int): Int =
+        properties.getProperty(key)?.toIntOrNull() ?: defaultValue
+
+    override fun setInt(key: String, value: Int): Boolean {
+        properties.setProperty(key, value.toString())
+        return save()
+    }
+
     companion object {
         private const val ARRAY_DELIMITER = "|||"
     }

@@ -255,4 +255,24 @@ class SettingsClient(val settingsStore: SettingsStore) {
         settingsStore.setStringArray(KEY_CUSTOM_VOCABULARY, value).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_CUSTOM_VOCABULARY)
         }
+
+    /*
+     * Advanced page
+     */
+
+    fun getPostHideDelayMs(): Int =
+        settingsStore.getInt(KEY_POST_HIDE_DELAY_MS, DEFAULT_POST_HIDE_DELAY_MS)
+
+    fun setPostHideDelayMs(value: Int): Boolean =
+        settingsStore.setInt(KEY_POST_HIDE_DELAY_MS, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_POST_HIDE_DELAY_MS)
+        }
+
+    fun getTypingDelayMs(): Int =
+        settingsStore.getInt(KEY_TYPING_DELAY_MS, DEFAULT_TYPING_DELAY_MS)
+
+    fun setTypingDelayMs(value: Int): Boolean =
+        settingsStore.setInt(KEY_TYPING_DELAY_MS, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_TYPING_DELAY_MS)
+        }
 }
