@@ -117,6 +117,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_SECONDARY_LANGUAGE)
         }
 
+    fun getAppendSpace(): Boolean =
+        settingsStore.getBoolean(KEY_APPEND_SPACE, DEFAULT_APPEND_SPACE)
+
+    fun setAppendSpace(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_APPEND_SPACE, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_APPEND_SPACE)
+        }
+
     /*
      * Cloud Credentials page
      */

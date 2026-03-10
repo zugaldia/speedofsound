@@ -20,6 +20,11 @@
       <summary>Secondary language</summary>
       <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
     </key>
+    <key name="append-space" type="b">
+      <default>false</default>
+      <summary>Append space after transcription</summary>
+      <description>When enabled, a space character is appended after each transcription output.</description>
+    </key>
 
     <!-- Cloud Credentials page -->
 

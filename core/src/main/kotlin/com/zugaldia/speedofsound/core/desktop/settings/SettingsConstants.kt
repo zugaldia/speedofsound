@@ -18,6 +18,9 @@ val DEFAULT_LANGUAGE = Language.ENGLISH
 const val KEY_SECONDARY_LANGUAGE = "secondary-language"
 val DEFAULT_SECONDARY_LANGUAGE = Language.SPANISH
 
+const val KEY_APPEND_SPACE = "append-space"
+const val DEFAULT_APPEND_SPACE = false
+
 // Cloud Credentials page
 
 const val KEY_CREDENTIALS = "credentials"
