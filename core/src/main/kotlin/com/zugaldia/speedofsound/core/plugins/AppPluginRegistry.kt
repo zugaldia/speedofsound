@@ -24,6 +24,7 @@ class AppPluginRegistry {
      * Sets a specific plugin as active for a given category by its ID.
      * Disables the currently active plugin (if any) and enables the new one.
      */
+    @Synchronized
     fun setActiveById(category: AppPluginCategory, pluginId: String) {
         if (activePlugins[category] == pluginId) {
             log.info("Plugin $pluginId is already active for category $category, skipping")
@@ -59,6 +60,7 @@ class AppPluginRegistry {
      * Gets the currently active plugin for a given category.
      * Returns null if no plugin is active for this category.
      */
+    @Synchronized
     fun getActive(category: AppPluginCategory): AppPlugin<*>? {
         val activeId = activePlugins[category] ?: return null
         return getPluginById(category, activeId)

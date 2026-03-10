@@ -43,7 +43,7 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
             AppStage.POLISHING -> "${polishingMessages.random()}..."
         }
 
-        val shouldPulsate = stage in listOf(AppStage.TRANSCRIBING, AppStage.POLISHING)
+        val shouldPulsate = stage in listOf(AppStage.LOADING, AppStage.TRANSCRIBING, AppStage.POLISHING)
         setPulsating(shouldPulsate)
         if (!shouldPulsate) setRecordingLevel(0.0)
     }
