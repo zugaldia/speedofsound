@@ -60,6 +60,19 @@
       <description>The ID of the currently selected text model provider for text processing.</description>
     </key>
 
+    <!-- Personalization page -->
+
+    <key name="custom-context" type="s">
+      <default>''</default>
+      <summary>Custom LLM context</summary>
+      <description>Optionally share details like job, location, or writing style to help improve transcriptions.</description>
+    </key>
+    <key name="custom-vocabulary" type="as">
+      <default>[]</default>
+      <summary>Custom vocabulary entries</summary>
+      <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
+    </key>
+
     <!-- Advanced page -->
 
     <key name="post-hide-delay-ms" type="i">
@@ -72,20 +85,7 @@
       <range min="0" max="100"/>
       <default>10</default>
       <summary>Typing delay (ms)</summary>
-      <description>Delay in milliseconds between each virtual keyboard keystroke. Set to 0 to disable. Increase this if characters are dropped or appear out of order.</description>
-    </key>
-
-    <!-- Personalization page -->
-
-    <key name="custom-context" type="s">
-      <default>''</default>
-      <summary>Custom LLM context</summary>
-      <description>Optionally share details like job, location, or writing style to help improve transcriptions.</description>
-    </key>
-    <key name="custom-vocabulary" type="as">
-      <default>[]</default>
-      <summary>Custom vocabulary entries</summary>
-      <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
+      <description>Delay in milliseconds between each virtual keyboard keystroke. Set to 0 to disable. Increase this if characters are dropped or appear out of order or like a slower typing effect.</description>
     </key>
 
   </schema>

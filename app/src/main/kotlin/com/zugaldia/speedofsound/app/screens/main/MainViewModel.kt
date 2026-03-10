@@ -273,6 +273,7 @@ class MainViewModel(
         hideAndReset()
         if (event.finalResult.isBlank()) return
         viewModelScope.launch {
+            // Wait for the main window to go away before typing
             val postHideDelayMs = settingsClient.getPostHideDelayMs()
             if (postHideDelayMs > 0) delay(postHideDelayMs.toLong())
             val finalText = event.finalResult.trim() + " " // Separate multiple results with a space

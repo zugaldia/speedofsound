@@ -26,9 +26,9 @@ class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPag
 
         typingDelayRow = SpinRow.withRange(TYPING_DELAY_MIN, TYPING_DELAY_MAX, STEP).apply {
             title = "Typing Delay (ms)"
-            subtitle = "Delay between each virtual keystroke. Set to 0 to disable. " +
-                    "Increase this if characters are dropped or out of order " +
-                    "(or you like a slower typing effect)."
+            subtitle = "Delay between each keystroke. Set to 0 to disable. " +
+                    "Increase this if characters are dropped, out of order, " +
+                    "or like a slower typing effect."
             digits = 0
             value = viewModel.getTypingDelayMs().toDouble()
             onNotify("value") {
@@ -38,7 +38,7 @@ class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPag
 
         val group = PreferencesGroup().apply {
             title = "Typing"
-            description = "Settings on this page control low-level typing behavior. " +
+            description = "Settings on this section control low-level typing behavior. " +
                     "The defaults are safe for most desktop environments and generally do not need to be changed."
             add(postHideDelayRow)
             add(typingDelayRow)

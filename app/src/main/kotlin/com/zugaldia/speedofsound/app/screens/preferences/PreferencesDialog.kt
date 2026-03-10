@@ -21,21 +21,22 @@ import org.gnome.gtk.Stack
 import org.gnome.gtk.StackSidebar
 import org.slf4j.LoggerFactory
 
-class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
+class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
     private val logger = LoggerFactory.getLogger(PreferencesDialog::class.java)
     private val viewModel = PreferencesViewModel(settingsClient)
 
     private val operationsBanner: Banner
     private val stack: Stack
     private val sidebar: StackSidebar
+
     private val generalPage: GeneralPage
+    private val modelLibraryPage: ModelLibraryPage
     private val cloudCredentialsPage: CloudCredentialsPage
     private val voiceModelsPage: VoiceModelsPage
     private val textModelsPage: TextModelsPage
-    private val modelLibraryPage: ModelLibraryPage
     private val personalizationPage: PersonalizationPage
-    private val importExportPage: ImportExportPage
     private val advancedPage: AdvancedPage
+    private val importExportPage: ImportExportPage
 
     init {
         title = "Preferences"
@@ -47,13 +48,13 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         }
 
         generalPage = GeneralPage(viewModel)
+        modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         cloudCredentialsPage = CloudCredentialsPage(viewModel)
         voiceModelsPage = VoiceModelsPage(viewModel)
         textModelsPage = TextModelsPage(viewModel)
-        modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         personalizationPage = PersonalizationPage(viewModel)
-        importExportPage = ImportExportPage(viewModel) { refreshAllPages() }
         advancedPage = AdvancedPage(viewModel)
+        importExportPage = ImportExportPage(viewModel) { refreshAllPages() }
 
         stack = Stack().apply {
             hexpand = true
@@ -106,8 +107,8 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         }
 
         onClosed {
-            personalizationPage.forceSaveInstructions()
             modelLibraryPage.shutdown()
+            personalizationPage.forceSaveInstructions()
             importExportPage.shutdown()
         }
     }
