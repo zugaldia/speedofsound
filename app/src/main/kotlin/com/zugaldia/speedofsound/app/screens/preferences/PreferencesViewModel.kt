@@ -25,6 +25,9 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
      * General page
      */
 
+    fun getBackgroundRecording(): Boolean = settingsClient.getBackgroundRecording()
+    fun setBackgroundRecording(value: Boolean): Boolean = settingsClient.setBackgroundRecording(value)
+
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)
 

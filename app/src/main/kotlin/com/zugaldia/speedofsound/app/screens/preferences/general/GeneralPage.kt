@@ -6,6 +6,7 @@ import org.gnome.adw.PreferencesPage
 import org.gnome.adw.SwitchRow
 
 class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
+    private val backgroundRecordingRow: SwitchRow
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
     private val appendSpaceRow: SwitchRow
@@ -13,6 +14,17 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     init {
         title = "General"
         iconName = "preferences-system-symbolic"
+
+        backgroundRecordingRow = SwitchRow().apply {
+            title = "Record in background"
+            subtitle = "Keep the main window hidden while listening."
+            active = viewModel.getBackgroundRecording()
+        }
+
+        val behaviorGroup = PreferencesGroup().apply {
+            title = "App Behavior"
+            add(backgroundRecordingRow)
+        }
 
         primaryComboRow = LanguageComboRow(
             rowTitle = "Primary Language",
@@ -47,16 +59,19 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             add(appendSpaceRow)
         }
 
+        add(behaviorGroup)
         add(languageGroup)
         add(outputGroup)
 
         // Set up notifications after all widgets are initialized
+        backgroundRecordingRow.onNotify("active") { viewModel.setBackgroundRecording(backgroundRecordingRow.active) }
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
         appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
     }
 
     fun refresh() {
+        backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
         appendSpaceRow.active = viewModel.getAppendSpace()

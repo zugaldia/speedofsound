@@ -60,7 +60,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
         onActivate {
             logger.info("Application activated.")
-            if (mainWindow == null) { mainWindow = MainWindow(this, mainViewModel, settingsClient) }
+            ensureMainWindow()
             mainWindow?.present()
         }
 
@@ -86,13 +86,20 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
         }
     }
 
+    private fun ensureMainWindow() {
+        if (mainWindow == null) {
+            mainWindow = MainWindow(this, mainViewModel, settingsClient)
+        }
+    }
+
     /**
      * Registers the trigger action to handle D-Bus calls from scripts/trigger.sh
      */
     private fun registerTriggerAction() {
         val triggerAction = SimpleAction(TRIGGER_ACTION, null)
         triggerAction.onActivate {
-            activate() // Make sure the MainWindow is ready
+            ensureMainWindow()
+            if (!settingsClient.getBackgroundRecording()) mainWindow?.present()
             mainWindow?.let { mainViewModel.onTriggerAction() }
         }
 

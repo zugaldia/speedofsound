@@ -42,9 +42,12 @@ configuration to personalization and backup.
 ![Preferences](assets/screenshots/preferences-light.png#only-light)
 ![Preferences](assets/screenshots/preferences-dark.png#only-dark)
 
-**General** — Set the primary language used for speech recognition. You can optionally configure a secondary language
-and switch between the two using the Left Shift and Right Shift keys while the main window is focused.
-The **Output** section lets you configure how transcription results are delivered. Here you can enable
+**General** — The **App Behavior** section lets you configure how shortcut-triggered sessions behave. Enable
+**Record in background** to keep the main window hidden during recordings. In this case, the pipeline runs
+entirely in the background. You can still access the window at any time from the dock.
+Set the primary language used for speech recognition in the **Language** section. You can optionally configure
+a secondary language and switch between the two using the `Left Shift` and `Right Shift` keys while the main window
+is focused. The **Output** section lets you configure how transcription results are delivered. Here you can enable
 **Append space after transcription** to automatically insert a trailing space after each result, which is useful
 when dictating consecutive sentences independently.
 
