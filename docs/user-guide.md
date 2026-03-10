@@ -69,4 +69,6 @@ and formatting. You can add one or more providers and choose which one is active
 information about your writing style and add custom vocabulary entries such as names, technical terms, or
 acronyms that the model should recognize.
 
+**Advanced** — Fine-tune low-level typing behavior. You can adjust the delay between hiding the main window and issuing keystrokes, as well as the delay between individual keystrokes. The defaults work well for most desktop environments and do not normally need to be changed.
+
 **Import / Export** — Back up your preferences to a file, useful to set up Speed of Sound on a different machine.

@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.preferences
 
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
+import com.zugaldia.speedofsound.app.screens.preferences.advanced.AdvancedPage
 import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
 import com.zugaldia.speedofsound.app.screens.preferences.general.GeneralPage
 import com.zugaldia.speedofsound.app.screens.preferences.importexport.ImportExportPage
@@ -20,19 +21,21 @@ import org.gnome.gtk.Stack
 import org.gnome.gtk.StackSidebar
 import org.slf4j.LoggerFactory
 
-class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
+class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
     private val logger = LoggerFactory.getLogger(PreferencesDialog::class.java)
     private val viewModel = PreferencesViewModel(settingsClient)
 
     private val operationsBanner: Banner
     private val stack: Stack
     private val sidebar: StackSidebar
+
     private val generalPage: GeneralPage
+    private val modelLibraryPage: ModelLibraryPage
     private val cloudCredentialsPage: CloudCredentialsPage
     private val voiceModelsPage: VoiceModelsPage
     private val textModelsPage: TextModelsPage
-    private val modelLibraryPage: ModelLibraryPage
     private val personalizationPage: PersonalizationPage
+    private val advancedPage: AdvancedPage
     private val importExportPage: ImportExportPage
 
     init {
@@ -45,11 +48,12 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         }
 
         generalPage = GeneralPage(viewModel)
+        modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         cloudCredentialsPage = CloudCredentialsPage(viewModel)
         voiceModelsPage = VoiceModelsPage(viewModel)
         textModelsPage = TextModelsPage(viewModel)
-        modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         personalizationPage = PersonalizationPage(viewModel)
+        advancedPage = AdvancedPage(viewModel)
         importExportPage = ImportExportPage(viewModel) { refreshAllPages() }
 
         stack = Stack().apply {
@@ -61,6 +65,7 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
             addTitled(voiceModelsPage, "voice_models", "Voice Models")
             addTitled(textModelsPage, "text_models", "Text Models")
             addTitled(personalizationPage, "personalization", "Personalization")
+            addTitled(advancedPage, "advanced", "Advanced")
             addTitled(importExportPage, "import_export", "Import / Export")
 
             // This is to make sure the voice models page includes any models the user just downloaded
@@ -102,8 +107,8 @@ class PreferencesDialog(private val settingsClient: SettingsClient) : Dialog() {
         }
 
         onClosed {
-            personalizationPage.forceSaveInstructions()
             modelLibraryPage.shutdown()
+            personalizationPage.forceSaveInstructions()
             importExportPage.shutdown()
         }
     }

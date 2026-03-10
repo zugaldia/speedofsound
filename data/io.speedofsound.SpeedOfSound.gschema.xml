@@ -73,5 +73,20 @@
       <description>Optionally add words, names, technical terms, or acronyms the model should recognize.</description>
     </key>
 
+    <!-- Advanced page -->
+
+    <key name="post-hide-delay-ms" type="i">
+      <range min="0" max="1000"/>
+      <default>100</default>
+      <summary>Post-hide delay (ms)</summary>
+      <description>Time in milliseconds to wait after hiding the main window before issuing typing commands, to give the desktop environment time to physically hide the window.</description>
+    </key>
+    <key name="typing-delay-ms" type="i">
+      <range min="0" max="100"/>
+      <default>10</default>
+      <summary>Typing delay (ms)</summary>
+      <description>Delay in milliseconds between each virtual keyboard keystroke. Set to 0 to disable. Increase this if characters are dropped or appear out of order or like a slower typing effect.</description>
+    </key>
+
   </schema>
 </schemalist>

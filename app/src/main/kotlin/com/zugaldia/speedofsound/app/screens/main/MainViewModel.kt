@@ -1,7 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.isGStreamerDisabled
-import com.zugaldia.speedofsound.app.POST_HIDE_DELAY_MS
 import com.zugaldia.speedofsound.app.plugins.recorder.GStreamerRecorder
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
 import com.zugaldia.speedofsound.app.portals.TextUtils
@@ -274,10 +273,12 @@ class MainViewModel(
         hideAndReset()
         if (event.finalResult.isBlank()) return
         viewModelScope.launch {
-            delay(POST_HIDE_DELAY_MS) // Wait for the main window to fully go away before typing
+            // Wait for the main window to go away before typing
+            val postHideDelayMs = settingsClient.getPostHideDelayMs()
+            if (postHideDelayMs > 0) delay(postHideDelayMs.toLong())
             val finalText = event.finalResult.trim() + " " // Separate multiple results with a space
             TextUtils.textToKeySym(finalText)
-                .onSuccess { keySyms -> portalsClient.typeText(keySyms) }
+                .onSuccess { keySyms -> portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()) }
                 .onFailure { error -> logger.error("Error converting text to key symbols: ${error.message}") }
         }
     }
