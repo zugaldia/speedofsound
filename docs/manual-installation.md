@@ -42,7 +42,8 @@ by [Java GI](https://java-gi.org/usage/#linux).)
 On the first launch, two things will happen:
 
 1. **Model setup**: The built-in Whisper Tiny model is unpacked into your user data folder.
-   This is automatic and the app will start faster in the future.
+   The app window will open and show a **Loading…** state while this happens in the background.
+   Subsequent launches will be faster.
 2. **Permissions prompt**: The app will ask you to grant permission to type on your behalf.
    To support both X11 and Wayland desktops without requiring root access, Speed of Sound uses XDG Desktop Portals
    for keyboard input. You must approve this prompt for dictation to work.

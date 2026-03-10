@@ -73,28 +73,35 @@ class MainViewModel(
     private var currentPipelineJob: Job? = null
 
     fun start() {
-        // Register and initialize all plugins
+        // Phase 1 (sync, main thread): Register plugins and set up event collection.
+        // This is lightweight so the window can render immediately with "Loading..." state.
         registry.register(AppPluginCategory.RECORDER, recorder)
         asrProviderManager.registerAsrPlugins()
         llmProviderManager.registerLlmPlugins()
         registry.register(AppPluginCategory.DIRECTOR, director)
 
-        // Set active plugins
-        registry.setActiveById(AppPluginCategory.RECORDER, recorder.id)
-        asrProviderManager.activateSelectedProvider()
-        llmProviderManager.activateSelectedProvider()
-        registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
-
         collectDirectorEvents()
         collectRecorderEvents()
         collectSettingsChanges()
         collectPortalsSessionState()
-        portalsSessionManager.initialize(viewModelScope)
-        state.updateStage(AppStage.IDLE)
 
         // Initialize status UI labels
         onPrimaryLanguageSelected(forceUpdate = true)
         updateModelLabels()
+
+        // Phase 2 (async, IO thread): Enable plugins (heavy: model extraction + ONNX load).
+        state.updateStage(AppStage.LOADING)
+        viewModelScope.launch(Dispatchers.IO) {
+            registry.setActiveById(AppPluginCategory.RECORDER, recorder.id)
+            asrProviderManager.activateSelectedProvider()
+            llmProviderManager.activateSelectedProvider()
+            registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
+            portalsSessionManager.initialize(viewModelScope)
+            GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
+                state.updateStage(AppStage.IDLE)
+                false
+            }
+        }
     }
 
     fun onTriggerAction() {
