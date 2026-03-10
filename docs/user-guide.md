@@ -44,6 +44,9 @@ configuration to personalization and backup.
 
 **General** — Set the primary language used for speech recognition. You can optionally configure a secondary language
 and switch between the two using the Left Shift and Right Shift keys while the main window is focused.
+The **Output** section lets you configure how transcription results are delivered. Here you can enable
+**Append space after transcription** to automatically insert a trailing space after each result, which is useful
+when dictating consecutive sentences independently.
 
 **Model Library** — Browse and manage the locally available voice models. You can download new models or remove
 ones you no longer need. Keep this window open while a download is in progress.

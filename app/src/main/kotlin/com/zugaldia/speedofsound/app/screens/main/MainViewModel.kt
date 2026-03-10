@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.main
 
+import com.zugaldia.speedofsound.app.APPEND_SPACE_TEXT
 import com.zugaldia.speedofsound.app.isGStreamerDisabled
 import com.zugaldia.speedofsound.app.plugins.recorder.GStreamerRecorder
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
@@ -276,7 +277,8 @@ class MainViewModel(
             // Wait for the main window to go away before typing
             val postHideDelayMs = settingsClient.getPostHideDelayMs()
             if (postHideDelayMs > 0) delay(postHideDelayMs.toLong())
-            val finalText = event.finalResult.trim() + " " // Separate multiple results with a space
+            val suffix = if (settingsClient.getAppendSpace()) APPEND_SPACE_TEXT else ""
+            val finalText = event.finalResult.trim() + suffix
             TextUtils.textToKeySym(finalText)
                 .onSuccess { keySyms -> portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()) }
                 .onFailure { error -> logger.error("Error converting text to key symbols: ${error.message}") }

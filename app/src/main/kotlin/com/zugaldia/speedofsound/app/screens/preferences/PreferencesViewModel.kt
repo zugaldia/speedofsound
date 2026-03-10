@@ -31,6 +31,9 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
     fun getSecondaryLanguage(): String = settingsClient.getSecondaryLanguage()
     fun setSecondaryLanguage(value: String): Boolean = settingsClient.setSecondaryLanguage(value)
 
+    fun getAppendSpace(): Boolean = settingsClient.getAppendSpace()
+    fun setAppendSpace(value: Boolean): Boolean = settingsClient.setAppendSpace(value)
+
     /*
      * Cloud Credentials page
      */

@@ -3,10 +3,12 @@ package com.zugaldia.speedofsound.app.screens.preferences.general
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
+import org.gnome.adw.SwitchRow
 
 class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
+    private val appendSpaceRow: SwitchRow
 
     init {
         title = "General"
@@ -26,7 +28,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             setLanguage = { viewModel.setSecondaryLanguage(it) }
         )
 
-        val group = PreferencesGroup().apply {
+        val languageGroup = PreferencesGroup().apply {
             title = "Language"
             description = "The primary language is used by default. Optionally, set a secondary language " +
                 "to switch between the two using left Shift (primary) and right Shift (secondary)."
@@ -34,15 +36,29 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             add(secondaryComboRow)
         }
 
-        add(group)
+        appendSpaceRow = SwitchRow().apply {
+            title = "Append space after transcription"
+            subtitle = "Useful when dictating consecutive sentences independently."
+            active = viewModel.getAppendSpace()
+        }
+
+        val outputGroup = PreferencesGroup().apply {
+            title = "Output"
+            add(appendSpaceRow)
+        }
+
+        add(languageGroup)
+        add(outputGroup)
 
         // Set up notifications after all widgets are initialized
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
+        appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
     }
 
     fun refresh() {
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
+        appendSpaceRow.active = viewModel.getAppendSpace()
     }
 }
