@@ -71,17 +71,6 @@
                 </p>
             </description>
         </release>
-        <release version="0.8.0-beta.1" date="2026-03-08">
-            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.8.0-beta.1</url>
-            <description>
-                <p>
-                    Added Snap Store publishing to the release pipeline for beta and stable channels.
-                    Updated the README and documentation site with a new hero tagline and an embedded
-                    demo GIF showing the app in action. Fixed a CI permissions issue in the release
-                    dispatcher workflow.
-                </p>
-            </description>
-        </release>
         <release version="0.7.0" date="2026-03-06">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.7.0</url>
             <description>
