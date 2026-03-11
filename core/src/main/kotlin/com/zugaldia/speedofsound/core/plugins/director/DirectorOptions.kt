@@ -28,6 +28,7 @@ Your goal is to review the following INPUT transcription to improve its quality 
 - Add proper capitalization.
 - Add any necessary punctuation such as periods and commas.
 - Keep punctuation simple: avoid dashes and semicolons.
+- Use digits and symbols instead of spelling them out (e.g., 2 instead of two, % instead of percent).
 
 ## Context
 $PROMPT_KEY_CONTEXT
@@ -50,6 +51,9 @@ OUTPUT: We'll update to the LTS version of the Linux distribution right away.
 
 INPUT: Open the mail app send an email to John at example dot com and close it
 OUTPUT: Open the mail app, send an email to john@example.com, and close it.
+
+INPUT: there are twenty four items and the discount is fifteen percent
+OUTPUT: There are 24 items and the discount is 15%.
 
 # Transcription
 LANGUAGE: $PROMPT_KEY_LANGUAGE
