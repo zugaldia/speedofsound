@@ -56,6 +56,21 @@
     </screenshots>
 
     <releases>
+        <release version="0.8.0" date="2026-03-11">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.8.0</url>
+            <description>
+                <p>
+                    The app now starts faster with async plugin initialization — the main window
+                    appears immediately with a loading indicator while models and services initialize
+                    in the background. Added an Advanced preferences page with configurable typing
+                    delay settings. Added General preferences for appending a space after each
+                    transcription and a background recording mode that types results directly into
+                    the target app without showing the main window. Improved LLM text polishing to
+                    prefer digits and symbols over spelled-out words (e.g. "2" instead of "two").
+                    Fixed Flatpak and Snap packaging issues and addressed Flathub store review feedback.
+                </p>
+            </description>
+        </release>
         <release version="0.8.0-beta.1" date="2026-03-08">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.8.0-beta.1</url>
             <description>
