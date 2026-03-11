@@ -126,11 +126,16 @@ class MainWindow(
     }
 
     private fun goAway() {
-        // We use visible = false (not minimize/iconify) to hide the window. This allows the window
-        // to be restored on the current workspace when the user relaunches the app. If we used
-        // `minimize` instead, GNOME would remember the original workspace and restore the window there,
-        // which doesn't work to type into arbitrary apps in arbitrary workspaces.
-        visible = false
+        if (settingsClient.getBackgroundRecording()) {
+            // In background recording mode we minimize instead of hiding, so that the window
+            // remains accessible from the dock (e.g. to access preferences, or quit the app).
+            minimize()
+        } else {
+            // We use `visible = false` (not `minimize()`) to hide the window. This allows the window
+            // to be restored on the current workspace (where the target app is), rather than on the workspace
+            // the window was originally in (preventing us from typing on the target app).
+            visible = false
+        }
     }
 
     private fun onOpenPreferences() {

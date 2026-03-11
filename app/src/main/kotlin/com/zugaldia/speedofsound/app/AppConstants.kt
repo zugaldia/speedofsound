@@ -65,6 +65,9 @@ const val MAX_PROVIDER_CONFIG_NAME_LENGTH = 100
 const val DEFAULT_ADD_PROVIDER_DIALOG_WIDTH = 600
 const val DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT = 500
 
+// Transcription output
+const val APPEND_SPACE_TEXT = " "
+
 const val TRIGGER_ACTION = "trigger"
 
 const val SIGNAL_STAGE_CHANGED = "stage-changed"
