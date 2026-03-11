@@ -24,4 +24,4 @@ jobs:
       - uses: snapcore/action-build@v1
         id: build
       - name: Lint snap
-        run: snapcraft lint ${{ steps.build.outputs.snap }}
+        run: sg lxd -c "snapcraft lint ${{ steps.build.outputs.snap }}"
