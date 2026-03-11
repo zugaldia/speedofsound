@@ -28,11 +28,13 @@ modules:
     build-options:
       append-path: "/usr/lib/sdk/openjdk25/gradle/bin:/usr/lib/sdk/openjdk25/jvm/openjdk-25/bin"
     sources:
-      - type: git
-        url: https://github.com/zugaldia/speedofsound.git
-        tag: v0.8.0
-        commit: fdb1b7b8f7dff7790ec000f1d6d8c1624cd09499
-        disable-lfs: false # (false is the default, making it explicit to ensure we bundle the Whisper Tiny model files)
+      - type: dir # During development
+        path: .
+#      - type: git # For actual releases
+#        url: https://github.com/zugaldia/speedofsound.git
+#        tag: v0.x.0
+#        commit: HASH # Use: git rev-list -n 1 v0.x.0
+#        disable-lfs: false # (false is the default, making it explicit to ensure we bundle the Whisper model files)
       - buildSrc/flatpak-sources.json
       - core/flatpak-sources.json
       - app/flatpak-sources.json
