@@ -57,11 +57,11 @@ jobs:
       version: ${{ needs.check-release.outputs.version }}
       channel: ${{ needs.check-release.outputs.channel }}
 
-  release-snap:
-    needs: check-release
-    if: needs.check-release.outputs.new_release == 'true' && needs.check-release.outputs.channel != 'alpha'
-    secrets: inherit
-    uses: ./.github/workflows/snap-publish.yml
-    with:
-      version: ${{ needs.check-release.outputs.version }}
-      channel: ${{ needs.check-release.outputs.channel }}
+#  release-snap:
+#    needs: check-release
+#    if: needs.check-release.outputs.new_release == 'true' && needs.check-release.outputs.channel != 'alpha'
+#    secrets: inherit
+#    uses: ./.github/workflows/snap-publish.yml
+#    with:
+#      version: ${{ needs.check-release.outputs.version }}
+#      channel: ${{ needs.check-release.outputs.channel }}
