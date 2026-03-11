@@ -26,8 +26,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Lint AppStream metadata and manifest
         run: |
-          flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream data/io.speedofsound.SpeedOfSound.metainfo.xml.in
-          flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest io.speedofsound.SpeedOfSound.yml
+          flatpak-builder-lint appstream data/io.speedofsound.SpeedOfSound.metainfo.xml.in
+          flatpak-builder-lint manifest io.speedofsound.SpeedOfSound.yml
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           manifest-path: io.speedofsound.SpeedOfSound.yml
