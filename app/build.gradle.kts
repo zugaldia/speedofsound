@@ -51,4 +51,5 @@ tasks.shadowJar {
 tasks.flatpakGradleGenerator {
     outputFile = file("flatpak-sources.json")
     downloadDirectory = "offline-repository"
+    excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
 }
