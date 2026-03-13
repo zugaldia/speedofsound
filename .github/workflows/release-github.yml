@@ -56,6 +56,15 @@ jobs:
           ./gradlew shadowJar \
             -PreleaseVersion=${{ inputs.version }} \
             -Pspeedofsound.disableGioStore=true
+      - name: Install jpackage dependencies
+        run: sudo apt-get install -y fakeroot rpm
+      - name: Build DEB and RPM packages
+        env:
+          GRADLE_OPTS: --enable-native-access=ALL-UNNAMED
+        run: |
+          ./gradlew :app:jpackage-deb :app:jpackage-rpm --no-configuration-cache \
+            -PreleaseVersion=${{ inputs.version }} \
+            -Pspeedofsound.disableGioStore=true
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,6 +75,8 @@ jobs:
           fi
           gh release create "v${{ inputs.version }}" \
             app/build/libs/speedofsound.jar \
+            app/build/jpackage/*.deb \
+            app/build/jpackage/*.rpm \
             scripts/trigger.sh \
             --title "Release v${{ inputs.version }}" \
             --generate-notes \

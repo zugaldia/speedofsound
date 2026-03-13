@@ -1,0 +1,47 @@
+name: JPackage Build
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - '**.md'
+      - 'mkdocs.yml'
+
+jobs:
+  jpackage:
+    name: "JPackage"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install jpackage dependencies
+        run: sudo apt-get install -y fakeroot rpm
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+      - name: Build DEB and RPM packages
+        env:
+          GRADLE_OPTS: --enable-native-access=ALL-UNNAMED
+        run: |
+          ./gradlew :app:jpackage-deb :app:jpackage-rpm --no-configuration-cache \
+            -Pspeedofsound.disableGioStore=true
+      - name: Upload packages as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: jpackage-packages
+          path: app/build/jpackage/
+          retention-days: 7
