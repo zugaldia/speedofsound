@@ -53,3 +53,46 @@ tasks.flatpakGradleGenerator {
     downloadDirectory = "offline-repository"
     excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
 }
+
+//
+// We use the built-in `jpackage` for DEB and RPM generation (straightforward but bundles the JRE).
+// Potential alternative (from Netflix?): https://github.com/nebula-plugins/gradle-ospackage-plugin
+//
+
+val jpackageInputDir = layout.buildDirectory.dir("libs")
+val jpackageOutputDir = layout.buildDirectory.dir("jpackage")
+val jpackageCommonArgs = listOf(
+    "--input", jpackageInputDir.get().asFile.absolutePath,
+    "--dest", jpackageOutputDir.get().asFile.absolutePath,
+    "--main-class", "com.zugaldia.speedofsound.app.AppKt",
+    "--main-jar", "speedofsound.jar",
+    "--java-options", "--enable-native-access=ALL-UNNAMED",
+    "--name", "speedofsound",
+    "--description", "Voice typing for the Linux desktop",
+    "--app-version", appVersion.substringBefore("-"),
+    "--vendor", "Speed of Sound",
+    "--about-url", "https://www.speedofsound.io",
+    "--copyright", "Copyright 2026 Antonio Zugaldia",
+    "--license-file", rootProject.file("LICENSE").absolutePath,
+    "--icon", rootProject.file("assets/logo/logo-square-512.png").absolutePath,
+    "--linux-app-category", "Utility",
+    "--linux-menu-group", "Utility",
+    "--linux-shortcut",
+)
+
+listOf("deb", "rpm").forEach { packageType ->
+    tasks.register<Exec>("jpackage-$packageType") {
+        group = "distribution"
+        description = "Package the app as a $packageType using jpackage"
+        dependsOn(tasks.shadowJar)
+        doFirst { jpackageOutputDir.get().asFile.mkdirs() }
+        commandLine(buildList {
+            add("jpackage")
+            addAll(jpackageCommonArgs)
+            if (packageType == "deb") {
+                add("--linux-deb-maintainer"); add("antonio@zugaldia.com")
+            }
+            add("--type"); add(packageType)
+        })
+    }
+}

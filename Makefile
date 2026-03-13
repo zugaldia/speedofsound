@@ -5,6 +5,7 @@ export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 	meson-clean meson-setup meson-build meson-install uninstall install \
 	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run desktop-validate \
 	snapcraft-clean snapcraft-pack snapcraft-lint snap-install snap-remove \
+	jpackage-deb jpackage-rpm \
 	docs-serve docs-build
 
 clean:
@@ -99,6 +100,19 @@ snap-install:
 
 snap-remove:
 	snap remove speedofsound
+
+#
+# jpackage
+#
+
+jpackage-deb:
+	rm -rf app/build/jpackage
+	./gradlew :app:jpackage-deb --no-configuration-cache
+
+jpackage-rpm:
+	rm -rf app/build/jpackage
+	./gradlew :app:jpackage-rpm --no-configuration-cache
+
 
 #
 # Docs
