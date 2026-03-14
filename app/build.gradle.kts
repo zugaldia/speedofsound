@@ -55,7 +55,7 @@ tasks.flatpakGradleGenerator {
 }
 
 //
-// We use the built-in `jpackage` for DEB and RPM generation (straightforward but bundles the JRE).
+// We use the built-in `jpackage` for DEB, RPM, and app-image generation (straightforward but bundles the JRE).
 // Potential alternative (from Netflix?): https://github.com/nebula-plugins/gradle-ospackage-plugin
 //
 
@@ -71,16 +71,20 @@ val jpackageCommonArgs = listOf(
     "--description", "Voice typing for the Linux desktop",
     "--app-version", appVersion.substringBefore("-"),
     "--vendor", "Speed of Sound",
-    "--about-url", "https://www.speedofsound.io",
     "--copyright", "Copyright 2026 Antonio Zugaldia",
-    "--license-file", rootProject.file("LICENSE").absolutePath,
     "--icon", rootProject.file("assets/logo/logo-square-512.png").absolutePath,
+)
+
+// These flags are only valid for installer package types (deb, rpm), not app-image
+val jpackageLinuxInstallerArgs = listOf(
+    "--license-file", rootProject.file("LICENSE").absolutePath,
+    "--about-url", "https://www.speedofsound.io",
     "--linux-app-category", "Utility",
     "--linux-menu-group", "Utility",
     "--linux-shortcut",
 )
 
-listOf("deb", "rpm").forEach { packageType ->
+listOf("deb", "rpm", "app-image").forEach { packageType ->
     tasks.register<Exec>("jpackage-$packageType") {
         group = "distribution"
         description = "Package the app as a $packageType using jpackage"
@@ -89,6 +93,9 @@ listOf("deb", "rpm").forEach { packageType ->
         commandLine(buildList {
             add("jpackage")
             addAll(jpackageCommonArgs)
+            if (packageType != "app-image") {
+                addAll(jpackageLinuxInstallerArgs)
+            }
             if (packageType == "deb") {
                 add("--linux-deb-maintainer"); add("antonio@zugaldia.com")
             }
