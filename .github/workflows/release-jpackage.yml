@@ -31,8 +31,13 @@ jobs:
           cache: 'gradle'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
-      - name: Install jpackage dependencies
+      - name: Install dependencies
         run: sudo apt-get install -y fakeroot rpm
+      - name: Install appimagetool
+        run: |
+          curl -fsSL -o /usr/local/bin/appimagetool \
+            "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage"
+          chmod +x /usr/local/bin/appimagetool
       - name: Build DEB and RPM packages
         env:
           GRADLE_OPTS: --enable-native-access=ALL-UNNAMED
@@ -40,10 +45,19 @@ jobs:
           ./gradlew :app:jpackage-deb :app:jpackage-rpm --no-configuration-cache \
             -PreleaseVersion=${{ inputs.version }} \
             -Pspeedofsound.disableGioStore=true
+      - name: Build AppImage
+        env:
+          GRADLE_OPTS: --enable-native-access=ALL-UNNAMED
+        run: |
+          ./gradlew :app:jpackage-app-image --no-configuration-cache \
+            -PreleaseVersion=${{ inputs.version }} \
+            -Pspeedofsound.disableGioStore=true
+          ./scripts/build-appimage.sh
       - name: Upload packages to GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload "v${{ inputs.version }}" \
             app/build/jpackage/*.deb \
-            app/build/jpackage/*.rpm
+            app/build/jpackage/*.rpm \
+            app/build/jpackage/*.AppImage

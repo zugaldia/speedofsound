@@ -6,14 +6,12 @@ on:
     paths-ignore:
       - 'docs/**'
       - 'assets/**'
-      - 'scripts/**'
       - '**.md'
       - 'mkdocs.yml'
   pull_request:
     paths-ignore:
       - 'docs/**'
       - 'assets/**'
-      - 'scripts/**'
       - '**.md'
       - 'mkdocs.yml'
 
@@ -23,8 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install jpackage dependencies
+      - name: Install dependencies
         run: sudo apt-get install -y fakeroot rpm
+      - name: Install appimagetool
+        run: |
+          curl -fsSL -o /usr/local/bin/appimagetool \
+            "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage"
+          chmod +x /usr/local/bin/appimagetool
       - name: Set up JDK 25
         uses: actions/setup-java@v4
         with:
@@ -39,9 +42,19 @@ jobs:
         run: |
           ./gradlew :app:jpackage-deb :app:jpackage-rpm --no-configuration-cache \
             -Pspeedofsound.disableGioStore=true
+      - name: Build AppImage
+        env:
+          GRADLE_OPTS: --enable-native-access=ALL-UNNAMED
+        run: |
+          ./gradlew :app:jpackage-app-image --no-configuration-cache \
+            -Pspeedofsound.disableGioStore=true
+          ./scripts/build-appimage.sh
       - name: Upload packages as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: jpackage-packages
-          path: app/build/jpackage/
+          path: |
+            app/build/jpackage/*.deb
+            app/build/jpackage/*.rpm
+            app/build/jpackage/*.AppImage
           retention-days: 7
