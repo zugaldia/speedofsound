@@ -1,6 +1,21 @@
 package com.zugaldia.speedofsound.app
 
+import org.gnome.adw.Adw
 import org.gnome.adw.ColorScheme
+
+/**
+ * Returns true if the runtime libadwaita version is at least [major].[minor].[micro].
+ */
+fun isAdwVersionAtLeast(major: Int, minor: Int = 0, micro: Int = 0): Boolean {
+    val runtimeMajor = Adw.getMajorVersion()
+    val runtimeMinor = Adw.getMinorVersion()
+    val runtimeMicro = Adw.getMicroVersion()
+    return when {
+        runtimeMajor != major -> runtimeMajor > major
+        runtimeMinor != minor -> runtimeMinor > minor
+        else -> runtimeMicro >= micro
+    }
+}
 
 /**
  * Checks if the GIO store is disabled.

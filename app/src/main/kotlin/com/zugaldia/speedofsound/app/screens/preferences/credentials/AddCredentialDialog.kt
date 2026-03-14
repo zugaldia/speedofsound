@@ -7,6 +7,9 @@ import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_NAME_LENGTH
 import com.zugaldia.speedofsound.app.MAX_CREDENTIAL_VALUE_LENGTH
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
+import com.zugaldia.speedofsound.app.ADW_MAX_LENGTH_MIN_MAJOR_VERSION
+import com.zugaldia.speedofsound.app.ADW_MAX_LENGTH_MIN_MINOR_VERSION
+import com.zugaldia.speedofsound.app.isAdwVersionAtLeast
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialType
 import com.zugaldia.speedofsound.core.generateUniqueId
@@ -35,19 +38,16 @@ class AddCredentialDialog(
         contentWidth = DEFAULT_ADD_CREDENTIAL_DIALOG_WIDTH
         contentHeight = DEFAULT_ADD_CREDENTIAL_DIALOG_HEIGHT
 
+        val supportsMaxLength = isAdwVersionAtLeast(ADW_MAX_LENGTH_MIN_MAJOR_VERSION, ADW_MAX_LENGTH_MIN_MINOR_VERSION)
+
         nameEntry = EntryRow().apply {
             title = "Name"
-            // Cannot set (report upstream?), otherwise the app crashes with:
-            //  (java:1284576): java-gi-WARNING **: 09:04:54.126: java.lang.AssertionError:
-            //  java.lang.invoke.WrongMethodTypeException: handle's method type (Object[])Object
-            //  but found (MemorySegment, int)void in ClickedCallback
-            //maxLength = MAX_CREDENTIAL_NAME_LENGTH
+            if (supportsMaxLength) maxLength = MAX_CREDENTIAL_NAME_LENGTH
         }
 
         apiKeyEntry = PasswordEntryRow().apply {
             title = "API Key"
-            // Do not set (see comment above)
-            //maxLength = MAX_CREDENTIAL_VALUE_LENGTH
+            if (supportsMaxLength) maxLength = MAX_CREDENTIAL_VALUE_LENGTH
         }
 
         val preferencesGroup = PreferencesGroup().apply {
@@ -111,7 +111,9 @@ class AddCredentialDialog(
 
     @Suppress("ReturnCount")
     private fun validateInput(name: String, apiKey: String): Boolean {
-        if (name.isEmpty() || apiKey.isEmpty()) { return false }
+        if (name.isEmpty() || apiKey.isEmpty()) {
+            return false
+        }
         if (name.length > MAX_CREDENTIAL_NAME_LENGTH) {
             logger.warn("Credential name too long: ${name.length} > $MAX_CREDENTIAL_NAME_LENGTH")
             return false

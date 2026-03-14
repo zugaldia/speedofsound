@@ -31,16 +31,12 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
     init {
         onStartup {
-            // We should update to a newer version of Adw once the new Ubuntu 26.04 LTS is out (and update
-            // the Flatpak + Snap targets accordingly). There are some nice widgets we could use (e.g., WrapBox
-            // in the preferences screen, ShortcutsDialog).
             val adwVersion = "${Adw.getMajorVersion()}.${Adw.getMinorVersion()}.${Adw.getMicroVersion()}"
             logger.info("Application started with Adw v$adwVersion.")
-            if (Adw.getMajorVersion() < MIN_ADW_MAJOR_VERSION ||
-                (Adw.getMajorVersion() == MIN_ADW_MAJOR_VERSION && Adw.getMinorVersion() < MIN_ADW_MINOR_VERSION)) {
+            if (!isAdwVersionAtLeast(MIN_ADW_MAJOR_VERSION, MIN_ADW_MINOR_VERSION)) {
                 logger.warn(
-                    "Detected libadwaita v$adwVersion, but v1.5 or newer is required. " +
-                        "The application might not work correctly."
+                    "Detected libadwaita v$adwVersion, but v$MIN_ADW_MAJOR_VERSION.$MIN_ADW_MINOR_VERSION " +
+                        "or newer is required. The application might not work correctly."
                 )
             }
 
