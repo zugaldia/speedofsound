@@ -15,66 +15,66 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.jar",
-    "sha512": "43a301db6e45bed81297c23b33a11c2e5b11d98d9ecf0621c71732bc872f58fdaecf89c04c69e02c0e61ba71d30baf03e0197fc342476d0411f293b5f5d8ced1",
-    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.15.0",
-    "dest-filename": "anthropic-java-client-okhttp-2.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.16.1/anthropic-java-client-okhttp-2.16.1.jar",
+    "sha512": "8e47342f7d6ea96ad47d021d0596652bd0eec0c65ef6d03386551b2cd95a8c3b10d3a776c273d40459f13b6932c6aede2d0a8e6268f3d4c5850d5ed49df07704",
+    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.16.1",
+    "dest-filename": "anthropic-java-client-okhttp-2.16.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.module",
-    "sha512": "90566b35491ebf9ccdc89a74ab812db332b92869d0c208a10739bb66f4817ae25fe4c26871bf2bf7681b3f152bfbfd72527d92a735c5a276cdd6760d4eae0a48",
-    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.15.0",
-    "dest-filename": "anthropic-java-client-okhttp-2.15.0.module"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.16.1/anthropic-java-client-okhttp-2.16.1.module",
+    "sha512": "23e87cb8c1286ae258e010fe18a5247c85818b352363c3db30a13d71d2922c0517e8226e31f99411a7e3c98a5fad00ccb12b6b7a5b55f51beb9cffd38a40e018",
+    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.16.1",
+    "dest-filename": "anthropic-java-client-okhttp-2.16.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.15.0/anthropic-java-client-okhttp-2.15.0.pom",
-    "sha512": "b9c8676ad89583c3202f83ae1f6f4282bf1f7dd72afec4c87d1b8e11b97151854a31404f42e167ca066f1caee87f0eb4a972ccfc7bcac1255ab51f6012089150",
-    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.15.0",
-    "dest-filename": "anthropic-java-client-okhttp-2.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-client-okhttp/2.16.1/anthropic-java-client-okhttp-2.16.1.pom",
+    "sha512": "8d6ec82324bb45d7a776ff136cc83e383ffd0de12877ddd717b804a2e098da54d085c38e132e22f470c5bc7d50114b19f368753fb908bf0cd73edc4bb5b43a17",
+    "dest": "offline-repository/com/anthropic/anthropic-java-client-okhttp/2.16.1",
+    "dest-filename": "anthropic-java-client-okhttp-2.16.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.jar",
-    "sha512": "b0ae07b39fdb121cdbc5affe98053952613e90564a8860bd7ed4439256c3305c6d6a5f3952937c56dda7b36509d7cb99bed399a59ec716d57bc60768f6865b3e",
-    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.15.0",
-    "dest-filename": "anthropic-java-core-2.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.16.1/anthropic-java-core-2.16.1.jar",
+    "sha512": "e4c36b34a165be2fd7f04d397a48b6f49a82c3927c827887ae948be3c4760a3ddf7b3885b5d07bbcddf1abb0db13ddb7641084cb90437c0609ca89c7a6abb019",
+    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.16.1",
+    "dest-filename": "anthropic-java-core-2.16.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.module",
-    "sha512": "2a219d5d48d8d85370e684595515d0e34aaf6c62b41372871dad9e25c864e9b3bc95892d58aa51cbb019a487dc4f70993aca273441670cffdda527d8a60864bb",
-    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.15.0",
-    "dest-filename": "anthropic-java-core-2.15.0.module"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.16.1/anthropic-java-core-2.16.1.module",
+    "sha512": "2597bd1b6fde5ddf13f745df355546bf435ffa6d2d68eed37865ac3196887ae3ce239d38e17cb9a0d9d67ff6f533fa5168ad4b48fbd9f2eb5133ec84972061d9",
+    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.16.1",
+    "dest-filename": "anthropic-java-core-2.16.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.15.0/anthropic-java-core-2.15.0.pom",
-    "sha512": "f2d5175fe101507cc631a0eddb73a62a6c57787777a87397a4e5303e9943aec30e7c5e84c1b04c9fc6b74980a7c132480d3a45abb5ec5c928c750dc6570c2050",
-    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.15.0",
-    "dest-filename": "anthropic-java-core-2.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java-core/2.16.1/anthropic-java-core-2.16.1.pom",
+    "sha512": "4fac8f8fb7a831ae3a638b3db0e2d8507cb34c26b6c5ab4eccbb5b43b71b4c7428e7840f62277b956682a554c0bf60f1d775c06ca2db33adbe37544cf6a269c0",
+    "dest": "offline-repository/com/anthropic/anthropic-java-core/2.16.1",
+    "dest-filename": "anthropic-java-core-2.16.1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.jar",
-    "sha512": "ed9cd9805c0676619629eb2fce5d410c4e184ba4ad0974e4f2ead500ce6964509bce9a4f4a8b78cecf56a1b29c8c858f2cc71422783add87941a3a2744a7e348",
-    "dest": "offline-repository/com/anthropic/anthropic-java/2.15.0",
-    "dest-filename": "anthropic-java-2.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.16.1/anthropic-java-2.16.1.jar",
+    "sha512": "6264049733d991c67ef345fdb6f7dc265fce38d293be94e5581a1717cf22b8efd09d4b5e26321598a87ab13272ac17242922fb44b381f044210ab6b0f382109d",
+    "dest": "offline-repository/com/anthropic/anthropic-java/2.16.1",
+    "dest-filename": "anthropic-java-2.16.1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.module",
-    "sha512": "6ba8aad0ba86a18dd1f0013a54f97a03c5a2897e418d12b8cac1b442925b67a531d18f61a4e4fc323063029e060a35dc1511f32b424b64ecb498f97d428cc311",
-    "dest": "offline-repository/com/anthropic/anthropic-java/2.15.0",
-    "dest-filename": "anthropic-java-2.15.0.module"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.16.1/anthropic-java-2.16.1.module",
+    "sha512": "b6e2c86131098719fcedea5c45787558032fba6cec657a1ac00de0f4c3eb85bf2d6c002dbacd192678eda0abc801381298e4f8a9c284ef90556d28508260706d",
+    "dest": "offline-repository/com/anthropic/anthropic-java/2.16.1",
+    "dest-filename": "anthropic-java-2.16.1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.15.0/anthropic-java-2.15.0.pom",
-    "sha512": "2601eff4fefb8eb8a0cdc4d5120b53048c9508d5e1a45658cf9755618bae63cae1d6781be7ab1db32837c66fc141c427f8d4ce6fee6f9f620cce135ba345a5e1",
-    "dest": "offline-repository/com/anthropic/anthropic-java/2.15.0",
-    "dest-filename": "anthropic-java-2.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/anthropic/anthropic-java/2.16.1/anthropic-java-2.16.1.pom",
+    "sha512": "3cb4661b2123e85154aaf86cf5e4d1a6f5c31728b8cdf01a0cbb68f13bcf335cee069a9f7e369ab029b264b7982d558779b97533c06e560316218581a4b030f1",
+    "dest": "offline-repository/com/anthropic/anthropic-java/2.16.1",
+    "dest-filename": "anthropic-java-2.16.1.pom"
   },
   {
     "type": "file",
@@ -771,31 +771,31 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/com.github.gmazzo.buildconfig.gradle.plugin/6.0.8/com.github.gmazzo.buildconfig.gradle.plugin-6.0.8.pom",
-    "sha512": "fe54d9aa47ad70ab4b9105a6c0100bd528672cc620ae94f7430fbecf2abf526071c52d10d73f515303383d93a6cdc1a1e48629293e0ae511d23d2ebf20b19084",
-    "dest": "offline-repository/com/github/gmazzo/buildconfig/com.github.gmazzo.buildconfig.gradle.plugin/6.0.8",
-    "dest-filename": "com.github.gmazzo.buildconfig.gradle.plugin-6.0.8.pom"
+    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/com.github.gmazzo.buildconfig.gradle.plugin/6.0.9/com.github.gmazzo.buildconfig.gradle.plugin-6.0.9.pom",
+    "sha512": "70aa5c83372b458453f1342c110a080d264db720a525f273e3f74b4a5e5a320b6af48c248c809e55fe003fc7ff1f654e797a6c8e653f98e15008715226ecd33b",
+    "dest": "offline-repository/com/github/gmazzo/buildconfig/com.github.gmazzo.buildconfig.gradle.plugin/6.0.9",
+    "dest-filename": "com.github.gmazzo.buildconfig.gradle.plugin-6.0.9.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/plugin/6.0.8/plugin-6.0.8.jar",
-    "sha512": "e203765dabd7cd218eda8c969dc7c1482496b0270da5fee9ff5ae0914f83c135532e8464c05c8b104177f210ff42acf5cc874dbfbdcea2b08070f1f391657d8e",
-    "dest": "offline-repository/com/github/gmazzo/buildconfig/plugin/6.0.8",
-    "dest-filename": "plugin-6.0.8.jar"
+    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/plugin/6.0.9/plugin-6.0.9.jar",
+    "sha512": "ef7ea34e5505bf3d0ba5fd531e90e7788349b9a1c71f1c8c11655e3419b7bb28222c494e20c20723b842104f57ba4cdb91d358a491a9ef40ab914f1b7bfb5755",
+    "dest": "offline-repository/com/github/gmazzo/buildconfig/plugin/6.0.9",
+    "dest-filename": "plugin-6.0.9.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/plugin/6.0.8/plugin-6.0.8.module",
-    "sha512": "0e40b68eb9fee0e7cc0e9e30fa9f917ac49cfbf9a942fae439fd4c07a17bd3ccbd58a2d13217a45c63019333d9f7cce242966d60dc252bd20c97a5ea3750f669",
-    "dest": "offline-repository/com/github/gmazzo/buildconfig/plugin/6.0.8",
-    "dest-filename": "plugin-6.0.8.module"
+    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/plugin/6.0.9/plugin-6.0.9.module",
+    "sha512": "1252f9a30b042634b731b621dbb9da9a22ad5c4ea7a4757bbacbe35a428ffc7e6708ad3e74f671a12970483a6e0e1123f71337d21193fc89041a993b208e04e2",
+    "dest": "offline-repository/com/github/gmazzo/buildconfig/plugin/6.0.9",
+    "dest-filename": "plugin-6.0.9.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/plugin/6.0.8/plugin-6.0.8.pom",
-    "sha512": "1ceaceb1197228c24f3991ea51c520f1469300c297ce9a741fa645e8faa2a3fcb7d610bd4ce5cf70190fea0a55f7d61b69ae94352a324c3ea463d6641634d362",
-    "dest": "offline-repository/com/github/gmazzo/buildconfig/plugin/6.0.8",
-    "dest-filename": "plugin-6.0.8.pom"
+    "url": "https://plugins.gradle.org/m2/com/github/gmazzo/buildconfig/plugin/6.0.9/plugin-6.0.9.pom",
+    "sha512": "74e40804193b5d06c98ca02dba8c72e852b9f630d49029d5cbe235f92a79826e3326c551d89d2517c4933900f53ed392dc8dd0fed0a1ef7a3b6fda8d0791ce97",
+    "dest": "offline-repository/com/github/gmazzo/buildconfig/plugin/6.0.9",
+    "dest-filename": "plugin-6.0.9.pom"
   },
   {
     "type": "file",
@@ -890,24 +890,24 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.1.0/stargate-0.1.0.jar",
-    "sha512": "0a965471e65b0357e44670cd0c111c1716f6751c77566aa65a7a3023458ef27ca1d05d539ccb4e49d2a5ba85c47b70556df08f7aec522b50a5ca6bc7d915dfc2",
-    "dest": "offline-repository/com/github/zugaldia/stargate/0.1.0",
-    "dest-filename": "stargate-0.1.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.2.0/stargate-0.2.0.jar",
+    "sha512": "ff0ebcbe2decb1929d77b7a85f57bb7dc8be204f7ced0dd396a5fcca1d79cb41d42089b66dce481ac54d0cb7018199e10d084438f8270f32f46dab09f1b6ade1",
+    "dest": "offline-repository/com/github/zugaldia/stargate/0.2.0",
+    "dest-filename": "stargate-0.2.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.1.0/stargate-0.1.0.module",
-    "sha512": "0626ce5c21f14e123c2c8e0eb24853d83ca42f28dab7c687887e385f1839f64d6392186f8d35c49c0ce5d4d0bd740494711aa70bcf298cf38e0b4384d899747d",
-    "dest": "offline-repository/com/github/zugaldia/stargate/0.1.0",
-    "dest-filename": "stargate-0.1.0.module"
+    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.2.0/stargate-0.2.0.module",
+    "sha512": "d188766709b98d31d21aa9ee4ee7a48ce15cf2b1d18e5fd7928aec044e6be789ff8064b373650fe9f1f9f59cc516ab38c793538ec3f59416fe8086fd0d82c223",
+    "dest": "offline-repository/com/github/zugaldia/stargate/0.2.0",
+    "dest-filename": "stargate-0.2.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.1.0/stargate-0.1.0.pom",
-    "sha512": "b194bf0af4e00608be82ecbd86253114af7c1e4390ff5eb3824566c2ed43908a109792558212bfc2c867cb9748d10171c1499fcd0c1bee44de1a706baf70c81f",
-    "dest": "offline-repository/com/github/zugaldia/stargate/0.1.0",
-    "dest-filename": "stargate-0.1.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.2.0/stargate-0.2.0.pom",
+    "sha512": "317fda5693e83b57d09ce36a1502fdd933572f62a10da00a65e93a42e04b8e4667f190d70655bef9c7a3d771d51189af24fecd4f9e05640fd86409a232ced80a",
+    "dest": "offline-repository/com/github/zugaldia/stargate/0.2.0",
+    "dest-filename": "stargate-0.2.0.pom"
   },
   {
     "type": "file",
@@ -1163,17 +1163,17 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.42.0/google-genai-1.42.0.jar",
-    "sha512": "c535ee3a9d6d2d20620ce90a78e2127fcd2e1cea8794c1aff43f9a66ee0765f1e6335c5c4f14c269bcbce2a76778b3e05c42a189f5a517c004c7d3a158b61f9c",
-    "dest": "offline-repository/com/google/genai/google-genai/1.42.0",
-    "dest-filename": "google-genai-1.42.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.43.0/google-genai-1.43.0.jar",
+    "sha512": "b3aca81ba3ff655bcd984f207bfa643ecff6c7bced0cfa591d970651e3e260d39fefa5566bf851f396e0860c0553efbe8d7c3810f7d598034240a48d923f88dc",
+    "dest": "offline-repository/com/google/genai/google-genai/1.43.0",
+    "dest-filename": "google-genai-1.43.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.42.0/google-genai-1.42.0.pom",
-    "sha512": "3a53e14c0714e213bfa559f4daddf76fe5a0c7c5babc421483c3e13b06d014deda0122347d54eb30c0cc59f6788bfd7d1a64c9e012e832783fc75ad8407945bc",
-    "dest": "offline-repository/com/google/genai/google-genai/1.42.0",
-    "dest-filename": "google-genai-1.42.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/google/genai/google-genai/1.43.0/google-genai-1.43.0.pom",
+    "sha512": "2815b3d80ae909059cc9b4e4ab464e97571d3bad9c58c4c0b281649eed1e7a6aff3948c767829926c19c3e5a186dc8dff8258a0e4ab803a42475f182ac97578b",
+    "dest": "offline-repository/com/google/genai/google-genai/1.43.0",
+    "dest-filename": "google-genai-1.43.0.pom"
   },
   {
     "type": "file",
@@ -1352,66 +1352,66 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.26.0/openai-java-client-okhttp-4.26.0.jar",
-    "sha512": "1fb79b835bf7e7de8078a7088dbde122c8614eab173b22447a1856b89901b260353c138001e22407ebe34579b117f77d94d80c85b919595d25eae75b9fc2af42",
-    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.26.0",
-    "dest-filename": "openai-java-client-okhttp-4.26.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.28.0/openai-java-client-okhttp-4.28.0.jar",
+    "sha512": "74f4df3c4a703f593aa6547cf3101f1fe8098234cbc18fce08011d5a10d21deac1b0e697afb247e989e576041c5ba6d28a86780730bc1d0feceed4176843ea25",
+    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.28.0",
+    "dest-filename": "openai-java-client-okhttp-4.28.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.26.0/openai-java-client-okhttp-4.26.0.module",
-    "sha512": "666ea5de66583315677dae0e2e1f8d26846d77e272ba639c09c76146e4475a2dc3d4b4a935b33632c08cd40780e9f826a41d4ea1409e6e7443362075c9b4bfa9",
-    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.26.0",
-    "dest-filename": "openai-java-client-okhttp-4.26.0.module"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.28.0/openai-java-client-okhttp-4.28.0.module",
+    "sha512": "fe8225f6f14d1d9d00656192f5decd27e5d4421ca284d3743d872a86501cf810840774b841dad1b62dedb55d5be9e1f0b4938af543c46901cc0898b6599a0ed8",
+    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.28.0",
+    "dest-filename": "openai-java-client-okhttp-4.28.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.26.0/openai-java-client-okhttp-4.26.0.pom",
-    "sha512": "91877739659290539d4be3c613cbff76fef6f034901cdb4ac9dabd002e7562d88abb065b03444e3e22b3284dad9c0966283e7c7d6ba87d614e79fa6ceaa968ea",
-    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.26.0",
-    "dest-filename": "openai-java-client-okhttp-4.26.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-client-okhttp/4.28.0/openai-java-client-okhttp-4.28.0.pom",
+    "sha512": "a5a2bcc573b8ec36e7b011f419a798d0942703e67f66def80f628fe9442c1f7d846ac7b7201dea03d3b2385017a8f7f76252680bde54b3f861af654a420acabd",
+    "dest": "offline-repository/com/openai/openai-java-client-okhttp/4.28.0",
+    "dest-filename": "openai-java-client-okhttp-4.28.0.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.26.0/openai-java-core-4.26.0.jar",
-    "sha512": "cd7f9d4695c8adecf4ebc8735f27e01d2a85e19d56e4b3271b98bf63455e737d8dbfdf754fc88c334d17a04e0a41c9bbfdb949df0e57e6ad4d811a32e7ad2f01",
-    "dest": "offline-repository/com/openai/openai-java-core/4.26.0",
-    "dest-filename": "openai-java-core-4.26.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.28.0/openai-java-core-4.28.0.jar",
+    "sha512": "a2ccbade213ded27be7bf00935091e905c37d9c65802bdb505ad17e87cb9a78343ed9db9ea4e3929496c739e705454fa4563cdb2a42e4c5d5fae97c0c150801d",
+    "dest": "offline-repository/com/openai/openai-java-core/4.28.0",
+    "dest-filename": "openai-java-core-4.28.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.26.0/openai-java-core-4.26.0.module",
-    "sha512": "b4a9635673595a0389051df86d4ebbb62a27eff184525df661b23a494383c1fd16e72b13dba4d11d34f4fa4291d4228375464d05b87caccc059ef248937789d5",
-    "dest": "offline-repository/com/openai/openai-java-core/4.26.0",
-    "dest-filename": "openai-java-core-4.26.0.module"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.28.0/openai-java-core-4.28.0.module",
+    "sha512": "4a78b221d76e65413872a1cbf7a1de6b87d9558372644a145d928f82e21dd6a55bb66bcae7bb6f9dcd00d7401e91bde3ad5a430ea0e42b69fd5f0a9c45d463d8",
+    "dest": "offline-repository/com/openai/openai-java-core/4.28.0",
+    "dest-filename": "openai-java-core-4.28.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.26.0/openai-java-core-4.26.0.pom",
-    "sha512": "da3f0f5dcdeb67fb580bd523d7673e0f008dad0fe07cd8dc1aa55dd9ab5272601a60a8b1830e5b38b4ecce80dc4c7a3a4cb6a34c88a3beab17745c071c5cee90",
-    "dest": "offline-repository/com/openai/openai-java-core/4.26.0",
-    "dest-filename": "openai-java-core-4.26.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java-core/4.28.0/openai-java-core-4.28.0.pom",
+    "sha512": "9942984312d9abb178742abdd9be5158a8ad05545c30c3fdd752d4de5f68fd69554fd908e2db55b364ee30ec8b6f668a623906ca5f1a4b90115f8764fa445a94",
+    "dest": "offline-repository/com/openai/openai-java-core/4.28.0",
+    "dest-filename": "openai-java-core-4.28.0.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.26.0/openai-java-4.26.0.jar",
-    "sha512": "1e41347bddb95e73ec614a88ab009c657bf1542607836de3a9eb2708d2be64b741f07adb5e9a89a29e6aea85642599a46ef5c640705c9141568983742572ef31",
-    "dest": "offline-repository/com/openai/openai-java/4.26.0",
-    "dest-filename": "openai-java-4.26.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.28.0/openai-java-4.28.0.jar",
+    "sha512": "33314c6e2d6d810ed5ee26797268cda5aa30c1aafb4431813aa98fd001bb3090a4323df4d55f0eb68e3b597125758b48b798724e724c8f3e9aa49e55208610c6",
+    "dest": "offline-repository/com/openai/openai-java/4.28.0",
+    "dest-filename": "openai-java-4.28.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.26.0/openai-java-4.26.0.module",
-    "sha512": "36b2f4fcc41808b195fb66cf053140e9f2ebd44633278c1994cb702ad0aa458ca22da15197c76f33f0a7f4a4847c5365318c78006078f4b5f0d0f783e59108a7",
-    "dest": "offline-repository/com/openai/openai-java/4.26.0",
-    "dest-filename": "openai-java-4.26.0.module"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.28.0/openai-java-4.28.0.module",
+    "sha512": "2b8c00eec470d2a860e127eba999b160813e03f275a83991b76ec393e6c9058eb0769b8ea8993b361767377e5a5616d940961d6be753a21e3e81083da6615a3c",
+    "dest": "offline-repository/com/openai/openai-java/4.28.0",
+    "dest-filename": "openai-java-4.28.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.26.0/openai-java-4.26.0.pom",
-    "sha512": "0f6e09daf96753618ef04bb14f92b736eb98952c78e1e6afb9ef53328e45d27b2de48f4f8abbead08a0701d89170c1f9506adcd45057c1657dee9f9eeba0013b",
-    "dest": "offline-repository/com/openai/openai-java/4.26.0",
-    "dest-filename": "openai-java-4.26.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/openai/openai-java/4.28.0/openai-java-4.28.0.pom",
+    "sha512": "bcddd1005a9a4974928eba48effbfbe38499338037447abd8f9c201fa05ecd65243164138c1d5560251a340748e2bf21fe1b23fcda92e1ec1d043758f200e172",
+    "dest": "offline-repository/com/openai/openai-java/4.28.0",
+    "dest-filename": "openai-java-4.28.0.pom"
   },
   {
     "type": "file",
