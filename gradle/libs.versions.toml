@@ -6,13 +6,13 @@
 #
 # IMPORTANT: After updating any dependency version, regenerate the Flatpak sources files with `make flatpak-sources`
 #
-anthropic = "2.15.0"
-buildconfig = "6.0.8"
+anthropic = "2.16.1"
+buildconfig = "6.0.9"
 clikt = "5.1.0"
 commonsCompress = "1.28.0"
 detekt = "2.0.0-alpha.2"
 flatpakGradleGenerator = "1.7.0"
-googleGenai = "1.42.0"
+googleGenai = "1.43.0"
 javaGi = "0.14.1"
 kotlin = "2.3.10"
 kotlinxCoroutines = "1.10.2"
@@ -23,9 +23,9 @@ ktor = "3.4.1"
 log4j = "2.25.3"
 onnx = "1.24.3"
 onnxExtensions = "0.13.0"
-openai = "4.26.0"
+openai = "4.28.0"
 shadow = "9.3.2"
-stargate = "0.1.0"
+stargate = "0.2.0"
 versionsPlugin = "0.53.0"
 
 [libraries]
