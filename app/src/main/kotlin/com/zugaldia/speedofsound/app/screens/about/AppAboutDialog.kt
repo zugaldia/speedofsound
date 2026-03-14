@@ -10,9 +10,6 @@ import com.zugaldia.speedofsound.core.getRuntimeEnvironment
 import com.zugaldia.speedofsound.core.getTmpDataDir
 import org.gnome.adw.AboutDialog
 import org.gnome.gtk.License
-import org.slf4j.LoggerFactory
-
-private val logger = LoggerFactory.getLogger("AppAboutDialog")
 
 fun buildAboutDialog(): AboutDialog {
     val runtimeEnvironment = getRuntimeEnvironment()
@@ -38,9 +35,6 @@ fun buildAboutDialog(): AboutDialog {
             "The dbus-java team https://github.com/hypfvieh/dbus-java",
         )
     )
-
-    dialog.onMap { logger.info("AboutDialog opened") }
-    dialog.onUnmap { logger.info("AboutDialog closed") }
 
     return dialog
 }
