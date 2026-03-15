@@ -25,6 +25,7 @@ import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
 import com.zugaldia.speedofsound.core.plugins.director.DefaultDirector
 import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
+import com.zugaldia.speedofsound.core.plugins.director.PipelineStage
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderEvent
 import kotlinx.coroutines.CoroutineScope
@@ -281,7 +282,10 @@ class MainViewModel(
             val finalText = event.finalResult.trim() + suffix
             TextUtils.textToKeySym(finalText)
                 .onSuccess { keySyms -> portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()) }
-                .onFailure { error -> logger.error("Error converting text to key symbols: ${error.message}") }
+                .onFailure { error ->
+                    logger.error("Error converting text to key symbols: ${error.message}")
+                    portalsClient.showNotification(body = "Failed to type text: ${error.message ?: "Unknown error"}")
+                }
         }
     }
 
@@ -291,6 +295,12 @@ class MainViewModel(
 
     private fun onPipelineError(event: DirectorEvent.PipelineError) {
         logger.error("Pipeline error at ${event.stage}: ${event.error.message}")
+        val body = when (event.stage) {
+            PipelineStage.RECORDING -> "Recording failed: ${event.error.message ?: "Unknown error"}"
+            PipelineStage.TRANSCRIPTION -> "Transcription failed: ${event.error.message ?: "Unknown error"}"
+            PipelineStage.POLISHING -> "Text processing failed: ${event.error.message ?: "Unknown error"}"
+        }
+        portalsClient.showNotification(body = body)
         hideAndReset()
     }
 
