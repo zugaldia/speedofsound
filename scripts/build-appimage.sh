@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build a valid AppImage from the jpackage app-image output.
+# Build an AppImage from the jpackage app-image output (which is NOT a valid AppImage, but it's close).
 # The version is always read from the VERSION file.
 # Requires appimagetool to be available in PATH.
 
@@ -43,6 +43,9 @@ ln -sf usr/share/applications/io.speedofsound.SpeedOfSound.desktop \
 
 # Icon at root (appimagetool requires it here, matching Icon= above)
 ln -sf lib/speedofsound.png "$APP_DIR/speedofsound.png"
+
+# .DirIcon: required by AppDir spec for thumbnailers and file managers
+ln -sf lib/speedofsound.png "$APP_DIR/.DirIcon"
 
 # AppStream metadata
 mkdir -p "$APP_DIR/usr/share/metainfo"
