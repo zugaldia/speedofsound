@@ -1,6 +1,9 @@
 package com.zugaldia.speedofsound.core.desktop.portals
 
+import com.zugaldia.speedofsound.core.APPLICATION_NAME
+import com.zugaldia.speedofsound.core.generateUniqueId
 import com.zugaldia.stargate.sdk.DesktopPortal
+import com.zugaldia.stargate.sdk.notification.NotificationPriority
 import com.zugaldia.stargate.sdk.remotedesktop.DeviceType
 import com.zugaldia.stargate.sdk.remotedesktop.InputState
 import com.zugaldia.stargate.sdk.remotedesktop.PersistMode
@@ -29,6 +32,24 @@ class PortalsClient {
             restoreToken = restoreToken,
             persistMode = PersistMode.UNTIL_REVOKED
         )
+
+    /**
+     * Sends a desktop notification via the XDG Notification portal.
+     *
+     * @param body The main notification message shown to the user.
+     * @param id Unique identifier for the notification. Defaults to a generated ID. Sending a new
+     * notification with the same ID replaces any existing notification with that ID.
+     * @param title The notification title. Defaults to the application name.
+     * @param priority The notification priority level. Defaults to [NotificationPriority.NORMAL],
+     * which is appropriate for most informational messages and errors.
+     */
+    fun showNotification(
+        body: String,
+        id: String = generateUniqueId(),
+        title: String = APPLICATION_NAME,
+        priority: NotificationPriority = NotificationPriority.NORMAL
+    ) = runCatching { portal.notification.addNotification(id = id, title = title, body = body, priority = priority) }
+        .onFailure { error -> logger.error("Failed to send notification: ${error.message}") }
 
     /**
      * Simulates keyboard input by sending each character as a key press/release pair.
