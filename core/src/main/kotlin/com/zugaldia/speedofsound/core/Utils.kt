@@ -95,11 +95,12 @@ fun generateTmpWavFilePath(): Path {
 enum class RuntimeEnvironment(val label: String) {
     FLATPAK("Flatpak"),
     SNAP("Snap"),
+    APPIMAGE("AppImage"),
     JVM("JVM"),
 }
 
 /**
- * Detects the runtime environment (Flatpak, Snap, or regular JVM Linux).
+ * Detects the runtime environment (Flatpak, Snap, AppImage, or regular JVM Linux).
  */
 fun getRuntimeEnvironment(): RuntimeEnvironment {
     // https://snapcraft.io/docs/reference/development/environment-variables/
@@ -108,9 +109,13 @@ fun getRuntimeEnvironment(): RuntimeEnvironment {
     // https://docs.flatpak.org/en/latest/flatpak-command-reference.html
     val isFlatpak = !System.getenv("FLATPAK_ID").isNullOrEmpty()
 
+    // https://docs.appimage.org/packaging-guide/environment-variables.html
+    val isAppImage = !System.getenv("APPIMAGE").isNullOrEmpty()
+
     return when {
         isSnap -> RuntimeEnvironment.SNAP
         isFlatpak -> RuntimeEnvironment.FLATPAK
+        isAppImage -> RuntimeEnvironment.APPIMAGE
         else -> RuntimeEnvironment.JVM
     }
 }

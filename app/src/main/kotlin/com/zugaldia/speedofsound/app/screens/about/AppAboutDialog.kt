@@ -15,7 +15,10 @@ fun buildAboutDialog(): AboutDialog {
     val runtimeEnvironment = getRuntimeEnvironment()
 
     val dialog = AboutDialog()
-    if (runtimeEnvironment != RuntimeEnvironment.JVM) { dialog.applicationIcon = APPLICATION_ID }
+    if (runtimeEnvironment == RuntimeEnvironment.FLATPAK || runtimeEnvironment == RuntimeEnvironment.SNAP) {
+        dialog.applicationIcon = APPLICATION_ID
+    }
+
     dialog.applicationName = APPLICATION_NAME
     dialog.developerName = "Antonio Zugaldia"
     dialog.version = "v${BuildConfig.VERSION} (${runtimeEnvironment.label})"
