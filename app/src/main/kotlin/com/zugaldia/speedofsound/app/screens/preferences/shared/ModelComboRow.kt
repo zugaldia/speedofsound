@@ -3,7 +3,9 @@ package com.zugaldia.speedofsound.app.screens.preferences.shared
 import com.zugaldia.speedofsound.core.models.SelectableModel
 import org.gnome.adw.ComboRow
 import org.gnome.adw.EntryRow
+import org.gnome.gtk.PropertyExpression
 import org.gnome.gtk.StringList
+import org.gnome.gtk.StringObject
 import org.slf4j.LoggerFactory
 
 /**
@@ -37,6 +39,7 @@ class ModelComboRow<T : SelectableModel>(
             subtitle = rowSubtitle
             useSubtitle = false // Do not use the _current value_ as the subtitle
             enableSearch = true // Some providers list *many* models, so allow searching
+            expression = PropertyExpression(StringObject.getType(), null, "string")
         }
         refreshComboRows()
     }

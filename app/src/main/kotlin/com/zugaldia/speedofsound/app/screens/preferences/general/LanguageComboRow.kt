@@ -3,7 +3,9 @@ package com.zugaldia.speedofsound.app.screens.preferences.general
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.languageFromIso2
 import org.gnome.adw.ComboRow
+import org.gnome.gtk.PropertyExpression
 import org.gnome.gtk.StringList
+import org.gnome.gtk.StringObject
 import org.slf4j.LoggerFactory
 
 class LanguageComboRow(
@@ -25,6 +27,7 @@ class LanguageComboRow(
         model = stringList
         useSubtitle = false
         enableSearch = true
+        expression = PropertyExpression(StringObject.getType(), null, "string")
         refresh()
     }
 
