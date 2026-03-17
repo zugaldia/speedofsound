@@ -7,7 +7,7 @@ import com.zugaldia.speedofsound.core.APPLICATION_SHORT
 import com.zugaldia.speedofsound.core.RuntimeEnvironment
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getRuntimeEnvironment
-import com.zugaldia.speedofsound.core.getTmpDataDir
+import com.zugaldia.speedofsound.core.getCacheDir
 import org.gnome.adw.AboutDialog
 import org.gnome.gtk.License
 
@@ -47,7 +47,7 @@ private fun buildDebugInfo(): String = buildString {
     appendLine()
     appendLine("Runtime: ${getRuntimeEnvironment().label}")
     appendLine("Data directory: ${getDataDir()}")
-    appendLine("Temporary directory: ${getTmpDataDir()}")
+    appendLine("Cache directory: ${getCacheDir()}")
     appendLine()
     appendLine("OS: ${System.getProperty("os.name")} ${System.getProperty("os.version")}")
     appendLine("Architecture: ${System.getProperty("os.arch")}")
