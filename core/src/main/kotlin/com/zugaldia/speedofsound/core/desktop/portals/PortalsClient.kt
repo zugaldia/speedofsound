@@ -52,6 +52,15 @@ class PortalsClient {
         .onFailure { error -> logger.error("Failed to send notification: ${error.message}") }
 
     /**
+     * Opens a URI in the user's preferred application via the XDG OpenURI portal.
+     *
+     * @param uri The URI to open (e.g. "https://example.com").
+     */
+    suspend fun openUri(uri: String) =
+        portal.openUri.openUri(uri)
+            .onFailure { error -> logger.error("Failed to open URI: ${error.message}") }
+
+    /**
      * Simulates keyboard input by sending each character as a key press/release pair.
      *
      * @param text List of X11 keysym values to type, one per character.

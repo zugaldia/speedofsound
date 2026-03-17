@@ -16,6 +16,7 @@ import com.zugaldia.speedofsound.app.screens.preferences.PreferencesDialog
 import com.zugaldia.speedofsound.app.screens.shortcuts.buildShortcutsWindow
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
+import com.zugaldia.speedofsound.core.APPLICATION_URL
 import org.gnome.adw.Banner
 import org.slf4j.LoggerFactory
 import org.gnome.adw.Application
@@ -57,6 +58,7 @@ class MainWindow(
             onSettingsClicked = { onOpenPreferences() },
             onShortcutsClicked = { onOpenShortcuts() },
             onAboutClicked = { onOpenAbout() },
+            onHelpClicked = { onOpenHelp() },
             onQuitClicked = { onQuit() }
         )
 
@@ -157,6 +159,10 @@ class MainWindow(
         shouldHideOnCompletion = false
         viewModel.cancelListening()
         buildAboutDialog().present(this)
+    }
+
+    private fun onOpenHelp() {
+        viewModel.openUri(APPLICATION_URL)
     }
 
     private fun onQuit() {

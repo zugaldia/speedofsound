@@ -17,6 +17,7 @@ class StatusWidget(
     private val onSettingsClicked: () -> Unit,
     private val onShortcutsClicked: () -> Unit,
     private val onAboutClicked: () -> Unit,
+    private val onHelpClicked: () -> Unit,
     private val onQuitClicked: () -> Unit
 ) : Box() {
     private val logger = LoggerFactory.getLogger(StatusWidget::class.java)
@@ -57,6 +58,7 @@ class StatusWidget(
         val mainSection = Menu()
         mainSection.append("Preferences", "status.preferences")
         mainSection.append("Keyboard Shortcuts", "status.shortcuts")
+        mainSection.append("Help", "status.help")
         mainSection.append("About", "status.about")
 
         val quitSection = Menu()
@@ -86,6 +88,10 @@ class StatusWidget(
         val aboutAction = SimpleAction("about", null)
         aboutAction.onActivate { onAboutClicked() }
         actionGroup.addAction(aboutAction)
+
+        val helpAction = SimpleAction("help", null)
+        helpAction.onActivate { onHelpClicked() }
+        actionGroup.addAction(helpAction)
 
         val quitAction = SimpleAction("quit", null)
         quitAction.onActivate { onQuitClicked() }
