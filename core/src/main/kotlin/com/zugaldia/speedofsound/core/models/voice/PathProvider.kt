@@ -1,15 +1,15 @@
 package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.getDataDir as getCoreDataDir
-import com.zugaldia.speedofsound.core.getTmpDataDir as getCoreTmpDataDir
+import com.zugaldia.speedofsound.core.getCacheDir as getCoreCacheDir
 import java.nio.file.Path
 
 /**
- * Provides paths for data and temporary directories.
+ * Provides paths for data and cache directories.
  */
 interface PathProvider {
     fun getDataDir(): Path
-    fun getTmpDataDir(): Path
+    fun getCacheDir(): Path
 }
 
 /**
@@ -17,5 +17,5 @@ interface PathProvider {
  */
 class DefaultPathProvider : PathProvider {
     override fun getDataDir(): Path = getCoreDataDir()
-    override fun getTmpDataDir(): Path = getCoreTmpDataDir()
+    override fun getCacheDir(): Path = getCoreCacheDir()
 }

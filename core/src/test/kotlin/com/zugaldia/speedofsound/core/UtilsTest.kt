@@ -64,16 +64,16 @@ class UtilsTest {
     }
 
     @Test
-    fun `getTmpDataDir returns non-null path`() {
-        val tmpDir = getTmpDataDir()
-        assertNotNull(tmpDir)
+    fun `getCacheDir returns non-null path`() {
+        val cacheDir = getCacheDir()
+        assertNotNull(cacheDir)
     }
 
     @Test
-    fun `getTmpDataDir creates directory that exists`() {
-        val tmpDir = getTmpDataDir()
-        assertTrue(tmpDir.toFile().exists())
-        assertTrue(tmpDir.toFile().isDirectory)
+    fun `getCacheDir creates directory that exists`() {
+        val cacheDir = getCacheDir()
+        assertTrue(cacheDir.toFile().exists())
+        assertTrue(cacheDir.toFile().isDirectory)
     }
 
     @Test

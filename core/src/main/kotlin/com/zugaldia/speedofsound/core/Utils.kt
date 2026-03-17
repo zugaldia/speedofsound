@@ -35,58 +35,57 @@ fun languageFromIso2(iso2: String): Language? =
     Language.all.firstOrNull { it.iso2 == iso2 }
 
 /**
- * Get the data directory path depending on the environment.
- * Returns $SNAP_USER_COMMON or $XDG_DATA_HOME (if set), falling back to $HOME/.local/share/speedofsound
+ * Resolves and ensures an application directory exists, adapting to the runtime environment.
+ *
+ * @param xdgEnvVar the XDG environment variable to check (e.g. XDG_DATA_HOME, XDG_CACHE_HOME)
+ * @param fallbackPath path segments under $HOME to use when no XDG variable is set (APPLICATION_SHORT is appended)
+ * @param snapSubDir optional subdirectory to append under SNAP_USER_COMMON (e.g. "cache")
  */
-fun getDataDir(): Path {
+private fun resolveAppDir(xdgEnvVar: String, fallbackPath: List<String>, snapSubDir: String? = null): Path {
     val snapUserCommon = System.getenv("SNAP_USER_COMMON") // In a Snap
-    val xdgDataHome = System.getenv("XDG_DATA_HOME") // Typically, in a Flatpak
-    val appDataDir = if (!snapUserCommon.isNullOrEmpty()) {
-        Paths.get(snapUserCommon) // Already includes the Snap name
-    } else if (!xdgDataHome.isNullOrEmpty()) {
-        if (APPLICATION_ID in xdgDataHome) {
-            Paths.get(xdgDataHome) // APPLICATION_ID already included in Flatpak sandboxes
+    val xdgDir = System.getenv(xdgEnvVar) // Typically, in a Flatpak
+    val appDir = if (!snapUserCommon.isNullOrEmpty()) {
+        if (snapSubDir != null) Paths.get(snapUserCommon, snapSubDir) else Paths.get(snapUserCommon)
+    } else if (!xdgDir.isNullOrEmpty()) {
+        if (APPLICATION_ID in xdgDir) {
+            Paths.get(xdgDir) // APPLICATION_ID already included in Flatpak sandboxes
         } else {
-            Paths.get(xdgDataHome, APPLICATION_SHORT)
+            Paths.get(xdgDir, APPLICATION_SHORT)
         }
     } else {
         val home = System.getProperty("user.home")
-        Paths.get(home, ".local", "share", APPLICATION_SHORT)
+        Paths.get(home, *fallbackPath.toTypedArray(), APPLICATION_SHORT)
     }
 
     // Ensure it exists
-    val dir = appDataDir.toFile()
+    val dir = appDir.toFile()
     if (!dir.exists()) {
         dir.mkdirs()
     }
 
-    return appDataDir
+    return appDir
 }
 
 /**
- * Get the temporary data directory path.
- * Returns {dataDir}/tmp, creating it if it doesn't exist.
- * This ensures temporary files work in sandboxed environments like Flatpak and Snap.
+ * Get the data directory path depending on the environment.
+ * Returns $SNAP_USER_COMMON or $XDG_DATA_HOME (if set), falling back to $HOME/.local/share/speedofsound
  */
-fun getTmpDataDir(): Path {
-    val dataDir = getDataDir()
-    val tmpDir = dataDir.resolve("tmp")
-    val dir = tmpDir.toFile()
-    if (!dir.exists()) {
-        dir.mkdirs()
-    }
+fun getDataDir(): Path = resolveAppDir("XDG_DATA_HOME", listOf(".local", "share"))
 
-    return tmpDir
-}
+/**
+ * Get the cache directory path depending on the environment.
+ * Returns $SNAP_USER_COMMON/cache or $XDG_CACHE_HOME (if set), falling back to $HOME/.cache/speedofsound
+ */
+fun getCacheDir(): Path = resolveAppDir("XDG_CACHE_HOME", listOf(".cache"), snapSubDir = "cache")
 
 /**
  * Generate a temporary WAV file path with a timestamp.
- * Format: {tmpDataDir}/speedofsound-{timestamp}.wav
+ * Format: {cacheDir}/speedofsound-{timestamp}.wav
  */
 fun generateTmpWavFilePath(): Path {
-    val dataDir = getTmpDataDir()
+    val cacheDir = getCacheDir()
     val timestamp = generateTimestamp()
-    return dataDir.resolve("$APPLICATION_SHORT-$timestamp.wav")
+    return cacheDir.resolve("$APPLICATION_SHORT-$timestamp.wav")
 }
 
 /**
