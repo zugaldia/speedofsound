@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core
 const val APPLICATION_NAME = "Speed of Sound"
 const val APPLICATION_ID = "io.speedofsound.SpeedOfSound"
 const val APPLICATION_SHORT = "speedofsound"
+const val APPLICATION_URL = "https://www.speedofsound.io"
 
 const val ANTHROPIC_ENVIRONMENT_VARIABLE = "ANTHROPIC_API_KEY"
 const val GOOGLE_ENVIRONMENT_VARIABLE = "GOOGLE_API_KEY"

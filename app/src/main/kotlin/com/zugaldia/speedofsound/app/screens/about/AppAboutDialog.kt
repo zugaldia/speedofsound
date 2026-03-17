@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.app.BuildConfig
 import com.zugaldia.speedofsound.core.APPLICATION_ID
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.APPLICATION_SHORT
+import com.zugaldia.speedofsound.core.APPLICATION_URL
 import com.zugaldia.speedofsound.core.RuntimeEnvironment
 import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.getRuntimeEnvironment
@@ -22,7 +23,7 @@ fun buildAboutDialog(): AboutDialog {
     dialog.applicationName = APPLICATION_NAME
     dialog.developerName = "Antonio Zugaldia"
     dialog.version = "v${BuildConfig.VERSION} (${runtimeEnvironment.label})"
-    dialog.website = "https://www.speedofsound.io"
+    dialog.website = APPLICATION_URL
     dialog.issueUrl = "https://github.com/zugaldia/speedofsound/issues"
     dialog.supportUrl = "https://github.com/zugaldia/speedofsound/issues"
     dialog.licenseType = License.MIT_X11

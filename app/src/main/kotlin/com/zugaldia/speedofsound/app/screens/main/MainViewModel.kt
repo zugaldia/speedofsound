@@ -239,6 +239,10 @@ class MainViewModel(
         portalsSessionManager.startSession(viewModelScope, token)
     }
 
+    fun openUri(uri: String) {
+        viewModelScope.launch { portalsClient.openUri(uri) }
+    }
+
     fun onPrimaryLanguageSelected(forceUpdate: Boolean = false) {
         val language = languageFromIso2(settingsClient.getDefaultLanguage()) ?: DEFAULT_LANGUAGE
         if (!forceUpdate && language == state.currentLanguage()) return // Force update on initialization
