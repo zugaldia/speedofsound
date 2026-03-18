@@ -91,6 +91,12 @@ class SettingsClient(val settingsStore: SettingsStore) {
      * Not exposed to the UI
      */
 
+    fun getWelcomeScreenShown(): Boolean =
+        settingsStore.getBoolean(KEY_WELCOME_SCREEN_SHOWN, DEFAULT_WELCOME_SCREEN_SHOWN)
+
+    fun setWelcomeScreenShown(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_WELCOME_SCREEN_SHOWN, value)
+
     fun getPortalsRestoreToken(): String =
         settingsStore.getString(KEY_PORTALS_RESTORE_TOKEN, DEFAULT_PORTALS_RESTORE_TOKEN)
 

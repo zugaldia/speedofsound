@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app
 
 import com.zugaldia.speedofsound.app.screens.main.MainViewModel
 import com.zugaldia.speedofsound.app.screens.main.MainWindow
+import com.zugaldia.speedofsound.app.screens.welcome.WelcomeWindow
 import com.zugaldia.speedofsound.app.settings.GioStore
 import com.zugaldia.speedofsound.core.desktop.settings.PropertiesStore
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
@@ -56,8 +57,17 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
         onActivate {
             logger.info("Application activated.")
+            val isFirstLaunch = !settingsClient.getWelcomeScreenShown()
             ensureMainWindow()
-            mainWindow?.present()
+            if (isFirstLaunch) {
+                WelcomeWindow(this) {
+                    settingsClient.setWelcomeScreenShown(true)
+                    mainWindow?.present()
+                    mainWindow?.openPreferences()
+                }.present()
+            } else {
+                mainWindow?.present()
+            }
         }
 
         onShutdown {

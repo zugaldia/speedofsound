@@ -31,7 +31,7 @@ import org.gnome.gtk.Separator
 class MainWindow(
     app: Application,
     private val viewModel: MainViewModel,
-    private val settingsClient: SettingsClient
+    private val settingsClient: SettingsClient,
 ) : ApplicationWindow() {
     private val logger = LoggerFactory.getLogger(MainWindow::class.java)
 
@@ -55,7 +55,7 @@ class MainWindow(
         portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
         audioWidget = AudioWidget()
         statusWidget = StatusWidget(
-            onSettingsClicked = { onOpenPreferences() },
+            onSettingsClicked = { openPreferences() },
             onShortcutsClicked = { onOpenShortcuts() },
             onAboutClicked = { onOpenAbout() },
             onHelpClicked = { onOpenHelp() },
@@ -140,7 +140,7 @@ class MainWindow(
         }
     }
 
-    private fun onOpenPreferences() {
+    fun openPreferences() {
         shouldHideOnCompletion = false
         viewModel.cancelListening()
         PreferencesDialog(settingsClient).present(this)
