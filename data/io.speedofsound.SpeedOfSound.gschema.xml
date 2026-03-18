@@ -8,6 +8,12 @@
       <description>Token used to restore remote desktop sessions without requiring user re-authorization.</description>
     </key>
 
+    <key name="welcome-screen-shown" type="b">
+      <default>false</default>
+      <summary>Welcome screen shown</summary>
+      <description>Whether the welcome screen has been shown to the user at least once.</description>
+    </key>
+
     <!-- General page -->
 
     <key name="background-recording" type="b">
