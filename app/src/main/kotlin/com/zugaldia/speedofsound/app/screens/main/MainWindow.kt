@@ -21,10 +21,16 @@ import org.gnome.adw.Banner
 import org.slf4j.LoggerFactory
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
+import org.gnome.adw.HeaderBar
+import org.gnome.adw.ToolbarView
 import org.gnome.gdk.Gdk
 import org.gnome.gdk.ModifierType
+import org.gnome.gio.Menu
+import org.gnome.gio.SimpleAction
+import org.gnome.gio.SimpleActionGroup
 import org.gnome.gtk.Box
 import org.gnome.gtk.EventControllerKey
+import org.gnome.gtk.MenuButton
 import org.gnome.gtk.Orientation
 import org.gnome.gtk.Separator
 
@@ -54,15 +60,9 @@ class MainWindow(
 
         portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
         audioWidget = AudioWidget()
-        statusWidget = StatusWidget(
-            onSettingsClicked = { onOpenPreferences() },
-            onShortcutsClicked = { onOpenShortcuts() },
-            onAboutClicked = { onOpenAbout() },
-            onHelpClicked = { onOpenHelp() },
-            onQuitClicked = { onQuit() }
-        )
+        statusWidget = StatusWidget()
 
-        content = Box.builder()
+        val contentBox = Box.builder()
             .setOrientation(Orientation.VERTICAL)
             .setHexpand(true)
             .setVexpand(true)
@@ -74,8 +74,42 @@ class MainWindow(
                 append(statusWidget)
             }
 
+        content = ToolbarView().apply {
+            addTopBar(HeaderBar().apply { packEnd(buildMenuButton()) })
+            content = contentBox
+        }
+
         connectSignals()
         viewModel.start()
+    }
+
+    private fun buildMenuButton(): MenuButton {
+        val mainSection = Menu()
+        mainSection.append("Preferences", "win.preferences")
+        mainSection.append("Keyboard Shortcuts", "win.shortcuts")
+        mainSection.append("Help", "win.help")
+        mainSection.append("About", "win.about")
+
+        val quitSection = Menu()
+        quitSection.append("Quit", "win.quit")
+
+        val menu = Menu()
+        menu.appendSection(null, mainSection)
+        menu.appendSection(null, quitSection)
+
+        val actionGroup = SimpleActionGroup()
+        SimpleAction("preferences", null).also { it.onActivate { onOpenPreferences() }; actionGroup.addAction(it) }
+        SimpleAction("shortcuts", null).also { it.onActivate { onOpenShortcuts() }; actionGroup.addAction(it) }
+        SimpleAction("help", null).also { it.onActivate { onOpenHelp() }; actionGroup.addAction(it) }
+        SimpleAction("about", null).also { it.onActivate { onOpenAbout() }; actionGroup.addAction(it) }
+        SimpleAction("quit", null).also { it.onActivate { onQuit() }; actionGroup.addAction(it) }
+        insertActionGroup("win", actionGroup)
+
+        return MenuButton().apply {
+            iconName = "open-menu-symbolic"
+            menuModel = menu
+            canFocus = false  // Avoid focus to prevent keyboard/typing accidental activations
+        }
     }
 
     private fun connectSignals() {
