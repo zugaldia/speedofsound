@@ -37,7 +37,7 @@ import org.gnome.gtk.Separator
 class MainWindow(
     app: Application,
     private val viewModel: MainViewModel,
-    private val settingsClient: SettingsClient
+    private val settingsClient: SettingsClient,
 ) : ApplicationWindow() {
     private val logger = LoggerFactory.getLogger(MainWindow::class.java)
 
@@ -98,7 +98,7 @@ class MainWindow(
         menu.appendSection(null, quitSection)
 
         val actionGroup = SimpleActionGroup()
-        SimpleAction("preferences", null).also { it.onActivate { onOpenPreferences() }; actionGroup.addAction(it) }
+        SimpleAction("preferences", null).also { it.onActivate { openPreferences() }; actionGroup.addAction(it) }
         SimpleAction("shortcuts", null).also { it.onActivate { onOpenShortcuts() }; actionGroup.addAction(it) }
         SimpleAction("help", null).also { it.onActivate { onOpenHelp() }; actionGroup.addAction(it) }
         SimpleAction("about", null).also { it.onActivate { onOpenAbout() }; actionGroup.addAction(it) }
@@ -174,7 +174,7 @@ class MainWindow(
         }
     }
 
-    private fun onOpenPreferences() {
+    fun openPreferences() {
         shouldHideOnCompletion = false
         viewModel.cancelListening()
         PreferencesDialog(settingsClient).present(this)

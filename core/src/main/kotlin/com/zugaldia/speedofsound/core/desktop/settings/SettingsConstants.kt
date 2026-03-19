@@ -10,6 +10,9 @@ const val DEFAULT_PROPERTIES_FILENAME = "$APPLICATION_SHORT.properties"
 const val KEY_PORTALS_RESTORE_TOKEN = "portals-restore-token"
 const val DEFAULT_PORTALS_RESTORE_TOKEN = ""
 
+const val KEY_WELCOME_SCREEN_SHOWN = "welcome-screen-shown"
+const val DEFAULT_WELCOME_SCREEN_SHOWN = false
+
 // General page
 
 const val KEY_DEFAULT_LANGUAGE = "default-language"
