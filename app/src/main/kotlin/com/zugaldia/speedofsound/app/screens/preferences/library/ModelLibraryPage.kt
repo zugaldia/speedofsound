@@ -68,11 +68,13 @@ class ModelLibraryPage(
                 val isDeleting = deletingModels.contains(model.id)
                 val isDownloading = downloadingModels.contains(model.id)
                 val isOperationInProgress = isDeleting || isDownloading
+                val isBundled = model.id == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
                 val row = ActionRow().apply {
                     title = model.name
                     subtitle = when {
                         isDeleting -> "Deleting..."
                         isDownloading -> "Downloading..."
+                        isBundled -> "Bundled — always available"
                         else -> "${model.dataSizeMegabytes} MB"
                     }
 
@@ -135,6 +137,7 @@ class ModelLibraryPage(
         val isOperationInProgress = isDownloading || isDeleting
         val downloadButton = Button.fromIconName("folder-download-symbolic").apply {
             tooltipText = when {
+                isDefaultModel -> "Bundled with the application"
                 isDownloading -> "Downloading..."
                 isOperationInProgress -> "Operation in progress"
                 isDownloaded -> "Already downloaded"
@@ -149,7 +152,7 @@ class ModelLibraryPage(
         val isDefaultModel = modelId == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
         val removeButton = Button.fromIconName("user-trash-symbolic").apply {
             tooltipText = when {
-                isDefaultModel -> "Cannot delete default model"
+                isDefaultModel -> "Bundled with the application, cannot be removed"
                 isDeleting -> "Deleting..."
                 isOperationInProgress -> "Operation in progress"
                 else -> "Remove model"
