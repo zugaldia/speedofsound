@@ -1,5 +1,7 @@
 package com.zugaldia.speedofsound.core
 
+import com.zugaldia.stargate.sdk.isFlatpak
+import com.zugaldia.stargate.sdk.isSnap
 import java.net.URI
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -102,18 +104,11 @@ enum class RuntimeEnvironment(val label: String) {
  * Detects the runtime environment (Flatpak, Snap, AppImage, or regular JVM Linux).
  */
 fun getRuntimeEnvironment(): RuntimeEnvironment {
-    // https://snapcraft.io/docs/reference/development/environment-variables/
-    val isSnap = !System.getenv("SNAP_NAME").isNullOrEmpty()
-
-    // https://docs.flatpak.org/en/latest/flatpak-command-reference.html
-    val isFlatpak = !System.getenv("FLATPAK_ID").isNullOrEmpty()
-
     // https://docs.appimage.org/packaging-guide/environment-variables.html
     val isAppImage = !System.getenv("APPIMAGE").isNullOrEmpty()
-
     return when {
-        isSnap -> RuntimeEnvironment.SNAP
-        isFlatpak -> RuntimeEnvironment.FLATPAK
+        isSnap() -> RuntimeEnvironment.SNAP
+        isFlatpak() -> RuntimeEnvironment.FLATPAK
         isAppImage -> RuntimeEnvironment.APPIMAGE
         else -> RuntimeEnvironment.JVM
     }

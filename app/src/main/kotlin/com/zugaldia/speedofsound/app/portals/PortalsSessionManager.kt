@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.portals
 
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
+import com.zugaldia.stargate.sdk.isSandboxed
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,11 +28,18 @@ class PortalsSessionManager(
     val isRestoreTokenMissing: StateFlow<Boolean> = _isRestoreTokenMissing.asStateFlow()
 
     fun initialize(scope: CoroutineScope) {
-        val token = settingsClient.getPortalsRestoreToken()
-        if (token.isNotBlank()) {
-            startSession(scope, token)
-        } else {
-            logger.info("No previous session found.")
+        scope.launch {
+            // Registration must happen before any other portal call, otherwise registration will result in an error.
+            if (!isSandboxed()) { portalsClient.registerApplication() }
+
+            // We can still use portals even if registration above fails (some portals might not work, e.g. Global
+            // Shortcuts, or have degraded experience).
+            val token = settingsClient.getPortalsRestoreToken()
+            if (token.isNotBlank()) {
+                startSession(scope, token)
+            } else {
+                logger.info("No previous session found.")
+            }
         }
     }
 

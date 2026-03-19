@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.core.desktop.portals
 
+import com.zugaldia.speedofsound.core.APPLICATION_ID
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.generateUniqueId
 import com.zugaldia.stargate.sdk.DesktopPortal
@@ -19,6 +20,16 @@ class PortalsClient {
 
     val sessionClosedEvents: Flow<SessionClosedEvent>
         get() = portal.remoteDesktop.observeSessionClosed()
+
+    /**
+     * Registers the application with the XDG Registry portal.
+     * This should only be called when not running in a sandboxed environment (Flatpak/Snap),
+     * as sandboxed apps are registered automatically.
+     */
+    suspend fun registerApplication() =
+        portal.registry.register(APPLICATION_ID)
+            .onSuccess { logger.info("Registered application ID: {}", APPLICATION_ID) }
+            .onFailure { logger.warn("Failed to register application ID: {} ({})", APPLICATION_ID, it.message) }
 
     /**
      * Starts a remote desktop session with keyboard input support.
