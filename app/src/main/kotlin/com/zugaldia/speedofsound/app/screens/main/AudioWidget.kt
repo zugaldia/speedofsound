@@ -6,6 +6,7 @@ import org.gnome.glib.GLib
 import org.slf4j.LoggerFactory
 import org.gnome.gtk.Align
 import org.gnome.gtk.Box
+import org.gnome.gtk.Justification
 import org.gnome.gtk.Label
 import org.gnome.gtk.Orientation
 import org.gnome.gtk.ProgressBar
@@ -22,6 +23,7 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
 
     private val statusLabel = Label(INITIAL_LOADING_MESSAGE).apply {
         cssClasses = arrayOf("dim-label")
+        justify = Justification.CENTER
     }
 
     init {
@@ -37,10 +39,10 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
     fun setStage(stage: AppStage) {
         statusLabel.label = when (stage) {
             AppStage.LOADING -> INITIAL_LOADING_MESSAGE
-            AppStage.IDLE -> "Ready"
-            AppStage.LISTENING -> "Listening..."
-            AppStage.TRANSCRIBING -> "Transcribing..."
-            AppStage.POLISHING -> "${polishingMessages.random()}..."
+            AppStage.IDLE -> "Press your shortcut to start typing\nSet it up in Preferences"
+            AppStage.LISTENING -> "Listening...\nEsc to cancel"
+            AppStage.TRANSCRIBING -> "Transcribing...\nEsc to cancel"
+            AppStage.POLISHING -> "${polishingMessages.random()}...\nEsc to cancel"
         }
 
         val shouldPulsate = stage in listOf(AppStage.LOADING, AppStage.TRANSCRIBING, AppStage.POLISHING)
