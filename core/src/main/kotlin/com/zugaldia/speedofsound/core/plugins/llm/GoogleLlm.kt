@@ -1,8 +1,10 @@
 package com.zugaldia.speedofsound.core.plugins.llm
 
 import com.google.genai.Client
+import com.google.genai.types.HttpOptions
 import com.google.genai.types.ListModelsConfig
 import com.zugaldia.speedofsound.core.models.text.TextModel
+import com.zugaldia.speedofsound.core.plugins.director.DEFAULT_LLM_TIMEOUT_MS
 
 class GoogleLlm(
     options: GoogleLlmOptions = GoogleLlmOptions.Default,
@@ -35,7 +37,8 @@ class GoogleLlm(
 
     private fun rebuildClient() {
         closeClient()
-        val builder = Client.builder()
+        val httpOptions = HttpOptions.builder().timeout(DEFAULT_LLM_TIMEOUT_MS.toInt()).build()
+        val builder = Client.builder().httpOptions(httpOptions)
         currentOptions.apiKey?.let { builder.apiKey(it) }
         client = builder.build()
     }
