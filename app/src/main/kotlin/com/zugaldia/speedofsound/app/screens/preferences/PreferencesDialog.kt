@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.app.screens.preferences
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
 import com.zugaldia.speedofsound.app.screens.preferences.advanced.AdvancedPage
+import com.zugaldia.speedofsound.app.screens.preferences.basicsetup.BasicSetupPage
 import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
 import com.zugaldia.speedofsound.app.screens.preferences.general.GeneralPage
 import com.zugaldia.speedofsound.app.screens.preferences.importexport.ImportExportPage
@@ -29,6 +30,7 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
     private val stack: Stack
     private val sidebar: StackSidebar
 
+    private val basicSetupPage: BasicSetupPage
     private val generalPage: GeneralPage
     private val modelLibraryPage: ModelLibraryPage
     private val cloudCredentialsPage: CloudCredentialsPage
@@ -47,6 +49,7 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
             revealed = false
         }
 
+        basicSetupPage = BasicSetupPage(viewModel)
         generalPage = GeneralPage(viewModel)
         modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         cloudCredentialsPage = CloudCredentialsPage(viewModel)
@@ -59,6 +62,7 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
         stack = Stack().apply {
             hexpand = true
             vexpand = true
+            addTitled(basicSetupPage, "basic_setup", "Basic Setup")
             addTitled(generalPage, "general", "General")
             addTitled(modelLibraryPage, "model_library", "Model Library")
             addTitled(cloudCredentialsPage, "cloud_credentials", "Cloud Credentials")

@@ -15,17 +15,6 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         title = "General"
         iconName = "preferences-system-symbolic"
 
-        backgroundRecordingRow = SwitchRow().apply {
-            title = "Record in background"
-            subtitle = "Keep the main window hidden while listening."
-            active = viewModel.getBackgroundRecording()
-        }
-
-        val behaviorGroup = PreferencesGroup().apply {
-            title = "App Behavior"
-            add(backgroundRecordingRow)
-        }
-
         primaryComboRow = LanguageComboRow(
             rowTitle = "Primary Language",
             rowSubtitle = "Used by default for speech recognition",
@@ -43,9 +32,20 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         val languageGroup = PreferencesGroup().apply {
             title = "Language"
             description = "The primary language is used by default. Optionally, set a secondary language " +
-                "to switch between the two using left Shift (primary) and right Shift (secondary)."
+                    "to switch between the two using left Shift (primary) and right Shift (secondary)."
             add(primaryComboRow)
             add(secondaryComboRow)
+        }
+
+        backgroundRecordingRow = SwitchRow().apply {
+            title = "Record in background"
+            subtitle = "Keep the main window hidden while listening."
+            active = viewModel.getBackgroundRecording()
+        }
+
+        val behaviorGroup = PreferencesGroup().apply {
+            title = "App Behavior"
+            add(backgroundRecordingRow)
         }
 
         appendSpaceRow = SwitchRow().apply {
@@ -59,21 +59,21 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             add(appendSpaceRow)
         }
 
-        add(behaviorGroup)
         add(languageGroup)
+        add(behaviorGroup)
         add(outputGroup)
 
         // Set up notifications after all widgets are initialized
-        backgroundRecordingRow.onNotify("active") { viewModel.setBackgroundRecording(backgroundRecordingRow.active) }
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
+        backgroundRecordingRow.onNotify("active") { viewModel.setBackgroundRecording(backgroundRecordingRow.active) }
         appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
     }
 
     fun refresh() {
-        backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
+        backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         appendSpaceRow.active = viewModel.getAppendSpace()
     }
 }

@@ -47,6 +47,8 @@ class MainWindow(
 
     // Track whether we should hide the window on pipeline completion
     // Normally, we should unless we're opening a sub-window (e.g., preferences, or shortcuts)
+    // A better way is likely to prevent the pipeline to trigger to start with:
+    // https://github.com/zugaldia/speedofsound/issues/29
     private var shouldHideOnCompletion = true
 
     init {
