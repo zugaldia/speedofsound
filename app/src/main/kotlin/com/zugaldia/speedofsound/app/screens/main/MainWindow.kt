@@ -177,7 +177,10 @@ class MainWindow(
     fun openPreferences() {
         shouldHideOnCompletion = false
         viewModel.cancelListening()
-        PreferencesDialog(settingsClient).present(this)
+        PreferencesDialog(settingsClient).apply {
+            onClosed { shouldHideOnCompletion = true }
+            present(this@MainWindow)
+        }
     }
 
     private fun onOpenShortcuts() {
@@ -185,6 +188,7 @@ class MainWindow(
         viewModel.cancelListening()
         buildShortcutsWindow().apply {
             transientFor = this@MainWindow
+            onCloseRequest { shouldHideOnCompletion = true; false }
             present()
         }
     }
@@ -192,7 +196,10 @@ class MainWindow(
     private fun onOpenAbout() {
         shouldHideOnCompletion = false
         viewModel.cancelListening()
-        buildAboutDialog().present(this)
+        buildAboutDialog().apply {
+            onClosed { shouldHideOnCompletion = true }
+            present(this@MainWindow)
+        }
     }
 
     private fun onOpenHelp() {
