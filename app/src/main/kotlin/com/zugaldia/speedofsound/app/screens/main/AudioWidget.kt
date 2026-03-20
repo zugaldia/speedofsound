@@ -40,9 +40,9 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
         statusLabel.label = when (stage) {
             AppStage.LOADING -> INITIAL_LOADING_MESSAGE
             AppStage.IDLE -> "Press your shortcut to start typing\nSet it up in Preferences"
-            AppStage.LISTENING -> "Listening...\nEsc to cancel"
-            AppStage.TRANSCRIBING -> "Transcribing...\nEsc to cancel"
-            AppStage.POLISHING -> "${polishingMessages.random()}...\nEsc to cancel"
+            AppStage.LISTENING -> "Listening...\n[Esc] to cancel"
+            AppStage.TRANSCRIBING -> "Transcribing...\n[Esc] to cancel"
+            AppStage.POLISHING -> "${polishingMessages.random()}...\n[Esc] to cancel"
         }
 
         val shouldPulsate = stage in listOf(AppStage.LOADING, AppStage.TRANSCRIBING, AppStage.POLISHING)
