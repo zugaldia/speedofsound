@@ -1,7 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences.library
 
 import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
-import com.zugaldia.speedofsound.app.STYLE_CLASS_DIM_LABEL
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.desktop.settings.SUPPORTED_LOCAL_ASR_MODELS
@@ -68,17 +67,15 @@ class ModelLibraryPage(
                 val isDeleting = deletingModels.contains(model.id)
                 val isDownloading = downloadingModels.contains(model.id)
                 val isOperationInProgress = isDeleting || isDownloading
+                val isBundled = model.id == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
                 val row = ActionRow().apply {
                     title = model.name
                     subtitle = when {
                         isDeleting -> "Deleting..."
                         isDownloading -> "Downloading..."
+                        isBundled -> "Bundled — always available"
+                        isDownloaded -> "${model.dataSizeMegabytes} MB — downloaded"
                         else -> "${model.dataSizeMegabytes} MB"
-                    }
-
-                    // Gray out models that haven't been downloaded
-                    if (!isDownloaded && !isOperationInProgress) {
-                        addCssClass(STYLE_CLASS_DIM_LABEL)
                     }
 
                     // Add spinner as the first suffix - create a new one for each row
@@ -133,8 +130,10 @@ class ModelLibraryPage(
         val isDownloading = downloadingModels.contains(modelId)
         val isDeleting = deletingModels.contains(modelId)
         val isOperationInProgress = isDownloading || isDeleting
+        val isDefaultModel = modelId == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
         val downloadButton = Button.fromIconName("folder-download-symbolic").apply {
             tooltipText = when {
+                isDefaultModel -> "Bundled with the application"
                 isDownloading -> "Downloading..."
                 isOperationInProgress -> "Operation in progress"
                 isDownloaded -> "Already downloaded"
@@ -146,10 +145,9 @@ class ModelLibraryPage(
             onClicked { handleDownloadModel(modelId) }
         }
 
-        val isDefaultModel = modelId == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
         val removeButton = Button.fromIconName("user-trash-symbolic").apply {
             tooltipText = when {
-                isDefaultModel -> "Cannot delete default model"
+                isDefaultModel -> "Bundled with the application, cannot be removed"
                 isDeleting -> "Deleting..."
                 isOperationInProgress -> "Operation in progress"
                 else -> "Remove model"
