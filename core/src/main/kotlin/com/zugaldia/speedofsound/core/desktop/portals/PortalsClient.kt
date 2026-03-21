@@ -19,6 +19,8 @@ import com.zugaldia.stargate.sdk.session.SessionClosedEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.freedesktop.dbus.DBusPath
 import org.slf4j.LoggerFactory
 
@@ -30,6 +32,7 @@ class PortalsClient {
     private val logger = LoggerFactory.getLogger(PortalsClient::class.java)
     private val portal = DesktopPortal.connect()
     private var shortcutsSessionHandle: DBusPath? = null
+    private val shortcutsSessionMutex = Mutex()
 
     val sessionClosedEvents: Flow<SessionClosedEvent>
         get() = portal.remoteDesktop.observeSessionClosed()
@@ -90,14 +93,14 @@ class PortalsClient {
      * This is idempotent — if a session already exists, it returns success without creating a new one.
      * This is expected to fail on older desktop environments that do not support the portal.
      */
-    suspend fun createGlobalShortcutsSession(): Result<CreateSessionResponse> {
+    suspend fun createGlobalShortcutsSession(): Result<CreateSessionResponse> = shortcutsSessionMutex.withLock {
         val existingHandle = shortcutsSessionHandle
         if (existingHandle != null) {
             logger.info("Global shortcuts session already exists, skipping creation.")
-            return Result.success(CreateSessionResponse(existingHandle))
+            return@withLock Result.success(CreateSessionResponse(existingHandle))
         }
 
-        return portal.globalShortcuts.createSession()
+        portal.globalShortcuts.createSession()
             .onSuccess { response -> shortcutsSessionHandle = response.sessionHandle }
     }
 
@@ -123,7 +126,11 @@ class PortalsClient {
      *
      * Only available on portal version 2 or higher. Check [globalShortcutsVersion] before calling.
      */
-    fun configureGlobalShortcuts(): Result<Unit> = portal.globalShortcuts.configureShortcuts()
+    fun configureGlobalShortcuts(): Result<Unit> {
+        val handle = shortcutsSessionHandle
+            ?: return Result.failure(IllegalStateException("No active global shortcuts session"))
+        return portal.globalShortcuts.configureShortcuts(handle)
+    }
 
     /**
      * Lists all shortcuts currently bound to the Global Shortcuts session.
