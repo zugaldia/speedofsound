@@ -3,7 +3,6 @@ package com.zugaldia.speedofsound.app.screens.preferences
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_PREFERENCES_DIALOG_WIDTH
 import com.zugaldia.speedofsound.app.screens.preferences.advanced.AdvancedPage
-import com.zugaldia.speedofsound.app.screens.preferences.basicsetup.BasicSetupPage
 import com.zugaldia.speedofsound.app.screens.preferences.credentials.CloudCredentialsPage
 import com.zugaldia.speedofsound.app.screens.preferences.general.GeneralPage
 import com.zugaldia.speedofsound.app.screens.preferences.importexport.ImportExportPage
@@ -11,6 +10,7 @@ import com.zugaldia.speedofsound.app.screens.preferences.library.ModelLibraryPag
 import com.zugaldia.speedofsound.app.screens.preferences.personalization.PersonalizationPage
 import com.zugaldia.speedofsound.app.screens.preferences.text.TextModelsPage
 import com.zugaldia.speedofsound.app.screens.preferences.voice.VoiceModelsPage
+import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import org.gnome.adw.Banner
 import org.gnome.adw.Dialog
@@ -22,15 +22,14 @@ import org.gnome.gtk.Stack
 import org.gnome.gtk.StackSidebar
 import org.slf4j.LoggerFactory
 
-class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
+class PreferencesDialog(settingsClient: SettingsClient, portalsClient: PortalsClient) : Dialog() {
     private val logger = LoggerFactory.getLogger(PreferencesDialog::class.java)
-    private val viewModel = PreferencesViewModel(settingsClient)
+    private val viewModel = PreferencesViewModel(settingsClient, portalsClient)
 
     private val operationsBanner: Banner
     private val stack: Stack
     private val sidebar: StackSidebar
 
-    private val basicSetupPage: BasicSetupPage
     private val generalPage: GeneralPage
     private val modelLibraryPage: ModelLibraryPage
     private val cloudCredentialsPage: CloudCredentialsPage
@@ -49,7 +48,6 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
             revealed = false
         }
 
-        basicSetupPage = BasicSetupPage(viewModel)
         generalPage = GeneralPage(viewModel)
         modelLibraryPage = ModelLibraryPage(viewModel) { hasOperations -> operationsBanner.revealed = hasOperations }
         cloudCredentialsPage = CloudCredentialsPage(viewModel)
@@ -62,7 +60,6 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
         stack = Stack().apply {
             hexpand = true
             vexpand = true
-            addTitled(basicSetupPage, "basic_setup", "Basic Setup")
             addTitled(generalPage, "general", "General")
             addTitled(modelLibraryPage, "model_library", "Model Library")
             addTitled(cloudCredentialsPage, "cloud_credentials", "Cloud Credentials")
@@ -111,6 +108,7 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
         }
 
         onClosed {
+            viewModel.shutdown()
             modelLibraryPage.shutdown()
             personalizationPage.forceSaveInstructions()
             importExportPage.shutdown()
