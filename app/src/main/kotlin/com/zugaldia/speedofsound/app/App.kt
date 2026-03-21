@@ -37,7 +37,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
             if (!isAdwVersionAtLeast(MIN_ADW_MAJOR_VERSION, MIN_ADW_MINOR_VERSION)) {
                 logger.warn(
                     "Detected libadwaita v$adwVersion, but v$MIN_ADW_MAJOR_VERSION.$MIN_ADW_MINOR_VERSION " +
-                        "or newer is required. The application might not work correctly."
+                            "or newer is required. The application might not work correctly."
                 )
             }
 
@@ -51,7 +51,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
             settingsClient = SettingsClient(buildSettingsStore())
             portalsClient = PortalsClient()
-            mainViewModel = MainViewModel(settingsClient, portalsClient)
+            mainViewModel = MainViewModel(settingsClient, portalsClient, onShortcutTriggered = { handleTrigger() })
             registerTriggerAction()
         }
 
@@ -63,7 +63,6 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
                 WelcomeWindow(this) {
                     settingsClient.setWelcomeScreenShown(true)
                     mainWindow?.present()
-                    mainWindow?.openPreferences()
                 }.present()
             } else {
                 mainWindow?.present()
@@ -94,8 +93,14 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
     private fun ensureMainWindow() {
         if (mainWindow == null) {
-            mainWindow = MainWindow(this, mainViewModel, settingsClient)
+            mainWindow = MainWindow(this, mainViewModel, settingsClient, portalsClient)
         }
+    }
+
+    private fun handleTrigger() {
+        ensureMainWindow()
+        if (!settingsClient.getBackgroundRecording()) mainWindow?.present()
+        mainWindow?.let { mainViewModel.onTriggerAction() }
     }
 
     /**
@@ -103,12 +108,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
      */
     private fun registerTriggerAction() {
         val triggerAction = SimpleAction(TRIGGER_ACTION, null)
-        triggerAction.onActivate {
-            ensureMainWindow()
-            if (!settingsClient.getBackgroundRecording()) mainWindow?.present()
-            mainWindow?.let { mainViewModel.onTriggerAction() }
-        }
-
+        triggerAction.onActivate { handleTrigger() }
         addAction(triggerAction)
     }
 }

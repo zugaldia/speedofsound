@@ -1,17 +1,26 @@
 package com.zugaldia.speedofsound.app.screens.preferences
 
+import com.zugaldia.speedofsound.core.APPLICATION_URL
+import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.desktop.settings.TextModelProviderSetting
 import com.zugaldia.speedofsound.core.desktop.settings.VoiceModelProviderSetting
+import com.zugaldia.stargate.sdk.globalshortcuts.BoundShortcut
+import com.zugaldia.stargate.sdk.session.CreateSessionResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import org.slf4j.LoggerFactory
 
 @Suppress("TooManyFunctions") // ViewModel delegates to SettingsClient for all preference properties
-class PreferencesViewModel(private val settingsClient: SettingsClient) {
+class PreferencesViewModel(
+    private val settingsClient: SettingsClient,
+    private val portalsClient: PortalsClient,
+) {
     private val logger = LoggerFactory.getLogger(PreferencesViewModel::class.java)
-
-    var state: PreferencesState = PreferencesState()
-        private set
+    val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     init {
         logger.info("Initializing.")
@@ -19,14 +28,29 @@ class PreferencesViewModel(private val settingsClient: SettingsClient) {
 
     fun shutdown() {
         logger.info("Shutting down.")
+        viewModelScope.cancel()
     }
 
     /*
      * General page
      */
 
+    fun getShortcutConfigured(): Boolean = settingsClient.getShortcutConfigured()
+    fun setShortcutConfigured(value: Boolean): Boolean = settingsClient.setShortcutConfigured(value)
+
+    suspend fun createGlobalShortcutsSession(): Result<CreateSessionResponse> =
+        portalsClient.createGlobalShortcutsSession()
+    suspend fun listGlobalShortcuts(): Result<List<BoundShortcut>> = portalsClient.listGlobalShortcuts()
+    suspend fun bindGlobalShortcuts(): Result<List<BoundShortcut>> = portalsClient.bindGlobalShortcuts()
+    val globalShortcutsVersion: Int get() = portalsClient.globalShortcutsVersion
+    fun configureGlobalShortcuts(): Result<Unit> = portalsClient.configureGlobalShortcuts()
+    suspend fun openDocumentationUri() = portalsClient.openUri(APPLICATION_URL)
+
     fun getBackgroundRecording(): Boolean = settingsClient.getBackgroundRecording()
     fun setBackgroundRecording(value: Boolean): Boolean = settingsClient.setBackgroundRecording(value)
+
+    fun getHideInsteadOfMinimize(): Boolean = settingsClient.getHideInsteadOfMinimize()
+    fun setHideInsteadOfMinimize(value: Boolean): Boolean = settingsClient.setHideInsteadOfMinimize(value)
 
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)

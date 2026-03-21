@@ -30,10 +30,15 @@ class ImportExportManager(private val viewModel: PreferencesViewModel) {
         val exportData = SettingsExport(
             defaultLanguage = viewModel.getDefaultLanguage(),
             secondaryLanguage = viewModel.getSecondaryLanguage(),
+            backgroundRecording = viewModel.getBackgroundRecording(),
+            hideInsteadOfMinimize = viewModel.getHideInsteadOfMinimize(),
+            appendSpace = viewModel.getAppendSpace(),
             credentials = viewModel.getCredentials(),
             voiceModelProviders = viewModel.getVoiceModelProviders()
                 .filter { it.id !in SUPPORTED_LOCAL_ASR_MODELS.keys },
             textModelProviders = viewModel.getTextModelProviders(),
+            postHideDelayMs = viewModel.getPostHideDelayMs(),
+            typingDelayMs = viewModel.getTypingDelayMs(),
             customContext = viewModel.getCustomContext(),
             customVocabulary = viewModel.getCustomVocabulary()
         )
@@ -55,6 +60,11 @@ class ImportExportManager(private val viewModel: PreferencesViewModel) {
 
         viewModel.setDefaultLanguage(exportData.defaultLanguage)
         viewModel.setSecondaryLanguage(exportData.secondaryLanguage)
+        viewModel.setBackgroundRecording(exportData.backgroundRecording)
+        viewModel.setHideInsteadOfMinimize(exportData.hideInsteadOfMinimize)
+        viewModel.setAppendSpace(exportData.appendSpace)
+        viewModel.setPostHideDelayMs(exportData.postHideDelayMs)
+        viewModel.setTypingDelayMs(exportData.typingDelayMs)
         viewModel.setCustomContext(exportData.customContext)
 
         val existingCredentials = viewModel.getCredentials()

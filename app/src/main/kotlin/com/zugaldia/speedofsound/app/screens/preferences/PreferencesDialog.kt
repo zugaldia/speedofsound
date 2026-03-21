@@ -10,6 +10,7 @@ import com.zugaldia.speedofsound.app.screens.preferences.library.ModelLibraryPag
 import com.zugaldia.speedofsound.app.screens.preferences.personalization.PersonalizationPage
 import com.zugaldia.speedofsound.app.screens.preferences.text.TextModelsPage
 import com.zugaldia.speedofsound.app.screens.preferences.voice.VoiceModelsPage
+import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import org.gnome.adw.Banner
 import org.gnome.adw.Dialog
@@ -21,9 +22,9 @@ import org.gnome.gtk.Stack
 import org.gnome.gtk.StackSidebar
 import org.slf4j.LoggerFactory
 
-class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
+class PreferencesDialog(settingsClient: SettingsClient, portalsClient: PortalsClient) : Dialog() {
     private val logger = LoggerFactory.getLogger(PreferencesDialog::class.java)
-    private val viewModel = PreferencesViewModel(settingsClient)
+    private val viewModel = PreferencesViewModel(settingsClient, portalsClient)
 
     private val operationsBanner: Banner
     private val stack: Stack
@@ -107,6 +108,7 @@ class PreferencesDialog(settingsClient: SettingsClient) : Dialog() {
         }
 
         onClosed {
+            viewModel.shutdown()
             modelLibraryPage.shutdown()
             personalizationPage.forceSaveInstructions()
             importExportPage.shutdown()

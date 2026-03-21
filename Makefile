@@ -66,11 +66,14 @@ flatpak-linter:
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream data/$(APP_ID).metainfo.xml.in
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest $(APP_ID).yml
 
+flatpak-clean:
+	rm -rf builddir repo
+
 flatpak-build:
-	rm -f speedofsound.flatpak
 	flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install builddir $(APP_ID).yml
 
 flatpak-bundle:
+	rm -f speedofsound.flatpak
 	flatpak build-bundle repo speedofsound.flatpak $(APP_ID) --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 
 flatpak-run:
@@ -85,9 +88,9 @@ desktop-validate:
 
 snapcraft-clean:
 	snapcraft clean
-	rm -f speedofsound_*.snap
 
 snapcraft-pack:
+	rm -f speedofsound_*.snap
 	snapcraft pack
 
 snapcraft-lint:

@@ -103,6 +103,12 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun setPortalsRestoreToken(value: String): Boolean =
         settingsStore.setString(KEY_PORTALS_RESTORE_TOKEN, value)
 
+    fun getShortcutConfigured(): Boolean =
+        settingsStore.getBoolean(KEY_SHORTCUT_CONFIGURED, DEFAULT_SHORTCUT_CONFIGURED)
+
+    fun setShortcutConfigured(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_SHORTCUT_CONFIGURED, value)
+
     /*
      * General page
      */
@@ -137,6 +143,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun setAppendSpace(value: Boolean): Boolean =
         settingsStore.setBoolean(KEY_APPEND_SPACE, value).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_APPEND_SPACE)
+        }
+
+    fun getHideInsteadOfMinimize(): Boolean =
+        settingsStore.getBoolean(KEY_HIDE_INSTEAD_OF_MINIMIZE, DEFAULT_HIDE_INSTEAD_OF_MINIMIZE)
+
+    fun setHideInsteadOfMinimize(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_HIDE_INSTEAD_OF_MINIMIZE, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_HIDE_INSTEAD_OF_MINIMIZE)
         }
 
     /*

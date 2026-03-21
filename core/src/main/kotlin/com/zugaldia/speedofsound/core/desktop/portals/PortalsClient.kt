@@ -2,21 +2,37 @@ package com.zugaldia.speedofsound.core.desktop.portals
 
 import com.zugaldia.speedofsound.core.APPLICATION_ID
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
+import com.zugaldia.speedofsound.core.APPLICATION_SHORT
+import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
 import com.zugaldia.speedofsound.core.generateUniqueId
 import com.zugaldia.stargate.sdk.DesktopPortal
+import com.zugaldia.stargate.sdk.globalshortcuts.BoundShortcut
+import com.zugaldia.stargate.sdk.globalshortcuts.Shortcut
+import com.zugaldia.stargate.sdk.globalshortcuts.ShortcutActivation
 import com.zugaldia.stargate.sdk.notification.NotificationPriority
 import com.zugaldia.stargate.sdk.remotedesktop.DeviceType
 import com.zugaldia.stargate.sdk.remotedesktop.InputState
 import com.zugaldia.stargate.sdk.remotedesktop.PersistMode
 import com.zugaldia.stargate.sdk.remotedesktop.StartResponse
+import com.zugaldia.stargate.sdk.session.CreateSessionResponse
 import com.zugaldia.stargate.sdk.session.SessionClosedEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import org.freedesktop.dbus.DBusPath
 import org.slf4j.LoggerFactory
 
+private const val SHORTCUT_ID = "$APPLICATION_SHORT-trigger"
+private const val SHORTCUT_DESCRIPTION = "Start or stop voice typing"
+
 class PortalsClient {
+
     private val logger = LoggerFactory.getLogger(PortalsClient::class.java)
     private val portal = DesktopPortal.connect()
+    private var shortcutsSessionHandle: DBusPath? = null
+    private val shortcutsSessionMutex = Mutex()
 
     val sessionClosedEvents: Flow<SessionClosedEvent>
         get() = portal.remoteDesktop.observeSessionClosed()
@@ -70,6 +86,74 @@ class PortalsClient {
     suspend fun openUri(uri: String) =
         portal.openUri.openUri(uri)
             .onFailure { error -> logger.error("Failed to open URI: ${error.message}") }
+
+    /**
+     * Creates a global shortcuts session via the XDG Global Shortcuts portal.
+     *
+     * This is idempotent — if a session already exists, it returns success without creating a new one.
+     * This is expected to fail on older desktop environments that do not support the portal.
+     */
+    suspend fun createGlobalShortcutsSession(): Result<CreateSessionResponse> = shortcutsSessionMutex.withLock {
+        val existingHandle = shortcutsSessionHandle
+        if (existingHandle != null) {
+            logger.info("Global shortcuts session already exists, skipping creation.")
+            return@withLock Result.success(CreateSessionResponse(existingHandle))
+        }
+
+        portal.globalShortcuts.createSession()
+            .onSuccess { response -> shortcutsSessionHandle = response.sessionHandle }
+    }
+
+    /**
+     * Returns a Flow that emits a [ShortcutActivation] each time the global shortcut is activated.
+     *
+     * Filters activations to only the application's shortcut ID and only when activated (not released).
+     */
+    fun observeShortcutActivated(): Flow<ShortcutActivation> =
+        portal.globalShortcuts.activations()
+            .filter { it.shortcutId == SHORTCUT_ID && it.activated }
+
+    /**
+     * Returns the version of the Global Shortcuts portal, or 0 if unavailable.
+     *
+     * Version 2 or higher indicates support for [configureGlobalShortcuts].
+     */
+    val globalShortcutsVersion: Int
+        get() = runCatching { portal.globalShortcuts.version }.getOrDefault(0)
+
+    /**
+     * Opens the system dialog for configuring the application's global shortcuts.
+     *
+     * Only available on portal version 2 or higher. Check [globalShortcutsVersion] before calling.
+     */
+    fun configureGlobalShortcuts(): Result<Unit> {
+        val handle = shortcutsSessionHandle
+            ?: return Result.failure(IllegalStateException("No active global shortcuts session"))
+        return portal.globalShortcuts.configureShortcuts(handle)
+    }
+
+    /**
+     * Lists all shortcuts currently bound to the Global Shortcuts session.
+     */
+    suspend fun listGlobalShortcuts(): Result<List<BoundShortcut>> {
+        val handle = shortcutsSessionHandle
+            ?: return Result.failure(IllegalStateException("No active global shortcuts session"))
+        return portal.globalShortcuts.listShortcuts(handle)
+    }
+
+    /**
+     * Binds the application's global shortcut to the active session.
+     */
+    suspend fun bindGlobalShortcuts(): Result<List<BoundShortcut>> {
+        val handle = shortcutsSessionHandle
+            ?: return Result.failure(IllegalStateException("No active global shortcuts session"))
+        val shortcut = Shortcut(
+            id = SHORTCUT_ID,
+            description = SHORTCUT_DESCRIPTION,
+            preferredTrigger = APPLICATION_SHORTCUT_TRIGGER
+        )
+        return portal.globalShortcuts.bindShortcuts(handle, listOf(shortcut))
+    }
 
     /**
      * Simulates keyboard input by sending each character as a key press/release pair.

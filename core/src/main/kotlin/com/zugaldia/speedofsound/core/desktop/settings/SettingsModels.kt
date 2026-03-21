@@ -63,11 +63,16 @@ data class TextModelProviderSetting(
 @Serializable
 data class SettingsExport(
     val version: Int = 1,
-    val defaultLanguage: String,
-    val secondaryLanguage: String,
-    val credentials: List<CredentialSetting>,
-    val voiceModelProviders: List<VoiceModelProviderSetting>,
-    val textModelProviders: List<TextModelProviderSetting>,
-    val customContext: String,
-    val customVocabulary: List<String>
+    val defaultLanguage: String = DEFAULT_LANGUAGE.iso2,
+    val secondaryLanguage: String = DEFAULT_SECONDARY_LANGUAGE.iso2,
+    val backgroundRecording: Boolean = DEFAULT_BACKGROUND_RECORDING,
+    val hideInsteadOfMinimize: Boolean = DEFAULT_HIDE_INSTEAD_OF_MINIMIZE,
+    val appendSpace: Boolean = DEFAULT_APPEND_SPACE,
+    val credentials: List<CredentialSetting> = emptyList(),
+    val voiceModelProviders: List<VoiceModelProviderSetting> = emptyList(),
+    val textModelProviders: List<TextModelProviderSetting> = emptyList(),
+    val postHideDelayMs: Int = DEFAULT_POST_HIDE_DELAY_MS,
+    val typingDelayMs: Int = DEFAULT_TYPING_DELAY_MS,
+    val customContext: String = DEFAULT_CUSTOM_CONTEXT,
+    val customVocabulary: List<String> = emptyList()
 )
