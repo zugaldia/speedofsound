@@ -16,6 +16,11 @@
 
     <!-- General page -->
 
+    <key name="shortcut-configured" type="b">
+      <default>false</default>
+      <summary>Global shortcut configured</summary>
+      <description>Whether the global shortcut has been successfully configured (at least one shortcut read from the portal).</description>
+    </key>
     <key name="background-recording" type="b">
       <default>false</default>
       <summary>Record in background</summary>

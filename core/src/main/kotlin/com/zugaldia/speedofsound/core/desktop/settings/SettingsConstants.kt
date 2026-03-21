@@ -15,6 +15,9 @@ const val DEFAULT_WELCOME_SCREEN_SHOWN = false
 
 // General page
 
+const val KEY_SHORTCUT_CONFIGURED = "shortcut-configured"
+const val DEFAULT_SHORTCUT_CONFIGURED = false
+
 const val KEY_DEFAULT_LANGUAGE = "default-language"
 val DEFAULT_LANGUAGE = Language.ENGLISH
 

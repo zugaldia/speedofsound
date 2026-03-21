@@ -103,6 +103,12 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun setPortalsRestoreToken(value: String): Boolean =
         settingsStore.setString(KEY_PORTALS_RESTORE_TOKEN, value)
 
+    fun getShortcutConfigured(): Boolean =
+        settingsStore.getBoolean(KEY_SHORTCUT_CONFIGURED, DEFAULT_SHORTCUT_CONFIGURED)
+
+    fun setShortcutConfigured(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_SHORTCUT_CONFIGURED, value)
+
     /*
      * General page
      */
