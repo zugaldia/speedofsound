@@ -36,6 +36,8 @@ const val SETTINGS_SAVE_DEBOUNCE_MS = 500
 
 // Adw CSS style classes
 // https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1-latest/style-classes.html
+const val STYLE_CLASS_TITLE_1 = "title-1"
+const val STYLE_CLASS_BODY = "body"
 const val STYLE_CLASS_ACCENT = "accent"
 const val STYLE_CLASS_SUCCESS = "success"
 const val STYLE_CLASS_WARNING = "warning"

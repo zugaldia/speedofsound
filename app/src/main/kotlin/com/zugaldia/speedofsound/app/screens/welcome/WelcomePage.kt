@@ -1,6 +1,7 @@
 package com.zugaldia.speedofsound.app.screens.welcome
 
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
+import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
 import com.zugaldia.speedofsound.core.APPLICATION_URL
 
 data class WelcomePage(
@@ -18,16 +19,18 @@ val welcomePages = listOf(
         iconResourcePath = "/io.speedofsound.SpeedOfSound.png",
     ),
     WelcomePage(
-        title = "Set Up a Shortcut",
-        description = "$APPLICATION_NAME uses a keyboard shortcut that you set in Preferences. " +
-                "Press your shortcut to start and stop dictating, " +
-                "and it will type your words into whatever app is open.",
-    ),
-    WelcomePage(
         title = "Accept Desktop Permissions",
         description = "$APPLICATION_NAME needs permission to type on your behalf. " +
                 "Accept the prompt in the main window to allow this. " +
                 "It works on all modern Linux desktops, on both X11 and Wayland.",
+    ),
+    WelcomePage(
+        title = "Set Up a Global Shortcut",
+        description = "By default, [$APPLICATION_SHORTCUT_TRIGGER] starts and stops listening, but only when " +
+                "the $APPLICATION_NAME window is open and focused. " +
+                "For a better experience, we recommend setting up a global shortcut in Preferences. " +
+                "This lets you keep the window minimized or hidden and trigger $APPLICATION_NAME " +
+                "from anywhere, typing directly into any app.",
     ),
     WelcomePage(
         title = "Before You Go",

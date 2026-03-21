@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_PROGRESS_BAR_WIDTH
+import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
 import org.gnome.glib.GLib
 import org.slf4j.LoggerFactory
 import org.gnome.gtk.Align
@@ -39,7 +40,7 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
     fun setStage(stage: AppStage) {
         statusLabel.label = when (stage) {
             AppStage.LOADING -> INITIAL_LOADING_MESSAGE
-            AppStage.IDLE -> "Press your shortcut to start typing\nSet it up in Preferences"
+            AppStage.IDLE -> "Tap [$APPLICATION_SHORTCUT_TRIGGER] to start/stop listening"
             AppStage.LISTENING -> "Listening...\n[Esc] to cancel"
             AppStage.TRANSCRIBING -> "Transcribing...\n[Esc] to cancel"
             AppStage.POLISHING -> "${polishingMessages.random()}...\n[Esc] to cancel"
@@ -72,14 +73,16 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
     companion object {
         private const val PULSE_INTERVAL_MS = 100
         private const val INITIAL_LOADING_MESSAGE = "Loading..."
+
         private val polishingMessages = listOf(
             "Assembling", "Brewing", "Composing",
-            "Computing", "Conjuring", "Contemplating",
-            "Crafting", "Deliberating", "Distilling",
-            "Formulating", "Manifesting", "Marinating",
-            "Percolating", "Polishing", "Pondering",
-            "Refining", "Summoning", "Synthesizing",
-            "Thinking", "Weaving",
+            "Computing", "Contemplating", "Crafting",
+            "Deliberating", "Distilling", "Formulating",
+            "Harmonizing", "Marinating", "Modulating",
+            "Oscillating", "Percolating", "Polishing",
+            "Pondering", "Refining", "Soundifying",
+            "Speedifying", "Supersonicking", "Synthesizing",
+            "Thinking", "Velocifying", "Weaving",
         )
     }
 }
