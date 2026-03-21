@@ -28,9 +28,7 @@ class RecorderEventTest {
     fun `RecordingLevel is a RecorderEvent`() {
         val event: RecorderEvent = RecorderEvent.RecordingLevel(level = 0.75f)
         assertTrue(event is RecorderEvent.RecordingLevel)
-        if (event is RecorderEvent.RecordingLevel) {
-            assertEquals(0.75f, event.level)
-        }
+        assertEquals(0.75f, (event as RecorderEvent.RecordingLevel).level)
     }
 
     @Test
