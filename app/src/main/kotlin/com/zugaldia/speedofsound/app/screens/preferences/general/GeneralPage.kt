@@ -145,11 +145,14 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
      * Step 0: Can we establish a session?
      */
     private fun setupGlobalShortcutsSession() {
+        logger.info("[Shortcut] isSandboxed=true, attempting to create global shortcuts session")
         scope.launch {
             val sessionResult = viewModel.createGlobalShortcutsSession()
             if (sessionResult.isSuccess) {
+                logger.info("[Shortcut] Session created successfully, proceeding to list shortcuts")
                 handleSessionCreated()
             } else {
+                logger.warn("[Shortcut] Session creation failed: {}", sessionResult.exceptionOrNull()?.message)
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) { showManualSetupRow(); false }
             }
         }
@@ -159,10 +162,14 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
      * Step 1: List existing shortcuts
      */
     private suspend fun handleSessionCreated() {
+        logger.info("[Shortcut] Listing existing global shortcuts")
         val listResult = viewModel.listGlobalShortcuts()
         if (listResult.isSuccess) {
-            handleShortcutsListed(listResult.getOrDefault(emptyList()))
+            val shortcuts = listResult.getOrDefault(emptyList())
+            logger.info("[Shortcut] Listed {} shortcut(s)", shortcuts.size)
+            handleShortcutsListed(shortcuts)
         } else {
+            logger.warn("[Shortcut] Failed to list shortcuts: {}", listResult.exceptionOrNull()?.message)
             GLib.idleAdd(GLib.PRIORITY_DEFAULT) { showManualSetupRow(); false }
         }
     }
@@ -171,11 +178,16 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
      * Step 2: Decide whether to (1) show settings, (2) show setup, or (3) automatically bind
      */
     private suspend fun handleShortcutsListed(shortcuts: List<BoundShortcut>) {
+        val shortcutConfigured = viewModel.getShortcutConfigured()
+        logger.info("[Shortcut] Decision: shortcuts.size={}, shortcutConfigured={}", shortcuts.size, shortcutConfigured)
         if (shortcuts.isNotEmpty()) {
+            logger.info("[Shortcut] Existing shortcuts found, showing them directly")
             GLib.idleAdd(GLib.PRIORITY_DEFAULT) { showShortcuts(shortcuts); false }
-        } else if (!viewModel.getShortcutConfigured()) {
+        } else if (!shortcutConfigured) {
+            logger.info("[Shortcut] No shortcuts and not previously configured, showing setup row")
             GLib.idleAdd(GLib.PRIORITY_DEFAULT) { shortcutSetupRow.visible = true; false }
         } else {
+            logger.info("[Shortcut] Previously configured but no shortcuts returned, attempting auto-bind")
             bindAndShowShortcuts()
         }
     }
@@ -185,15 +197,21 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
      * without the user being prompted with any System UI.
      */
     private suspend fun bindAndShowShortcuts() {
-        val shortcuts = if (viewModel.bindGlobalShortcuts().isSuccess) {
+        logger.info("[Shortcut] Binding global shortcuts via portal")
+        val bindResult = viewModel.bindGlobalShortcuts()
+        val shortcuts = if (bindResult.isSuccess) {
+            logger.info("[Shortcut] Bind succeeded, listing shortcuts")
             viewModel.listGlobalShortcuts().getOrDefault(emptyList())
         } else {
+            logger.warn("[Shortcut] Bind failed: {}", bindResult.exceptionOrNull()?.message)
             emptyList()
         }
 
         if (shortcuts.isNotEmpty()) {
+            logger.info("[Shortcut] Got {} shortcut(s) after bind, showing them", shortcuts.size)
             GLib.idleAdd(GLib.PRIORITY_DEFAULT) { showShortcuts(shortcuts); false }
         } else {
+            logger.warn("[Shortcut] No shortcuts after bind, falling back to setup row")
             GLib.idleAdd(GLib.PRIORITY_DEFAULT) { shortcutSetupRow.visible = true; false }
         }
     }
@@ -227,6 +245,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
      * Fallback
      */
     private fun showManualSetupRow() {
+        logger.warn("[Shortcut] Falling back to manual setup row (portal not supported or failed)")
         if (!shortcutManualRowInitialized) {
             val docsButton = Button.withLabel("Help").apply {
                 valign = Align.CENTER
