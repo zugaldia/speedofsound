@@ -30,7 +30,7 @@ private const val DESCRIPTION_MAX_WIDTH_CHARS = 50
 
 private const val LABEL_PREVIOUS = "Previous"
 private const val LABEL_NEXT = "Next"
-private const val LABEL_GET_STARTED = "Continue Setup"
+private const val LABEL_GET_STARTED = "Get Started"
 
 class WelcomeWindow(
     app: Application,
