@@ -66,8 +66,10 @@ flatpak-linter:
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream data/$(APP_ID).metainfo.xml.in
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest $(APP_ID).yml
 
-flatpak-build:
+flatpak-clean:
 	rm -rf builddir repo
+
+flatpak-build:
 	flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install builddir $(APP_ID).yml
 
 flatpak-bundle:
