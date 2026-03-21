@@ -42,7 +42,8 @@ import org.slf4j.LoggerFactory
 @Suppress("TooManyFunctions")
 class MainViewModel(
     private val settingsClient: SettingsClient,
-    private val portalsClient: PortalsClient
+    private val portalsClient: PortalsClient,
+    private val onShortcutTriggered: (() -> Unit)? = null,
 ) {
     private val logger = LoggerFactory.getLogger(MainViewModel::class.java)
 
@@ -72,6 +73,7 @@ class MainViewModel(
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(Dispatchers.Default + viewModelJob)
     private var currentPipelineJob: Job? = null
+    private var lastToggleTime = 0L
 
     fun start() {
         // Phase 1 (sync, main thread): Register plugins and set up event collection.
@@ -85,6 +87,7 @@ class MainViewModel(
         collectRecorderEvents()
         collectSettingsChanges()
         collectPortalsSessionState()
+        collectShortcutActivations()
 
         // Initialize status UI labels
         onPrimaryLanguageSelected(forceUpdate = true)
@@ -156,6 +159,18 @@ class MainViewModel(
             settingsClient.settingsChanged.collect { key ->
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
                     refreshSettings(key)
+                    false // Return false for one-shot execution
+                }
+            }
+        }
+    }
+
+    private fun collectShortcutActivations() {
+        viewModelScope.launch {
+            portalsSessionManager.shortcutActivated.collect {
+                GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
+                    logger.info("Global shortcut activated.")
+                    onShortcutTriggered?.invoke()
                     false // Return false for one-shot execution
                 }
             }
@@ -260,6 +275,13 @@ class MainViewModel(
     }
 
     fun toggleListening() {
+        // Debounce: ignore calls within TOGGLE_DEBOUNCE_MS of the last one.
+        // Protects against (1) a global shortcut and the in-app shortcut both firing for the
+        // same keypress, and (2) the user accidentally tapping the shortcut twice in quick succession.
+        val now = System.currentTimeMillis()
+        if (now - lastToggleTime < TOGGLE_DEBOUNCE_MS) return
+        lastToggleTime = now
+
         if (state.currentStage() == AppStage.IDLE) {
             currentPipelineJob = viewModelScope.launch { director.start() }
         } else if (state.currentStage() == AppStage.LISTENING) {
@@ -318,5 +340,9 @@ class MainViewModel(
         viewModelScope.cancel()
         portalsSessionManager.shutdown()
         registry.shutdownAll()
+    }
+
+    companion object {
+        private const val TOGGLE_DEBOUNCE_MS = 500L
     }
 }
