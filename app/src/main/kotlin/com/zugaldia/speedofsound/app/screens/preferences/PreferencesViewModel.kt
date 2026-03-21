@@ -49,6 +49,9 @@ class PreferencesViewModel(
     fun getBackgroundRecording(): Boolean = settingsClient.getBackgroundRecording()
     fun setBackgroundRecording(value: Boolean): Boolean = settingsClient.setBackgroundRecording(value)
 
+    fun getHideInsteadOfMinimize(): Boolean = settingsClient.getHideInsteadOfMinimize()
+    fun setHideInsteadOfMinimize(value: Boolean): Boolean = settingsClient.setHideInsteadOfMinimize(value)
+
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)
 

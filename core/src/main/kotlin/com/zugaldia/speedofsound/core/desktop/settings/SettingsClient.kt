@@ -145,6 +145,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_APPEND_SPACE)
         }
 
+    fun getHideInsteadOfMinimize(): Boolean =
+        settingsStore.getBoolean(KEY_HIDE_INSTEAD_OF_MINIMIZE, DEFAULT_HIDE_INSTEAD_OF_MINIMIZE)
+
+    fun setHideInsteadOfMinimize(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_HIDE_INSTEAD_OF_MINIMIZE, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_HIDE_INSTEAD_OF_MINIMIZE)
+        }
+
     /*
      * Cloud Credentials page
      */

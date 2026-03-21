@@ -27,6 +27,9 @@ val DEFAULT_SECONDARY_LANGUAGE = Language.SPANISH
 const val KEY_BACKGROUND_RECORDING = "background-recording"
 const val DEFAULT_BACKGROUND_RECORDING = false
 
+const val KEY_HIDE_INSTEAD_OF_MINIMIZE = "hide-instead-of-minimize"
+const val DEFAULT_HIDE_INSTEAD_OF_MINIMIZE = false
+
 const val KEY_APPEND_SPACE = "append-space"
 const val DEFAULT_APPEND_SPACE = false
 

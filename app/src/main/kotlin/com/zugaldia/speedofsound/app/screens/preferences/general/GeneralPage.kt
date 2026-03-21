@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
 import com.zugaldia.stargate.sdk.globalshortcuts.BoundShortcut
+import com.zugaldia.stargate.sdk.isSandboxed
 import kotlinx.coroutines.launch
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
@@ -19,6 +20,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val scope = viewModel.viewModelScope
 
     private val backgroundRecordingRow: SwitchRow
+    private val hideInsteadOfMinimizeRow: SwitchRow
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
     private val appendSpaceRow: SwitchRow
@@ -91,9 +93,16 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             active = viewModel.getBackgroundRecording()
         }
 
+        hideInsteadOfMinimizeRow = SwitchRow().apply {
+            title = "Hide instead of minimize"
+            subtitle = "Useful on multi-workspace setups where the window should restore on the current workspace."
+            active = viewModel.getHideInsteadOfMinimize()
+        }
+
         val behaviorGroup = PreferencesGroup().apply {
             title = "App Behavior"
             add(backgroundRecordingRow)
+            add(hideInsteadOfMinimizeRow)
         }
 
         appendSpaceRow = SwitchRow().apply {
@@ -108,7 +117,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         }
 
         add(globalShortcutGroup)
-        setupGlobalShortcutsSession()
+        if (isSandboxed()) setupGlobalShortcutsSession() else showManualSetupRow()
 
         add(languageGroup)
         add(behaviorGroup)
@@ -118,6 +127,9 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
         backgroundRecordingRow.onNotify("active") { viewModel.setBackgroundRecording(backgroundRecordingRow.active) }
+        hideInsteadOfMinimizeRow.onNotify("active") {
+            viewModel.setHideInsteadOfMinimize(hideInsteadOfMinimizeRow.active)
+        }
         appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
     }
 
@@ -125,6 +137,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
+        hideInsteadOfMinimizeRow.active = viewModel.getHideInsteadOfMinimize()
         appendSpaceRow.active = viewModel.getAppendSpace()
     }
 
@@ -194,7 +207,8 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
 
         viewModel.setShortcutConfigured(true)
         shortcutSetupRow.visible = false
-        shortcutActiveRow.subtitle = triggers.joinToString(", ").ifEmpty { "Configured" }
+        val subtitle = triggers.joinToString(", ").ifEmpty { "Configured" }
+        shortcutActiveRow.subtitle = GLib.markupEscapeText(subtitle, subtitle.length.toLong())
 
         // Recent spec addition
         if (!shortcutActiveRowInitialized && viewModel.globalShortcutsVersion >= 2) {
