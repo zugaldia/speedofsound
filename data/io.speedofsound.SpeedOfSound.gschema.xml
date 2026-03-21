@@ -41,6 +41,11 @@
       <summary>Append space after transcription</summary>
       <description>When enabled, a space character is appended after each transcription output.</description>
     </key>
+    <key name="hide-instead-of-minimize" type="b">
+      <default>false</default>
+      <summary>Hide instead of minimize</summary>
+      <description>When enabled, the main window is hidden instead of minimized when not in use. Useful for multi-workspace setups.</description>
+    </key>
 
     <!-- Cloud Credentials page -->
 
