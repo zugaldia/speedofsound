@@ -2,11 +2,15 @@
 
 > The work to integrate this application in the Flathub and Snapcraft stores is underway.
 > If you are familiar with either packaging format and would like to help, please reach out to the author.
-> Support for other distribution methods like AppImage, Deb, or RPM is [on the roadmap](https://github.com/zugaldia/speedofsound/issues/4).
 
 ## 1. Installation
 
-Follow the instructions under [Manual Installation](manual-installation.md).
+<a href="https://github.com/zugaldia/speedofsound/releases/latest">
+  <img src="assets/appimage/download-appimage-banner.svg" alt="Download as AppImage" height="60">
+</a>
+
+Download the latest AppImage, Deb, or RPM from the [releases page](https://github.com/zugaldia/speedofsound/releases/latest),
+or follow the instructions under [Manual Installation](manual-installation.md).
 
 ## 2. Accept Remote Desktop Permissions
 
