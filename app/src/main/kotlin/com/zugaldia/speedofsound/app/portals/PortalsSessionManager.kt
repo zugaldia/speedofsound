@@ -47,8 +47,15 @@ class PortalsSessionManager(
             portalsClient.createGlobalShortcutsSession()
                 .onFailure { logger.warn("Global Shortcuts session creation failed: {}", it.message) }
                 .onSuccess {
+                    logger.info("Global Shortcuts session created successfully.")
+                    // If the user previously configured a shortcut, rebind it silently on startup.
+                    // (System UI is only shown to the user the first time.)
+                    if (settingsClient.getShortcutConfigured()) {
+                        portalsClient.bindGlobalShortcuts()
+                            .onSuccess { logger.info("Global shortcut rebound successfully.") }
+                            .onFailure { logger.warn("Failed to rebind global shortcut: {}", it.message) }
+                    }
                     scope.launch {
-                        logger.info("Global Shortcuts session created successfully.")
                         portalsClient.observeShortcutActivated().collect { _shortcutActivated.emit(it) }
                     }
                 }
