@@ -229,13 +229,16 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         val subtitle = triggers.joinToString(", ").ifEmpty { "Configured" }
         shortcutActiveRow.subtitle = GLib.markupEscapeText(subtitle, subtitle.length.toLong())
 
-        // Recent spec addition
-        if (!shortcutActiveRowInitialized && viewModel.globalShortcutsVersion >= 2) {
-            val configureButton = Button.withLabel("Configure").apply {
-                valign = Align.CENTER
-                onClicked { viewModel.configureGlobalShortcuts() }
+        if (!shortcutActiveRowInitialized) {
+            shortcutActiveRow.addSuffix(createHelpButton())
+            // Recent spec addition
+            if (viewModel.globalShortcutsVersion >= 2) {
+                val configureButton = Button.withLabel("Configure").apply {
+                    valign = Align.CENTER
+                    onClicked { viewModel.configureGlobalShortcuts() }
+                }
+                shortcutActiveRow.addSuffix(configureButton)
             }
-            shortcutActiveRow.addSuffix(configureButton)
             shortcutActiveRowInitialized = true
         }
 
