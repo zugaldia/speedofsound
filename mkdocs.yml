@@ -39,6 +39,7 @@ nav:
   - Getting Started:
     - getting-started.md
     - Manual Installation: manual-installation.md
+    - Set Up a Keyboard Shortcut: keyboard-shortcut.md
   - User Guide: user-guide.md
   - Troubleshooting: troubleshooting.md
   - FAQ: faq.md
