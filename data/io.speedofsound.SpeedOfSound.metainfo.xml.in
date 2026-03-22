@@ -56,6 +56,24 @@
     </screenshots>
 
     <releases>
+        <release version="0.9.0" date="2026-03-22">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.9.0</url>
+            <description>
+                <p>
+                    Added global keyboard shortcuts: set up a system-wide shortcut (Super+Z by default)
+                    to trigger recording from any application, with a guided setup flow in Preferences.
+                    New first-launch welcome carousel walks new users through permissions, shortcut setup,
+                    and getting started. Redesigned main window with a proper GNOME header bar — the menu
+                    is now in the top-right and native minimize/close buttons are visible. Added desktop
+                    notifications for pipeline errors and typing failures so issues are no longer silent.
+                    Added a Help menu item linking to the documentation. New distribution formats: AppImage,
+                    DEB, and RPM packages are now available alongside Flatpak and Snap. Fixed WAV and
+                    model staging files to use the XDG cache directory instead of the data directory.
+                    Fixed dropdown search in the language and model selectors. Updated Anthropic, Google,
+                    and OpenAI SDKs with latest model support.
+                </p>
+            </description>
+        </release>
         <release version="0.8.0" date="2026-03-11">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.8.0</url>
             <description>
