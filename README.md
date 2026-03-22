@@ -30,6 +30,14 @@ Voice typing for the Linux desktop: press a key to start, speak, press again to 
 
 ## Getting Started
 
+<a href="https://github.com/zugaldia/speedofsound/releases/latest">
+  <img src="assets/appimage/download-appimage-banner.svg" alt="Download as AppImage" height="60">
+</a>
+
+> The work to integrate this application in the Flathub and Snapcraft stores is underway.
+> If you are familiar with either packaging format and would like to help, please reach out to the author.
+
+Download the latest AppImage, Deb, or RPM from the [releases page](https://github.com/zugaldia/speedofsound/releases/latest).
 For installation and usage information, see [speedofsound.io](https://speedofsound.io).
 
 ## Contributing
