@@ -5,6 +5,8 @@ import com.openai.client.okhttp.OpenAIOkHttpClient
 import com.openai.models.responses.ResponseCreateParams
 import com.zugaldia.speedofsound.core.LOCAL_API_KEY_PLACEHOLDER
 import com.zugaldia.speedofsound.core.models.text.TextModel
+import com.zugaldia.speedofsound.core.plugins.director.DEFAULT_LLM_TIMEOUT_MS
+import java.time.Duration
 
 class OpenAiLlm(
     options: OpenAiLlmOptions = OpenAiLlmOptions.Default,
@@ -37,7 +39,7 @@ class OpenAiLlm(
 
     private fun rebuildClient() {
         closeClient()
-        val builder = OpenAIOkHttpClient.builder()
+        val builder = OpenAIOkHttpClient.builder().timeout(Duration.ofMillis(DEFAULT_LLM_TIMEOUT_MS))
         currentOptions.baseUrl?.let { builder.baseUrl(it) }
 
         // For custom local endpoints, the API key is required but ignored

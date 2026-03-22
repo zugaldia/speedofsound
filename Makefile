@@ -3,7 +3,7 @@ export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
 .PHONY: clean run run-light run-dark build shadow-build shadow-run check \
 	meson-clean meson-setup meson-build meson-install uninstall install \
-	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run desktop-validate \
+	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run flatpak-remove desktop-validate \
 	snapcraft-clean snapcraft-pack snapcraft-lint snap-install snap-remove \
 	jpackage-deb jpackage-rpm jpackage-app-image appimage \
 	docs-serve docs-build
@@ -66,15 +66,21 @@ flatpak-linter:
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream data/$(APP_ID).metainfo.xml.in
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest $(APP_ID).yml
 
+flatpak-clean:
+	rm -rf builddir repo
+
 flatpak-build:
-	rm -f speedofsound.flatpak
 	flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install builddir $(APP_ID).yml
 
 flatpak-bundle:
+	rm -f speedofsound.flatpak
 	flatpak build-bundle repo speedofsound.flatpak $(APP_ID) --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 
 flatpak-run:
 	flatpak run $(APP_ID)
+
+flatpak-remove:
+	flatpak remove --user $(APP_ID)
 
 desktop-validate:
 	desktop-file-validate data/$(APP_ID).desktop.in
@@ -85,9 +91,9 @@ desktop-validate:
 
 snapcraft-clean:
 	snapcraft clean
-	rm -f speedofsound_*.snap
 
 snapcraft-pack:
+	rm -f speedofsound_*.snap
 	snapcraft pack
 
 snapcraft-lint:

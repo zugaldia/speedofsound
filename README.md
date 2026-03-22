@@ -32,6 +32,10 @@ Voice typing for the Linux desktop: press a key to start, speak, press again to 
 
 For installation and usage information, see [speedofsound.io](https://speedofsound.io).
 
+## Contributing
+
+To build the project from source and learn how to contribute, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Built with
 
 Speed of Sound stands on the shoulders of these excellent open source projects:

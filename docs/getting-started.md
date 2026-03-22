@@ -8,23 +8,7 @@
 
 Follow the instructions under [Manual Installation](manual-installation.md).
 
-## 2. Set up a shortcut
-
-In this step, you will assign a global keyboard shortcut that starts and stops dictation.
-The exact steps vary by desktop environment. On GNOME, for example:
-
-1. Open **Settings** and navigate to **Keyboard**.
-2. Click **View and Customize Shortcuts**.
-3. Scroll to the bottom and select **Custom Shortcuts**.
-4. Click the **+** button to add a new shortcut and fill in the fields:
-    - **Name:** anything you like, e.g. `Speed of Sound`
-    - **Command:** the full path to the trigger script, e.g. `/home/your-username/speedofsound/trigger.sh`
-    - **Shortcut:** press your desired key combination, e.g. `Super+Z`
-5. Click **Add** to save.
-
-You can add multiple shortcuts targeting the same trigger script if you wish to.
-
-## 3. Accept Remote Desktop Permissions
+## 2. Accept Remote Desktop Permissions
 
 When Speed of Sound is first launched, the main window displays a banner with a **Start** button.
 Clicking it will prompt your system to grant the application the permissions it needs to type on your behalf.
@@ -43,3 +27,13 @@ time you launch Speed of Sound.
 Under the hood, Speed of Sound uses the [XDG Desktop Portal](https://flatpak.github.io/xdg-desktop-portal/) standard
 to simulate keyboard input. This is supported by all major desktop environments, including GNOME and KDE,
 and works on both X11 and Wayland.
+
+## 3. Set up a shortcut
+
+"By default, [$APPLICATION_SHORTCUT_TRIGGER] starts and stops listening, but only when " +
+"the $APPLICATION_NAME window is open and focused.\n\n" +
+"For a better experience, we recommend setting up a global shortcut in Preferences. " +
+"This lets you keep the window minimized or hidden and trigger $APPLICATION_NAME " +
+"from anywhere, typing directly into any app.",
+
+Follow the instructions under [Set Up a Keyboard Shortcut](keyboard-shortcut.md).

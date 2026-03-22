@@ -5,6 +5,8 @@ import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.messages.MessageCreateParams
 import com.zugaldia.speedofsound.core.LOCAL_API_KEY_PLACEHOLDER
 import com.zugaldia.speedofsound.core.models.text.TextModel
+import com.zugaldia.speedofsound.core.plugins.director.DEFAULT_LLM_TIMEOUT_MS
+import java.time.Duration
 
 class AnthropicLlm(
     options: AnthropicLlmOptions = AnthropicLlmOptions.Default,
@@ -29,7 +31,7 @@ class AnthropicLlm(
 
     private fun rebuildClient() {
         closeClient()
-        val builder = AnthropicOkHttpClient.builder()
+        val builder = AnthropicOkHttpClient.builder().timeout(Duration.ofMillis(DEFAULT_LLM_TIMEOUT_MS))
         currentOptions.baseUrl?.let { builder.baseUrl(it) }
 
         // For custom local endpoints, the API key is required but ignored

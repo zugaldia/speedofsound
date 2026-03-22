@@ -14,11 +14,11 @@ import com.zugaldia.speedofsound.app.SIGNAL_STAGE_CHANGED
 import com.zugaldia.speedofsound.app.screens.about.buildAboutDialog
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesDialog
 import com.zugaldia.speedofsound.app.screens.shortcuts.buildShortcutsWindow
+import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.APPLICATION_URL
 import org.gnome.adw.Banner
-import org.slf4j.LoggerFactory
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
 import org.gnome.adw.HeaderBar
@@ -38,15 +38,16 @@ class MainWindow(
     app: Application,
     private val viewModel: MainViewModel,
     private val settingsClient: SettingsClient,
+    private val portalsClient: PortalsClient,
 ) : ApplicationWindow() {
-    private val logger = LoggerFactory.getLogger(MainWindow::class.java)
-
     private val audioWidget: AudioWidget
     private val portalsBanner: Banner
     private val statusWidget: StatusWidget
 
     // Track whether we should hide the window on pipeline completion
     // Normally, we should unless we're opening a sub-window (e.g., preferences, or shortcuts)
+    // A better way is likely to prevent the pipeline to trigger to start with:
+    // https://github.com/zugaldia/speedofsound/issues/29
     private var shouldHideOnCompletion = true
 
     init {
@@ -75,7 +76,11 @@ class MainWindow(
             }
 
         content = ToolbarView().apply {
-            addTopBar(HeaderBar().apply { packEnd(buildMenuButton()) })
+            // Explicitly request minimize and close buttons. Some desktop setups (e.g. Fedora default)
+            // omit the minimize button, which confuses users. Unlike most apps, Speed of Sound must
+            // be minimized (or hidden) before the user can type into another application.
+            // https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/property.HeaderBar.decoration-layout.html
+            addTopBar(HeaderBar().apply { decorationLayout = ":minimize,close"; packEnd(buildMenuButton()) })
             content = contentBox
         }
 
@@ -98,7 +103,7 @@ class MainWindow(
         menu.appendSection(null, quitSection)
 
         val actionGroup = SimpleActionGroup()
-        SimpleAction("preferences", null).also { it.onActivate { openPreferences() }; actionGroup.addAction(it) }
+        SimpleAction("preferences", null).also { it.onActivate { onOpenPreferences() }; actionGroup.addAction(it) }
         SimpleAction("shortcuts", null).also { it.onActivate { onOpenShortcuts() }; actionGroup.addAction(it) }
         SimpleAction("help", null).also { it.onActivate { onOpenHelp() }; actionGroup.addAction(it) }
         SimpleAction("about", null).also { it.onActivate { onOpenAbout() }; actionGroup.addAction(it) }
@@ -147,37 +152,40 @@ class MainWindow(
         })
     }
 
-    private fun keyPressed(keyval: Int, state: Set<ModifierType>): Boolean {
-        val key = Gdk.keyvalName(keyval)
+    private fun keyPressed(keyVal: Int, state: Set<ModifierType>): Boolean {
+        val key = Gdk.keyvalName(keyVal)
         val ctrlPressed = state.contains(ModifierType.CONTROL_MASK)
+        val superPressed = state.contains(ModifierType.SUPER_MASK)
         return when {
+            (key == "z" || key == "Z") && superPressed -> { viewModel.toggleListening(); true }
+            key == "Escape" -> { viewModel.cancelListening(); true }
             key == "Shift_L" -> { viewModel.onPrimaryLanguageSelected(); true }
             key == "Shift_R" -> { viewModel.onSecondaryLanguageSelected(); true }
-            (key == "s" || key == "S") && ctrlPressed -> { viewModel.toggleListening(); true }
             (key == "m" || key == "M") && ctrlPressed -> { goAway(); true }
-            key == "Escape" -> { viewModel.cancelListening(); true }
             (key == "q" || key == "Q") && ctrlPressed -> { onQuit(); true }
             else -> false
         }
     }
 
     private fun goAway() {
-        if (settingsClient.getBackgroundRecording()) {
-            // In background recording mode we minimize instead of hiding, so that the window
-            // remains accessible from the dock (e.g. to access preferences, or quit the app).
-            minimize()
-        } else {
-            // We use `visible = false` (not `minimize()`) to hide the window. This allows the window
-            // to be restored on the current workspace (where the target app is), rather than on the workspace
-            // the window was originally in (preventing us from typing on the target app).
+        if (settingsClient.getHideInsteadOfMinimize()) {
+            // Hide the window so it restores on the current workspace (where the target app is),
+            // rather than on the workspace the SOS window was originally in. Useful for multi-workspace setups.
             visible = false
+        } else {
+            // Minimize by default so the window remains accessible from the dock
+            // (e.g. to access preferences, or quit the app).
+            minimize()
         }
     }
 
-    fun openPreferences() {
+    private fun onOpenPreferences() {
         shouldHideOnCompletion = false
         viewModel.cancelListening()
-        PreferencesDialog(settingsClient).present(this)
+        PreferencesDialog(settingsClient, portalsClient).apply {
+            onClosed { shouldHideOnCompletion = true }
+            present(this@MainWindow)
+        }
     }
 
     private fun onOpenShortcuts() {
@@ -185,6 +193,7 @@ class MainWindow(
         viewModel.cancelListening()
         buildShortcutsWindow().apply {
             transientFor = this@MainWindow
+            onCloseRequest { shouldHideOnCompletion = true; false }
             present()
         }
     }
@@ -192,7 +201,10 @@ class MainWindow(
     private fun onOpenAbout() {
         shouldHideOnCompletion = false
         viewModel.cancelListening()
-        buildAboutDialog().present(this)
+        buildAboutDialog().apply {
+            onClosed { shouldHideOnCompletion = true }
+            present(this@MainWindow)
+        }
     }
 
     private fun onOpenHelp() {

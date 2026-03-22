@@ -2,7 +2,9 @@ package com.zugaldia.speedofsound.app.screens.welcome
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
+import com.zugaldia.speedofsound.app.STYLE_CLASS_BODY
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
+import com.zugaldia.speedofsound.app.STYLE_CLASS_TITLE_1
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
@@ -28,7 +30,7 @@ private const val DESCRIPTION_MAX_WIDTH_CHARS = 50
 
 private const val LABEL_PREVIOUS = "Previous"
 private const val LABEL_NEXT = "Next"
-private const val LABEL_GET_STARTED = "Continue Setup"
+private const val LABEL_GET_STARTED = "Get Started"
 
 class WelcomeWindow(
     app: Application,
@@ -87,10 +89,10 @@ class WelcomeWindow(
 
     private fun buildPage(welcomePage: WelcomePage): Box {
         val titleLabel = Label(welcomePage.title)
-        titleLabel.addCssClass("title-1")
+        titleLabel.addCssClass(STYLE_CLASS_TITLE_1)
 
         val descriptionLabel = Label(welcomePage.description)
-        descriptionLabel.addCssClass("body")
+        descriptionLabel.addCssClass(STYLE_CLASS_BODY)
         descriptionLabel.wrap = true
         descriptionLabel.maxWidthChars = DESCRIPTION_MAX_WIDTH_CHARS
         descriptionLabel.justify = Justification.CENTER
