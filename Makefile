@@ -3,7 +3,7 @@ export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
 .PHONY: clean run run-light run-dark build shadow-build shadow-run check \
 	meson-clean meson-setup meson-build meson-install uninstall install \
-	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run desktop-validate \
+	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run flatpak-remove desktop-validate \
 	snapcraft-clean snapcraft-pack snapcraft-lint snap-install snap-remove \
 	jpackage-deb jpackage-rpm jpackage-app-image appimage \
 	docs-serve docs-build
@@ -78,6 +78,9 @@ flatpak-bundle:
 
 flatpak-run:
 	flatpak run $(APP_ID)
+
+flatpak-remove:
+	flatpak remove --user $(APP_ID)
 
 desktop-validate:
 	desktop-file-validate data/$(APP_ID).desktop.in

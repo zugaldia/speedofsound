@@ -73,7 +73,11 @@ make snapcraft-pack  # Build the snap locally
 make snap-install    # Install the locally built snap
 ```
 
-Then simply run the application with the `speedofsound` command.
+Then simply run the application with the `speedofsound` command. To uninstall:
+
+```bash
+make snap-remove     # Uninstall the locally installed snap
+```
 
 ### Flatpak
 
@@ -89,4 +93,5 @@ Then:
 make flatpak-build     # Build and install the Flatpak locally
 make flatpak-run       # Run the installed Flatpak
 make flatpak-bundle    # Create a distributable .flatpak bundle
+make flatpak-remove    # Uninstall the locally installed Flatpak
 ```
