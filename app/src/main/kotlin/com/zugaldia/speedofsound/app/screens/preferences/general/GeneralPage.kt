@@ -48,8 +48,8 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
                 addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
                 onClicked { scope.launch { bindAndShowShortcuts() } }
             }
-            addSuffix(createHelpButton())
             addSuffix(setupButton)
+            addSuffix(createHelpButton())
             visible = false
         }
 
@@ -230,7 +230,6 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         shortcutActiveRow.subtitle = GLib.markupEscapeText(subtitle, subtitle.length.toLong())
 
         if (!shortcutActiveRowInitialized) {
-            shortcutActiveRow.addSuffix(createHelpButton())
             // Recent spec addition
             if (viewModel.globalShortcutsVersion >= 2) {
                 val configureButton = Button.withLabel("Configure").apply {
@@ -239,6 +238,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
                 }
                 shortcutActiveRow.addSuffix(configureButton)
             }
+            shortcutActiveRow.addSuffix(createHelpButton())
             shortcutActiveRowInitialized = true
         }
 
