@@ -48,6 +48,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
                 addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
                 onClicked { scope.launch { bindAndShowShortcuts() } }
             }
+            addSuffix(createHelpButton())
             addSuffix(setupButton)
             visible = false
         }
@@ -247,17 +248,17 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private fun showManualSetupRow() {
         logger.warn("[Shortcut] Falling back to manual setup row (portal not supported or failed)")
         if (!shortcutManualRowInitialized) {
-            val docsButton = Button.withLabel("Help").apply {
-                valign = Align.CENTER
-                onClicked { scope.launch { viewModel.openDocumentationUri() } }
-            }
-
             shortcutManualRow.subtitle = "Your system doesn't support automatic shortcut setup. " +
                     "See the documentation for manual configuration instructions."
-            shortcutManualRow.addSuffix(docsButton)
+            shortcutManualRow.addSuffix(createHelpButton())
             shortcutManualRowInitialized = true
         }
 
         shortcutManualRow.visible = true
+    }
+
+    private fun createHelpButton(): Button = Button.withLabel("Help").apply {
+        valign = Align.CENTER
+        onClicked { scope.launch { viewModel.openDocumentationUri() } }
     }
 }
