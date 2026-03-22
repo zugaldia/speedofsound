@@ -80,7 +80,7 @@ class MainWindow(
             // omit the minimize button, which confuses users. Unlike most apps, Speed of Sound must
             // be minimized (or hidden) before the user can type into another application.
             // https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/property.HeaderBar.decoration-layout.html
-            addTopBar(HeaderBar().apply { decorationLayout = "minimize:close"; packEnd(buildMenuButton()) })
+            addTopBar(HeaderBar().apply { decorationLayout = ":minimize,close"; packEnd(buildMenuButton()) })
             content = contentBox
         }
 
