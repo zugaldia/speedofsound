@@ -76,7 +76,11 @@ class MainWindow(
             }
 
         content = ToolbarView().apply {
-            addTopBar(HeaderBar().apply { packEnd(buildMenuButton()) })
+            // Explicitly request minimize and close buttons. Some desktop setups (e.g. Fedora default)
+            // omit the minimize button, which confuses users. Unlike most apps, Speed of Sound must
+            // be minimized (or hidden) before the user can type into another application.
+            // https://gnome.pages.gitlab.gnome.org/libadwaita/doc/main/property.HeaderBar.decoration-layout.html
+            addTopBar(HeaderBar().apply { decorationLayout = "minimize:close"; packEnd(buildMenuButton()) })
             content = contentBox
         }
 
@@ -131,7 +135,9 @@ class MainWindow(
         )
 
         viewModel.state.connect(SIGNAL_PIPELINE_COMPLETED, MainState.PipelineCompleted {
-            if (shouldHideOnCompletion) { goAway() }
+            if (shouldHideOnCompletion) {
+                goAway()
+            }
             shouldHideOnCompletion = true // Reset flag for next pipeline
         })
 
@@ -153,12 +159,30 @@ class MainWindow(
         val ctrlPressed = state.contains(ModifierType.CONTROL_MASK)
         val superPressed = state.contains(ModifierType.SUPER_MASK)
         return when {
-            key == "Shift_L" -> { viewModel.onPrimaryLanguageSelected(); true }
-            key == "Shift_R" -> { viewModel.onSecondaryLanguageSelected(); true }
-            (key == "z" || key == "Z") && superPressed -> { viewModel.toggleListening(); true }
-            (key == "m" || key == "M") && ctrlPressed -> { goAway(); true }
-            key == "Escape" -> { viewModel.cancelListening(); true }
-            (key == "q" || key == "Q") && ctrlPressed -> { onQuit(); true }
+            key == "Shift_L" -> {
+                viewModel.onPrimaryLanguageSelected(); true
+            }
+
+            key == "Shift_R" -> {
+                viewModel.onSecondaryLanguageSelected(); true
+            }
+
+            (key == "z" || key == "Z") && superPressed -> {
+                viewModel.toggleListening(); true
+            }
+
+            (key == "m" || key == "M") && ctrlPressed -> {
+                goAway(); true
+            }
+
+            key == "Escape" -> {
+                viewModel.cancelListening(); true
+            }
+
+            (key == "q" || key == "Q") && ctrlPressed -> {
+                onQuit(); true
+            }
+
             else -> false
         }
     }
