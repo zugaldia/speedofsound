@@ -135,9 +135,7 @@ class MainWindow(
         )
 
         viewModel.state.connect(SIGNAL_PIPELINE_COMPLETED, MainState.PipelineCompleted {
-            if (shouldHideOnCompletion) {
-                goAway()
-            }
+            if (shouldHideOnCompletion) { goAway() }
             shouldHideOnCompletion = true // Reset flag for next pipeline
         })
 
@@ -159,30 +157,12 @@ class MainWindow(
         val ctrlPressed = state.contains(ModifierType.CONTROL_MASK)
         val superPressed = state.contains(ModifierType.SUPER_MASK)
         return when {
-            key == "Shift_L" -> {
-                viewModel.onPrimaryLanguageSelected(); true
-            }
-
-            key == "Shift_R" -> {
-                viewModel.onSecondaryLanguageSelected(); true
-            }
-
-            (key == "z" || key == "Z") && superPressed -> {
-                viewModel.toggleListening(); true
-            }
-
-            (key == "m" || key == "M") && ctrlPressed -> {
-                goAway(); true
-            }
-
-            key == "Escape" -> {
-                viewModel.cancelListening(); true
-            }
-
-            (key == "q" || key == "Q") && ctrlPressed -> {
-                onQuit(); true
-            }
-
+            (key == "z" || key == "Z") && superPressed -> { viewModel.toggleListening(); true }
+            key == "Escape" -> { viewModel.cancelListening(); true }
+            key == "Shift_L" -> { viewModel.onPrimaryLanguageSelected(); true }
+            key == "Shift_R" -> { viewModel.onSecondaryLanguageSelected(); true }
+            (key == "m" || key == "M") && ctrlPressed -> { goAway(); true }
+            (key == "q" || key == "Q") && ctrlPressed -> { onQuit(); true }
             else -> false
         }
     }
