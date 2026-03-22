@@ -6,7 +6,7 @@
 ## 1. Installation
 
 <a href="https://github.com/zugaldia/speedofsound/releases/latest">
-  <img src="assets/appimage/download-appimage-banner.svg" alt="Download as AppImage" height="60">
+  <img src="../assets/appimage/download-appimage-banner.svg" alt="Download as AppImage" height="60">
 </a>
 
 Download the latest AppImage, Deb, or RPM from the [releases page](https://github.com/zugaldia/speedofsound/releases/latest),
