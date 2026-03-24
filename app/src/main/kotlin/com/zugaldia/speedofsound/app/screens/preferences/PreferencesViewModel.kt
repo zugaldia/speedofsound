@@ -1,6 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences
 
-import com.zugaldia.speedofsound.core.APPLICATION_URL
+import com.zugaldia.speedofsound.core.APPLICATION_URL_KEYBOARD_SHORTCUT
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.CredentialSetting
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
@@ -44,7 +44,7 @@ class PreferencesViewModel(
     suspend fun bindGlobalShortcuts(): Result<List<BoundShortcut>> = portalsClient.bindGlobalShortcuts()
     val globalShortcutsVersion: Int get() = portalsClient.globalShortcutsVersion
     fun configureGlobalShortcuts(): Result<Unit> = portalsClient.configureGlobalShortcuts()
-    suspend fun openDocumentationUri() = portalsClient.openUri(APPLICATION_URL)
+    suspend fun openDocumentationUri() = portalsClient.openUri(APPLICATION_URL_KEYBOARD_SHORTCUT)
 
     fun getBackgroundRecording(): Boolean = settingsClient.getBackgroundRecording()
     fun setBackgroundRecording(value: Boolean): Boolean = settingsClient.setBackgroundRecording(value)
