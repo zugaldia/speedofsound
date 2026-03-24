@@ -2,11 +2,15 @@ package com.zugaldia.speedofsound.core.models.voice
 
 import java.io.File
 import java.nio.file.Path
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Manages model file paths and operations.
  */
 class ModelFileManager(private val pathProvider: PathProvider, private val fileSystem: FileSystemOperations) {
+    private val log: Logger = LoggerFactory.getLogger(ModelFileManager::class.java)
+
     /**
      * Returns a Path under the data directory in the format "models/modelId" and creates it if it doesn't exist.
      * Note that currently we are not creating subfolders per provider. We are counting on the model ID to include
@@ -34,7 +38,9 @@ class ModelFileManager(private val pathProvider: PathProvider, private val fileS
 
         return model.components.all { component ->
             val filePath = modelPath.resolve(component.name)
-            fileSystem.exists(filePath) && fileSystem.fileLength(filePath.toFile()) > 0
+            fileSystem.exists(filePath) &&
+                fileSystem.fileLength(filePath.toFile()) > 0 &&
+                !isLfsPointer(filePath.toFile())
         }
     }
 
@@ -78,6 +84,26 @@ class ModelFileManager(private val pathProvider: PathProvider, private val fileS
                     input.copyTo(output)
                 }
             }
+
+            if (isLfsPointer(outputFile)) {
+                throw IllegalStateException(
+                    "Model file '${component.name}' is a Git LFS pointer, not a real model file. " +
+                        "The repository was likely cloned without Git LFS. " +
+                        "See CONTRIBUTING.md for setup instructions."
+                )
+            }
+        }
+    }
+
+    private fun isLfsPointer(file: File): Boolean {
+        val lfsHeader = "version https://git-lfs.github.com/spec/"
+        val headerBytes = lfsHeader.toByteArray()
+        return try {
+            val read = file.inputStream().use { it.readNBytes(headerBytes.size) }
+            read.size == headerBytes.size && read.contentEquals(headerBytes)
+        } catch (e: java.io.IOException) {
+            log.debug("Could not read file header for LFS pointer check: ${file.name}", e)
+            false
         }
     }
 }
