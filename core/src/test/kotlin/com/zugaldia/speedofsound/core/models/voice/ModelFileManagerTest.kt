@@ -14,10 +14,11 @@ class ModelFileManagerTest {
 
     // Test fixture: real LFS pointer generated from this repo's tiny-encoder.int8.onnx using:
     //   git lfs pointer --file=core/src/main/resources/models/asr/tiny-encoder.int8.onnx > \
-    //     core/src/test/resources/models/asr/lfs-pointer.onnx
+    //     core/src/test/resources/models/asr/lfs-pointer.bin
+    // Stored as .bin (not .onnx) so it is not subject to Git LFS tracking.
     private val lfsPointerPath by lazy {
-        val resource = javaClass.getResource("/models/asr/lfs-pointer.onnx")
-            ?: error("Test resource /models/asr/lfs-pointer.onnx not found")
+        val resource = javaClass.getResource("/models/asr/lfs-pointer.bin")
+            ?: error("Test resource /models/asr/lfs-pointer.bin not found")
         Path.of(resource.toURI())
     }
 
