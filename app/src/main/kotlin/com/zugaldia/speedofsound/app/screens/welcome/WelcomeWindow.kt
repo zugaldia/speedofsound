@@ -16,16 +16,16 @@ import org.gnome.gdk.Texture
 import org.gnome.gtk.Align
 import org.gnome.gtk.Box
 import org.gnome.gtk.Button
-import org.gnome.gtk.Image
+import org.gnome.gtk.ContentFit
 import org.gnome.gtk.Justification
 import org.gnome.gtk.Label
 import org.gnome.gtk.LinkButton
 import org.gnome.gtk.Orientation
+import org.gnome.gtk.Picture
 import org.slf4j.LoggerFactory
 
 private const val DEFAULT_WELCOME_WINDOW_WIDTH = 500
 private const val DEFAULT_WELCOME_WINDOW_HEIGHT = 400
-private const val LOGO_PIXEL_SIZE = 128
 private const val DESCRIPTION_MAX_WIDTH_CHARS = 50
 
 private const val LABEL_PREVIOUS = "Previous"
@@ -54,6 +54,7 @@ class WelcomeWindow(
 
         val dots = CarouselIndicatorDots()
         dots.carousel = carousel
+        dots.marginTop = DEFAULT_MARGIN
 
         val buttonBox = buildButtonBox(carousel)
 
@@ -75,6 +76,11 @@ class WelcomeWindow(
             updateButtons()
         }
 
+        onCloseRequest {
+            onGetStarted()
+            false
+        }
+
         updateButtons()
     }
 
@@ -93,6 +99,7 @@ class WelcomeWindow(
 
         val descriptionLabel = Label(welcomePage.description)
         descriptionLabel.addCssClass(STYLE_CLASS_BODY)
+        descriptionLabel.useMarkup = true
         descriptionLabel.wrap = true
         descriptionLabel.maxWidthChars = DESCRIPTION_MAX_WIDTH_CHARS
         descriptionLabel.justify = Justification.CENTER
@@ -102,25 +109,27 @@ class WelcomeWindow(
         page.hexpand = true
         page.valign = Align.CENTER
         page.halign = Align.CENTER
-        welcomePage.iconResourcePath?.let { buildLogoImage(it) }?.let { page.append(it) }
+        welcomePage.imageResourcePath?.let { buildImageWidget(it) }?.let { page.append(it) }
         page.append(titleLabel)
         page.append(descriptionLabel)
         welcomePage.url?.let { page.append(LinkButton.withLabel(it, it)) }
         return page
     }
 
-    private fun buildLogoImage(resourcePath: String): Image? {
+    private fun buildImageWidget(resourcePath: String): Picture? {
         val bytes = javaClass.getResourceAsStream(resourcePath)?.readBytes()
         if (bytes == null) {
-            logger.warn("Could not load logo resource: $resourcePath")
+            logger.warn("Could not load image resource: $resourcePath")
             return null
         }
 
         return runCatching { Texture.fromBytes(bytes) }
-            .onFailure { logger.warn("Could not decode logo resource: $resourcePath", it) }
+            .onFailure { logger.warn("Could not decode image resource: $resourcePath", it) }
             .getOrNull()
             ?.let { texture ->
-                Image.fromPaintable(texture).apply { pixelSize = LOGO_PIXEL_SIZE }
+                Picture.forPaintable(texture).apply {
+                    contentFit = ContentFit.SCALE_DOWN
+                }
             }
     }
 
@@ -149,7 +158,6 @@ class WelcomeWindow(
     private fun onNextClicked(carousel: Carousel) {
         if (currentIndex == pages.size - 1) {
             close()
-            onGetStarted()
         } else {
             carousel.scrollTo(pages[currentIndex + 1], true)
         }

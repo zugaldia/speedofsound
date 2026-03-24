@@ -25,6 +25,7 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
     private val statusLabel = Label(INITIAL_LOADING_MESSAGE).apply {
         cssClasses = arrayOf("dim-label")
         justify = Justification.CENTER
+        useMarkup = true
     }
 
     init {
@@ -40,10 +41,10 @@ class AudioWidget : Box(Orientation.VERTICAL, DEFAULT_BOX_SPACING) {
     fun setStage(stage: AppStage) {
         statusLabel.label = when (stage) {
             AppStage.LOADING -> INITIAL_LOADING_MESSAGE
-            AppStage.IDLE -> "Tap [$APPLICATION_SHORTCUT_TRIGGER] to start/stop listening"
-            AppStage.LISTENING -> "Listening...\n[Esc] to cancel"
-            AppStage.TRANSCRIBING -> "Transcribing...\n[Esc] to cancel"
-            AppStage.POLISHING -> "${polishingMessages.random()}...\n[Esc] to cancel"
+            AppStage.IDLE -> "Tap <tt>$APPLICATION_SHORTCUT_TRIGGER</tt> to start/stop listening"
+            AppStage.LISTENING -> "Listening...\n<tt>Esc</tt> to cancel"
+            AppStage.TRANSCRIBING -> "Transcribing...\n<tt>Esc</tt> to cancel"
+            AppStage.POLISHING -> "${polishingMessages.random()}...\n<tt>Esc</tt> to cancel"
         }
 
         val shouldPulsate = stage in listOf(AppStage.LOADING, AppStage.TRANSCRIBING, AppStage.POLISHING)
