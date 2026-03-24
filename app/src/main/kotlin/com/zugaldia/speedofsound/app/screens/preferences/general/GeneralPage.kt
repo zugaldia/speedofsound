@@ -42,7 +42,8 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
 
         shortcutSetupRow = ActionRow().apply {
             title = "Set Up Shortcut" // The system does support the Global Shortcuts portal.
-            subtitle = "We use <tt>$APPLICATION_SHORTCUT_TRIGGER</tt> by default, but you can assign any key during setup."
+            subtitle = "We use <tt>$APPLICATION_SHORTCUT_TRIGGER</tt> by default, " +
+                "but you can assign any key during setup."
             val setupButton = Button.withLabel("Set Up").apply {
                 valign = Align.CENTER
                 addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
