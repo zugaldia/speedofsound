@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.core.models.voice
 
+import com.zugaldia.speedofsound.core.FatalStartupException
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
 import java.io.InputStream
 import java.nio.file.Path
@@ -77,7 +78,7 @@ class ModelFileManagerTest {
                     lfsPointerPath.toFile().inputStream()
             }
 
-            val exception = assertFailsWith<IllegalStateException> {
+            val exception = assertFailsWith<FatalStartupException> {
                 manager.extractDefaultModelFromResources("test-model", testModel, lfsPointerResourceLoader)
                     .getOrThrow()
             }

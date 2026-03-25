@@ -1,6 +1,7 @@
 package com.zugaldia.speedofsound.app.plugins.recorder
 
 import com.zugaldia.speedofsound.app.ENV_DISABLE_GSTREAMER
+import com.zugaldia.speedofsound.core.FatalStartupException
 import com.zugaldia.speedofsound.core.audio.AudioInputDevice
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderEvent
@@ -82,7 +83,7 @@ class GStreamerRecorder(
             val errorMsg = "Failed to initialize GStreamer: ${e.message}. " +
                 "Ensure GStreamer is installed, or set $ENV_DISABLE_GSTREAMER=true to use the fallback recorder."
             log.error(errorMsg, e)
-            throw IllegalStateException(errorMsg, e)
+            throw FatalStartupException(errorMsg)
         }
     }
 
