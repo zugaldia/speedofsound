@@ -35,9 +35,18 @@ jobs:
         id: build
       - name: Lint snap
         run: sg lxd -c "snapcraft lint ${{ steps.build.outputs.snap }}"
+      - name: Determine release channels
+        id: channels
+        run: |
+          # When publishing to stable, also update beta so beta users are never behind
+          if [[ "${{ inputs.channel }}" == "stable" ]]; then
+            echo "release=stable,beta" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=${{ inputs.channel }}" >> "$GITHUB_OUTPUT"
+          fi
       - uses: snapcore/action-publish@v1
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_LOGIN }}
         with:
           snap: ${{ steps.build.outputs.snap }}
-          release: ${{ inputs.channel }}
+          release: ${{ steps.channels.outputs.release }}

@@ -23,7 +23,7 @@ jobs:
         id: detect
         run: |
           # Determine channel from version string
-          VERSION=$(cat VERSION | tr -d '[:space:]')
+          VERSION=$(tr -d '[:space:]' < VERSION)
           if [[ "$VERSION" == *"alpha"* ]]; then
             CHANNEL="alpha"
           elif [[ "$VERSION" == *"beta"* ]]; then
@@ -32,19 +32,19 @@ jobs:
             CHANNEL="stable"
           fi
 
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "channel=${CHANNEL}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "channel=${CHANNEL}" >> "$GITHUB_OUTPUT"
 
           # Check if tag already exists
           TAG="v${VERSION}"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "Tag $TAG already exists, skipping release."
-            echo "new_release=false" >> $GITHUB_OUTPUT
+            echo "new_release=false" >> "$GITHUB_OUTPUT"
           else
             echo "Tag $TAG does not exist, creating it."
             git tag "$TAG"
             git push origin "$TAG"
-            echo "new_release=true" >> $GITHUB_OUTPUT
+            echo "new_release=true" >> "$GITHUB_OUTPUT"
           fi
 
   release-github:

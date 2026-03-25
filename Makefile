@@ -6,6 +6,7 @@ export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run flatpak-remove desktop-validate \
 	snapcraft-clean snapcraft-pack snapcraft-lint snap-install snap-remove \
 	jpackage-deb jpackage-rpm jpackage-app-image appimage \
+	actionlint \
 	docs-serve docs-build
 
 clean:
@@ -106,6 +107,13 @@ snap-install:
 
 snap-remove:
 	snap remove speedofsound
+
+#
+# GitHub Actions
+#
+
+actionlint:
+	actionlint -verbose
 
 #
 # jpackage
