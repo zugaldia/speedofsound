@@ -56,6 +56,16 @@
     </screenshots>
 
     <releases>
+        <release version="0.10.1" date="2026-03-25">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.10.1</url>
+            <description>
+                <p>
+                    Fixed a bug where the built-in Tiny model was unavailable in the Snap package
+                    due to Git LFS files not being fetched during the build. Also adds a direct
+                    download link for the keyboard shortcut helper script in the setup guide.
+                </p>
+            </description>
+        </release>
         <release version="0.10.0" date="2026-03-25">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.10.0</url>
             <description>
