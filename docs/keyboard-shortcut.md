@@ -32,6 +32,9 @@ You can now trigger Speed of Sound from anywhere.
 ## Option 2: Use Your Desktop Environment Settings
 
 In this step, you will manually assign a global keyboard shortcut using your desktop environment settings.
+You will need the `trigger.sh` script, which you can download from the
+[latest release page](https://github.com/zugaldia/speedofsound/releases/latest).
+
 The exact steps vary by desktop environment and distribution. On GNOME, for example:
 
 1. Open **Settings** and navigate to **Keyboard**.
