@@ -24,6 +24,8 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - name: Lint AppStream metadata and manifests
         run: |
           flatpak-builder-lint appstream data/io.speedofsound.SpeedOfSound.metainfo.xml.in
