@@ -56,6 +56,19 @@
     </screenshots>
 
     <releases>
+        <release version="0.10.0" date="2026-03-25">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.10.0</url>
+            <description>
+                <p>
+                    Improved the welcome carousel with per-page images and cleaner copy; keyboard
+                    shortcut keys are now displayed in monospace throughout the UI. The shortcut
+                    setup link in Preferences now opens directly to the keyboard shortcut
+                    documentation page. Updated Flatpak to target the GNOME 50 runtime. Fixed a
+                    confusing crash for developers cloning the repo without Git LFS by detecting
+                    LFS pointer files and surfacing a clear error message.
+                </p>
+            </description>
+        </release>
         <release version="0.9.0" date="2026-03-22">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.9.0</url>
             <description>
