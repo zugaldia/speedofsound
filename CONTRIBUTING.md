@@ -1,18 +1,22 @@
 # Contributing to Speed of Sound
 
-Contributions are welcome. Please use the [GitHub issues page](https://github.com/zugaldia/speedofsound/issues)
-to guide and track your work.
+This document describes how to build Speed of Sound from source. Most users don't need to do this,
+you can install the application using one of the [pre-built packages](https://www.speedofsound.io/getting-started/).
+Building from source is necessary however when working on a new feature or bug fix. Contributions are welcome!
 
-The use of coding agents during development is accepted, with the understanding that regardless of how a contribution
-is created, the author is ultimately responsible for its quality, correctness, and adherence to best practices and
-the project's established patterns. For more information, see the [FAQ](https://www.speedofsound.io/faq/).
+Use [GitHub issues](https://github.com/zugaldia/speedofsound/issues) to guide and track your work.
+
+The use of coding agents during development is accepted, with the understanding that
+regardless of how a contribution is created, the author is ultimately responsible for its quality, correctness, and
+adherence to best practices and the project's established patterns. For more information, see the
+[FAQ](https://www.speedofsound.io/faq/).
 
 ## Building from Source
 
 ### Requirements
 
 - **Java 25** — required to build and run the application
-- **GStreamer** — required for audio recording (usually preinstalled)
+- **GStreamer** — required for audio recording (usually preinstalled, installation docs [here](https://gstreamer.freedesktop.org/documentation/installing/on-linux.html))
 - **GLib utilities** — provides `gdbus`, required for manual shortcut triggering (usually preinstalled)
 - **make** — required to run build commands
 

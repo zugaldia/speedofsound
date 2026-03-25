@@ -1,16 +1,18 @@
 # Getting Started
 
-> The work to integrate this application in the Flathub and Snapcraft stores is underway.
-> If you are familiar with either packaging format and would like to help, please reach out to the author.
-
 ## 1. Installation
 
-<a href="https://github.com/zugaldia/speedofsound/releases/latest">
-  <img src="../assets/appimage/download-appimage-banner.svg" alt="Download as AppImage" height="60">
+<a href="https://snapcraft.io/speedofsound">
+  <img alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
 </a>
 
-Download the latest AppImage, Deb, or RPM from the [releases page](https://github.com/zugaldia/speedofsound/releases/latest),
-or follow the instructions under [Manual Installation](manual-installation.md).
+The easiest and recommended way to install Speed of Sound is from the
+[Snap Store](https://snapcraft.io/speedofsound). Flathub support is coming soon.
+
+Alternatively, AppImage, Deb, and RPM packages are also available from the
+[releases page](https://github.com/zugaldia/speedofsound/releases/latest).
+
+To build from source, see [`CONTRIBUTING.md`](https://github.com/zugaldia/speedofsound/blob/main/CONTRIBUTING.md).
 
 ## 2. Accept Remote Desktop Permissions
 
