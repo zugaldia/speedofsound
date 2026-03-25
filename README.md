@@ -30,12 +30,18 @@ Voice typing for the Linux desktop: press a key to start, speak, press again to 
 
 ## Getting Started
 
-<a href="https://snapcraft.io/speedofsound">
-  <img alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
-</a>
+<div style="display: flex; gap: 10px; align-items: center;">
+    <a href="https://flathub.org/en/apps/io.speedofsound.SpeedOfSound">
+      <img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?locale=en"/>
+    </a>
+    <a href="https://snapcraft.io/speedofsound">
+      <img width="260" alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
+    </a>
+</div>
 
-The easiest and recommended way to install Speed of Sound is from the
-[Snap Store](https://snapcraft.io/speedofsound). Flathub support is coming soon.
+The easiest and recommended way to install Speed of Sound is from
+[Flathub](https://flathub.org/en/apps/io.speedofsound.SpeedOfSound) or from the
+[Snap Store](https://snapcraft.io/speedofsound).
 Alternatively, AppImage, Deb, and RPM packages are also available from the [releases page](https://github.com/zugaldia/speedofsound/releases/latest).
 
 For initial configuration, troubleshooting, and other resources, visit [speedofsound.io](https://speedofsound.io).
