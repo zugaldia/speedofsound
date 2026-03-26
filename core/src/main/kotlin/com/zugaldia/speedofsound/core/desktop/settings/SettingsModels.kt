@@ -59,6 +59,9 @@ data class TextModelProviderSetting(
 /**
  * A serializable snapshot of all exportable user preferences.
  * Instance-specific settings (portal token, selected provider IDs, text processing toggle) are excluded.
+ *
+ * IMPORTANT: When adding a new setting here, you must also update [ImportExportManager] in the app
+ * module to include it in both the export() and importSettings() functions.
  */
 @Serializable
 data class SettingsExport(
@@ -71,6 +74,7 @@ data class SettingsExport(
     val credentials: List<CredentialSetting> = emptyList(),
     val voiceModelProviders: List<VoiceModelProviderSetting> = emptyList(),
     val textModelProviders: List<TextModelProviderSetting> = emptyList(),
+    val sanitizeSpecialChars: Boolean = DEFAULT_SANITIZE_SPECIAL_CHARS,
     val postHideDelayMs: Int = DEFAULT_POST_HIDE_DELAY_MS,
     val typingDelayMs: Int = DEFAULT_TYPING_DELAY_MS,
     val customContext: String = DEFAULT_CUSTOM_CONTEXT,

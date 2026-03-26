@@ -37,6 +37,7 @@ class ImportExportManager(private val viewModel: PreferencesViewModel) {
             voiceModelProviders = viewModel.getVoiceModelProviders()
                 .filter { it.id !in SUPPORTED_LOCAL_ASR_MODELS.keys },
             textModelProviders = viewModel.getTextModelProviders(),
+            sanitizeSpecialChars = viewModel.getSanitizeSpecialChars(),
             postHideDelayMs = viewModel.getPostHideDelayMs(),
             typingDelayMs = viewModel.getTypingDelayMs(),
             customContext = viewModel.getCustomContext(),
@@ -63,6 +64,7 @@ class ImportExportManager(private val viewModel: PreferencesViewModel) {
         viewModel.setBackgroundRecording(exportData.backgroundRecording)
         viewModel.setHideInsteadOfMinimize(exportData.hideInsteadOfMinimize)
         viewModel.setAppendSpace(exportData.appendSpace)
+        viewModel.setSanitizeSpecialChars(exportData.sanitizeSpecialChars)
         viewModel.setPostHideDelayMs(exportData.postHideDelayMs)
         viewModel.setTypingDelayMs(exportData.typingDelayMs)
         viewModel.setCustomContext(exportData.customContext)
