@@ -20,6 +20,8 @@ dependencies {
 
     implementation(libs.bundles.javaGiEcosystem)
     implementation(libs.stargate)
+
+    testImplementation(kotlin("test"))
 }
 
 application {

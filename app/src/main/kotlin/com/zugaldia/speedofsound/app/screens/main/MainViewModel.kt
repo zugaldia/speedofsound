@@ -313,7 +313,8 @@ class MainViewModel(
             if (postHideDelayMs > 0) delay(postHideDelayMs.toLong())
             val suffix = if (settingsClient.getAppendSpace()) APPEND_SPACE_TEXT else ""
             val finalText = event.finalResult.trim() + suffix
-            TextUtils.textToKeySym(finalText)
+            val sanitize = settingsClient.getSanitizeSpecialChars()
+            TextUtils.textToKeySym(finalText, filterNoKeySym = false, sanitize = sanitize)
                 .onSuccess { keySyms -> portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()) }
                 .onFailure { error ->
                     logger.error("Error converting text to key symbols: ${error.message}")

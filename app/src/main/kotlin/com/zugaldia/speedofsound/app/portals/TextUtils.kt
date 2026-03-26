@@ -39,17 +39,43 @@ object TextUtils {
         text.map { SAFE_CHAR_MAP.getOrDefault(it, it.toString()) }.joinToString("")
 
     /**
+     * Converts a Unicode code point to its GDK keysym value.
+     */
+    fun unicodeToKeySym(codePoint: Int): Int = Gdk.unicodeToKeyval(codePoint)
+
+    /**
+     * Converts a GDK keysym value back to its Unicode code point.
+     */
+    fun keySymToUnicode(keySym: Int): Int = Gdk.keyvalToUnicode(keySym)
+
+    /**
      * Converts a string of text into a list of GDK key symbols suitable for
      * org.freedesktop.portal.RemoteDesktop.NotifyKeyboardKeysym. See:
      * https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.RemoteDesktop.html#org-freedesktop-portal-remotedesktop-notifykeyboardkeysym
      *
      * It also removes new lines to avoid accidentally triggering text input, typically found in chat applications.
+     *
+     * When [filterNoKeySym] is true, characters with no corresponding native GDK keysym are
+     * dropped. Per the GDK docs, these are returned as (codePoint | 0x01000000), a valid Unicode
+     * keysym encoding that portals handle correctly. Defaults to false so all Unicode characters
+     * (including CJK, Arabic, etc.) are passed through.
+     *
+     * When [sanitize] is true, accented and special characters are replaced with their ASCII
+     * equivalents via [SAFE_CHAR_MAP] before conversion. Defaults to false as Unicode keysyms
+     * handle these characters correctly without substitution.
      */
-    fun textToKeySym(text: String): Result<List<Int>> = runCatching {
-        sanitizeSpecialChars(text) // Replace accented/special characters with ASCII equivalents
+    fun textToKeySym(
+        text: String,
+        filterNoKeySym: Boolean = false,
+        sanitize: Boolean = false,
+    ): Result<List<Int>> = runCatching {
+        (if (sanitize) sanitizeSpecialChars(text) else text)
             .lines().joinToString(" ") // Convert newlines to spaces
             .filterNot { it.isISOControl() } // Remove control characters (tabs, backspace, escape, etc.)
-            .map { Gdk.unicodeToKeyval(it.code) } // Convert each character to its GDK keysym value
-            .filter { (it and GDK_NO_KEYSYM_FLAG) == 0 } // Filter out characters with no corresponding keysym
+            .map { unicodeToKeySym(it.code) } // Convert each character to its GDK keysym value
+            .let { keysyms ->
+                if (filterNoKeySym) keysyms.filter { (it and GDK_NO_KEYSYM_FLAG) == 0 }
+                else keysyms
+            }
     }
 }

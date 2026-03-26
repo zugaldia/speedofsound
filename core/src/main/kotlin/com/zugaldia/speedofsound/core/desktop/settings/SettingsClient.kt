@@ -296,6 +296,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
      * Advanced page
      */
 
+    fun getSanitizeSpecialChars(): Boolean =
+        settingsStore.getBoolean(KEY_SANITIZE_SPECIAL_CHARS, DEFAULT_SANITIZE_SPECIAL_CHARS)
+
+    fun setSanitizeSpecialChars(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_SANITIZE_SPECIAL_CHARS, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_SANITIZE_SPECIAL_CHARS)
+        }
+
     fun getPostHideDelayMs(): Int =
         settingsStore.getInt(KEY_POST_HIDE_DELAY_MS, DEFAULT_POST_HIDE_DELAY_MS)
 
