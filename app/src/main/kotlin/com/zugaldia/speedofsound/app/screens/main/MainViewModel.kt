@@ -109,7 +109,7 @@ class MainViewModel(
                     false
                 }
             } catch (e: FatalStartupException) {
-                logger.error(e.message)
+                logger.error("A fatal error was encountered during startup.", e)
                 exitProcess(1)
             }
         }
