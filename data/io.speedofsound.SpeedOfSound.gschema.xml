@@ -101,6 +101,11 @@
 
     <!-- Advanced page -->
 
+    <key name="sanitize-special-chars" type="b">
+      <default>false</default>
+      <summary>Sanitize special characters</summary>
+      <description>When enabled, accented and special characters are replaced with their ASCII equivalents before typing. Enable this if your desktop portal does not correctly handle Unicode keysyms.</description>
+    </key>
     <key name="post-hide-delay-ms" type="i">
       <range min="0" max="1000"/>
       <default>100</default>
