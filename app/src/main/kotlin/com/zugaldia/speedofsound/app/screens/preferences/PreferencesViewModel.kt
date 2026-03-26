@@ -114,6 +114,9 @@ class PreferencesViewModel(
      * Advanced page
      */
 
+    fun getSanitizeSpecialChars(): Boolean = settingsClient.getSanitizeSpecialChars()
+    fun setSanitizeSpecialChars(value: Boolean): Boolean = settingsClient.setSanitizeSpecialChars(value)
+
     fun getPostHideDelayMs(): Int = settingsClient.getPostHideDelayMs()
     fun setPostHideDelayMs(value: Int): Boolean = settingsClient.setPostHideDelayMs(value)
 

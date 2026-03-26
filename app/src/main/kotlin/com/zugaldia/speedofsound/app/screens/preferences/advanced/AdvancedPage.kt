@@ -4,14 +4,26 @@ import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
 import org.gnome.adw.SpinRow
+import org.gnome.adw.SwitchRow
 
 class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPage() {
+    private val sanitizeSpecialCharsRow: SwitchRow
     private val postHideDelayRow: SpinRow
     private val typingDelayRow: SpinRow
 
     init {
         title = "Advanced"
         iconName = "preferences-other-symbolic"
+
+        sanitizeSpecialCharsRow = SwitchRow().apply {
+            title = "Sanitize Special Characters"
+            subtitle = "Replace accented and special characters with ASCII equivalents before typing. " +
+                    "Enable this if your desktop portal does not correctly handle Unicode keysyms."
+            active = viewModel.getSanitizeSpecialChars()
+            onNotify("active") {
+                viewModel.setSanitizeSpecialChars(active)
+            }
+        }
 
         postHideDelayRow = SpinRow.withRange(POST_HIDE_DELAY_MIN, POST_HIDE_DELAY_MAX, STEP).apply {
             title = "Post-Hide Delay (ms)"
@@ -40,6 +52,7 @@ class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPag
             title = "Typing"
             description = "Settings on this section control low-level typing behavior. " +
                     "The defaults are safe for most desktop environments and generally do not need to be changed."
+            add(sanitizeSpecialCharsRow)
             add(postHideDelayRow)
             add(typingDelayRow)
         }
