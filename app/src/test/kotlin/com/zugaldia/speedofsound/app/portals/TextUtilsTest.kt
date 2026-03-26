@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.app.portals
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class TextUtilsTest {
 
@@ -24,6 +25,22 @@ class TextUtilsTest {
         val resource = javaClass.classLoader.getResourceAsStream("sample.txt")
         assertNotNull(resource, "sample.txt not found in test resources")
         return resource.bufferedReader(Charsets.UTF_8).readText()
+    }
+
+    @Test
+    fun `textToKeySym succeeds for plain English`() {
+        val input = "Using my voice, I can type at the speed of sound."
+        val result = TextUtils.textToKeySym(input, filterNoKeySym = false)
+        assertTrue(result.isSuccess)
+        assertEquals(input.length, result.getOrThrow().size)
+    }
+
+    @Test
+    fun `textToKeySym succeeds for all languages in sample`() {
+        val sample = loadSample()
+        val result = TextUtils.textToKeySym(sample, filterNoKeySym = false)
+        assertTrue(result.isSuccess)
+        assertEquals(sample.length, result.getOrThrow().size)
     }
 
     @Test
