@@ -39,6 +39,16 @@ object TextUtils {
         text.map { SAFE_CHAR_MAP.getOrDefault(it, it.toString()) }.joinToString("")
 
     /**
+     * Converts a Unicode code point to its GDK keysym value.
+     */
+    fun unicodeToKeySym(codePoint: Int): Int = Gdk.unicodeToKeyval(codePoint)
+
+    /**
+     * Converts a GDK keysym value back to its Unicode code point.
+     */
+    fun keySymToUnicode(keySym: Int): Int = Gdk.keyvalToUnicode(keySym)
+
+    /**
      * Converts a string of text into a list of GDK key symbols suitable for
      * org.freedesktop.portal.RemoteDesktop.NotifyKeyboardKeysym. See:
      * https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.RemoteDesktop.html#org-freedesktop-portal-remotedesktop-notifykeyboardkeysym
@@ -49,7 +59,7 @@ object TextUtils {
         sanitizeSpecialChars(text) // Replace accented/special characters with ASCII equivalents
             .lines().joinToString(" ") // Convert newlines to spaces
             .filterNot { it.isISOControl() } // Remove control characters (tabs, backspace, escape, etc.)
-            .map { Gdk.unicodeToKeyval(it.code) } // Convert each character to its GDK keysym value
+            .map { unicodeToKeySym(it.code) } // Convert each character to its GDK keysym value
             .filter { (it and GDK_NO_KEYSYM_FLAG) == 0 } // Filter out characters with no corresponding keysym
     }
 }
