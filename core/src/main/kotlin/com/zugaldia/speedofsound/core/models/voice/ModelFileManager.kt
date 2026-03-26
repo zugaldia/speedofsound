@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.core.models.voice
 
+import com.zugaldia.speedofsound.core.FatalStartupException
 import java.io.File
 import java.nio.file.Path
 import org.slf4j.Logger
@@ -86,7 +87,7 @@ class ModelFileManager(private val pathProvider: PathProvider, private val fileS
             }
 
             if (isLfsPointer(outputFile)) {
-                throw IllegalStateException(
+                throw FatalStartupException(
                     "Model file '${component.name}' is a Git LFS pointer, not a real model file. " +
                         "The repository was likely cloned without Git LFS. " +
                         "See CONTRIBUTING.md for setup instructions."

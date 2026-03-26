@@ -4,6 +4,7 @@ import com.k2fsa.sherpa.onnx.OfflineModelConfig
 import com.k2fsa.sherpa.onnx.OfflineRecognizer
 import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
 import com.k2fsa.sherpa.onnx.OfflineWhisperModelConfig
+import com.zugaldia.speedofsound.core.FatalStartupException
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
@@ -31,15 +32,18 @@ class SherpaWhisperAsr(
         createRecognizer()
     }
 
-    private fun createRecognizer() {
-        val modelManager = ModelManager()
-
-        // Extract the default model on the first run (NO-OP otherwise)
+    private fun extractDefaultModelIfNeeded(modelManager: ModelManager) {
         if (currentOptions.modelId == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID) {
             modelManager.extractDefaultModel().onFailure { error ->
+                if (error is FatalStartupException) throw error
                 throw IllegalStateException("Failed to extract default model: ${error.message}", error)
             }
         }
+    }
+
+    private fun createRecognizer() {
+        val modelManager = ModelManager()
+        extractDefaultModelIfNeeded(modelManager)
 
         // Validate model exists in the registry and is downloaded
         val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[currentOptions.modelId]

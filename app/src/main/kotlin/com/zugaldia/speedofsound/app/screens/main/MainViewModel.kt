@@ -21,6 +21,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_PROCESSING_ENABL
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_VOICE_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.languageFromIso2
+import com.zugaldia.speedofsound.core.FatalStartupException
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
 import com.zugaldia.speedofsound.core.plugins.director.DefaultDirector
@@ -28,6 +29,7 @@ import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
 import com.zugaldia.speedofsound.core.plugins.director.PipelineStage
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderEvent
+import kotlin.system.exitProcess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -96,14 +98,19 @@ class MainViewModel(
         // Phase 2 (async, IO thread): Enable plugins (heavy: model extraction + ONNX load).
         state.updateStage(AppStage.LOADING)
         viewModelScope.launch(Dispatchers.IO) {
-            registry.setActiveById(AppPluginCategory.RECORDER, recorder.id)
-            asrProviderManager.activateSelectedProvider()
-            llmProviderManager.activateSelectedProvider()
-            registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
-            portalsSessionManager.initialize(viewModelScope)
-            GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
-                state.updateStage(AppStage.IDLE)
-                false
+            try {
+                registry.setActiveById(AppPluginCategory.RECORDER, recorder.id)
+                asrProviderManager.activateSelectedProvider()
+                llmProviderManager.activateSelectedProvider()
+                registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
+                portalsSessionManager.initialize(viewModelScope)
+                GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
+                    state.updateStage(AppStage.IDLE)
+                    false
+                }
+            } catch (e: FatalStartupException) {
+                logger.error("A fatal error was encountered during startup.", e)
+                exitProcess(1)
             }
         }
     }
