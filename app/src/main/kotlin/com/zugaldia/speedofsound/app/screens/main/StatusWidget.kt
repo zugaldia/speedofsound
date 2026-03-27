@@ -2,6 +2,7 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
+import com.zugaldia.speedofsound.app.SEPARATOR_CHARACTER
 import org.gnome.gtk.Align
 import org.gnome.gtk.Box
 import org.gnome.gtk.Label
@@ -15,7 +16,6 @@ class StatusWidget : Box() {
     private val languageLabel: Label
 
     companion object {
-        private const val SEPARATOR_CHARACTER = "·"
         private const val MAX_MODEL_LABEL_LENGTH = 15
     }
 

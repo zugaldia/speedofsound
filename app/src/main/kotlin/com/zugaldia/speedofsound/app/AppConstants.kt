@@ -15,8 +15,8 @@ const val MIN_ADW_MINOR_VERSION = 5
 const val ADW_MAX_LENGTH_MIN_MAJOR_VERSION = 1
 const val ADW_MAX_LENGTH_MIN_MINOR_VERSION = 6
 
-const val DEFAULT_WINDOW_WIDTH = 425
-const val DEFAULT_WINDOW_HEIGHT = 225
+const val DEFAULT_WINDOW_WIDTH = 450
+const val DEFAULT_WINDOW_HEIGHT = 275
 
 const val DEFAULT_PREFERENCES_DIALOG_WIDTH = 800
 const val DEFAULT_PREFERENCES_DIALOG_HEIGHT = 800
@@ -33,6 +33,8 @@ const val DEFAULT_MARGIN = 10
 const val DEFAULT_BOX_SPACING = 10
 
 const val SETTINGS_SAVE_DEBOUNCE_MS = 500
+
+const val SEPARATOR_CHARACTER = "·"
 
 // Adw CSS style classes
 // https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1-latest/style-classes.html
