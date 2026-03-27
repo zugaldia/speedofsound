@@ -60,7 +60,7 @@ class MainWindow(
         })
 
         portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
-        audioWidget = AudioWidget()
+        audioWidget = AudioWidget(onToggle = { viewModel.toggleListening() })
         statusWidget = StatusWidget()
 
         val contentBox = Box.builder()
@@ -131,6 +131,7 @@ class MainWindow(
             SIGNAL_PORTALS_RESTORE_TOKEN_MISSING,
             MainState.PortalsRestoreTokenMissingChanged { missing: Boolean ->
                 portalsBanner.revealed = missing
+                audioWidget.setPortalsReady(!missing)
             }
         )
 
