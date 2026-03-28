@@ -56,6 +56,12 @@ tasks.flatpakGradleGenerator {
     excludeConfigurations = listOf("testCompileClasspath", "testRuntimeClasspath")
 }
 
+// See: https://java-gi.org/getting-started/getting_started_14/#custom-svg-icons
+tasks.register<Exec>("compileResources") {
+    workingDir("src/main/resources")
+    commandLine("glib-compile-resources", "speedofsound.gresource.xml")
+}
+
 //
 // We use the built-in `jpackage` for DEB, RPM, and app-image generation (straightforward but bundles the JRE).
 // Potential alternative (from Netflix?): https://github.com/nebula-plugins/gradle-ospackage-plugin

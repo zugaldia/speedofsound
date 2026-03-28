@@ -2,8 +2,11 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_PROGRESS_BAR_WIDTH
+import com.zugaldia.speedofsound.app.ICON_SOUND_WAVE
+import com.zugaldia.speedofsound.app.ICON_STOP
 import com.zugaldia.speedofsound.app.SEPARATOR_CHARACTER
 import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
+import org.gnome.adw.ButtonContent
 import org.gnome.glib.GLib
 import org.gnome.gtk.Align
 import org.gnome.gtk.Box
@@ -26,12 +29,22 @@ class AudioWidget(
     private var isPortalsReady: Boolean = false
     private var currentStage: AppStage = AppStage.LOADING
 
-    private val startButton = Button.withLabel("Start").apply {
+    private val startButtonContent = ButtonContent().apply {
+        iconName = ICON_SOUND_WAVE
+        label = "Start"
+    }
+
+    private val startButton = Button().apply {
+        child = startButtonContent
         tooltipText = "Window will minimize automatically after transcription"
         onClicked { onToggle() }
     }
 
-    private val stopButton = Button.withLabel("Stop").apply {
+    private val stopButton = Button().apply {
+        child = ButtonContent().apply {
+            iconName = ICON_STOP
+            label = "Stop"
+        }
         sensitive = false
         onClicked { onToggle() }
     }
@@ -61,7 +74,7 @@ class AudioWidget(
 
     fun setStage(stage: AppStage) {
         currentStage = stage
-        startButton.label = when (stage) {
+        startButtonContent.label = when (stage) {
             AppStage.LOADING, AppStage.IDLE -> "Start"
             AppStage.LISTENING -> "Listening..."
             AppStage.TRANSCRIBING -> "Transcribing..."

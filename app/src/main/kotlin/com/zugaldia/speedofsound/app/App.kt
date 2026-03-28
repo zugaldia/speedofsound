@@ -8,12 +8,16 @@ import com.zugaldia.speedofsound.core.desktop.settings.PropertiesStore
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsStore
 import com.zugaldia.speedofsound.core.APPLICATION_ID
+import com.zugaldia.speedofsound.core.APPLICATION_SHORT
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import org.gnome.adw.Adw
 import org.gnome.adw.Application
 import org.gnome.adw.StyleManager
+import org.gnome.gdk.Display
 import org.gnome.gio.ApplicationFlags
+import org.gnome.gio.Resource
 import org.gnome.gio.SimpleAction
+import org.gnome.gtk.IconTheme
 import org.slf4j.LoggerFactory
 
 private val logger = LoggerFactory.getLogger("com.zugaldia.speedofsound.app.App")
@@ -57,8 +61,10 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
         onActivate {
             logger.info("Application activated.")
-            val isFirstLaunch = !settingsClient.getWelcomeScreenShown()
+            loadIconResources()
             ensureMainWindow()
+
+            val isFirstLaunch = !settingsClient.getWelcomeScreenShown()
             if (isFirstLaunch) {
                 WelcomeWindow(this) {
                     settingsClient.setWelcomeScreenShown(true)
@@ -72,6 +78,20 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
         onShutdown {
             logger.info("Application shutting down.")
             mainViewModel.shutdown()
+        }
+    }
+
+    private fun loadIconResources() {
+        // See: https://java-gi.org/getting-started/getting_started_14/#custom-svg-icons
+        // Alternatively, we could install the resource file using Meson.
+        val stream = SosApplication::class.java.getResourceAsStream("/$APPLICATION_SHORT.gresource") ?: run {
+            logger.warn("Bundled gresource file not found, custom icons will not be available")
+            return
+        }
+
+        Resource.fromData(stream.use { it.readBytes() }).resourcesRegister()
+        Display.getDefault()?.let { display ->
+            IconTheme.getForDisplay(display).addResourcePath("/icons")
         }
     }
 

@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences.general
 
+import com.zugaldia.speedofsound.app.ICON_PREFERENCES_SYSTEM
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
@@ -33,7 +34,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
 
     init {
         title = "General"
-        iconName = "preferences-system-symbolic"
+        iconName = ICON_PREFERENCES_SYSTEM
 
         shortcutManualRow = ActionRow().apply {
             title = "Manual Setup Required" // The system does NOT support the Global Shortcuts portal.

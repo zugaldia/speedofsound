@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences.importexport
 
+import com.zugaldia.speedofsound.app.ICON_SEND
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.getDataDir
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,7 @@ class ImportExportPage(viewModel: PreferencesViewModel, private val onImportSucc
 
     init {
         title = "Import / Export"
-        iconName = "document-send-symbolic"
+        iconName = ICON_SEND
 
         val exportFilePath = getDataDir().resolve(ImportExportManager.EXPORT_FILENAME)
 

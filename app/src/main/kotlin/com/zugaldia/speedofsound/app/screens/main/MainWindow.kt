@@ -4,6 +4,7 @@ package com.zugaldia.speedofsound.app.screens.main
 
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_WIDTH
+import com.zugaldia.speedofsound.app.ICON_MENU
 import com.zugaldia.speedofsound.app.SIGNAL_ASR_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LANGUAGE_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LLM_MODEL_CHANGED
@@ -111,7 +112,7 @@ class MainWindow(
         insertActionGroup("win", actionGroup)
 
         return MenuButton().apply {
-            iconName = "open-menu-symbolic"
+            iconName = ICON_MENU
             menuModel = menu
             canFocus = false  // Avoid focus to prevent keyboard/typing accidental activations
         }

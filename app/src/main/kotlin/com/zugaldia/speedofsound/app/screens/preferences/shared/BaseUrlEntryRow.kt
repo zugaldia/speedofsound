@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences.shared
 
+import com.zugaldia.speedofsound.app.ICON_AUTO_ADJUST
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import org.gnome.adw.EntryRow
 import org.gnome.gio.Menu
@@ -26,7 +27,7 @@ class BaseUrlEntryRow(
         }
 
         val menuButton = MenuButton().apply {
-            iconName = "image-auto-adjust-symbolic"
+            iconName = ICON_AUTO_ADJUST
             tooltipText = "Select a common local service"
             cssClasses = arrayOf(STYLE_CLASS_FLAT)
             menuModel = menu

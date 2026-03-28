@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This resource file must be regenerated and committed every time icons are
+    added or removed. After modifying the icons/ directory, rebuild the
+    compiled resource (speedofsound.gresource):
+
+        make resources
+
+    The compiled .gresource file is committed to the repo so that it is
+    available for offline Flathub builds.
+-->
+<gresources>
+    <gresource prefix="/icons/scalable/actions">
+        <file alias="sos-accessories-text-editor-symbolic.svg" preprocess="xml-stripblanks">icons/accessories-text-editor-symbolic.svg</file>
+        <file alias="sos-audio-input-microphone-symbolic.svg" preprocess="xml-stripblanks">icons/audio-input-microphone-symbolic.svg</file>
+        <file alias="sos-dialog-password-symbolic.svg" preprocess="xml-stripblanks">icons/dialog-password-symbolic.svg</file>
+        <file alias="sos-document-edit-symbolic.svg" preprocess="xml-stripblanks">icons/document-edit-symbolic.svg</file>
+        <file alias="sos-document-send-symbolic.svg" preprocess="xml-stripblanks">icons/document-send-symbolic.svg</file>
+        <file alias="sos-folder-download-symbolic.svg" preprocess="xml-stripblanks">icons/folder-download-symbolic.svg</file>
+        <file alias="sos-image-auto-adjust-symbolic.svg" preprocess="xml-stripblanks">icons/image-auto-adjust-symbolic.svg</file>
+        <file alias="sos-network-server-symbolic.svg" preprocess="xml-stripblanks">icons/network-server-symbolic.svg</file>
+        <file alias="sos-open-menu-symbolic.svg" preprocess="xml-stripblanks">icons/open-menu-symbolic.svg</file>
+        <file alias="sos-preferences-other-symbolic.svg" preprocess="xml-stripblanks">icons/preferences-other-symbolic.svg</file>
+        <file alias="sos-preferences-system-symbolic.svg" preprocess="xml-stripblanks">icons/preferences-system-symbolic.svg</file>
+        <file alias="sos-sound-wave-symbolic.svg" preprocess="xml-stripblanks">icons/sound-wave-symbolic.svg</file>
+        <file alias="sos-stop-symbolic.svg" preprocess="xml-stripblanks">icons/stop-symbolic.svg</file>
+        <file alias="sos-user-trash-symbolic.svg" preprocess="xml-stripblanks">icons/user-trash-symbolic.svg</file>
+        <file alias="sos-view-refresh-symbolic.svg" preprocess="xml-stripblanks">icons/view-refresh-symbolic.svg</file>
+    </gresource>
+</gresources>
