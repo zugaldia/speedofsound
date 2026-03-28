@@ -1,5 +1,7 @@
 package com.zugaldia.speedofsound.app.screens.preferences.library
 
+import com.zugaldia.speedofsound.app.ICON_DOWNLOAD
+import com.zugaldia.speedofsound.app.ICON_TRASH
 import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
@@ -39,7 +41,7 @@ class ModelLibraryPage(
 
     init {
         title = "Model Library"
-        iconName = "folder-download-symbolic"
+        iconName = ICON_DOWNLOAD
 
         modelsListBox = ListBox().apply {
             addCssClass(STYLE_CLASS_BOXED_LIST)
@@ -131,7 +133,7 @@ class ModelLibraryPage(
         val isDeleting = deletingModels.contains(modelId)
         val isOperationInProgress = isDownloading || isDeleting
         val isDefaultModel = modelId == DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
-        val downloadButton = Button.fromIconName("folder-download-symbolic").apply {
+        val downloadButton = Button.fromIconName(ICON_DOWNLOAD).apply {
             tooltipText = when {
                 isDefaultModel -> "Bundled with the application"
                 isDownloading -> "Downloading..."
@@ -145,7 +147,7 @@ class ModelLibraryPage(
             onClicked { handleDownloadModel(modelId) }
         }
 
-        val removeButton = Button.fromIconName("user-trash-symbolic").apply {
+        val removeButton = Button.fromIconName(ICON_TRASH).apply {
             tooltipText = when {
                 isDefaultModel -> "Bundled with the application, cannot be removed"
                 isDeleting -> "Deleting..."

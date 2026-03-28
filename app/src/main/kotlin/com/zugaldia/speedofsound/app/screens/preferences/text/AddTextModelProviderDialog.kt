@@ -1,6 +1,7 @@
 package com.zugaldia.speedofsound.app.screens.preferences.text
 
 import com.zugaldia.speedofsound.app.DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT
+import com.zugaldia.speedofsound.app.ICON_REFRESH
 import com.zugaldia.speedofsound.app.DEFAULT_ADD_PROVIDER_DIALOG_WIDTH
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
@@ -93,7 +94,7 @@ class AddTextModelProviderDialog(
             providers = LlmProvider.entries
         )
 
-        fetchButton = Button.fromIconName("view-refresh-symbolic").apply {
+        fetchButton = Button.fromIconName(ICON_REFRESH).apply {
             tooltipText = "Fetch available models from the API"
             onClicked { fetchModels() }
         }

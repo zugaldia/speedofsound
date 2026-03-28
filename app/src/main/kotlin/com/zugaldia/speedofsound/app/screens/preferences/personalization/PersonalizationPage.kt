@@ -1,6 +1,8 @@
 package com.zugaldia.speedofsound.app.screens.preferences.personalization
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
+import com.zugaldia.speedofsound.app.ICON_EDIT
+import com.zugaldia.speedofsound.app.ICON_TRASH
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_TEXT_VIEW_PADDING
@@ -42,7 +44,7 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
 
     init {
         title = "Personalization"
-        iconName = "document-edit-symbolic"
+        iconName = ICON_EDIT
 
         instructionsTextView = TextView().apply {
             wrapMode = WrapMode.WORD_CHAR
@@ -216,7 +218,7 @@ class PersonalizationPage(private val viewModel: PreferencesViewModel) : Prefere
 
     private fun addVocabularyWordToUI(word: String) {
         val row = ActionRow().apply { title = word }
-        val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
+        val deleteButton = Button.fromIconName(ICON_TRASH).apply {
             addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
             onClicked {

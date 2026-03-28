@@ -1,5 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences.advanced
 
+import com.zugaldia.speedofsound.app.ICON_PREFERENCES_OTHER
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
@@ -13,7 +14,7 @@ class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPag
 
     init {
         title = "Advanced"
-        iconName = "preferences-other-symbolic"
+        iconName = ICON_PREFERENCES_OTHER
 
         sanitizeSpecialCharsRow = SwitchRow().apply {
             title = "Sanitize Special Characters"

@@ -1,6 +1,10 @@
 package com.zugaldia.speedofsound.app.screens.preferences.text
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
+import com.zugaldia.speedofsound.app.ICON_PASSWORD
+import com.zugaldia.speedofsound.app.ICON_SERVER
+import com.zugaldia.speedofsound.app.ICON_TEXT_EDITOR
+import com.zugaldia.speedofsound.app.ICON_TRASH
 import com.zugaldia.speedofsound.app.MAX_TEXT_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
 import com.zugaldia.speedofsound.app.STYLE_CLASS_DIM_LABEL
@@ -33,7 +37,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
     init {
         title = "Text Models"
-        iconName = "accessories-text-editor-symbolic"
+        iconName = ICON_TEXT_EDITOR
 
         enableSwitch = SwitchRow().apply {
             title = "Enable text processing"
@@ -132,7 +136,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
         // Credential indicator
         if (providerSetting.credentialId != null) {
-            row.addSuffix(Button.fromIconName("dialog-password-symbolic").apply {
+            row.addSuffix(Button.fromIconName(ICON_PASSWORD).apply {
                 addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 sensitive = false
@@ -142,7 +146,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
 
         // Base URL indicator
         if (providerSetting.baseUrl != null) {
-            row.addSuffix(Button.fromIconName("network-server-symbolic").apply {
+            row.addSuffix(Button.fromIconName(ICON_SERVER).apply {
                 addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 sensitive = false
@@ -151,7 +155,7 @@ class TextModelsPage(private val viewModel: PreferencesViewModel) : PreferencesP
         }
 
         // Delete button
-        val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
+        val deleteButton = Button.fromIconName(ICON_TRASH).apply {
             addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
             onClicked {

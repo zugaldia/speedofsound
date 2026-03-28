@@ -2,6 +2,8 @@ package com.zugaldia.speedofsound.app.screens.preferences.credentials
 
 import com.zugaldia.speedofsound.app.CREDENTIAL_MASK_PREFIX_LENGTH
 import com.zugaldia.speedofsound.app.CREDENTIAL_MASK_SUFFIX_LENGTH
+import com.zugaldia.speedofsound.app.ICON_SERVER
+import com.zugaldia.speedofsound.app.ICON_TRASH
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.MAX_CREDENTIALS
 import com.zugaldia.speedofsound.app.MIN_CREDENTIAL_LENGTH_FOR_MASKING
@@ -32,7 +34,7 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
 
     init {
         title = "Cloud Credentials"
-        iconName = "network-server-symbolic"
+        iconName = ICON_SERVER
 
         addButton = Button.withLabel("Add API Key").apply {
             addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
@@ -119,7 +121,7 @@ class CloudCredentialsPage(private val viewModel: PreferencesViewModel) : Prefer
             subtitle = maskedValue
         }
 
-        val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
+        val deleteButton = Button.fromIconName(ICON_TRASH).apply {
             addCssClass(STYLE_CLASS_FLAT)
             valign = Align.CENTER
         }

@@ -1,6 +1,10 @@
 package com.zugaldia.speedofsound.app.screens.preferences.voice
 
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
+import com.zugaldia.speedofsound.app.ICON_MICROPHONE
+import com.zugaldia.speedofsound.app.ICON_PASSWORD
+import com.zugaldia.speedofsound.app.ICON_SERVER
+import com.zugaldia.speedofsound.app.ICON_TRASH
 import com.zugaldia.speedofsound.app.MAX_VOICE_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.app.STYLE_CLASS_BOXED_LIST
 import com.zugaldia.speedofsound.app.STYLE_CLASS_FLAT
@@ -27,7 +31,7 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
 
     init {
         title = "Voice Models"
-        iconName = "audio-input-microphone-symbolic"
+        iconName = ICON_MICROPHONE
 
         activeProviderComboRow = ActiveProviderComboRow(
             getSelectedProviderId = { viewModel.getSelectedVoiceModelProviderId() },
@@ -90,7 +94,7 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
 
         // Credential indicator
         if (providerSetting.credentialId != null) {
-            row.addSuffix(Button.fromIconName("dialog-password-symbolic").apply {
+            row.addSuffix(Button.fromIconName(ICON_PASSWORD).apply {
                 addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 sensitive = false
@@ -100,7 +104,7 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
 
         // Base URL indicator
         if (providerSetting.baseUrl != null) {
-            row.addSuffix(Button.fromIconName("network-server-symbolic").apply {
+            row.addSuffix(Button.fromIconName(ICON_SERVER).apply {
                 addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 sensitive = false
@@ -110,7 +114,7 @@ class VoiceModelsPage(private val viewModel: PreferencesViewModel) : Preferences
 
         // Delete button (only for non-default providers)
         if (providerSetting.id !in SUPPORTED_LOCAL_ASR_MODELS.keys) {
-            val deleteButton = Button.fromIconName("user-trash-symbolic").apply {
+            val deleteButton = Button.fromIconName(ICON_TRASH).apply {
                 addCssClass(STYLE_CLASS_FLAT)
                 valign = Align.CENTER
                 onClicked {
