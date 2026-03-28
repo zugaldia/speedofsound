@@ -1,7 +1,7 @@
 APP_ID = io.speedofsound.SpeedOfSound
 export GRADLE_OPTS = --enable-native-access=ALL-UNNAMED
 
-.PHONY: clean run run-light run-dark build shadow-build shadow-run check \
+.PHONY: clean run run-light run-dark build shadow-build shadow-run check resources \
 	meson-clean meson-setup meson-build meson-install uninstall install \
 	flatpak-sources flatpak-linter flatpak-build flatpak-bundle flatpak-run flatpak-remove desktop-validate \
 	snapcraft-clean snapcraft-pack snapcraft-lint snap-install snap-remove \
@@ -32,6 +32,10 @@ shadow-run: shadow-build
 
 check:
 	./gradlew check
+
+resources:
+	rm -f app/src/main/resources/speedofsound.gresource
+	./gradlew :app:compileResources
 
 #
 # Meson build

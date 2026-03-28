@@ -18,12 +18,13 @@ adherence to best practices and the project's established patterns. For more inf
 - **Java 25** — required to build and run the application
 - **GStreamer** — required for audio recording (usually preinstalled, installation docs [here](https://gstreamer.freedesktop.org/documentation/installing/on-linux.html))
 - **GLib utilities** — provides `gdbus`, required for manual shortcut triggering (usually preinstalled)
+- **GLib development utilities** — provides `glib-compile-resources`, required to use the bundled application icons
 - **make** — required to run build commands
 
 On Debian/Ubuntu:
 
 ```bash
-sudo apt install openjdk-25-jdk gstreamer1.0-tools libglib2.0-bin git-lfs make
+sudo apt install openjdk-25-jdk gstreamer1.0-tools libglib2.0-bin libglib2.0-dev-bin git-lfs make
 sudo snap install snapcraft --classic
 sudo update-java-alternatives -s java-1.25.0-openjdk-amd64
 ```
@@ -31,7 +32,7 @@ sudo update-java-alternatives -s java-1.25.0-openjdk-amd64
 On Fedora:
 
 ```bash
-sudo dnf install java-25-openjdk-devel gstreamer1-plugins-base-tools glib2 git-lfs make
+sudo dnf install java-25-openjdk-devel gstreamer1-plugins-base-tools glib2 glib2-devel git-lfs make
 sudo alternatives --set java /usr/lib/jvm/java-25-openjdk/bin/java
 ```
 
