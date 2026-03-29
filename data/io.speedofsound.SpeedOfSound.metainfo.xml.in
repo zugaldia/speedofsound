@@ -8,8 +8,7 @@
     <project_license>MIT</project_license>
     <description>
         <p>
-            Speed of Sound is a voice-typing app for the Linux desktop. Press a key, speak your
-            text, and it types itself into any focused application.
+            Speed of Sound is a voice-typing app for the Linux desktop.
         </p>
         <p>
             By default, transcription runs on-device using Whisper, so no audio ever leaves your machine.
@@ -18,6 +17,7 @@
         </p>
         <ul>
             <li>Offline, private transcription with the bundled multilingual Whisper Tiny model</li>
+            <li>Multiple activation options: click the in-app button or use a global keyboard shortcut</li>
             <li>Types directly into any app via XDG Desktop Portals (supports X11 and Wayland)</li>
             <li>Optional text polishing with LLMs, supports self-hosted services like Ollama, vLLM, and llama.cpp</li>
             <li>Optional cloud providers supported for resource-constrained hardware environments</li>

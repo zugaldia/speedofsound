@@ -1,6 +1,6 @@
 # Welcome to Speed of Sound
 
-Voice typing for the Linux desktop: click the button or press a keyboard shortcut to start, speak, and the text is inserted automatically:
+Voice typing for the Linux desktop:
 
 <div align="center">
   <img src="assets/videos/demo-light.gif#only-light" alt="Speed of Sound typing into a text editor">
@@ -10,6 +10,7 @@ Voice typing for the Linux desktop: click the button or press a keyboard shortcu
 ## Features
 
 - Offline, on-device transcription using Whisper. No data leaves your machine.
+- Multiple activation options: click the in-app button or use a global keyboard shortcut.
 - Types the result directly into any focused application using Portals for wide desktop support (X11, Wayland).
 - Multi-language support with switchable primary and secondary languages on the fly.
 - Works out of the box with the built-in Whisper Tiny model. Download additional models from within the app to improve accuracy.
