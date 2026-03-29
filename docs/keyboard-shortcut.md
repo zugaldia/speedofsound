@@ -16,15 +16,17 @@ which is supported across desktop environments like GNOME and KDE, on both X11 a
 2. A system dialog will appear prompting you to assign a keyboard shortcut.
    By default, Speed of Sound suggests `Super+Z`, but you can enter any key combination(s) you prefer.
 
-![Step One](assets/screenshots/shortcut-setup-first-light.png)
+![Step Two](assets/screenshots/shortcut-setup-first-light.png)
 
 3. *(If prompted)* An additional dialog may ask you to allow the application to inhibit
    shortcuts. This means Speed of Sound will be able to capture your chosen key combination system-wide
    while listening. Click **Allow** to proceed.
 
+![Step Three](assets/screenshots/inhibit-shortcuts.png)
+
 4. Click **Add** in the system dialog to confirm your shortcut.
 
-![Step Two](assets/screenshots/shortcut-setup-last-light.png)
+![Step Four](assets/screenshots/shortcut-setup-last-light.png)
 
 Once set up, the Preferences page will update to show the shortcut(s) you selected. That's it.
 You can now trigger Speed of Sound from anywhere.

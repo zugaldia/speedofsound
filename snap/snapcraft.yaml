@@ -4,6 +4,7 @@ summary: Voice typing for the Linux desktop.
 description: |
   Voice typing for the Linux desktop.
   - Offline, on-device transcription using Whisper. No data leaves your machine.
+  - Multiple activation options: click the in-app button or use a global keyboard shortcut.
   - Types the result directly into any focused application using Portals for wide desktop support (X11, Wayland).
   - Works out of the box with the built-in multilingual Whisper Tiny model. Download additional models from within the app to improve accuracy.
   - Optional text polishing with LLMs (Anthropic, Google, OpenAI), with support for custom context and vocabulary.
