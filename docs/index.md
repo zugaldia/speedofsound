@@ -3,7 +3,8 @@
 Voice typing for the Linux desktop: press a key to start, speak, press again to insert:
 
 <div align="center">
-  <img src="assets/videos/demo-light.gif" alt="Speed of Sound typing into a text editor">
+  <img src="assets/videos/demo-light.gif#only-light" alt="Speed of Sound typing into a text editor">
+  <img src="assets/videos/demo-dark.gif#only-dark" alt="Speed of Sound typing into a text editor">
 </div>
 
 ## Features
