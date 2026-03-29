@@ -13,7 +13,7 @@
 
 # Speed of Sound
 
-Voice typing for the Linux desktop: press a key to start, speak, press again to insert:
+Voice typing for the Linux desktop: click the button or press a keyboard shortcut to start, speak, and the text is inserted automatically:
 
 <div align="center">
   <img src="docs/assets/videos/demo-light.gif" alt="Speed of Sound typing into a text editor">
