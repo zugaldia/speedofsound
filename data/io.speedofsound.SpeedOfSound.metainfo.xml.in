@@ -56,6 +56,19 @@
     </screenshots>
 
     <releases>
+        <release version="0.11.0" date="2026-03-29">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.11.0</url>
+            <description>
+                <p>
+                    Added Start and Stop buttons to the main window for easier control without a
+                    keyboard shortcut. Fixed Unicode and CJK character support so text in Arabic,
+                    Chinese, Japanese, Korean, and other non-Latin scripts now types correctly.
+                    The app now exits immediately with a clear error on fatal startup failures
+                    instead of hanging silently. Icons are now bundled as compiled GLib resources
+                    for reliable display across all distribution formats.
+                </p>
+            </description>
+        </release>
         <release version="0.10.1" date="2026-03-25">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.10.1</url>
             <description>
