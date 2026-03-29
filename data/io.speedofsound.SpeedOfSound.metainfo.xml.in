@@ -42,16 +42,16 @@
 
     <screenshots>
         <screenshot type="default">
-            <caption>The main window</caption>
-            <image>https://www.speedofsound.io/assets/screenshots/main-light.png</image>
+            <caption>Voice typing into the default text editor</caption>
+            <image>https://www.speedofsound.io/assets/screenshots/demo-light.png</image>
         </screenshot>
         <screenshot>
             <caption>The model library</caption>
             <image>https://www.speedofsound.io/assets/screenshots/preferences-light.png</image>
         </screenshot>
         <screenshot>
-            <caption>Keyboard shortcuts</caption>
-            <image>https://www.speedofsound.io/assets/screenshots/shortcuts-light.png</image>
+            <caption>Add personal context and custom words to improve accuracy</caption>
+            <image>https://www.speedofsound.io/assets/screenshots/preferences-personalization-light.png</image>
         </screenshot>
     </screenshots>
 
