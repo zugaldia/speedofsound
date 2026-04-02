@@ -315,9 +315,11 @@ class MainViewModel(
             val finalText = event.finalResult.trim() + suffix
             val sanitize = settingsClient.getSanitizeSpecialChars()
             TextUtils.textToKeySym(finalText, filterNoKeySym = false, sanitize = sanitize)
-                .onSuccess { keySyms -> portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()) }
+                .mapCatching { keySyms ->
+                    portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()).getOrThrow()
+                }
                 .onFailure { error ->
-                    logger.error("Error converting text to key symbols: ${error.message}")
+                    logger.error("Error typing text: ${error.message}")
                     portalsClient.showNotification(body = "Failed to type text: ${error.message ?: "Unknown error"}")
                 }
         }
