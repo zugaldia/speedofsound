@@ -162,11 +162,11 @@ class PortalsClient {
      * @param delayMs Delay in milliseconds between consecutive keystrokes. Set to 0 to disable.
      * Increase this if characters are dropped or appear out of order (or like a slower typing effect).
      */
-    suspend fun typeText(text: List<Int>, delayMs: Long) {
+    suspend fun typeText(text: List<Int>, delayMs: Long): Result<Unit> = runCatching {
         logger.info("Typing ${text.size} characters.")
         for (key in text) {
-            portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.PRESSED)
-            portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.RELEASED)
+            portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.PRESSED).getOrThrow()
+            portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.RELEASED).getOrThrow()
             if (delayMs > 0) delay(delayMs)
         }
     }

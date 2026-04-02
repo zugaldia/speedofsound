@@ -1,5 +1,41 @@
 # Troubleshooting
 
+## Non-Latin text produces only spaces and punctuation
+
+**Symptom:** Dictating in a non-Latin language (e.g., Cyrillic, Arabic, CJK) outputs only spaces
+and punctuation. Latin-script languages work fine.
+
+**Why this happens:** Speed of Sound sends keystrokes through the XDG Remote Desktop Portal.
+The compositor interprets them using the currently active keyboard layout. If no matching layout
+is active, non-Latin keysyms are silently dropped.
+
+**How to fix it:** Add the appropriate keyboard layout in your system's keyboard or input source
+settings and switch to it before dictating. For example, on GNOME, this is under `Settings` → `Keyboard` →
+`Input Sources`. You can switch between input sources with `Super` + `Space`. 
+
+## Transcribed text is incomplete
+
+**Symptom:** Typically, the beginning of the text is missing.
+
+**Why this happens:** After transcription, Speed of Sound minimizes or hides its main window,
+waits briefly to give the desktop environment time to do so, and then starts typing.
+If the wait is too short, the first few characters will be lost because they land in the
+Speed of Sound window rather than your target application.
+
+**How to fix it:** Increase the **Post-hide delay** in `Preferences` → `Advanced`. This is the pause
+between the window hiding and the first keystroke. Alternatively, enable **Record in background** (see above).
+
+## Some characters are missing or appear out of order
+
+**Symptom:** The transcribed text arrives with letters dropped or jumbled.
+
+**Why this happens:** Some applications cannot process keystrokes as fast as Speed of Sound sends them,
+causing characters to be lost or reordered.
+
+**How to fix it:** Increase the **Typing delay** in `Preferences` → `Advanced`. This adds a pause
+between each individual keystroke. You can also increase this value if you simply like the effect of
+text appearing more gradually.
+
 ## Speed of Sound appears on the wrong workspace and doesn't type into my active application
 
 **Symptom:** On a multi-workspace setup, the main Speed of Sound window opens on a different workspace,
@@ -28,29 +64,3 @@ When active, recording, transcription, and typing all run silently without showi
 **Note:** Because Speed of Sound uses the Desktop Portals standard, your desktop environment will still
 display a microphone in-use indicator while recording is active and while the app has typing permissions.
 This serves as a lightweight substitute for the in-app progress display.
-
-## Transcribed text is incomplete
-
-**Symptom:** Typically, the beginning of the text is missing.
-
-**Why this happens:** After transcription, Speed of Sound minimizes or hides its main window,
-waits briefly to give the desktop environment time to do so, and then starts typing.
-If the wait is too short, the first few characters will be lost because they land in the
-Speed of Sound window rather than your target application.
-
-**How to fix it:** Increase the **Post-hide delay** in `Preferences` → `Advanced`. This is the pause
-between the window hiding and the first keystroke. Alternatively, enable **Record in background** (see above).
-
-## Some characters are missing or appear out of order
-
-**Symptom:** The transcribed text arrives incomplete or with letters jumbled.
-
-**Why this happens:** Two things can cause this. First, some applications can't process
-keystrokes as fast as Speed of Sound sends them, causing dropped or reordered characters. Second, some desktop
-environments have trouble typing special characters like tildes or the `ñ` in `piñata`.
-
-**How to fix it:** Increase the **Typing delay** in `Preferences` → `Advanced`. This is the pause
-between each individual keystroke. You can also increase this value if you simply like the effect of
-text appearing more gradually. For special characters, Speed of Sound does some automatic sanitization
-(for example, replacing `á` with `a` or `ñ` with `n`). Customizing these substitutions is not currently supported.
-If the current behavior doesn't work for your use case, [let us know](https://www.speedofsound.io/support/).

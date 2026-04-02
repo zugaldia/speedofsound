@@ -47,8 +47,14 @@ configuration to personalization and backup.
 entirely in the background. You can still access the window at any time from the dock.
 Set the primary language used for speech recognition in the **Language** section. You can optionally configure
 a secondary language and switch between the two using the `Left Shift` and `Right Shift` keys while the main window
-is focused. The **Output** section lets you configure how transcription results are delivered. Here you can enable
-**Append space after transcription** to automatically insert a trailing space after each result, which is useful
+is focused. The **Output** section lets you configure how transcription results are delivered.
+
+!!! note "Non-Latin scripts require a matching keyboard layout"
+    If you dictate in a non-Latin script, make sure the matching keyboard layout is active on your system
+    before dictating. See [Troubleshooting](troubleshooting.md#non-latin-text-produces-only-spaces-and-punctuation)
+    for details.
+
+Here you can enable **Append space after transcription** to automatically insert a trailing space after each result, which is useful
 when dictating consecutive sentences independently.
 
 **Model Library** — Browse and manage the locally available voice models. You can download new models or remove
