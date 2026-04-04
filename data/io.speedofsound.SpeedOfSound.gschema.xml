@@ -46,6 +46,11 @@
       <summary>Hide instead of minimize</summary>
       <description>When enabled, the main window is hidden instead of minimized when not in use. Useful for multi-workspace setups.</description>
     </key>
+    <key name="stay-hidden-on-activation" type="b">
+      <default>false</default>
+      <summary>Stay hidden on activation</summary>
+      <description>When enabled, the app starts without showing the main window. The global shortcut still works normally.</description>
+    </key>
 
     <!-- Cloud Credentials page -->
 

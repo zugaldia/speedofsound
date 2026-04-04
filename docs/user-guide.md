@@ -45,6 +45,9 @@ configuration to personalization and backup.
 **General** — The **App Behavior** section lets you configure how shortcut-triggered sessions behave. Enable
 **Record in background** to keep the main window hidden during recordings. In this case, the pipeline runs
 entirely in the background. You can still access the window at any time from the dock.
+Enable **Stay hidden on activation** to launch the app without showing the main window. This is useful when adding
+Speed of Sound to your system's startup applications — the app will be ready in the background immediately, and you
+can begin dictating using the global shortcut without any window appearing first.
 Set the primary language used for speech recognition in the **Language** section. You can optionally configure
 a secondary language and switch between the two using the `Left Shift` and `Right Shift` keys while the main window
 is focused. The **Output** section lets you configure how transcription results are delivered.

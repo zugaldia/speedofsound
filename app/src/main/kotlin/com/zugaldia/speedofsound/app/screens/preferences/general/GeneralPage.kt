@@ -20,6 +20,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val logger = LoggerFactory.getLogger(GeneralPage::class.java)
     private val scope = viewModel.viewModelScope
 
+    private val stayHiddenOnActivationRow: SwitchRow
     private val backgroundRecordingRow: SwitchRow
     private val hideInsteadOfMinimizeRow: SwitchRow
     private val primaryComboRow: LanguageComboRow
@@ -90,6 +91,12 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             add(secondaryComboRow)
         }
 
+        stayHiddenOnActivationRow = SwitchRow().apply {
+            title = "Stay hidden on activation"
+            subtitle = "Launch without showing the main window. Use the shortcut to start voice typing."
+            active = viewModel.getStayHiddenOnActivation()
+        }
+
         backgroundRecordingRow = SwitchRow().apply {
             title = "Record in background"
             subtitle = "Keep the main window hidden while listening."
@@ -104,6 +111,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
 
         val behaviorGroup = PreferencesGroup().apply {
             title = "App Behavior"
+            add(stayHiddenOnActivationRow)
             add(backgroundRecordingRow)
             add(hideInsteadOfMinimizeRow)
         }
@@ -129,6 +137,9 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         // Set up notifications after all widgets are initialized
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
+        stayHiddenOnActivationRow.onNotify("active") {
+            viewModel.setStayHiddenOnActivation(stayHiddenOnActivationRow.active)
+        }
         backgroundRecordingRow.onNotify("active") { viewModel.setBackgroundRecording(backgroundRecordingRow.active) }
         hideInsteadOfMinimizeRow.onNotify("active") {
             viewModel.setHideInsteadOfMinimize(hideInsteadOfMinimizeRow.active)
@@ -139,6 +150,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     fun refresh() {
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
+        stayHiddenOnActivationRow.active = viewModel.getStayHiddenOnActivation()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         hideInsteadOfMinimizeRow.active = viewModel.getHideInsteadOfMinimize()
         appendSpaceRow.active = viewModel.getAppendSpace()

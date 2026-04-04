@@ -153,6 +153,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_HIDE_INSTEAD_OF_MINIMIZE)
         }
 
+    fun getStayHiddenOnActivation(): Boolean =
+        settingsStore.getBoolean(KEY_STAY_HIDDEN_ON_ACTIVATION, DEFAULT_STAY_HIDDEN_ON_ACTIVATION)
+
+    fun setStayHiddenOnActivation(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_STAY_HIDDEN_ON_ACTIVATION, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_STAY_HIDDEN_ON_ACTIVATION)
+        }
+
     /*
      * Cloud Credentials page
      */

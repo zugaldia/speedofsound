@@ -52,6 +52,9 @@ class PreferencesViewModel(
     fun getHideInsteadOfMinimize(): Boolean = settingsClient.getHideInsteadOfMinimize()
     fun setHideInsteadOfMinimize(value: Boolean): Boolean = settingsClient.setHideInsteadOfMinimize(value)
 
+    fun getStayHiddenOnActivation(): Boolean = settingsClient.getStayHiddenOnActivation()
+    fun setStayHiddenOnActivation(value: Boolean): Boolean = settingsClient.setStayHiddenOnActivation(value)
+
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)
 

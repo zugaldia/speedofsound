@@ -30,6 +30,9 @@ const val DEFAULT_BACKGROUND_RECORDING = false
 const val KEY_HIDE_INSTEAD_OF_MINIMIZE = "hide-instead-of-minimize"
 const val DEFAULT_HIDE_INSTEAD_OF_MINIMIZE = false
 
+const val KEY_STAY_HIDDEN_ON_ACTIVATION = "stay-hidden-on-activation"
+const val DEFAULT_STAY_HIDDEN_ON_ACTIVATION = false
+
 const val KEY_APPEND_SPACE = "append-space"
 const val DEFAULT_APPEND_SPACE = false
 
