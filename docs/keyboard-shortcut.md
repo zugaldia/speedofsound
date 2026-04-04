@@ -31,6 +31,11 @@ which is supported across desktop environments like GNOME and KDE, on both X11 a
 Once set up, the Preferences page will update to show the shortcut(s) you selected. That's it.
 You can now trigger Speed of Sound from anywhere.
 
+!!! tip "Need to change or reset your shortcut?"
+    If the **Configure** button is not available on your desktop, see the
+    [troubleshooting guide](troubleshooting.md#i-cannot-change-or-reset-my-global-shortcut)
+    for alternative options.
+
 ## Option 2: Use Your Desktop Environment Settings
 
 In this step, you will manually assign a global keyboard shortcut using your desktop environment settings.

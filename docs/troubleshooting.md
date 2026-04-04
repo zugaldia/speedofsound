@@ -51,6 +51,30 @@ A hidden window is typically restored on the active workspace instead.
 **Trade-off:** The app no longer appears in the dock. To bring the main window back, you can, for example, use a
 global shortcut (`Preferences` → `General` → `Global Shortcut`).
 
+## I cannot change or reset my global shortcut
+
+**Symptom:** A global shortcut was set up via the Preferences dialog, but the shortcut no longer works
+(or was set incorrectly), and there is no way to change or clear it from the UI.
+
+**Why this happens:** Speed of Sound uses the
+[`ConfigureShortcuts`](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.GlobalShortcuts.html#org-freedesktop-portal-globalshortcuts-configureshortcuts)
+portal method to let you reassign your shortcut after initial setup. This method was added recently and is
+only available on newer desktop environments, so Speed of Sound only shows the **Configure** button when it
+detects support for it. If the button is absent, your desktop does not yet expose that capability.
+
+**How to fix it:** You have two options:
+
+1. **Switch to the manual method.** Instead of the automatic portal-based setup, follow
+   [Option 2](keyboard-shortcut.md#option-2-use-your-desktop-environment-settings) in the keyboard shortcut
+   documentation to assign a shortcut directly in your desktop environment settings. This gives you full
+   control over the key combination and lets you change or remove it at any time.
+
+2. **Reset the shortcut from the command line.** Follow the
+   [testing instructions](https://github.com/zugaldia/stargate/blob/main/docs/TESTING.md) from the Stargate
+   project, replacing the application ID with `io.speedofsound.SpeedOfSound`. This will delete the existing
+   shortcut binding. Restart Speed of Sound afterward, the **Set Up** button will reappear, and you can
+   configure a new shortcut.
+
 ## I don't want the Speed of Sound main window to show every time I dictate.
 
 **Symptom:** The main window appears on every dictation, which feels intrusive for frequent voice typing.
