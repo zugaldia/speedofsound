@@ -77,7 +77,9 @@ class AsrCommand : CliktCommand(name = "asr") {
                 modelId = modelId,
                 language = language
             ))
-            else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx', 'whisper', 'moonshine', or 'openai'.")
+            else -> throw IllegalArgumentException(
+                "Unknown provider: $provider. Use 'onnx', 'whisper', 'moonshine', or 'openai'."
+            )
         }
 
         asr.initialize()
