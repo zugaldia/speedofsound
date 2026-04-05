@@ -70,6 +70,7 @@ data class SettingsExport(
     val secondaryLanguage: String = DEFAULT_SECONDARY_LANGUAGE.iso2,
     val backgroundRecording: Boolean = DEFAULT_BACKGROUND_RECORDING,
     val hideInsteadOfMinimize: Boolean = DEFAULT_HIDE_INSTEAD_OF_MINIMIZE,
+    val stayHiddenOnActivation: Boolean = DEFAULT_STAY_HIDDEN_ON_ACTIVATION,
     val appendSpace: Boolean = DEFAULT_APPEND_SPACE,
     val credentials: List<CredentialSetting> = emptyList(),
     val voiceModelProviders: List<VoiceModelProviderSetting> = emptyList(),

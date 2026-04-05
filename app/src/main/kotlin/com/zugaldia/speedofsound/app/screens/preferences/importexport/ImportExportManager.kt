@@ -32,6 +32,7 @@ class ImportExportManager(private val viewModel: PreferencesViewModel) {
             secondaryLanguage = viewModel.getSecondaryLanguage(),
             backgroundRecording = viewModel.getBackgroundRecording(),
             hideInsteadOfMinimize = viewModel.getHideInsteadOfMinimize(),
+            stayHiddenOnActivation = viewModel.getStayHiddenOnActivation(),
             appendSpace = viewModel.getAppendSpace(),
             credentials = viewModel.getCredentials(),
             voiceModelProviders = viewModel.getVoiceModelProviders()
@@ -63,6 +64,7 @@ class ImportExportManager(private val viewModel: PreferencesViewModel) {
         viewModel.setSecondaryLanguage(exportData.secondaryLanguage)
         viewModel.setBackgroundRecording(exportData.backgroundRecording)
         viewModel.setHideInsteadOfMinimize(exportData.hideInsteadOfMinimize)
+        viewModel.setStayHiddenOnActivation(exportData.stayHiddenOnActivation)
         viewModel.setAppendSpace(exportData.appendSpace)
         viewModel.setSanitizeSpecialChars(exportData.sanitizeSpecialChars)
         viewModel.setPostHideDelayMs(exportData.postHideDelayMs)

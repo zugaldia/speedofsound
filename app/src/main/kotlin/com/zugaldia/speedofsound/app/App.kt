@@ -70,7 +70,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
                     settingsClient.setWelcomeScreenShown(true)
                     mainWindow?.present()
                 }.present()
-            } else {
+            } else if (!settingsClient.getStayHiddenOnActivation()) {
                 mainWindow?.present()
             }
         }
