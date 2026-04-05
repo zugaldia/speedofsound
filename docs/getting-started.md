@@ -42,10 +42,8 @@ and works on both X11 and Wayland.
 
 ## 3. Set up a shortcut
 
-"By default, [$APPLICATION_SHORTCUT_TRIGGER] starts and stops listening, but only when " +
-"the $APPLICATION_NAME window is open and focused.\n\n" +
-"For a better experience, we recommend setting up a global shortcut in Preferences. " +
-"This lets you keep the window minimized or hidden and trigger $APPLICATION_NAME " +
-"from anywhere, typing directly into any app.",
+By default, the `Super+Z` keyboard shortcut starts and stops listening, but only when the Speed of Sound window is
+open and focused. For a better experience, we recommend setting up a global shortcut in Preferences. This lets you
+keep the window minimized or hidden and trigger Speed of Sound from anywhere, typing directly into any app.
 
 Follow the instructions under [Set Up a Keyboard Shortcut](keyboard-shortcut.md).
