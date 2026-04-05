@@ -1,6 +1,7 @@
 package com.zugaldia.speedofsound.core.models.voice
 
 import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_MOONSHINE_ASR_MODELS
 import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 
 /**
@@ -12,11 +13,12 @@ interface VoiceModelCatalog {
 }
 
 /**
- * Production implementation that uses the global SUPPORTED_SHERPA_WHISPER_ASR_MODELS.
+ * Production implementation that uses the global model maps.
  */
 class DefaultVoiceModelCatalog : VoiceModelCatalog {
     override fun getModel(modelId: String): VoiceModel? {
         return SUPPORTED_SHERPA_WHISPER_ASR_MODELS[modelId]
+            ?: SUPPORTED_SHERPA_MOONSHINE_ASR_MODELS[modelId]
     }
 
     override fun getDefaultModelId(): String {
