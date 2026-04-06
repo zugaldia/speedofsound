@@ -14,6 +14,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_CREDENTIALS
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_CONTEXT
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_SECONDARY_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_TEXT_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_MODEL_PROVIDERS
@@ -208,6 +209,7 @@ class MainViewModel(
     private fun refreshSettings(key: String) {
         when (key) {
             KEY_DEFAULT_LANGUAGE -> onPrimaryLanguageSelected()
+            KEY_SECONDARY_LANGUAGE -> onSecondaryLanguageUpdated()
             KEY_CUSTOM_CONTEXT -> director.updateOptions(
                 director.getOptions().copy(customContext = settingsClient.getCustomContext())
             )
@@ -279,6 +281,12 @@ class MainViewModel(
         state.updateLanguage(language)
         asrProviderManager.updateLanguage(language)
         director.updateOptions(director.getOptions().copy(language = language))
+    }
+
+    private fun onSecondaryLanguageUpdated() {
+        val primaryLanguage = languageFromIso2(settingsClient.getDefaultLanguage()) ?: DEFAULT_LANGUAGE
+        if (state.currentLanguage() == primaryLanguage) return
+        onSecondaryLanguageSelected()
     }
 
     fun toggleListening() {
