@@ -8,3 +8,10 @@ fun buildBannerWidget(onAllow: () -> Unit): Banner =
         onButtonClicked { onAllow() }
         revealed = false
     }
+
+fun buildNotSupportedBannerWidget(onTroubleshoot: () -> Unit): Banner =
+    Banner("Remote desktop portal is not supported").apply {
+        buttonLabel = "Troubleshoot"
+        onButtonClicked { onTroubleshoot() }
+        revealed = false
+    }
