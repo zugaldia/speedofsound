@@ -4,6 +4,8 @@ import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.stargate.sdk.globalshortcuts.ShortcutActivation
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.stargate.sdk.isSandboxed
+import com.zugaldia.stargate.sdk.request.PortalRequestException
+import com.zugaldia.stargate.sdk.request.RequestResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +21,7 @@ class PortalsSessionManager(
     private val portalsClient: PortalsClient,
     private val settingsClient: SettingsClient,
     initialSessionDisconnected: Boolean = true,
-    initialRestoreTokenMissing: Boolean = true,
+    initialRemoteDesktopStatus: RemoteDesktopStatus = RemoteDesktopStatus.NeedToken,
 ) {
     private val logger = LoggerFactory.getLogger(PortalsSessionManager::class.java)
 
@@ -28,8 +30,8 @@ class PortalsSessionManager(
     private val _isSessionDisconnected = MutableStateFlow(initialSessionDisconnected)
     val isSessionDisconnected: StateFlow<Boolean> = _isSessionDisconnected.asStateFlow()
 
-    private val _isRestoreTokenMissing = MutableStateFlow(initialRestoreTokenMissing)
-    val isRestoreTokenMissing: StateFlow<Boolean> = _isRestoreTokenMissing.asStateFlow()
+    private val _remoteDesktopStatus = MutableStateFlow(initialRemoteDesktopStatus)
+    val remoteDesktopStatus: StateFlow<RemoteDesktopStatus> = _remoteDesktopStatus.asStateFlow()
 
     private val _shortcutActivated = MutableSharedFlow<ShortcutActivation>(extraBufferCapacity = 1)
     val shortcutActivated: Flow<ShortcutActivation> = _shortcutActivated.asSharedFlow()
@@ -82,19 +84,28 @@ class PortalsSessionManager(
                     settingsClient.setPortalsRestoreToken(newToken)
                 }
                 collectPortalsEvents(scope)
-                _isRestoreTokenMissing.value = newToken.isNullOrBlank()
+                _remoteDesktopStatus.value = if (newToken.isNullOrBlank()) {
+                    RemoteDesktopStatus.NeedToken
+                } else {
+                    RemoteDesktopStatus.Ready
+                }
                 _isSessionDisconnected.value = false
             }.onFailure { error ->
                 logger.error("Failed to start portals session", error)
+                val isCancelled = error is PortalRequestException && error.response == RequestResponse.CANCELLED
+                _remoteDesktopStatus.value = if (isCancelled) {
+                    RemoteDesktopStatus.NeedToken
+                } else {
+                    RemoteDesktopStatus.NotSupported
+                }
                 _isSessionDisconnected.value = true
-                _isRestoreTokenMissing.value = true
                 settingsClient.setPortalsRestoreToken("")
             }
         }
     }
 
     fun attemptReconnect(scope: CoroutineScope) {
-        if (_isSessionDisconnected.value) {
+        if (_isSessionDisconnected.value && _remoteDesktopStatus.value != RemoteDesktopStatus.NotSupported) {
             logger.info("Portal session disconnected, attempting to reconnect.")
             val restoreToken = settingsClient.getPortalsRestoreToken()
             startSession(scope, restoreToken.ifBlank { null })

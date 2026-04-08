@@ -79,7 +79,7 @@ const val TRIGGER_ACTION = "trigger"
 
 const val SIGNAL_STAGE_CHANGED = "stage-changed"
 const val SIGNAL_RECORDING_LEVEL = "recording-level"
-const val SIGNAL_PORTALS_RESTORE_TOKEN_MISSING = "portals-restore-token-missing"
+const val SIGNAL_REMOTE_DESKTOP_STATUS = "remote-desktop-status"
 const val SIGNAL_PIPELINE_COMPLETED = "pipeline-completed"
 const val SIGNAL_LANGUAGE_CHANGED = "language-changed"
 const val SIGNAL_ASR_MODEL_CHANGED = "asr-model-changed"

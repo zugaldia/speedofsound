@@ -1,5 +1,19 @@
 # Troubleshooting
 
+## Remote desktop portal is not supported
+
+**Symptom:** A banner at the top of the main window says "Remote desktop portal is not supported."
+
+**Why this happens:** Speed of Sound relies on the [XDG Remote Desktop Portal](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.RemoteDesktop.html) standard
+to type text into other applications. This portal must be supported by your desktop environment's portal backend.
+However, not all desktop environments ship a backend that implements it
+([this table](https://wiki.archlinux.org/title/XDG_Desktop_Portal) provides a good compatibility matrix).
+
+**How to fix it:** We recommend reporting the missing support to your desktop environment's issue tracker.
+In the meantime, if possible, consider switching to a desktop environment that implements this portal (e.g. GNOME, KDE).
+We are also exploring alternatives such as clipboard-based text input.
+If that would be useful to you, [let us know](https://github.com/zugaldia/speedofsound/issues/19).
+
 ## Non-Latin text produces only spaces and punctuation
 
 **Symptom:** Dictating in a non-Latin language (e.g., Cyrillic, Arabic, CJK) outputs only spaces

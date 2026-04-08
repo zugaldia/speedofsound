@@ -4,9 +4,10 @@ import com.zugaldia.speedofsound.app.SIGNAL_ASR_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LANGUAGE_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LLM_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_PIPELINE_COMPLETED
-import com.zugaldia.speedofsound.app.SIGNAL_PORTALS_RESTORE_TOKEN_MISSING
 import com.zugaldia.speedofsound.app.SIGNAL_RECORDING_LEVEL
+import com.zugaldia.speedofsound.app.SIGNAL_REMOTE_DESKTOP_STATUS
 import com.zugaldia.speedofsound.app.SIGNAL_STAGE_CHANGED
+import com.zugaldia.speedofsound.app.portals.RemoteDesktopStatus
 import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 import org.gnome.gobject.GObject
@@ -24,8 +25,8 @@ enum class AppStage {
 class MainState : GObject() {
     private var stageOrdinal: Int = AppStage.LOADING.ordinal
     private var maxRecordingLevel: Float = MIN_RECORDING_LEVEL
-    private var portalsRestoreTokenMissing: Boolean = true
     private var portalsSessionDisconnected: Boolean = false
+    private var remoteDesktopStatusOrdinal: Int = RemoteDesktopStatus.NeedToken.ordinal
     private var currentLanguage: Language = DEFAULT_LANGUAGE
     private var currentAsrModel: String = ""
     private var currentLlmModel: String = ""
@@ -44,13 +45,13 @@ class MainState : GObject() {
         emit(SIGNAL_RECORDING_LEVEL, scaledLevel.toDouble())
     }
 
-    fun updatePortalsRestoreTokenMissing(value: Boolean) {
-        portalsRestoreTokenMissing = value
-        emit(SIGNAL_PORTALS_RESTORE_TOKEN_MISSING, value)
-    }
-
     fun setPortalsSessionDisconnected(value: Boolean) {
         portalsSessionDisconnected = value
+    }
+
+    fun updateRemoteDesktopStatus(value: RemoteDesktopStatus) {
+        remoteDesktopStatusOrdinal = value.ordinal
+        emit(SIGNAL_REMOTE_DESKTOP_STATUS, value.ordinal)
     }
 
     fun emitPipelineCompleted() {
@@ -88,9 +89,9 @@ class MainState : GObject() {
         fun run(level: Double)
     }
 
-    @Signal(name = SIGNAL_PORTALS_RESTORE_TOKEN_MISSING)
-    fun interface PortalsRestoreTokenMissingChanged {
-        fun run(missing: Boolean)
+    @Signal(name = SIGNAL_REMOTE_DESKTOP_STATUS)
+    fun interface RemoteDesktopStatusChanged {
+        fun run(statusOrdinal: Int)
     }
 
     @Signal(name = SIGNAL_PIPELINE_COMPLETED)

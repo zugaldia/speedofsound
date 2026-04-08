@@ -9,9 +9,10 @@ import com.zugaldia.speedofsound.app.SIGNAL_ASR_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LANGUAGE_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_LLM_MODEL_CHANGED
 import com.zugaldia.speedofsound.app.SIGNAL_PIPELINE_COMPLETED
-import com.zugaldia.speedofsound.app.SIGNAL_PORTALS_RESTORE_TOKEN_MISSING
 import com.zugaldia.speedofsound.app.SIGNAL_RECORDING_LEVEL
+import com.zugaldia.speedofsound.app.SIGNAL_REMOTE_DESKTOP_STATUS
 import com.zugaldia.speedofsound.app.SIGNAL_STAGE_CHANGED
+import com.zugaldia.speedofsound.app.portals.RemoteDesktopStatus
 import com.zugaldia.speedofsound.app.screens.about.buildAboutDialog
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesDialog
 import com.zugaldia.speedofsound.app.screens.shortcuts.buildShortcutsWindow
@@ -19,6 +20,7 @@ import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.APPLICATION_URL
+import com.zugaldia.speedofsound.core.APPLICATION_URL_TROUBLESHOOTING
 import org.gnome.adw.Banner
 import org.gnome.adw.Application
 import org.gnome.adw.ApplicationWindow
@@ -43,6 +45,7 @@ class MainWindow(
 ) : ApplicationWindow() {
     private val audioWidget: AudioWidget
     private val portalsBanner: Banner
+    private val notSupportedBanner: Banner
     private val statusWidget: StatusWidget
 
     // Track whether we should hide the window on pipeline completion
@@ -61,6 +64,7 @@ class MainWindow(
         })
 
         portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
+        notSupportedBanner = buildNotSupportedBannerWidget { viewModel.openUri(APPLICATION_URL_TROUBLESHOOTING) }
         audioWidget = AudioWidget(onToggle = { viewModel.toggleListening() })
         statusWidget = StatusWidget()
 
@@ -71,6 +75,7 @@ class MainWindow(
             .build()
             .apply {
                 append(portalsBanner)
+                append(notSupportedBanner)
                 append(audioWidget)
                 append(Separator(Orientation.HORIZONTAL))
                 append(statusWidget)
@@ -129,10 +134,26 @@ class MainWindow(
         })
 
         viewModel.state.connect(
-            SIGNAL_PORTALS_RESTORE_TOKEN_MISSING,
-            MainState.PortalsRestoreTokenMissingChanged { missing: Boolean ->
-                portalsBanner.revealed = missing
-                audioWidget.setPortalsReady(!missing)
+            SIGNAL_REMOTE_DESKTOP_STATUS,
+            MainState.RemoteDesktopStatusChanged { statusOrdinal: Int ->
+                val status = RemoteDesktopStatus.fromOrdinal(statusOrdinal)
+                when (status) {
+                    RemoteDesktopStatus.NeedToken -> {
+                        portalsBanner.revealed = true
+                        notSupportedBanner.revealed = false
+                        audioWidget.setPortalsReady(false)
+                    }
+                    RemoteDesktopStatus.Ready -> {
+                        portalsBanner.revealed = false
+                        notSupportedBanner.revealed = false
+                        audioWidget.setPortalsReady(true)
+                    }
+                    RemoteDesktopStatus.NotSupported -> {
+                        portalsBanner.revealed = false
+                        notSupportedBanner.revealed = true
+                        audioWidget.setPortalsReady(false)
+                    }
+                }
             }
         )
 

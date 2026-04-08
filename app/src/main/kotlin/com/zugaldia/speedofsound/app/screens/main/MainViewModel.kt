@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.app.APPEND_SPACE_TEXT
 import com.zugaldia.speedofsound.app.isGStreamerDisabled
 import com.zugaldia.speedofsound.app.plugins.recorder.GStreamerRecorder
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
+import com.zugaldia.speedofsound.app.portals.RemoteDesktopStatus
 import com.zugaldia.speedofsound.app.portals.TextUtils
 import com.zugaldia.speedofsound.app.settings.AsrProviderManager
 import com.zugaldia.speedofsound.app.settings.LlmProviderManager
@@ -67,7 +68,11 @@ class MainViewModel(
         portalsClient = portalsClient,
         settingsClient = settingsClient,
         initialSessionDisconnected = true,
-        initialRestoreTokenMissing = settingsClient.getPortalsRestoreToken().isBlank(),
+        initialRemoteDesktopStatus = if (settingsClient.getPortalsRestoreToken().isBlank()) {
+            RemoteDesktopStatus.NeedToken
+        } else {
+            RemoteDesktopStatus.Ready
+        },
     )
 
     private val asrProviderManager = AsrProviderManager(registry, settingsClient)
@@ -193,9 +198,9 @@ class MainViewModel(
             }
         }
         viewModelScope.launch {
-            portalsSessionManager.isRestoreTokenMissing.collect { isMissing ->
+            portalsSessionManager.remoteDesktopStatus.collect { status ->
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
-                    state.updatePortalsRestoreTokenMissing(isMissing)
+                    state.updateRemoteDesktopStatus(status)
                     false // Return false for one-shot execution
                 }
             }
