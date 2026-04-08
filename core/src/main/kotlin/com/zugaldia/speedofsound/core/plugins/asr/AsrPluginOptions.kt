@@ -18,7 +18,8 @@ enum class AsrProvider(
     val isLocallyManaged: Boolean
 ) : SelectableProvider {
     OPENAI("OpenAI", isLocallyManaged = false),
-    SHERPA_WHISPER("Whisper (Local)", isLocallyManaged = true);
+    SHERPA_WHISPER("Whisper (Local)", isLocallyManaged = true),
+    SHERPA_MOONSHINE("Moonshine (Local)", isLocallyManaged = true);
 
     companion object {
         /**
@@ -45,6 +46,7 @@ interface AsrPluginOptions : AppPluginOptions {
 fun pluginIdForProvider(provider: AsrProvider): String = when (provider) {
     AsrProvider.OPENAI -> OpenAiAsr.ID
     AsrProvider.SHERPA_WHISPER -> SherpaWhisperAsr.ID
+    AsrProvider.SHERPA_MOONSHINE -> SherpaMoonshineAsr.ID
 }
 
 /**
@@ -57,5 +59,6 @@ fun getModelsForProvider(provider: AsrProvider): Map<String, VoiceModel> {
     return when (provider) {
         AsrProvider.OPENAI -> SUPPORTED_OPENAI_ASR_MODELS
         AsrProvider.SHERPA_WHISPER -> SUPPORTED_SHERPA_WHISPER_ASR_MODELS
+        AsrProvider.SHERPA_MOONSHINE -> SUPPORTED_SHERPA_MOONSHINE_ASR_MODELS
     }
 }

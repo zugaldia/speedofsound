@@ -7,6 +7,7 @@ import com.zugaldia.speedofsound.core.getDataDir
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.models.voice.ModelManagerEvent
 import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
+import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_MOONSHINE_ASR_MODELS
 import com.zugaldia.speedofsound.core.plugins.asr.SUPPORTED_SHERPA_WHISPER_ASR_MODELS
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,14 +35,15 @@ class DownloadCommand : CliktCommand(name = "download") {
     private fun listAvailableModels() {
         logger.info("Data folder: ${getDataDir()}")
         logger.info("Available models:")
-        SUPPORTED_SHERPA_WHISPER_ASR_MODELS.values.sortedBy { it.id }.forEach { model ->
+        val allModels = (SUPPORTED_SHERPA_WHISPER_ASR_MODELS + SUPPORTED_SHERPA_MOONSHINE_ASR_MODELS).values
+        allModels.sortedBy { it.id }.forEach { model ->
             val downloaded = if (modelManager.isModelDownloaded(model.id)) { "[x]" } else { "[ ]" }
             logger.info("$downloaded [${model.id}] ${model.name} (${model.dataSizeMegabytes} MB)")
         }
     }
 
     private fun downloadModel(id: String) {
-        val model = SUPPORTED_SHERPA_WHISPER_ASR_MODELS[id]
+        val model = (SUPPORTED_SHERPA_WHISPER_ASR_MODELS + SUPPORTED_SHERPA_MOONSHINE_ASR_MODELS)[id]
         if (model == null) {
             logger.error("Model not found: $id")
             return

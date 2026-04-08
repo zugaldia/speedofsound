@@ -13,6 +13,8 @@ import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MOD
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaMoonshineAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaMoonshineAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
@@ -42,8 +44,8 @@ class AsrCommand : CliktCommand(name = "asr") {
 
     private val provider: String by option(
         "--provider", "-p",
-        help = "ASR provider to use (onnx, sherpa, or openai)"
-    ).default("sherpa")
+        help = "ASR provider to use (onnx, whisper, moonshine, or openai)"
+    ).default("whisper")
 
     private val apiKey: String? by option(
         "--api-key",
@@ -67,14 +69,17 @@ class AsrCommand : CliktCommand(name = "asr") {
         logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
         val asr: AsrPlugin<*> = when (provider.lowercase()) {
             "onnx" -> OnnxWhisperAsr(OnnxWhisperAsrOptions())
-            "sherpa" -> SherpaWhisperAsr(SherpaWhisperAsrOptions(modelId = modelId, language = language))
+            "whisper" -> SherpaWhisperAsr(SherpaWhisperAsrOptions(modelId = modelId, language = language))
+            "moonshine" -> SherpaMoonshineAsr(SherpaMoonshineAsrOptions(modelId = modelId, language = language))
             "openai" -> OpenAiAsr(OpenAiAsrOptions(
                 baseUrl = baseUrl,
                 apiKey = apiKey,
                 modelId = modelId,
                 language = language
             ))
-            else -> throw IllegalArgumentException("Unknown provider: $provider. Use 'onnx', 'sherpa', or 'openai'.")
+            else -> throw IllegalArgumentException(
+                "Unknown provider: $provider. Use 'onnx', 'whisper', 'moonshine', or 'openai'."
+            )
         }
 
         asr.initialize()

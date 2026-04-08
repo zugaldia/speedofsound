@@ -4,6 +4,8 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaMoonshineAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaMoonshineAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
@@ -25,6 +27,7 @@ class AsrProviderManager(
     fun registerAsrPlugins() {
         registry.register(AppPluginCategory.ASR, OpenAiAsr())
         registry.register(AppPluginCategory.ASR, SherpaWhisperAsr())
+        registry.register(AppPluginCategory.ASR, SherpaMoonshineAsr())
     }
 
     /**
@@ -76,6 +79,7 @@ class AsrProviderManager(
         when (activePlugin) {
             is OpenAiAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
             is SherpaWhisperAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
+            is SherpaMoonshineAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
         }
     }
 
@@ -94,6 +98,7 @@ class AsrProviderManager(
         when (plugin) {
             is OpenAiAsr -> plugin.updateOptions(options as OpenAiAsrOptions)
             is SherpaWhisperAsr -> plugin.updateOptions(options as SherpaWhisperAsrOptions)
+            is SherpaMoonshineAsr -> plugin.updateOptions(options as SherpaMoonshineAsrOptions)
         }
     }
 }
