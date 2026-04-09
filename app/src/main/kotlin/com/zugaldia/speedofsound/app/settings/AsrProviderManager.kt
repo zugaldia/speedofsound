@@ -4,6 +4,10 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
 import com.zugaldia.speedofsound.core.plugins.AppPluginRegistry
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaCanaryAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaCanaryAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaParakeetAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaParakeetAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
@@ -24,6 +28,8 @@ class AsrProviderManager(
 
     fun registerAsrPlugins() {
         registry.register(AppPluginCategory.ASR, OpenAiAsr())
+        registry.register(AppPluginCategory.ASR, SherpaCanaryAsr())
+        registry.register(AppPluginCategory.ASR, SherpaParakeetAsr())
         registry.register(AppPluginCategory.ASR, SherpaWhisperAsr())
     }
 
@@ -75,6 +81,8 @@ class AsrProviderManager(
         val activePlugin = registry.getActive(AppPluginCategory.ASR) ?: return
         when (activePlugin) {
             is OpenAiAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
+            is SherpaCanaryAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
+            is SherpaParakeetAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
             is SherpaWhisperAsr -> activePlugin.updateOptions(activePlugin.getOptions().copy(language = language))
         }
     }
@@ -93,6 +101,8 @@ class AsrProviderManager(
         val plugin = registry.getPluginById(AppPluginCategory.ASR, pluginId) ?: return
         when (plugin) {
             is OpenAiAsr -> plugin.updateOptions(options as OpenAiAsrOptions)
+            is SherpaCanaryAsr -> plugin.updateOptions(options as SherpaCanaryAsrOptions)
+            is SherpaParakeetAsr -> plugin.updateOptions(options as SherpaParakeetAsrOptions)
             is SherpaWhisperAsr -> plugin.updateOptions(options as SherpaWhisperAsrOptions)
         }
     }

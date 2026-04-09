@@ -5,6 +5,8 @@ import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaCanaryAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaParakeetAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
 import com.zugaldia.speedofsound.core.plugins.director.DirectorOptions
 import com.zugaldia.speedofsound.core.plugins.llm.AnthropicLlmOptions
@@ -45,6 +47,16 @@ class SettingsClient(val settingsStore: SettingsStore) {
                 language = language,
                 baseUrl = providerSetting.baseUrl,
                 apiKey = apiKey,
+            )
+
+            AsrProvider.SHERPA_CANARY -> SherpaCanaryAsrOptions(
+                modelId = providerSetting.modelId,
+                language = language,
+            )
+
+            AsrProvider.SHERPA_PARAKEET -> SherpaParakeetAsrOptions(
+                modelId = providerSetting.modelId,
+                language = language,
             )
 
             AsrProvider.SHERPA_WHISPER -> SherpaWhisperAsrOptions(

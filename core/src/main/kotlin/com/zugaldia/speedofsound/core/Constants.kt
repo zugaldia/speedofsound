@@ -14,5 +14,8 @@ const val OPENAI_ENVIRONMENT_VARIABLE = "OPENAI_API_KEY"
 // Placeholder API key for local/custom endpoints that require an API key but don't validate it
 const val LOCAL_API_KEY_PLACEHOLDER = "sk-$APPLICATION_SHORT"
 
+// Sherpa ONNX ASR models base URL
+const val SHERPA_ONNX_ASR_MODELS_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models"
+
 // Default app trigger shortcut for voice typing
 const val APPLICATION_SHORTCUT_TRIGGER = "Super+z"

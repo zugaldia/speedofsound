@@ -21,11 +21,11 @@ Voice typing for the Linux desktop:
 
 ## Features
 
-- Offline, on-device transcription using Whisper. No data leaves your machine.
+- Offline, on-device transcription powered by Whisper, Parakeet, Canary, and more. No data leaves your machine.
 - Multiple activation options: click the in-app button or use a global keyboard shortcut.
 - Types the result directly into any focused application using Portals for wide desktop support (X11, Wayland).
-- [Multi-language support](https://github.com/openai/whisper#available-models-and-languages) with switchable primary and secondary languages on the fly.
-- Works out of the box with the built-in Whisper Tiny model. Download additional models from within the app to improve accuracy.
+- Multi-language support with switchable primary and secondary languages on the fly.
+- Works out of the box with a built-in multilingual Whisper model. Download additional models from within the app to improve accuracy and language coverage.
 - *Optional* text polishing with LLMs (Anthropic, Google, OpenAI), with support for a custom context and vocabulary.
 - Supports self-hosted services like vLLM, Ollama, and llama.cpp (cloud services supported but not required).
 
@@ -58,7 +58,7 @@ Speed of Sound stands on the shoulders of these excellent open source projects:
 - [Java-GI](https://github.com/jwharm/java-gi) — GTK/GNOME bindings for Java, enabling access to native libraries
   (including LibAdwaita and GStreamer) via the modern Panama framework.
 - [Sherpa ONNX](https://github.com/k2-fsa/sherpa-onnx) — On-device ASR (and more) using the performant ONNX Runtime,
-  including pre-built models for Whisper and many other popular models.
+  with pre-built models for Whisper, Parakeet, Canary, and many other popular models.
 - [Whisper](https://github.com/openai/whisper) — OpenAI's open-source speech recognition model.
   Its release transformed the on-device ASR landscape.
 

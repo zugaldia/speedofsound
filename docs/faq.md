@@ -29,13 +29,13 @@ requesting access to simulate keyboard input. It is the standard sandboxed mecha
 applications without requiring root or elevated privileges. It is also the only way to make typing work inside
 sandboxed packaging formats like Flatpak and Snap. The app cannot type anything without your explicit approval.
 
-## Which Whisper model should I use?
+## Which voice model should I use?
 
-The bundled Whisper Tiny model is a good starting point and works well for some use cases. If you need
+The bundled Whisper Tiny model is a good starting point and works well for many use cases. If you need
 better accuracy, especially for technical vocabulary or challenging accents, download a larger model
-from within the app. All models in the Whisper family are supported (Tiny, Base, Small, Medium, Large, Turbo),
-including English-only and optimized ones ("distilled"). Larger models are slower and use more memory, so it is
-worth trying smaller ones first.
+from within the app. The full Whisper family is supported (Tiny, Base, Small, Medium, Large, Turbo),
+including English-only and optimized variants. You can also try models from other families, like NVIDIA Parakeet
+and Canary. Larger models are slower and use more memory, so it is worth trying smaller ones first.
 
 ## What does text polishing do, and do I need it?
 
@@ -43,7 +43,7 @@ Text polishing is an optional step that sends the raw transcript to an LLM for f
 It is disabled by default and, if enabled, it adds some latency depending on the provider and model you choose.
 It is most useful in two ways: giving the LLM instructions (writing style, your intended audience, etc.)
 and supplying a custom vocabulary of names, companies, or technical terms that speech recognition tends to mishear.
-Whisper alone might get you 95% of the way there, polishing with the right context can close that gap.
+On-device transcription alone might get you 95% of the way there, polishing with the right context can close that gap.
 
 ## I have multiple microphones, can I choose which one to use?
 

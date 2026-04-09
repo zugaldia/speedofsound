@@ -11,12 +11,12 @@
             Speed of Sound is a voice-typing app for the Linux desktop.
         </p>
         <p>
-            By default, transcription runs on-device using Whisper, so no audio ever leaves your machine.
-            The app comes with a built-in multilingual Whisper Tiny model and works out of the box.
-            Additional models can be downloaded from within the app to improve accuracy.
+            By default, transcription runs entirely on-device, so no audio ever leaves your machine.
+            The app ships with a built-in multilingual Whisper model and supports additional models from the
+            Whisper, Parakeet, and Canary families to improve accuracy.
         </p>
         <ul>
-            <li>Offline, private transcription with the bundled multilingual Whisper Tiny model</li>
+            <li>Offline, private transcription with popular open speech models (Whisper, Parakeet, Canary)</li>
             <li>Multiple activation options: click the in-app button or use a global keyboard shortcut</li>
             <li>Types directly into any app via XDG Desktop Portals (supports X11 and Wayland)</li>
             <li>Optional text polishing with LLMs, supports self-hosted services like Ollama, vLLM, and llama.cpp</li>
