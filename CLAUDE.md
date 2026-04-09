@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 Speed of Sound is a voice-typing application for the Linux desktop.
-It captures microphone audio, transcribes it using ASR (the default is locally using Sherpa ONNX Whisper models),
+It captures microphone audio, transcribes it using ASR (locally via Sherpa ONNX — supports Whisper, Parakeet, and Canary model families),
 optionally polishes the text with an LLM (Anthropic/Google/OpenAI and compatible endpoints),
 and types the result into the active application via XDG Desktop Portal keyboard simulation.
 
@@ -42,7 +42,7 @@ Three Gradle modules with a shared convention plugin in `buildSrc/`:
 
 **Sample pipeline (orchestrated by `DefaultDirector`):**
 1. `JvmRecorder` — Captures PCM16 audio via `javax.sound.sampled`
-2. `SherpaWhisperAsr` — Transcribes audio using Sherpa ONNX (30-second max segments)
+2. `SherpaOfflineAsr` — Transcribes audio using Sherpa ONNX (Whisper, Parakeet, Canary)
 3. `LlmPlugin` — Polishes transcription (supports Anthropic, Google, OpenAI)
 
 **Director event flow:** `RecordingStarted` → `TranscriptionStarted` → `PolishingStarted` → `PipelineCompleted`
