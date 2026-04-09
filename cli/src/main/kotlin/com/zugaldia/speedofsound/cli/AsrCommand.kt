@@ -9,9 +9,15 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.audio.AudioInfo
 import com.zugaldia.speedofsound.core.audio.AudioManager
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
+import com.zugaldia.speedofsound.core.desktop.settings.SUPPORTED_LOCAL_ASR_MODELS
+import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
 import com.zugaldia.speedofsound.core.plugins.asr.DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPlugin
 import com.zugaldia.speedofsound.core.plugins.asr.AsrRequest
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaCanaryAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaCanaryAsrOptions
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaParakeetAsr
+import com.zugaldia.speedofsound.core.plugins.asr.SherpaParakeetAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsr
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsr
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaWhisperAsrOptions
@@ -67,7 +73,17 @@ class AsrCommand : CliktCommand(name = "asr") {
         logger.info("Using provider: $provider, model: $modelId, language: ${language.name} ($languageCode)")
         val asr: AsrPlugin<*> = when (provider.lowercase()) {
             "onnx" -> OnnxWhisperAsr(OnnxWhisperAsrOptions())
-            "sherpa" -> SherpaWhisperAsr(SherpaWhisperAsrOptions(modelId = modelId, language = language))
+            "sherpa" -> {
+                val voiceModel = SUPPORTED_LOCAL_ASR_MODELS[modelId]
+                when (voiceModel?.provider) {
+                    AsrProvider.SHERPA_CANARY ->
+                        SherpaCanaryAsr(SherpaCanaryAsrOptions(modelId = modelId, language = language))
+                    AsrProvider.SHERPA_PARAKEET ->
+                        SherpaParakeetAsr(SherpaParakeetAsrOptions(modelId = modelId, language = language))
+                    else ->
+                        SherpaWhisperAsr(SherpaWhisperAsrOptions(modelId = modelId, language = language))
+                }
+            }
             "openai" -> OpenAiAsr(OpenAiAsrOptions(
                 baseUrl = baseUrl,
                 apiKey = apiKey,
@@ -83,7 +99,6 @@ class AsrCommand : CliktCommand(name = "asr") {
         logger.info("Transcribing audio.")
         val result = asr.transcribe(AsrRequest(audioData, audioInfo))
         result.onSuccess { response ->
-            logger.info("Transcription: ${response.text}")
             println(response.text)
         }.onFailure { error ->
             logger.error("Transcription failed: ${error.message}", error)

@@ -1,20 +1,9 @@
 package com.zugaldia.speedofsound.core.plugins.asr
 
 import com.zugaldia.speedofsound.core.Language
+import com.zugaldia.speedofsound.core.SHERPA_ONNX_ASR_MODELS_URL
 import com.zugaldia.speedofsound.core.models.voice.VoiceModel
 import com.zugaldia.speedofsound.core.models.voice.VoiceModelFile
-
-/*
- * We support all the Whisper models for the initial walking skeleton, after we'll include some other options. See:
- * https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models
- *
- * Currently on the radar:
- * - Meta Omnilingual
- * - NVIDIA Canary & Parakeet
- * - Useful Sensors Moonshine (or use https://github.com/moonshine-ai/moonshine directly)
- */
-
-private const val SHERPA_ONNX_ASR_MODELS_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models"
 
 val SUPPORTED_SHERPA_WHISPER_ASR_MODELS = mapOf(
     DEFAULT_ASR_SHERPA_WHISPER_MODEL_ID to VoiceModel(
