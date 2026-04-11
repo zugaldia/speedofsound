@@ -12,6 +12,9 @@ configured, the progress bar will also reflect the polishing step.
 The bottom half displays the currently selected voice model, text model, and expected input language. The gear button
 opens a menu where you can access Preferences, Keyboard Shortcuts, the About screen, or quit the application.
 
+!!! note "Recording limit"
+    Each recording is capped at 30 seconds. When the limit is reached, transcription starts automatically.
+
 ## Keyboard shortcuts
 
 Most shortcuts are only active when the Speed of Sound main window is open and focused. The exception is `Super+Z`
