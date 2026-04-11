@@ -56,6 +56,22 @@
     </screenshots>
 
     <releases>
+        <release version="0.12.0" date="2026-04-11">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.12.0</url>
+            <description>
+                <p>
+                    Added support for NVIDIA Canary and Parakeet ASR model families alongside
+                    Whisper, giving more options for on-device speech recognition across multiple
+                    languages. New "Stay hidden on activation" setting lets you add the app to
+                    system startup without showing the main window. The app now detects when the
+                    XDG Remote Desktop Portal is not supported and shows a clear banner instead
+                    of failing silently. Fixed typing error propagation so non-Latin script
+                    failures surface as notifications instead of being swallowed. Fixed a bug
+                    where changing the secondary language in Preferences didn't update the main
+                    window. Updated dependencies including Sherpa ONNX, Kotlin, and cloud SDKs.
+                </p>
+            </description>
+        </release>
         <release version="0.11.0" date="2026-03-29">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.11.0</url>
             <description>
