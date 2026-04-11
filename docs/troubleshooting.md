@@ -1,6 +1,23 @@
 # Troubleshooting
 
-## Remote desktop portal is not supported
+## Known Limitations
+
+### Maximum recording length is 30 seconds
+
+Speed of Sound currently caps each recording at 30 seconds. When that limit is reached, transcription
+is triggered automatically, the same as if you had stopped recording manually. This is not configurable.
+For most voice-typing use cases this is plenty, but if longer recordings matter to you, please
+👍 [this issue](https://github.com/zugaldia/speedofsound/issues/18) to help prioritize it.
+
+### Only the default microphone is supported
+
+Speed of Sound records from your system's default microphone. There currently is no in-app microphone
+selector. To use a different input device, change the default in your system sound settings before
+dictating.
+
+## Common Issues
+
+### Remote desktop portal is not supported
 
 **Symptom:** A banner at the top of the main window says "Remote desktop portal is not supported."
 
@@ -14,7 +31,7 @@ In the meantime, if possible, consider switching to a desktop environment that i
 We are also exploring alternatives such as clipboard-based text input.
 If that would be useful to you, [let us know](https://github.com/zugaldia/speedofsound/issues/19).
 
-## Non-Latin text produces only spaces and punctuation
+### Non-Latin text produces only spaces and punctuation
 
 **Symptom:** Dictating in a non-Latin language (e.g., Cyrillic, Arabic, CJK) outputs only spaces
 and punctuation. Latin-script languages work fine.
@@ -27,7 +44,7 @@ is active, non-Latin keysyms are silently dropped.
 settings and switch to it before dictating. For example, on GNOME, this is under `Settings` → `Keyboard` →
 `Input Sources`. You can switch between input sources with `Super` + `Space`. 
 
-## Transcribed text is incomplete
+### Transcribed text is incomplete
 
 **Symptom:** Typically, the beginning of the text is missing.
 
@@ -39,7 +56,7 @@ Speed of Sound window rather than your target application.
 **How to fix it:** Increase the **Post-hide delay** in `Preferences` → `Advanced`. This is the pause
 between the window hiding and the first keystroke. Alternatively, enable **Record in background** (see above).
 
-## Some characters are missing or appear out of order
+### Some characters are missing or appear out of order
 
 **Symptom:** The transcribed text arrives with letters dropped or jumbled.
 
@@ -50,7 +67,7 @@ causing characters to be lost or reordered.
 between each individual keystroke. You can also increase this value if you simply like the effect of
 text appearing more gradually.
 
-## Speed of Sound appears on the wrong workspace and doesn't type into my active application
+### Speed of Sound appears on the wrong workspace and doesn't type into my active application
 
 **Symptom:** On a multi-workspace setup, the main Speed of Sound window opens on a different workspace,
 and transcribed text lands in the wrong application or nowhere at all.
@@ -65,7 +82,7 @@ A hidden window is typically restored on the active workspace instead.
 **Trade-off:** The app no longer appears in the dock. To bring the main window back, you can, for example, use a
 global shortcut (`Preferences` → `General` → `Global Shortcut`).
 
-## I cannot change or reset my global shortcut
+### I cannot change or reset my global shortcut
 
 **Symptom:** A global shortcut was set up via the Preferences dialog, but the shortcut no longer works
 (or was set incorrectly), and there is no way to change or clear it from the UI.
@@ -89,7 +106,7 @@ detects support for it. If the button is absent, your desktop does not yet expos
    shortcut binding. Restart Speed of Sound afterward, the **Set Up** button will reappear, and you can
    configure a new shortcut.
 
-## I don't want the Speed of Sound main window to show every time I dictate.
+### I don't want the Speed of Sound main window to show every time I dictate.
 
 **Symptom:** The main window appears on every dictation, which feels intrusive for frequent voice typing.
 
