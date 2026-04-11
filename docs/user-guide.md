@@ -51,6 +51,11 @@ There are 4 groups of settings here: Global Shortcut, Language, App Behavior, an
 **Language** — Set the primary language used for speech recognition. You can optionally configure a secondary
 language and switch between the two using the `Left Shift` and `Right Shift` keys while the main window is focused.
 
+!!! tip "Regional spelling and vocabulary variants"
+    ASR models do not distinguish between regional variants of the same language (e.g. British vs. Australian
+    English, or Spanish from Spain vs. Colombia). If you need region-specific spelling or vocabulary,
+    enable text polishing (see below) and instruct the LLM accordingly in the Personalization settings.
+
 !!! note "Non-Latin scripts require a matching keyboard layout"
     If you dictate in a non-Latin script, make sure the matching keyboard layout is active on your system
     before dictating. See [Troubleshooting](troubleshooting.md#non-latin-text-produces-only-spaces-and-punctuation)

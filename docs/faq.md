@@ -41,8 +41,11 @@ and Canary. Larger models are slower and use more memory, so it is worth trying 
 
 Text polishing is an optional step that sends the raw transcript to an LLM for further improvement.
 It is disabled by default and, if enabled, it adds some latency depending on the provider and model you choose.
-It is most useful in two ways: giving the LLM instructions (writing style, your intended audience, etc.)
-and supplying a custom vocabulary of names, companies, or technical terms that speech recognition tends to mishear.
+It is most useful giving the LLM instructions and supplying a custom vocabulary of names, companies, or technical
+terms that speech recognition tends to mishear. For example, if you need region-specific spelling or vocabulary
+(e.g. British vs. Australian English), you can instruct the LLM accordingly, since the underlying ASR models do
+not distinguish between regional variants of the same language.
+
 On-device transcription alone might get you 95% of the way there, polishing with the right context can close that gap.
 
 ## I have multiple microphones, can I choose which one to use?
