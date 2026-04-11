@@ -95,6 +95,11 @@ The same is expected from any contributors to this project. You may or may not u
 this project, but the PR author is ultimately responsible for the quality of their contributions. Coding agents are
 not an excuse to take shortcuts. In fact, the opposite is true.
 
+## How can I support this project?
+
+If you find Speed of Sound useful, consider [sponsoring this work](https://github.com/sponsors/zugaldia).
+You can also contribute code, report bugs, or vote on issues.
+
 ## What do I do if I have another question not answered here?
 
 If you run into any issues, have questions, or need troubleshooting help, please open a ticket on the

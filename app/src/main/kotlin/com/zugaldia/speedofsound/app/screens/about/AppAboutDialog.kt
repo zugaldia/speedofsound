@@ -30,6 +30,7 @@ fun buildAboutDialog(): AboutDialog {
     dialog.copyright = "Copyright (c) 2025-2026 Antonio Zugaldia"
     dialog.debugInfo = buildDebugInfo()
     dialog.debugInfoFilename = "$APPLICATION_SHORT-debug.txt"
+    dialog.addLink("Sponsor", "https://github.com/sponsors/zugaldia")
     dialog.addAcknowledgementSection(
         "Built on the Shoulders of Giants",
         arrayOf(
