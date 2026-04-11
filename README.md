@@ -78,3 +78,5 @@ There are several ideas already tracked as tickets to improve the project. Every
 roadmap has a corresponding issue. If you'd like to contribute, please use those tickets to guide your
 work. You can also use GitHub emoji reactions on issues to vote for the ones that matter most to you,
 which helps with prioritization.
+
+If you find Speed of Sound useful, consider [sponsoring this work](https://github.com/sponsors/zugaldia).
