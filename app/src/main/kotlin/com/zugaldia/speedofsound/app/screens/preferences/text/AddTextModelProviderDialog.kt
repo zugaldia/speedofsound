@@ -27,6 +27,7 @@ import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlm
 import com.zugaldia.speedofsound.core.plugins.llm.GoogleLlmOptions
 import com.zugaldia.speedofsound.core.plugins.llm.LlmPlugin
 import com.zugaldia.speedofsound.core.plugins.llm.LlmProvider
+import com.zugaldia.speedofsound.core.plugins.llm.LlmRequest
 import com.zugaldia.speedofsound.core.plugins.llm.OpenAiLlm
 import com.zugaldia.speedofsound.core.plugins.llm.OpenAiLlmOptions
 import com.zugaldia.speedofsound.core.plugins.llm.getModelsForProvider
@@ -63,6 +64,7 @@ class AddTextModelProviderDialog(
     private val modelComboRow: ModelComboRow<TextModel>
     private val credentialComboRow: ComboRow
     private val fetchButton: Button
+    private val testButton: Button
     private val disableThinkingRow: SwitchRow
     private val baseUrlEntry: BaseUrlEntryRow
     private val addButton: Button
@@ -146,10 +148,18 @@ class AddTextModelProviderDialog(
         }
 
         val cancelButton = Button.withLabel("Cancel").apply {
+            tooltipText = "Discard changes and close the dialog"
             onClicked { closeDialog() }
         }
 
+        testButton = Button.withLabel("Test").apply {
+            tooltipText = "Send a test request to verify your settings"
+            sensitive = false
+            onClicked { testConnection() }
+        }
+
         addButton = Button.withLabel("Add").apply {
+            tooltipText = "Save this provider configuration"
             addCssClass(STYLE_CLASS_SUGGESTED_ACTION)
             sensitive = false
             onClicked {
@@ -163,6 +173,7 @@ class AddTextModelProviderDialog(
             halign = Align.END
             valign = Align.END
             append(cancelButton)
+            append(testButton)
             append(addButton)
         }
 
@@ -236,18 +247,16 @@ class AddTextModelProviderDialog(
         val name = nameEntry.text.trim()
         val baseUrl = baseUrlEntry.getBaseUrl()
         val modelId = selectedModelId
-        addButton.sensitive = validateInput(name, baseUrl, modelId)
+        val valid = validateInput(name, baseUrl, modelId)
+        addButton.sensitive = valid
+        testButton.sensitive = valid
     }
 
     private fun fetchModels() {
-        val apiKey = getSelectedCredentialApiKey()
-        val baseUrl = baseUrlEntry.getBaseUrl()
-
         updateMessageLabel("Fetching models...", STYLE_CLASS_ACCENT)
         fetchButton.sensitive = false
-
         dialogScope.launch(Dispatchers.IO) {
-            val plugin = createTemporaryPlugin(selectedProvider, apiKey, baseUrl)
+            val plugin = createTemporaryPlugin()
             val result = runCatching {
                 plugin.enable()
                 plugin.listModels().getOrThrow()
@@ -265,11 +274,44 @@ class AddTextModelProviderDialog(
         }
     }
 
-    private fun createTemporaryPlugin(provider: LlmProvider, apiKey: String?, baseUrl: String?): LlmPlugin<*> =
-        when (provider) {
-            LlmProvider.ANTHROPIC -> AnthropicLlm(AnthropicLlmOptions(apiKey = apiKey, baseUrl = baseUrl))
-            LlmProvider.GOOGLE -> GoogleLlm(GoogleLlmOptions(apiKey = apiKey, baseUrl = baseUrl))
-            LlmProvider.OPENAI -> OpenAiLlm(OpenAiLlmOptions(apiKey = apiKey, baseUrl = baseUrl))
+    private fun testConnection() {
+        updateMessageLabel("Testing connection...", STYLE_CLASS_ACCENT)
+        testButton.sensitive = false
+        dialogScope.launch(Dispatchers.IO) {
+            val plugin = createTemporaryPlugin()
+            val result = runCatching {
+                plugin.enable()
+                plugin.generate(LlmRequest(text = "Reply with OK.")).getOrThrow()
+            }
+
+            runCatching { plugin.shutdown() }
+            GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
+                result.fold(
+                    onSuccess = { updateMessageLabel("Connection successful", STYLE_CLASS_SUCCESS) },
+                    onFailure = { error ->
+                        val errorMsg = error.message ?: "Unknown error"
+                        updateMessageLabel("Test failed: $errorMsg", STYLE_CLASS_ERROR)
+                    }
+                )
+                testButton.sensitive = true
+                false
+            }
+        }
+    }
+
+    private fun createTemporaryPlugin(): LlmPlugin<*> {
+        val apiKey = getSelectedCredentialApiKey()
+        val baseUrl = baseUrlEntry.getBaseUrl()
+        val modelId = selectedModelId
+        val disableThinking = disableThinkingRow.active
+        return when (selectedProvider) {
+            LlmProvider.ANTHROPIC -> AnthropicLlm(AnthropicLlmOptions(
+                apiKey = apiKey, baseUrl = baseUrl, modelId = modelId, disableThinking = disableThinking))
+            LlmProvider.GOOGLE -> GoogleLlm(GoogleLlmOptions(
+                apiKey = apiKey, baseUrl = baseUrl, modelId = modelId, disableThinking = disableThinking))
+            LlmProvider.OPENAI -> OpenAiLlm(OpenAiLlmOptions(
+                apiKey = apiKey, baseUrl = baseUrl, modelId = modelId, disableThinking = disableThinking))
+        }
     }
 
     private fun getSelectedCredentialApiKey(): String? = selectedCredentialId?.let { credId ->
