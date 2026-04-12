@@ -22,6 +22,7 @@ interface LlmPluginOptions : AppPluginOptions {
     val modelId: String
     val apiKey: String?
     val baseUrl: String?
+    val disableThinking: Boolean
 }
 
 /**
