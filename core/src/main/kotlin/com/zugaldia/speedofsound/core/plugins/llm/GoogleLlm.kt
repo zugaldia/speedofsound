@@ -1,8 +1,11 @@
 package com.zugaldia.speedofsound.core.plugins.llm
 
 import com.google.genai.Client
+import com.google.genai.types.GenerateContentConfig
 import com.google.genai.types.HttpOptions
 import com.google.genai.types.ListModelsConfig
+import com.google.genai.types.ThinkingConfig
+import com.google.genai.types.ThinkingLevel
 import com.zugaldia.speedofsound.core.models.text.TextModel
 import com.zugaldia.speedofsound.core.plugins.director.DEFAULT_LLM_TIMEOUT_MS
 
@@ -45,12 +48,16 @@ class GoogleLlm(
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
-        log.info("Sending request to ${currentOptions.modelId}")
-        val response = currentClient.models.generateContent(
-            currentOptions.modelId,
-            request.text,
+        val config = if (currentOptions.disableThinking) {
+            GenerateContentConfig.builder().thinkingConfig(
+                ThinkingConfig.builder().thinkingLevel(ThinkingLevel(ThinkingLevel.Known.MINIMAL)).build()
+            ).build()
+        } else {
             null
-        )
+        }
+
+        log.info("Sending request to ${currentOptions.modelId} (thinking disabled: ${currentOptions.disableThinking})")
+        val response = currentClient.models.generateContent(currentOptions.modelId, request.text, config)
         LlmResponse(text = response.text() ?: "")
     }
 

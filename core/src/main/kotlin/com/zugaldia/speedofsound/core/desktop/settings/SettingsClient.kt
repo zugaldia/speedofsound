@@ -76,18 +76,21 @@ class SettingsClient(val settingsStore: SettingsStore) {
                 apiKey = apiKey,
                 modelId = providerSetting.modelId,
                 baseUrl = providerSetting.baseUrl,
+                disableThinking = providerSetting.disableThinking,
             )
 
             LlmProvider.GOOGLE -> GoogleLlmOptions(
                 apiKey = apiKey,
                 modelId = providerSetting.modelId,
                 baseUrl = providerSetting.baseUrl,
+                disableThinking = providerSetting.disableThinking,
             )
 
             LlmProvider.OPENAI -> OpenAiLlmOptions(
                 apiKey = apiKey,
                 modelId = providerSetting.modelId,
                 baseUrl = providerSetting.baseUrl,
+                disableThinking = providerSetting.disableThinking,
             )
         }
     }

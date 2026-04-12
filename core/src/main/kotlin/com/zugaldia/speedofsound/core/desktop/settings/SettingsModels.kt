@@ -53,7 +53,8 @@ data class TextModelProviderSetting(
     val provider: LlmProvider,
     val modelId: String,
     val credentialId: String? = null,
-    val baseUrl: String? = null
+    val baseUrl: String? = null,
+    val disableThinking: Boolean = false
 ) : SelectableProviderSetting
 
 /**

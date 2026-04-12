@@ -3,6 +3,7 @@ package com.zugaldia.speedofsound.core.plugins.llm
 import com.anthropic.client.AnthropicClient
 import com.anthropic.client.okhttp.AnthropicOkHttpClient
 import com.anthropic.models.messages.MessageCreateParams
+import com.anthropic.models.messages.ThinkingConfigDisabled
 import com.zugaldia.speedofsound.core.LOCAL_API_KEY_PLACEHOLDER
 import com.zugaldia.speedofsound.core.models.text.TextModel
 import com.zugaldia.speedofsound.core.plugins.director.DEFAULT_LLM_TIMEOUT_MS
@@ -53,13 +54,16 @@ class AnthropicLlm(
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
-        val params = MessageCreateParams.builder()
+        val paramsBuilder = MessageCreateParams.builder()
             .maxTokens(currentOptions.maxTokens)
             .addUserMessage(request.text)
             .model(currentOptions.modelId)
-            .build()
+        if (currentOptions.disableThinking) {
+            paramsBuilder.thinking(ThinkingConfigDisabled.builder().build())
+        }
 
-        log.info("Sending request to ${currentOptions.modelId}")
+        log.info("Sending request to ${currentOptions.modelId} (thinking disabled: ${currentOptions.disableThinking})")
+        val params = paramsBuilder.build()
         val message = currentClient.messages().create(params)
         val responseText = message.content()
             .mapNotNull { block -> block.text().orElse(null)?.text() }

@@ -2,6 +2,8 @@ package com.zugaldia.speedofsound.core.plugins.llm
 
 import com.openai.client.OpenAIClient
 import com.openai.client.okhttp.OpenAIOkHttpClient
+import com.openai.models.Reasoning
+import com.openai.models.ReasoningEffort
 import com.openai.models.responses.ResponseCreateParams
 import com.zugaldia.speedofsound.core.LOCAL_API_KEY_PLACEHOLDER
 import com.zugaldia.speedofsound.core.models.text.TextModel
@@ -53,12 +55,15 @@ class OpenAiLlm(
 
     override fun generate(request: LlmRequest): Result<LlmResponse> = runCatching {
         val currentClient = client ?: error("Client not initialized, plugin must be enabled first")
-        val params = ResponseCreateParams.builder()
+        val paramsBuilder = ResponseCreateParams.builder()
             .input(request.text)
             .model(currentOptions.modelId)
-            .build()
+        if (currentOptions.disableThinking) {
+            paramsBuilder.reasoning(Reasoning.builder().effort(ReasoningEffort.NONE).build())
+        }
 
-        log.info("Sending request to ${currentOptions.modelId}")
+        log.info("Sending request to ${currentOptions.modelId} (thinking disabled: ${currentOptions.disableThinking})")
+        val params = paramsBuilder.build()
         val response = currentClient.responses().create(params)
         val responseText = response.output()
             .flatMap { item -> item.message().map { it.content() }.orElse(emptyList()) }
