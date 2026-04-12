@@ -1,6 +1,6 @@
 package com.zugaldia.speedofsound.app.screens.preferences.voice
 
-import com.zugaldia.speedofsound.app.DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT
+import com.zugaldia.speedofsound.app.DEFAULT_ADD_VOICE_PROVIDER_DIALOG_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_ADD_PROVIDER_DIALOG_WIDTH
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
@@ -60,7 +60,7 @@ class AddVoiceModelProviderDialog(
     init {
         title = "Add Voice Model Provider"
         contentWidth = DEFAULT_ADD_PROVIDER_DIALOG_WIDTH
-        contentHeight = DEFAULT_ADD_PROVIDER_DIALOG_HEIGHT
+        contentHeight = DEFAULT_ADD_VOICE_PROVIDER_DIALOG_HEIGHT
 
         nameEntry = EntryRow().apply {
             title = "Configuration Name"
