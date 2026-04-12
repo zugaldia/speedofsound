@@ -62,7 +62,7 @@ class OpenAiLlm(
             paramsBuilder.reasoning(Reasoning.builder().effort(ReasoningEffort.NONE).build())
         }
 
-        log.info("Sending request to ${currentOptions.modelId}")
+        log.info("Sending request to ${currentOptions.modelId} (thinking disabled: ${currentOptions.disableThinking})")
         val params = paramsBuilder.build()
         val response = currentClient.responses().create(params)
         val responseText = response.output()

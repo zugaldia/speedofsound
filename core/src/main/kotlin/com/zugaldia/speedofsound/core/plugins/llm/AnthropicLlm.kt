@@ -62,7 +62,7 @@ class AnthropicLlm(
             paramsBuilder.thinking(ThinkingConfigDisabled.builder().build())
         }
 
-        log.info("Sending request to ${currentOptions.modelId}")
+        log.info("Sending request to ${currentOptions.modelId} (thinking disabled: ${currentOptions.disableThinking})")
         val params = paramsBuilder.build()
         val message = currentClient.messages().create(params)
         val responseText = message.content()

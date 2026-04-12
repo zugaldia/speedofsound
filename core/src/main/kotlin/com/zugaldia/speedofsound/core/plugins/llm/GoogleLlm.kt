@@ -56,7 +56,7 @@ class GoogleLlm(
             null
         }
 
-        log.info("Sending request to ${currentOptions.modelId}")
+        log.info("Sending request to ${currentOptions.modelId} (thinking disabled: ${currentOptions.disableThinking})")
         val response = currentClient.models.generateContent(currentOptions.modelId, request.text, config)
         LlmResponse(text = response.text() ?: "")
     }
