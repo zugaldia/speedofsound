@@ -20,11 +20,15 @@ class SosStatusNotifierItem(
     override fun getId(): String = APPLICATION_ID
     override fun getTitle(): String = APPLICATION_NAME
 
-    // In Flatpak and Snap the app icon is registered in the system theme under APPLICATION_ID.
-    // In other environments (app-image, JAR) it isn't, so fall back to the standard
-    // FreeDesktop microphone icon which is always available.
+    // Flatpak exports icons to the host theme, so the app icon is available by APPLICATION_ID.
+    // Snap does NOT export icons to the host, the extension cannot resolve names that only
+    // exist inside the sandbox, resulting in the three-dots fallback. Use a standard FreeDesktop
+    // icon instead until we implement IconPixmap (raw pixel data over D-Bus) or manually set
+    // getIconThemePath to /snap/speedofsound/current/usr/share/icons/ (?).
+    // See: https://github.com/ubuntu/gnome-shell-extension-appindicator/issues/232
+    // See: https://github.com/ubuntu/gnome-shell-extension-appindicator/issues/544
     override fun getIconName(): String = when (getRuntimeEnvironment()) {
-        RuntimeEnvironment.FLATPAK, RuntimeEnvironment.SNAP -> APPLICATION_ID
+        RuntimeEnvironment.FLATPAK -> APPLICATION_ID
         else -> STATUS_NOTIFIER_ICON_FALLBACK
     }
 
