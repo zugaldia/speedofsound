@@ -890,24 +890,24 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.4.0/stargate-0.4.0.jar",
-    "sha512": "d9508d4e1466d3d33864ad53a9ca471d9949a42262065ffa1df138fb6dfe89e58e1d6b9698e9147d4760a39a0c1430d9d47e7e52bccf4348adfa42241a89ace1",
-    "dest": "offline-repository/com/github/zugaldia/stargate/0.4.0",
-    "dest-filename": "stargate-0.4.0.jar"
+    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.5.0/stargate-0.5.0.jar",
+    "sha512": "78fd39b525454bbb8dfd01f0b450ee161629fe5c41a2e25ac2eb5786f6aba214f6af0388d215bbdeee6a99f445021d6d4903a8c892dd384e15151af5120d3785",
+    "dest": "offline-repository/com/github/zugaldia/stargate/0.5.0",
+    "dest-filename": "stargate-0.5.0.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.4.0/stargate-0.4.0.module",
-    "sha512": "b258bc5084e9edb871fd6f1cc80d1d0d98c259f0cbf109020e4d0903442cf7bc35c31e81ad3cfe4641b27e046fde6310b18d2c1a3d1089047f14aa8f36371233",
-    "dest": "offline-repository/com/github/zugaldia/stargate/0.4.0",
-    "dest-filename": "stargate-0.4.0.module"
+    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.5.0/stargate-0.5.0.module",
+    "sha512": "7233f5d83e1b7b8e3e5b49f394c2d398f4699074c309e2c65f092a9d8efed3f2a64d5a7ee5d8f1b1bef6ee9dfef142485233279992d3f22bf686eb65d9a82ac2",
+    "dest": "offline-repository/com/github/zugaldia/stargate/0.5.0",
+    "dest-filename": "stargate-0.5.0.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.4.0/stargate-0.4.0.pom",
-    "sha512": "2875cdf6477ccaa7d3ddaa4673b081fa507359f3e105e477e37ae04a66fc977fefa1031d769a8e93a4e5568fef1e8427728743202ff91d06c562653aa599113e",
-    "dest": "offline-repository/com/github/zugaldia/stargate/0.4.0",
-    "dest-filename": "stargate-0.4.0.pom"
+    "url": "https://plugins.gradle.org/m2/com/github/zugaldia/stargate/0.5.0/stargate-0.5.0.pom",
+    "sha512": "c79f01036b2b35a4cf87f4525faa1b5c633b0ee232645176248e01e2259fc499b15a4927f415400bac20815ffb7f1cabb2cf2bb092ca29c84fbf1407162b3168",
+    "dest": "offline-repository/com/github/zugaldia/stargate/0.5.0",
+    "dest-filename": "stargate-0.5.0.pom"
   },
   {
     "type": "file",
