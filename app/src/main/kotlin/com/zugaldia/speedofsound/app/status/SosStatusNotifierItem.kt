@@ -28,15 +28,6 @@ class SosStatusNotifierItem(
         else -> STATUS_NOTIFIER_ICON_FALLBACK
     }
 
-    // In Flatpak and Snap the icons are inside the sandbox (e.g. $SNAP/usr/share/icons)
-    // which is not on the host's default icon theme search path. Provide the path so
-    // the tray host can locate our icon.
-    override fun getIconThemePath(): String = when (getRuntimeEnvironment()) {
-        RuntimeEnvironment.SNAP -> "${System.getenv("SNAP") ?: ""}/usr/share/icons"
-        RuntimeEnvironment.FLATPAK -> "/app/share/icons"
-        else -> ""
-    }
-
     override fun getToolTipInfo(): Pair<String, String> =
         Pair(APPLICATION_NAME, "Voice typing for the Linux desktop")
 }
