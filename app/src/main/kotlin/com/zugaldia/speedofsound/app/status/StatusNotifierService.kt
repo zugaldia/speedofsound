@@ -81,7 +81,10 @@ class StatusNotifierService(
                     },
                 )
 
-                val serviceName = connected.registerItem(item, APPLICATION_ID)
+                // Use a dot-separated child of APPLICATION_ID so the bus name
+                // (e.g. "io.speedofsound.SpeedOfSound.StatusNotifier-{pid}-1")
+                // matches the Snap AppArmor policy for our D-Bus slot.
+                val serviceName = connected.registerItem(item, "$APPLICATION_ID.StatusNotifier")
                 logger.info("Registered StatusNotifierItem as $serviceName")
             } catch (e: Exception) {
                 logger.error("Failed to connect to StatusNotifierWatcher", e)
