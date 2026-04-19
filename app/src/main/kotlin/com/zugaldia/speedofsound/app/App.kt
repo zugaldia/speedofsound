@@ -29,6 +29,7 @@ fun main(args: Array<String>) {
 
 class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Application(applicationId, flags) {
     private var mainWindow: MainWindow? = null
+    private var isHoldingForHiddenStart = false
 
     private lateinit var settingsClient: SettingsClient
     private lateinit var portalsClient: PortalsClient
@@ -68,10 +69,17 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
             if (isFirstLaunch) {
                 WelcomeWindow(this) {
                     settingsClient.setWelcomeScreenShown(true)
-                    mainWindow?.present()
+                    presentMainWindow()
                 }.present()
             } else if (!settingsClient.getStayHiddenOnActivation()) {
-                mainWindow?.present()
+                presentMainWindow()
+            } else if (!isHoldingForHiddenStart) {
+                // Keep the app alive without a visible window. GApplication auto-quits
+                // when its use-count drops to zero (no visible windows), hold() prevents
+                // that until the user triggers the global shortcut for the first time.
+                // https://github.com/zugaldia/speedofsound/issues/141
+                hold()
+                isHoldingForHiddenStart = true
             }
         }
 
@@ -117,9 +125,17 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
         }
     }
 
+    private fun presentMainWindow() {
+        if (isHoldingForHiddenStart) {
+            release()
+            isHoldingForHiddenStart = false
+        }
+        mainWindow?.present()
+    }
+
     private fun handleTrigger() {
         ensureMainWindow()
-        if (!settingsClient.getBackgroundRecording()) mainWindow?.present()
+        if (!settingsClient.getBackgroundRecording()) presentMainWindow()
         mainWindow?.let { mainViewModel.onTriggerAction() }
     }
 
