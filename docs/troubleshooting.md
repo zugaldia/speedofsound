@@ -79,8 +79,8 @@ By default, Speed of Sound minimizes the main window before typing.
 **How to fix it:** Enable **Hide instead of minimize** in `Preferences` → `General` → `App Behavior`.
 A hidden window is typically restored on the active workspace instead.
 
-**Trade-off:** The app no longer appears in the dock. To bring the main window back, you can, for example, use a
-global shortcut (`Preferences` → `General` → `Global Shortcut`).
+**Trade-off:** The app no longer appears in the dock. To bring the main window back, you can use the
+[system tray](user-guide.md#system-tray) icon or a global shortcut (`Preferences` → `General` → `Global Shortcut`).
 
 ### I cannot change or reset my global shortcut
 
@@ -115,6 +115,7 @@ to show recording and transcription progress.
 
 **How to fix it:** Enable **Record in background** in `Preferences` → `General` → `App Behavior`.
 When active, recording, transcription, and typing all run silently without showing the main window.
+You can still control the app from the [system tray](user-guide.md#system-tray) icon.
 
 **Note:** Because Speed of Sound uses the Desktop Portals standard, your desktop environment will still
 display a microphone in-use indicator while recording is active and while the app has typing permissions.

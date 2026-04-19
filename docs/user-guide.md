@@ -15,6 +15,23 @@ opens a menu where you can access Preferences, Keyboard Shortcuts, the About scr
 !!! note "Recording limit"
     Each recording is capped at 30 seconds. When the limit is reached, transcription starts automatically.
 
+## System Tray
+
+Speed of Sound includes a system tray icon on desktops that support it, such as KDE Plasma and XFCE. This uses the
+standard [FreeDesktop specification](https://www.freedesktop.org/wiki/Specifications/StatusNotifierItem/),
+so it works with any compatible desktop. Left-clicking the icon opens the main window, right-clicking shows a context
+menu with options to start or stop listening, open the app, or quit.
+
+This is especially useful in combination with **Stay hidden on activation** and **Record in background**
+(see [Preferences](#preferences) below), which let the app run entirely in the background with the tray as your
+primary access point.
+
+!!! note "GNOME users"
+    Some GNOME-based distributions do not display status tray icons by default. On Ubuntu, the
+    [AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support/)
+    extension comes pre-installed and the tray icon will appear automatically. On other distributions,
+    like Fedora, you will need to install that extension manually to see the tray icon.
+
 ## Keyboard shortcuts
 
 Most shortcuts are only active when the Speed of Sound main window is open and focused. The exception is `Super+Z`
@@ -71,7 +88,8 @@ Speed of Sound to your system's startup applications, the app will be ready in t
 can begin dictating using the shortcut without any window appearing first.
 
 - Enable **Record in background** to keep the main window hidden during recordings. In this case, the pipeline runs
-entirely in the background. You can still access the window at any time from the dock.
+entirely in the background. You can still access the window at any time from the dock or the
+[system tray](#system-tray).
 
 - Enable **Hide instead of minimize** to hide the main window instead of minimizing it when not in use. This is useful
 on multi-workspace setups where you want the window to restore on the current workspace.
