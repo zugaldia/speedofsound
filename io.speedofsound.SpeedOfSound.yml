@@ -15,6 +15,7 @@ finish-args:
   - --socket=fallback-x11    # Show windows using X11 if Wayland is not available
   - --share=ipc              # Share IPC namespace with the host (needed for X11 performance)
   - --socket=pulseaudio      # Access to PulseAudio (includes mic input)
+  - --talk-name=org.kde.StatusNotifierWatcher  # System tray via StatusNotifier/AppIndicator
   - --env=JAVA_HOME=/app/jre # See: https://github.com/flathub/org.freedesktop.Sdk.Extension.openjdk25
 
 modules:
