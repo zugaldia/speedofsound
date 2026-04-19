@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.app.screens.main.MainViewModel
 import com.zugaldia.speedofsound.app.screens.main.MainWindow
 import com.zugaldia.speedofsound.app.screens.welcome.WelcomeWindow
 import com.zugaldia.speedofsound.app.settings.GioStore
+import com.zugaldia.speedofsound.app.status.StatusNotifierService
 import com.zugaldia.speedofsound.core.desktop.settings.PropertiesStore
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsStore
@@ -30,6 +31,7 @@ fun main(args: Array<String>) {
 class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Application(applicationId, flags) {
     private var mainWindow: MainWindow? = null
     private var isHoldingForHiddenStart = false
+    private var statusNotifierService: StatusNotifierService? = null
 
     private lateinit var settingsClient: SettingsClient
     private lateinit var portalsClient: PortalsClient
@@ -64,6 +66,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
             logger.info("Application activated.")
             loadIconResources()
             ensureMainWindow()
+            ensureStatusNotifier()
 
             val isFirstLaunch = !settingsClient.getWelcomeScreenShown()
             if (isFirstLaunch) {
@@ -85,6 +88,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
         onShutdown {
             logger.info("Application shutting down.")
+            statusNotifierService?.close()
             mainViewModel.shutdown()
         }
     }
@@ -122,6 +126,22 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
     private fun ensureMainWindow() {
         if (mainWindow == null) {
             mainWindow = MainWindow(this, mainViewModel, settingsClient, portalsClient)
+        }
+    }
+
+    private fun ensureStatusNotifier() {
+        if (statusNotifierService == null) {
+            statusNotifierService = StatusNotifierService(
+                onTrigger = { token ->
+                    token?.let { mainWindow?.setStartupId(it) }
+                    handleTrigger()
+                },
+                onOpen = { token ->
+                    token?.let { mainWindow?.setStartupId(it) }
+                    presentMainWindow()
+                },
+                onQuit = { quit() },
+            ).also { it.connect() }
         }
     }
 

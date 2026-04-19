@@ -78,6 +78,7 @@ apps:
       - audio-playback # Required alongside audio-record by Snap Store policy
       - alsa           # Java (javax.sound) uses ALSA
       - gsettings     # GSettings access for GioStore
+      - unity7        # StatusNotifier/AppIndicator support on non-GNOME desktops
     environment:
       JAVA_HOME: $SNAP/usr/lib/jvm/java-25-openjdk-amd64
       PATH: $SNAP/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
