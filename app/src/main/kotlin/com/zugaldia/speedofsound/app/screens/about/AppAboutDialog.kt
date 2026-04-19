@@ -34,7 +34,7 @@ fun buildAboutDialog(): AboutDialog {
     dialog.addAcknowledgementSection(
         "Built on the Shoulders of Giants",
         arrayOf(
-            "The Java-GI team https://github.com/jwharm/java-gi",
+            "The Java-GI team https://codeberg.org/java-gi/java-gi",
             "The Sherpa ONNX team https://github.com/k2-fsa/sherpa-onnx",
             "The Whisper team https://github.com/openai/whisper",
             "The dbus-java team https://github.com/hypfvieh/dbus-java",

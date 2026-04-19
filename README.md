@@ -55,7 +55,7 @@ To build the project from source and learn how to contribute, see [CONTRIBUTING.
 
 Speed of Sound stands on the shoulders of these excellent open source projects:
 
-- [Java-GI](https://github.com/jwharm/java-gi) — GTK/GNOME bindings for Java, enabling access to native libraries
+- [Java-GI](https://codeberg.org/java-gi/java-gi) — GTK/GNOME bindings for Java, enabling access to native libraries
   (including LibAdwaita and GStreamer) via the modern Panama framework.
 - [Sherpa ONNX](https://github.com/k2-fsa/sherpa-onnx) — On-device ASR (and more) using the performant ONNX Runtime,
   with pre-built models for Whisper, Parakeet, Canary, and many other popular models.
