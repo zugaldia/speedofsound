@@ -57,6 +57,21 @@
     </screenshots>
 
     <releases>
+        <release version="0.13.0" date="2026-04-21">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.13.0</url>
+            <description>
+                <p>
+                    Added a system tray icon with Start/Stop Listening, Open App, and Quit
+                    actions for quick control without opening the main window. New Disable
+                    Thinking option for LLM text providers reduces latency and cost on models
+                    that support reasoning, and a Test Connection button lets you verify
+                    credentials before saving. Fixed the app auto-quitting after a few seconds
+                    when "Stay hidden on activation" was enabled. Fixed a native resource leak
+                    where the Sherpa ONNX stream was not released on transcription failure.
+                    Updated Java-GI to 0.15.0 and Stargate to 0.5.0.
+                </p>
+            </description>
+        </release>
         <release version="0.12.0" date="2026-04-11">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.12.0</url>
             <description>
