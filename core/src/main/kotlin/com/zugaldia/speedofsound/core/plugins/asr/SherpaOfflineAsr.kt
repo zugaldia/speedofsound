@@ -111,17 +111,16 @@ abstract class SherpaOfflineAsr<Options : AsrPluginOptions>(
     override fun transcribe(request: AsrRequest): Result<AsrResponse> = runCatching {
         ensureRecognizerLanguage()
         val currentRecognizer = recognizer ?: error("Recognizer not initialized, plugin must be enabled first")
+        val stream = currentRecognizer.createStream()
         try {
-            val stream = currentRecognizer.createStream()
+            log.info("Transcribing with ${currentOptions.modelId}/$recognizerLanguage")
             val floatArray = AudioManager.convertPcm16ToFloat(request.audioData)
             stream.acceptWaveform(floatArray, request.audioInfo.sampleRate)
-
-            log.info("Transcribing with ${currentOptions.modelId}/$recognizerLanguage")
             currentRecognizer.decode(stream)
             val text = currentRecognizer.getResult(stream).text
-            stream.release()
             AsrResponse(text)
         } finally {
+            stream.release()
             log.info("Transcription completed.")
         }
     }
