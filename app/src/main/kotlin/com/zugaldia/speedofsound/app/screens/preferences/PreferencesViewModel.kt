@@ -64,6 +64,9 @@ class PreferencesViewModel(
     fun getAppendSpace(): Boolean = settingsClient.getAppendSpace()
     fun setAppendSpace(value: Boolean): Boolean = settingsClient.setAppendSpace(value)
 
+    fun getTextOutputMethod(): String = settingsClient.getTextOutputMethod()
+    fun setTextOutputMethod(value: String): Boolean = settingsClient.setTextOutputMethod(value)
+
     /*
      * Cloud Credentials page
      */

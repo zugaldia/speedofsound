@@ -3,9 +3,11 @@ package com.zugaldia.speedofsound.app.screens.main
 import com.zugaldia.speedofsound.app.APPEND_SPACE_TEXT
 import com.zugaldia.speedofsound.app.isGStreamerDisabled
 import com.zugaldia.speedofsound.app.plugins.recorder.GStreamerRecorder
+import com.zugaldia.speedofsound.app.plugins.textoutput.ClipboardTextOutput
+import com.zugaldia.speedofsound.app.plugins.textoutput.PortalTextOutput
+import com.zugaldia.speedofsound.app.plugins.textoutput.PortalTextOutputOptions
 import com.zugaldia.speedofsound.app.portals.PortalsSessionManager
 import com.zugaldia.speedofsound.app.portals.RemoteDesktopStatus
-import com.zugaldia.speedofsound.app.portals.TextUtils
 import com.zugaldia.speedofsound.app.settings.AsrProviderManager
 import com.zugaldia.speedofsound.app.settings.LlmProviderManager
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
@@ -19,9 +21,13 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_SECONDARY_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_TEXT_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_MODEL_PROVIDERS
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_SANITIZE_SPECIAL_CHARS
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_OUTPUT_METHOD
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_TEXT_PROCESSING_ENABLED
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_TYPING_DELAY_MS
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_VOICE_MODEL_PROVIDERS
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
+import com.zugaldia.speedofsound.core.desktop.settings.TEXT_OUTPUT_METHOD_CLIPBOARD
 import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.FatalStartupException
 import com.zugaldia.speedofsound.core.plugins.AppPluginCategory
@@ -31,6 +37,8 @@ import com.zugaldia.speedofsound.core.plugins.director.DirectorEvent
 import com.zugaldia.speedofsound.core.plugins.director.PipelineStage
 import com.zugaldia.speedofsound.core.plugins.recorder.JvmRecorder
 import com.zugaldia.speedofsound.core.plugins.recorder.RecorderEvent
+import com.zugaldia.speedofsound.core.plugins.textoutput.TextOutputPlugin
+import com.zugaldia.speedofsound.core.plugins.textoutput.TextOutputRequest
 import kotlin.system.exitProcess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +50,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
 import org.gnome.glib.GLib
 import org.slf4j.LoggerFactory
+import kotlin.time.Duration.Companion.milliseconds
 
 @Suppress("TooManyFunctions")
 class MainViewModel(
@@ -63,6 +72,16 @@ class MainViewModel(
     }
 
     private val director = DefaultDirector(registry, settingsClient.getDirectorOptions())
+
+    private val portalTextOutput = PortalTextOutput(
+        portalsClient = portalsClient,
+        options = PortalTextOutputOptions(
+            typingDelayMs = settingsClient.getTypingDelayMs().toLong(),
+            sanitizeSpecialChars = settingsClient.getSanitizeSpecialChars(),
+        ),
+    )
+
+    private val clipboardTextOutput = ClipboardTextOutput(portalsClient = portalsClient)
 
     private val portalsSessionManager = PortalsSessionManager(
         portalsClient = portalsClient,
@@ -89,6 +108,8 @@ class MainViewModel(
         registry.register(AppPluginCategory.RECORDER, recorder)
         asrProviderManager.registerAsrPlugins()
         llmProviderManager.registerLlmPlugins()
+        registry.register(AppPluginCategory.TEXT_OUTPUT, portalTextOutput)
+        registry.register(AppPluginCategory.TEXT_OUTPUT, clipboardTextOutput)
         registry.register(AppPluginCategory.DIRECTOR, director)
 
         collectDirectorEvents()
@@ -108,6 +129,7 @@ class MainViewModel(
                 registry.setActiveById(AppPluginCategory.RECORDER, recorder.id)
                 asrProviderManager.activateSelectedProvider()
                 llmProviderManager.activateSelectedProvider()
+                activateSelectedTextOutput()
                 registry.setActiveById(AppPluginCategory.DIRECTOR, DefaultDirector.ID)
                 portalsSessionManager.initialize(viewModelScope)
                 GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
@@ -254,6 +276,16 @@ class MainViewModel(
                 asrProviderManager.refreshProviderConfiguration()
                 llmProviderManager.refreshProviderConfiguration()
             }
+
+            KEY_TEXT_OUTPUT_METHOD -> activateSelectedTextOutput()
+
+            KEY_TYPING_DELAY_MS -> portalTextOutput.updateOptions(
+                portalTextOutput.getOptions().copy(typingDelayMs = settingsClient.getTypingDelayMs().toLong())
+            )
+
+            KEY_SANITIZE_SPECIAL_CHARS -> portalTextOutput.updateOptions(
+                portalTextOutput.getOptions().copy(sanitizeSpecialChars = settingsClient.getSanitizeSpecialChars())
+            )
         }
     }
 
@@ -262,6 +294,15 @@ class MainViewModel(
         val llmModelName = llmProviderManager.getCurrentProviderName()
         state.updateAsrModel(asrModelName)
         state.updateLlmModel(llmModelName)
+    }
+
+    private fun activateSelectedTextOutput() {
+        val pluginId = if (settingsClient.getTextOutputMethod() == TEXT_OUTPUT_METHOD_CLIPBOARD) {
+            ClipboardTextOutput.ID
+        } else {
+            PortalTextOutput.ID
+        }
+        registry.setActiveById(AppPluginCategory.TEXT_OUTPUT, pluginId)
     }
 
     fun startPortalsSession(token: String? = null) {
@@ -323,17 +364,20 @@ class MainViewModel(
         viewModelScope.launch {
             // Wait for the main window to go away before typing
             val postHideDelayMs = settingsClient.getPostHideDelayMs()
-            if (postHideDelayMs > 0) delay(postHideDelayMs.toLong())
+            if (postHideDelayMs > 0) delay(postHideDelayMs.toLong().milliseconds)
             val suffix = if (settingsClient.getAppendSpace()) APPEND_SPACE_TEXT else ""
             val finalText = event.finalResult.trim() + suffix
-            val sanitize = settingsClient.getSanitizeSpecialChars()
-            TextUtils.textToKeySym(finalText, filterNoKeySym = false, sanitize = sanitize)
-                .mapCatching { keySyms ->
-                    portalsClient.typeText(keySyms, settingsClient.getTypingDelayMs().toLong()).getOrThrow()
-                }
+            val textOutput = registry.getActive(AppPluginCategory.TEXT_OUTPUT) as? TextOutputPlugin<*>
+            if (textOutput == null) {
+                logger.error("No text output plugin active")
+                return@launch
+            }
+            textOutput.outputText(TextOutputRequest(finalText))
                 .onFailure { error ->
-                    logger.error("Error typing text: ${error.message}")
-                    portalsClient.showNotification(body = "Failed to type text: ${error.message ?: "Unknown error"}")
+                    logger.error("Error outputting text: ${error.message}")
+                    portalsClient.showNotification(
+                        body = "Failed to output text: ${error.message ?: "Unknown error"}"
+                    )
                 }
         }
     }

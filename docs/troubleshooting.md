@@ -28,8 +28,10 @@ However, not all desktop environments ship a backend that implements it
 
 **How to fix it:** We recommend reporting the missing support to your desktop environment's issue tracker.
 In the meantime, if possible, consider switching to a desktop environment that implements this portal (e.g. GNOME, KDE).
-We are also exploring alternatives such as clipboard-based text input.
-If that would be useful to you, [let us know](https://github.com/zugaldia/speedofsound/issues/19).
+
+!!! note "Clipboard method also requires the portal"
+    Switching to the Clipboard text output method does not work around a missing portal. The clipboard method
+    still uses the portal to issue the `Ctrl+V` paste shortcut.
 
 ### Non-Latin text produces only spaces and punctuation
 
@@ -38,11 +40,18 @@ and punctuation. Latin-script languages work fine.
 
 **Why this happens:** Speed of Sound sends keystrokes through the XDG Remote Desktop Portal.
 The compositor interprets them using the currently active keyboard layout. If no matching layout
-is active, non-Latin keysyms are silently dropped.
+is active, non-Latin key symbols are silently dropped.
 
-**How to fix it:** Add the appropriate keyboard layout in your system's keyboard or input source
-settings and switch to it before dictating. For example, on GNOME, this is under `Settings` → `Keyboard` →
-`Input Sources`. You can switch between input sources with `Super` + `Space`. 
+**How to fix it:** You have two options:
+
+1. **Add the matching keyboard layout.** Add the appropriate keyboard layout in your system's keyboard or input source
+   settings and switch to it before dictating. For example, on GNOME, this is under `Settings` → `Keyboard` →
+   `Input Sources`. You can switch between input sources with `Super` + `Space`.
+
+2. **Switch to the Clipboard output method.** Go to `Preferences` → `General` → `Output` → `Text output method`
+   and select **Clipboard**. This copies text to the clipboard and pastes it with `Ctrl+V` via the portal,
+   bypassing individual keystroke simulation, so non-Latin characters are delivered as-is regardless of your active
+   keyboard layout.
 
 ### Transcribed text is incomplete
 

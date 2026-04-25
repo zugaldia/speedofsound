@@ -76,10 +76,21 @@ language and switch between the two using the `Left Shift` and `Right Shift` key
     English, or Spanish from Spain vs. Colombia). If you need region-specific spelling or vocabulary,
     enable text polishing (see below) and instruct the LLM accordingly in the Personalization settings.
 
-!!! note "Non-Latin scripts require a matching keyboard layout"
-    If you dictate in a non-Latin script, make sure the matching keyboard layout is active on your system
-    before dictating. See [Troubleshooting](troubleshooting.md#non-latin-text-produces-only-spaces-and-punctuation)
+!!! note "Non-Latin scripts may require a matching keyboard layout"
+    If you dictate in a non-Latin script using the **Keyboard simulation** text output method (default), make sure the
+    matching keyboard layout is active on your system before dictating. The **Clipboard** method bypasses
+    this requirement. See [Troubleshooting](troubleshooting.md#non-latin-text-produces-only-spaces-and-punctuation)
     for details.
+
+**Output** — Two settings control how transcribed text is delivered to the active application:
+
+- **Text output method** — Choose between **Keyboard simulation** (default), which simulates keyboard input character by
+  character via the XDG Remote Desktop Portal, and **Clipboard**, which copies the text to the clipboard and pastes it
+  with `Ctrl+V` (also via the portal). The clipboard method is a useful fallback when the portal method drops or
+  reorders characters, or when dictating in non-Latin scripts where keystroke simulation does not work correctly.
+
+- **Append space after transcription** — Automatically inserts a trailing space after each result, which is useful
+  when dictating consecutive sentences independently.
 
 **App Behavior** — Configure the general application flow:
 
@@ -93,9 +104,6 @@ entirely in the background. You can still access the window at any time from the
 
 - Enable **Hide instead of minimize** to hide the main window instead of minimizing it when not in use. This is useful
 on multi-workspace setups where you want the window to restore on the current workspace.
-
-**Output** — Enable **Append space after transcription** to automatically insert a trailing space after each result,
-which is useful when dictating consecutive sentences independently.
 
 ### Model Library
 
@@ -133,8 +141,8 @@ style and add custom vocabulary entries such as names, technical terms, or acron
 ### Advanced
 
 Fine-tune low-level typing behavior. You can adjust the delay between hiding the main window and issuing keystrokes,
-as well as the delay between individual keystrokes. The defaults work well for most desktop environments and do not
-normally need to be changed.
+as well as the delay between individual keystrokes. These settings only apply when using the **Keyboard simulation**
+text output method. The defaults work well for most desktop environments and do not normally need to be changed.
 
 ### Import / Export
 

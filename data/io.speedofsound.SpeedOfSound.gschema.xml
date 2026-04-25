@@ -36,6 +36,11 @@
       <summary>Secondary language</summary>
       <description>ISO 639-1 code for the secondary language. Use left Shift for primary and right Shift for secondary language.</description>
     </key>
+    <key name="text-output-method" type="s">
+      <default>'portal'</default>
+      <summary>Text output method</summary>
+      <description>How transcribed text is delivered to the active application. 'portal' simulates keyboard input via the XDG Remote Desktop Portal. 'clipboard' copies the text to the clipboard and simulates Ctrl+V to paste it.</description>
+    </key>
     <key name="append-space" type="b">
       <default>false</default>
       <summary>Append space after transcription</summary>
@@ -109,7 +114,7 @@
     <key name="sanitize-special-chars" type="b">
       <default>false</default>
       <summary>Sanitize special characters</summary>
-      <description>When enabled, accented and special characters are replaced with their ASCII equivalents before typing. Enable this if your desktop portal does not correctly handle Unicode keysyms.</description>
+      <description>When enabled, accented and special characters are replaced with their ASCII equivalents before typing. Enable this if your desktop portal does not correctly handle Unicode key symbols.</description>
     </key>
     <key name="post-hide-delay-ms" type="i">
       <range min="0" max="1000"/>

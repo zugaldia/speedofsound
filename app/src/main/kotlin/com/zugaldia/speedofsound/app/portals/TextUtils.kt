@@ -3,11 +3,11 @@ package com.zugaldia.speedofsound.app.portals
 import org.gnome.gdk.Gdk
 
 object TextUtils {
-    private const val GDK_NO_KEYSYM_FLAG = 0x01000000
+    private const val GDK_NO_KEY_SYMBOL_FLAG = 0x01000000
 
     /**
      * Maps accented and special characters to their safe ASCII equivalents.
-     * This avoids issues with the remote desktop portal keysym handling.
+     * This avoids issues with the remote desktop portal key symbol handling.
      * Some characters map to empty strings to filter them out entirely.
      */
     private val SAFE_CHAR_MAP = mapOf(
@@ -39,14 +39,14 @@ object TextUtils {
         text.map { SAFE_CHAR_MAP.getOrDefault(it, it.toString()) }.joinToString("")
 
     /**
-     * Converts a Unicode code point to its GDK keysym value.
+     * Converts a Unicode code point to its GDK key symbol value.
      */
-    fun unicodeToKeySym(codePoint: Int): Int = Gdk.unicodeToKeyval(codePoint)
+    fun unicodeToKeySymbol(codePoint: Int): Int = Gdk.unicodeToKeyval(codePoint)
 
     /**
-     * Converts a GDK keysym value back to its Unicode code point.
+     * Converts a GDK key symbol value back to its Unicode code point.
      */
-    fun keySymToUnicode(keySym: Int): Int = Gdk.keyvalToUnicode(keySym)
+    fun keySymbolToUnicode(keySymbol: Int): Int = Gdk.keyvalToUnicode(keySymbol)
 
     /**
      * Converts a string of text into a list of GDK key symbols suitable for
@@ -55,27 +55,27 @@ object TextUtils {
      *
      * It also removes new lines to avoid accidentally triggering text input, typically found in chat applications.
      *
-     * When [filterNoKeySym] is true, characters with no corresponding native GDK keysym are
+     * When [filterNoKeySymbol] is true, characters with no corresponding native GDK key symbol are
      * dropped. Per the GDK docs, these are returned as (codePoint | 0x01000000), a valid Unicode
-     * keysym encoding that portals handle correctly. Defaults to false so all Unicode characters
+     * key symbol encoding that portals handle correctly. Defaults to false so all Unicode characters
      * (including CJK, Arabic, etc.) are passed through.
      *
      * When [sanitize] is true, accented and special characters are replaced with their ASCII
-     * equivalents via [SAFE_CHAR_MAP] before conversion. Defaults to false as Unicode keysyms
+     * equivalents via [SAFE_CHAR_MAP] before conversion. Defaults to false as Unicode key symbols
      * handle these characters correctly without substitution.
      */
-    fun textToKeySym(
+    fun textToKeySymbols(
         text: String,
-        filterNoKeySym: Boolean = false,
+        filterNoKeySymbol: Boolean = false,
         sanitize: Boolean = false,
     ): Result<List<Int>> = runCatching {
         (if (sanitize) sanitizeSpecialChars(text) else text)
             .lines().joinToString(" ") // Convert newlines to spaces
             .filterNot { it.isISOControl() } // Remove control characters (tabs, backspace, escape, etc.)
-            .map { unicodeToKeySym(it.code) } // Convert each character to its GDK keysym value
-            .let { keysyms ->
-                if (filterNoKeySym) keysyms.filter { (it and GDK_NO_KEYSYM_FLAG) == 0 }
-                else keysyms
+            .map { unicodeToKeySymbol(it.code) } // Convert each character to its GDK key symbol value
+            .let { keySymbols ->
+                if (filterNoKeySymbol) keySymbols.filter { (it and GDK_NO_KEY_SYMBOL_FLAG) == 0 }
+                else keySymbols
             }
     }
 }

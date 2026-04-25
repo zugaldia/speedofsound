@@ -38,6 +38,11 @@ const val DEFAULT_STAY_HIDDEN_ON_ACTIVATION = false
 const val KEY_APPEND_SPACE = "append-space"
 const val DEFAULT_APPEND_SPACE = false
 
+const val KEY_TEXT_OUTPUT_METHOD = "text-output-method"
+const val TEXT_OUTPUT_METHOD_PORTAL = "portal"
+const val TEXT_OUTPUT_METHOD_CLIPBOARD = "clipboard"
+const val DEFAULT_TEXT_OUTPUT_METHOD = TEXT_OUTPUT_METHOD_PORTAL
+
 // Cloud Credentials page
 
 const val KEY_CREDENTIALS = "credentials"

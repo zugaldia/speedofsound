@@ -23,6 +23,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.freedesktop.dbus.DBusPath
 import org.slf4j.LoggerFactory
+import kotlin.time.Duration.Companion.milliseconds
 
 private const val SHORTCUT_ID = "$APPLICATION_SHORT-trigger"
 private const val SHORTCUT_DESCRIPTION = "Start or stop voice typing"
@@ -158,7 +159,7 @@ class PortalsClient {
     /**
      * Simulates keyboard input by sending each character as a key press/release pair.
      *
-     * @param text List of X11 keysym values to type, one per character.
+     * @param text List of X11 key symbol values to type, one per character.
      * @param delayMs Delay in milliseconds between consecutive keystrokes. Set to 0 to disable.
      * Increase this if characters are dropped or appear out of order (or like a slower typing effect).
      */
@@ -167,7 +168,20 @@ class PortalsClient {
         for (key in text) {
             portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.PRESSED).getOrThrow()
             portal.remoteDesktop.notifyKeyboardKeySym(key, InputState.RELEASED).getOrThrow()
-            if (delayMs > 0) delay(delayMs)
+            if (delayMs > 0) delay(delayMs.milliseconds)
         }
+    }
+
+    /**
+     * Simulates a keyboard shortcut by holding a modifier key while pressing another key.
+     *
+     * @param modifierKeySymbol X11 key symbol for the modifier key (e.g., Control_L = 0xFFE3).
+     * @param keySymbol X11 key symbol for the key to press while the modifier is held.
+     */
+    fun typeKeyCombination(modifierKeySymbol: Int, keySymbol: Int): Result<Unit> = runCatching {
+        portal.remoteDesktop.notifyKeyboardKeySym(modifierKeySymbol, InputState.PRESSED).getOrThrow()
+        portal.remoteDesktop.notifyKeyboardKeySym(keySymbol, InputState.PRESSED).getOrThrow()
+        portal.remoteDesktop.notifyKeyboardKeySym(keySymbol, InputState.RELEASED).getOrThrow()
+        portal.remoteDesktop.notifyKeyboardKeySym(modifierKeySymbol, InputState.RELEASED).getOrThrow()
     }
 }
