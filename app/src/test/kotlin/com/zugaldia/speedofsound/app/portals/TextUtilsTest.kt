@@ -8,11 +8,11 @@ import kotlin.test.assertTrue
 class TextUtilsTest {
 
     @Test
-    fun `unicodeToKeySym and keySymToUnicode round-trip for plain English`() {
+    fun `unicodeToKeySymbol and keySymbolToUnicode round-trip for plain English`() {
         val input = "Using my voice, I can type at the speed of sound."
         for (char in input) {
-            val keySym = TextUtils.unicodeToKeySym(char.code)
-            val roundTripped = TextUtils.keySymToUnicode(keySym)
+            val keySymbol = TextUtils.unicodeToKeySymbol(char.code)
+            val roundTripped = TextUtils.keySymbolToUnicode(keySymbol)
             val codeHex = char.code.toString(16).uppercase()
             assertEquals(char.code, roundTripped, "Round-trip failed for '$char' (U+$codeHex)")
         }
@@ -28,27 +28,27 @@ class TextUtilsTest {
     }
 
     @Test
-    fun `textToKeySym succeeds for plain English`() {
+    fun `textToKeySymbols succeeds for plain English`() {
         val input = "Using my voice, I can type at the speed of sound."
-        val result = TextUtils.textToKeySym(input, filterNoKeySym = false)
+        val result = TextUtils.textToKeySymbols(input, filterNoKeySymbol = false)
         assertTrue(result.isSuccess)
         assertEquals(input.length, result.getOrThrow().size)
     }
 
     @Test
-    fun `textToKeySym succeeds for all languages in sample`() {
+    fun `textToKeySymbols succeeds for all languages in sample`() {
         val sample = loadSample()
-        val result = TextUtils.textToKeySym(sample, filterNoKeySym = false)
+        val result = TextUtils.textToKeySymbols(sample, filterNoKeySymbol = false)
         assertTrue(result.isSuccess)
         assertEquals(sample.length, result.getOrThrow().size)
     }
 
     @Test
-    fun `unicodeToKeySym and keySymToUnicode round-trip for all characters in sample`() {
+    fun `unicodeToKeySymbol and keySymbolToUnicode round-trip for all characters in sample`() {
         val sample = loadSample()
         for (char in sample) {
-            val keySym = TextUtils.unicodeToKeySym(char.code)
-            val roundTripped = TextUtils.keySymToUnicode(keySym)
+            val keySymbol = TextUtils.unicodeToKeySymbol(char.code)
+            val roundTripped = TextUtils.keySymbolToUnicode(keySymbol)
             val codeHex = char.code.toString(16).uppercase()
             assertEquals(char.code, roundTripped, "Round-trip failed for '$char' (U+$codeHex)")
         }

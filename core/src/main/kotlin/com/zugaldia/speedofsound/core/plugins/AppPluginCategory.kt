@@ -7,5 +7,6 @@ enum class AppPluginCategory {
     RECORDER,
     ASR,
     LLM,
-    DIRECTOR
+    DIRECTOR,
+    TEXT_OUTPUT
 }

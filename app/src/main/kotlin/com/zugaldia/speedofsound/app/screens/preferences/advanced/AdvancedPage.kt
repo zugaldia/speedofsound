@@ -19,7 +19,7 @@ class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPag
         sanitizeSpecialCharsRow = SwitchRow().apply {
             title = "Sanitize Special Characters"
             subtitle = "Replace accented and special characters with ASCII equivalents before typing. " +
-                    "Enable this if your desktop portal does not correctly handle Unicode keysyms."
+                    "Enable this if your desktop portal does not correctly handle Unicode key symbols."
             active = viewModel.getSanitizeSpecialChars()
             onNotify("active") {
                 viewModel.setSanitizeSpecialChars(active)
@@ -51,7 +51,7 @@ class AdvancedPage(private val viewModel: PreferencesViewModel) : PreferencesPag
 
         val group = PreferencesGroup().apply {
             title = "Typing"
-            description = "Settings on this section control low-level typing behavior. " +
+            description = "These settings only apply when using the Desktop Portal text output method. " +
                     "The defaults are safe for most desktop environments and generally do not need to be changed."
             add(sanitizeSpecialCharsRow)
             add(postHideDelayRow)

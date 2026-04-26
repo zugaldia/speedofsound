@@ -176,6 +176,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_STAY_HIDDEN_ON_ACTIVATION)
         }
 
+    fun getTextOutputMethod(): String =
+        settingsStore.getString(KEY_TEXT_OUTPUT_METHOD, DEFAULT_TEXT_OUTPUT_METHOD)
+
+    fun setTextOutputMethod(value: String): Boolean =
+        settingsStore.setString(KEY_TEXT_OUTPUT_METHOD, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_TEXT_OUTPUT_METHOD)
+        }
+
     /*
      * Cloud Credentials page
      */

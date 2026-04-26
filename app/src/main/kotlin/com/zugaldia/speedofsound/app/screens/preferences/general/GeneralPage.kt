@@ -25,6 +25,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val hideInsteadOfMinimizeRow: SwitchRow
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
+    private val textOutputMethodRow: TextOutputMethodComboRow
     private val appendSpaceRow: SwitchRow
     private val shortcutManualRow: ActionRow
     private val shortcutSetupRow: ActionRow
@@ -91,6 +92,23 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             add(secondaryComboRow)
         }
 
+        textOutputMethodRow = TextOutputMethodComboRow(
+            getMethod = { viewModel.getTextOutputMethod() },
+            setMethod = { viewModel.setTextOutputMethod(it) },
+        )
+
+        appendSpaceRow = SwitchRow().apply {
+            title = "Append space after transcription"
+            subtitle = "Useful when dictating consecutive sentences independently."
+            active = viewModel.getAppendSpace()
+        }
+
+        val outputGroup = PreferencesGroup().apply {
+            title = "Output"
+            add(textOutputMethodRow)
+            add(appendSpaceRow)
+        }
+
         stayHiddenOnActivationRow = SwitchRow().apply {
             title = "Stay hidden on activation"
             subtitle = "Launch without showing the main window. Use the shortcut to start voice typing."
@@ -116,27 +134,18 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             add(hideInsteadOfMinimizeRow)
         }
 
-        appendSpaceRow = SwitchRow().apply {
-            title = "Append space after transcription"
-            subtitle = "Useful when dictating consecutive sentences independently."
-            active = viewModel.getAppendSpace()
-        }
-
-        val outputGroup = PreferencesGroup().apply {
-            title = "Output"
-            add(appendSpaceRow)
-        }
-
         add(globalShortcutGroup)
         if (isSandboxed()) setupGlobalShortcutsSession() else showManualSetupRow()
 
         add(languageGroup)
-        add(behaviorGroup)
         add(outputGroup)
+        add(behaviorGroup)
 
         // Set up notifications after all widgets are initialized
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
+        textOutputMethodRow.setupNotifications()
+        appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
         stayHiddenOnActivationRow.onNotify("active") {
             viewModel.setStayHiddenOnActivation(stayHiddenOnActivationRow.active)
         }
@@ -144,16 +153,16 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         hideInsteadOfMinimizeRow.onNotify("active") {
             viewModel.setHideInsteadOfMinimize(hideInsteadOfMinimizeRow.active)
         }
-        appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
     }
 
     fun refresh() {
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
+        textOutputMethodRow.refresh()
+        appendSpaceRow.active = viewModel.getAppendSpace()
         stayHiddenOnActivationRow.active = viewModel.getStayHiddenOnActivation()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         hideInsteadOfMinimizeRow.active = viewModel.getHideInsteadOfMinimize()
-        appendSpaceRow.active = viewModel.getAppendSpace()
     }
 
     /*
