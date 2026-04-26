@@ -3,13 +3,12 @@ package com.zugaldia.speedofsound.app.plugins.textoutput
 import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
 import com.zugaldia.speedofsound.core.plugins.textoutput.TextOutputPlugin
 import com.zugaldia.speedofsound.core.plugins.textoutput.TextOutputRequest
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.gnome.gdk.Display
 import org.gnome.glib.GLib
+import org.slf4j.LoggerFactory
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Text output plugin that copies text to the system clipboard and simulates Ctrl+V to paste it.
@@ -20,9 +19,11 @@ import kotlin.time.Duration.Companion.milliseconds
  */
 class ClipboardTextOutput(
     private val portalsClient: PortalsClient,
-    options: ClipboardTextOutputOptions = ClipboardTextOutputOptions(),
+    options: ClipboardTextOutputOptions = ClipboardTextOutputOptions,
 ) : TextOutputPlugin<ClipboardTextOutputOptions>(options) {
     override val id: String = ID
+
+    private val logger = LoggerFactory.getLogger(ClipboardTextOutput::class.java)
 
     companion object {
         const val ID = "TEXT_OUTPUT_CLIPBOARD"
@@ -30,9 +31,11 @@ class ClipboardTextOutput(
         private const val KEY_SYMBOL_V = 0x0076
     }
 
-    override suspend fun outputText(request: TextOutputRequest): Result<Unit> = runCatching {
+    override suspend fun prepareText(request: TextOutputRequest): Result<Unit> = runCatching {
         setClipboardText(request.text)
-        delay(currentOptions.pasteDelayMs.milliseconds)
+    }
+
+    override suspend fun outputText(request: TextOutputRequest): Result<Unit> = runCatching {
         portalsClient.typeKeyCombination(KEY_SYMBOL_CONTROL_L, KEY_SYMBOL_V).getOrThrow()
     }
 
@@ -42,6 +45,7 @@ class ClipboardTextOutput(
             try {
                 val display = Display.getDefault() ?: throw IllegalStateException("No GDK display available")
                 display.getClipboard().setText(text)
+                logger.info("Set clipboard text: $text")
                 cont.resume(Unit)
             } catch (e: Exception) {
                 cont.resumeWithException(e)

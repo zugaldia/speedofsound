@@ -359,20 +359,38 @@ class MainViewModel(
 
     private fun onPipelineCompleted(event: DirectorEvent.PipelineCompleted) {
         logger.info("Pipeline completed: $event")
-        hideAndReset()
-        if (event.finalResult.isBlank()) return
+        if (event.finalResult.isBlank()) {
+            hideAndReset()
+            return
+        }
+
+        val suffix = if (settingsClient.getAppendSpace()) APPEND_SPACE_TEXT else ""
+        val finalText = event.finalResult.trim() + suffix
+        val textOutput = registry.getActive(AppPluginCategory.TEXT_OUTPUT) as? TextOutputPlugin<*>
+        if (textOutput == null) {
+            logger.error("No text output plugin active")
+            hideAndReset()
+            return
+        }
+
+        val request = TextOutputRequest(finalText)
         viewModelScope.launch {
-            // Wait for the main window to go away before typing
+            // Clipboard (and similar focus-dependent operations) must be set while this window
+            // still owns focus, before hiding, otherwise Wayland rejects the clipboard write.
+            textOutput.prepareText(request)
+                .onFailure { error ->
+                    val message = "Failed to prepare text: ${error.message ?: "Unknown error"}"
+                    logger.error(message)
+                    portalsClient.showNotification(body = message)
+                    GLib.idleAdd(GLib.PRIORITY_DEFAULT) { hideAndReset(); false }
+                    return@launch
+                }
+
+            GLib.idleAdd(GLib.PRIORITY_DEFAULT) { hideAndReset(); false }
+
             val postHideDelayMs = settingsClient.getPostHideDelayMs()
             if (postHideDelayMs > 0) delay(postHideDelayMs.toLong().milliseconds)
-            val suffix = if (settingsClient.getAppendSpace()) APPEND_SPACE_TEXT else ""
-            val finalText = event.finalResult.trim() + suffix
-            val textOutput = registry.getActive(AppPluginCategory.TEXT_OUTPUT) as? TextOutputPlugin<*>
-            if (textOutput == null) {
-                logger.error("No text output plugin active")
-                return@launch
-            }
-            textOutput.outputText(TextOutputRequest(finalText))
+            textOutput.outputText(request)
                 .onFailure { error ->
                     logger.error("Error outputting text: ${error.message}")
                     portalsClient.showNotification(
