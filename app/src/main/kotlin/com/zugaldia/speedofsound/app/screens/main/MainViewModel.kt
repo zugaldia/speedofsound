@@ -379,9 +379,8 @@ class MainViewModel(
             // still owns focus, before hiding, otherwise Wayland rejects the clipboard write.
             textOutput.prepareText(request)
                 .onFailure { error ->
-                    val message = "Failed to prepare text: ${error.message ?: "Unknown error"}"
-                    logger.error(message)
-                    portalsClient.showNotification(body = message)
+                    logger.error("Failed to prepare text: ${error.message}")
+                    portalsClient.showNotification(body = "Failed to prepare text: ${error.message ?: "Unknown error"}")
                     GLib.idleAdd(GLib.PRIORITY_DEFAULT) { hideAndReset(); false }
                     return@launch
                 }
@@ -393,9 +392,7 @@ class MainViewModel(
             textOutput.outputText(request)
                 .onFailure { error ->
                     logger.error("Error outputting text: ${error.message}")
-                    portalsClient.showNotification(
-                        body = "Failed to output text: ${error.message ?: "Unknown error"}"
-                    )
+                    portalsClient.showNotification(body = "Failed to output text: ${error.message ?: "Unknown error"}")
                 }
         }
     }

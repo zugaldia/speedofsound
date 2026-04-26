@@ -6,7 +6,6 @@ import com.zugaldia.speedofsound.core.plugins.textoutput.TextOutputRequest
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.gnome.gdk.Display
 import org.gnome.glib.GLib
-import org.slf4j.LoggerFactory
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -22,8 +21,6 @@ class ClipboardTextOutput(
     options: ClipboardTextOutputOptions = ClipboardTextOutputOptions,
 ) : TextOutputPlugin<ClipboardTextOutputOptions>(options) {
     override val id: String = ID
-
-    private val logger = LoggerFactory.getLogger(ClipboardTextOutput::class.java)
 
     companion object {
         const val ID = "TEXT_OUTPUT_CLIPBOARD"
@@ -45,7 +42,6 @@ class ClipboardTextOutput(
             try {
                 val display = Display.getDefault() ?: throw IllegalStateException("No GDK display available")
                 display.getClipboard().setText(text)
-                logger.info("Set clipboard text: $text")
                 cont.resume(Unit)
             } catch (e: Exception) {
                 cont.resumeWithException(e)
