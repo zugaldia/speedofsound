@@ -3,13 +3,17 @@ package com.zugaldia.speedofsound.app.screens.main
 import com.zugaldia.speedofsound.app.DEFAULT_BOX_SPACING
 import com.zugaldia.speedofsound.app.DEFAULT_MARGIN
 import com.zugaldia.speedofsound.app.SEPARATOR_CHARACTER
+import org.gnome.gdk.Cursor
 import org.gnome.gtk.Align
 import org.gnome.gtk.Box
+import org.gnome.gtk.GestureClick
 import org.gnome.gtk.Label
 import org.gnome.gtk.Orientation
 import org.gnome.pango.EllipsizeMode
 
-class StatusWidget : Box() {
+class StatusWidget(
+    private val onLanguageClicked: () -> Unit,
+) : Box() {
     private val asrModelLabel: Label
     private val llmModelSeparator: Label
     private val llmModelLabel: Label
@@ -41,7 +45,12 @@ class StatusWidget : Box() {
 
         append(createStatusLabel(SEPARATOR_CHARACTER, isDimmed = true))
 
-        languageLabel = createStatusLabel("", isDimmed = true)
+        languageLabel = createStatusLabel("", isDimmed = true).also {
+            it.cursor = Cursor.fromName("pointer", null)
+            it.addController(GestureClick().apply {
+                onReleased { _, _, _ -> onLanguageClicked() }
+            })
+        }
         append(languageLabel)
     }
 
