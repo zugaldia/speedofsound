@@ -66,7 +66,7 @@ class MainWindow(
         portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
         notSupportedBanner = buildNotSupportedBannerWidget { viewModel.openUri(APPLICATION_URL_TROUBLESHOOTING) }
         audioWidget = AudioWidget(onToggle = { viewModel.toggleListening() })
-        statusWidget = StatusWidget()
+        statusWidget = StatusWidget(onLanguageClicked = { viewModel.onLanguageToggled() })
 
         val contentBox = Box.builder()
             .setOrientation(Orientation.VERTICAL)

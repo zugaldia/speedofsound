@@ -329,6 +329,11 @@ class MainViewModel(
         director.updateOptions(director.getOptions().copy(language = language))
     }
 
+    fun onLanguageToggled() {
+        val primaryLanguage = languageFromIso2(settingsClient.getDefaultLanguage()) ?: DEFAULT_LANGUAGE
+        if (state.currentLanguage() == primaryLanguage) onSecondaryLanguageSelected() else onPrimaryLanguageSelected()
+    }
+
     private fun onSecondaryLanguageUpdated() {
         val primaryLanguage = languageFromIso2(settingsClient.getDefaultLanguage()) ?: DEFAULT_LANGUAGE
         if (state.currentLanguage() == primaryLanguage) return
