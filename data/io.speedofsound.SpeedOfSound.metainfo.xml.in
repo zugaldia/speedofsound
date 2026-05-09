@@ -57,6 +57,18 @@
     </screenshots>
 
     <releases>
+        <release version="0.14.0" date="2026-05-09">
+            <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.14.0</url>
+            <description>
+                <p>
+                    Added clipboard output as an alternative to keyboard simulation — useful when
+                    the XDG Remote Desktop Portal is unavailable or restricted. Tap the language
+                    label in the main window to quickly toggle between your primary and secondary
+                    language without opening Preferences. Updated the Gradle wrapper to 9.4.1 to
+                    match the Flatpak SDK extension.
+                </p>
+            </description>
+        </release>
         <release version="0.13.0" date="2026-04-21">
             <url type="details">https://github.com/zugaldia/speedofsound/releases/tag/v0.13.0</url>
             <description>
