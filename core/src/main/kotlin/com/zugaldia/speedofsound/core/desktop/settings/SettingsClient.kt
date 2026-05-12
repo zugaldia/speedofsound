@@ -99,8 +99,17 @@ class SettingsClient(val settingsStore: SettingsStore) {
         enableTextProcessing = getTextProcessingEnabled(),
         language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE,
         customVocabulary = getCustomVocabulary(),
-        customContext = getCustomContext()
+        customContext = getCustomContext(),
+        maxRecordingDurationMs = getMaxRecordingDurationMs()
     )
+
+    fun getMaxRecordingDurationMs(): Long =
+        settingsStore.getInt(KEY_MAX_RECORDING_DURATION_S, DEFAULT_MAX_RECORDING_DURATION_S).toLong() * 1000L
+
+    fun setMaxRecordingDurationMs(value: Long): Boolean =
+        settingsStore.setInt(KEY_MAX_RECORDING_DURATION_S, (value / 1000L).toInt()).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_MAX_RECORDING_DURATION_S)
+        }
 
     /*
      * Not exposed to the UI

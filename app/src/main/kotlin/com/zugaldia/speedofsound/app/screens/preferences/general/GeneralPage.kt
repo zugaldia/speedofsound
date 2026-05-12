@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
+import org.gnome.adw.SpinRow
 import org.gnome.adw.SwitchRow
 import org.gnome.glib.GLib
 import org.gnome.gtk.Align
@@ -26,6 +27,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
     private val textOutputMethodRow: TextOutputMethodComboRow
+    private val maxRecordingDurationRow: SpinRow
     private val appendSpaceRow: SwitchRow
     private val shortcutManualRow: ActionRow
     private val shortcutSetupRow: ActionRow
@@ -103,9 +105,17 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             active = viewModel.getAppendSpace()
         }
 
+        maxRecordingDurationRow = SpinRow.withRange(RECORDING_DURATION_MIN, RECORDING_DURATION_MAX, RECORDING_DURATION_STEP).apply {
+            title = "Recording Timeout"
+            subtitle = "Maximum recording duration in seconds."
+            digits = 0
+            value = viewModel.getMaxRecordingDurationS().toDouble()
+        }
+
         val outputGroup = PreferencesGroup().apply {
             title = "Output"
             add(textOutputMethodRow)
+            add(maxRecordingDurationRow)
             add(appendSpaceRow)
         }
 
@@ -145,6 +155,9 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         primaryComboRow.setupNotifications()
         secondaryComboRow.setupNotifications()
         textOutputMethodRow.setupNotifications()
+        maxRecordingDurationRow.onNotify("value") {
+            viewModel.setMaxRecordingDurationS(maxRecordingDurationRow.value.toInt())
+        }
         appendSpaceRow.onNotify("active") { viewModel.setAppendSpace(appendSpaceRow.active) }
         stayHiddenOnActivationRow.onNotify("active") {
             viewModel.setStayHiddenOnActivation(stayHiddenOnActivationRow.active)
@@ -159,6 +172,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         primaryComboRow.refresh()
         secondaryComboRow.refresh()
         textOutputMethodRow.refresh()
+        maxRecordingDurationRow.value = viewModel.getMaxRecordingDurationS().toDouble()
         appendSpaceRow.active = viewModel.getAppendSpace()
         stayHiddenOnActivationRow.active = viewModel.getStayHiddenOnActivation()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
@@ -286,5 +300,11 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private fun createHelpButton(): Button = Button.withLabel("Help").apply {
         valign = Align.CENTER
         onClicked { scope.launch { viewModel.openDocumentationUri() } }
+    }
+
+    companion object {
+        private const val RECORDING_DURATION_MIN = 10.0
+        private const val RECORDING_DURATION_MAX = 600.0
+        private const val RECORDING_DURATION_STEP = 5.0
     }
 }

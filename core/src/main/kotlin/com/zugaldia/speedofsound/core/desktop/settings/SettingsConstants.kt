@@ -35,6 +35,9 @@ const val DEFAULT_HIDE_INSTEAD_OF_MINIMIZE = false
 const val KEY_STAY_HIDDEN_ON_ACTIVATION = "stay-hidden-on-activation"
 const val DEFAULT_STAY_HIDDEN_ON_ACTIVATION = false
 
+const val KEY_MAX_RECORDING_DURATION_S = "max-recording-duration-s"
+const val DEFAULT_MAX_RECORDING_DURATION_S = 30
+
 const val KEY_APPEND_SPACE = "append-space"
 const val DEFAULT_APPEND_SPACE = false
 
