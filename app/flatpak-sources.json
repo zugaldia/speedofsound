@@ -3473,150 +3473,150 @@
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/adw/0.15.0/adw-0.15.0.jar",
-    "sha512": "c40c1f7653daffbe31338a0204213385acb0cd003095922db5144573d0d2a358bb6b19a583f95e637ec0040ac87a64e96db2a9b0e2b8f23c053b9101366b4f72",
-    "dest": "offline-repository/org/java-gi/adw/0.15.0",
-    "dest-filename": "adw-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/adw/1.0.0-RC1/adw-1.0.0-RC1.jar",
+    "sha512": "c92f599f1b9d36ca20e4fc05e6b987a2b251b4c2e4f2280c7ec0f75eedbd08a941d3d0a097700d6efb8df0d12732053e95b21d9f650ca4fac3aa321e535e2f5c",
+    "dest": "offline-repository/org/java-gi/adw/1.0.0-RC1",
+    "dest-filename": "adw-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/adw/0.15.0/adw-0.15.0.module",
-    "sha512": "653ef0b30b893ded121f485c56892a6a0d8f9ece98c9f2d2e4d79a62183d7f0f170569c0575d9e85de1962c771445a54c1ea206e9cd062d763fd6a58d6b57501",
-    "dest": "offline-repository/org/java-gi/adw/0.15.0",
-    "dest-filename": "adw-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/adw/1.0.0-RC1/adw-1.0.0-RC1.module",
+    "sha512": "319fe9882134f3ab440cdf01a9e1c95b3e755c053bad36d99e664ea64373013b6dd040c2b9d9ac26450f5afe65ddb7dc0a4ebf9fe0d82ebca2d9b4139efb8e62",
+    "dest": "offline-repository/org/java-gi/adw/1.0.0-RC1",
+    "dest-filename": "adw-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/adw/0.15.0/adw-0.15.0.pom",
-    "sha512": "d90fb2e8f7f3173cc43ac877d974947d83b091473f4fb01426b0d6a78307bf52771be3285f5e410cd0f25f55ea3b85b61c2fec32bd2fe6094e009381604f2956",
-    "dest": "offline-repository/org/java-gi/adw/0.15.0",
-    "dest-filename": "adw-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/adw/1.0.0-RC1/adw-1.0.0-RC1.pom",
+    "sha512": "ae5b68c81e2bb5ce0486ca5e079558bbba4571cfde76a53476a07fca8ca0562fa87258e8d3ebb6401f84cd9b85ce6819e5906a80553e0d6e27e621335c5e1b0a",
+    "dest": "offline-repository/org/java-gi/adw/1.0.0-RC1",
+    "dest-filename": "adw-1.0.0-RC1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gdkpixbuf/0.15.0/gdkpixbuf-0.15.0.jar",
-    "sha512": "f7086ddef4af770fe845afdef3e7441ce42c2541f448690f78e7b135bd4ceaa7aba38cb317a446c8313c67200b919533577808078a86eb4233064b7a387fb7de",
-    "dest": "offline-repository/org/java-gi/gdkpixbuf/0.15.0",
-    "dest-filename": "gdkpixbuf-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gdkpixbuf/1.0.0-RC1/gdkpixbuf-1.0.0-RC1.jar",
+    "sha512": "d13af165f0d7a32b5271141af1f25232454955bc57773b110f04543570069e531c39d8182a1bdf7bf9377ad41ffaeaa1514c92c922b973a5da228bad8dc05384",
+    "dest": "offline-repository/org/java-gi/gdkpixbuf/1.0.0-RC1",
+    "dest-filename": "gdkpixbuf-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gdkpixbuf/0.15.0/gdkpixbuf-0.15.0.module",
-    "sha512": "991d7e546be54c2e06be94c12401f4c5e02386d506057a3e6939fefec7a1a4b5968eb16d0a9d733ac410a6dc340f9030c37fd4d829558b49b7b50569ca0ea412",
-    "dest": "offline-repository/org/java-gi/gdkpixbuf/0.15.0",
-    "dest-filename": "gdkpixbuf-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gdkpixbuf/1.0.0-RC1/gdkpixbuf-1.0.0-RC1.module",
+    "sha512": "d74b97d5a36ba72c14f6b379468900b7eb8fcabded03792c1b4c2512666697fddab80dfe7b7e554410a41463b020f1d594d2f5ccd0298e2bae9b254d20cdc052",
+    "dest": "offline-repository/org/java-gi/gdkpixbuf/1.0.0-RC1",
+    "dest-filename": "gdkpixbuf-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gdkpixbuf/0.15.0/gdkpixbuf-0.15.0.pom",
-    "sha512": "edf7e052901d390530788fd0c45b7ffe3f7de34a1c9e016f65c94db38bc6d2aac317556fca193795dcd5179c8b7514bf3c42a29f29729821c166af805c6f4b2d",
-    "dest": "offline-repository/org/java-gi/gdkpixbuf/0.15.0",
-    "dest-filename": "gdkpixbuf-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gdkpixbuf/1.0.0-RC1/gdkpixbuf-1.0.0-RC1.pom",
+    "sha512": "60be51753287bbf8772e0e9b642e5649c53f6fb414f56672690fa524408e1b6a39767838e2ae9c732a9fd93c4d4ddd122c6a18217724c27ce97d266100412390",
+    "dest": "offline-repository/org/java-gi/gdkpixbuf/1.0.0-RC1",
+    "dest-filename": "gdkpixbuf-1.0.0-RC1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/glib/0.15.0/glib-0.15.0.jar",
-    "sha512": "f1b5b692a7861b0c8f01b63689180d1cd023d6b82b8e9e49282b2c61b2dca4a7d2cccc09a841635eaa196025c60801f4c0c4757124f5fabfbe63b7128afa36ca",
-    "dest": "offline-repository/org/java-gi/glib/0.15.0",
-    "dest-filename": "glib-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/glib/1.0.0-RC1/glib-1.0.0-RC1.jar",
+    "sha512": "9d5770795d0dbe7add7b74ba144b31ea6a13ebe669e474b9b2218a83be909f77830e19e2843cb6e24e2e2098653b4a22937cdf243c24c66a3dcfb742ba7a00a9",
+    "dest": "offline-repository/org/java-gi/glib/1.0.0-RC1",
+    "dest-filename": "glib-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/glib/0.15.0/glib-0.15.0.module",
-    "sha512": "a64e4a0daf1410a1ae0995a8d918af1dcfbb98564b5a59229d5b410a64295ff385fa0bd463a1af966aa776ec047a186d5d3c8aa1baaaf33996d1434c8d0bf106",
-    "dest": "offline-repository/org/java-gi/glib/0.15.0",
-    "dest-filename": "glib-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/glib/1.0.0-RC1/glib-1.0.0-RC1.module",
+    "sha512": "819e2a8738ca0567859d0ca9fad83cf001df3364eb8e3e51ba3cafbb8761ea3e6f115e1d10e26421ee9a9fe2c61788d9d96eb7790836e3e5e60864af7ae952c5",
+    "dest": "offline-repository/org/java-gi/glib/1.0.0-RC1",
+    "dest-filename": "glib-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/glib/0.15.0/glib-0.15.0.pom",
-    "sha512": "41d235baeaaadd136f68685f5b54680844860ac9465a7a973fff45bdce765a6ec7c750c2a6349a1b72f32be86946806c5deab8ff9770434a87236ef95b25504b",
-    "dest": "offline-repository/org/java-gi/glib/0.15.0",
-    "dest-filename": "glib-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/glib/1.0.0-RC1/glib-1.0.0-RC1.pom",
+    "sha512": "e43b18008e9e37071635f5da60fc20cab179739fc8633b8cf27d6bed2af57efc260cadc61cfb22164a017626cb66ae18d543f73a98a9991e53338beb252cccfd",
+    "dest": "offline-repository/org/java-gi/glib/1.0.0-RC1",
+    "dest-filename": "glib-1.0.0-RC1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gstreamer/0.15.0/gstreamer-0.15.0.jar",
-    "sha512": "c347bc76efbff4eaed2d78d1c30d9bcb37f19ef147b813ca2d004679b808e0f1e461fe505188badab762453aa1156863d986beb0cdc20d4919e035294a2d210b",
-    "dest": "offline-repository/org/java-gi/gstreamer/0.15.0",
-    "dest-filename": "gstreamer-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gstreamer/1.0.0-RC1/gstreamer-1.0.0-RC1.jar",
+    "sha512": "2cc68ce0e9c4a8b64fc25a710037db68f37cf34b3a9ab9e68a664b0781f9f6795aab439d069ae5baf4ba75da7f42e9bc03dcf2c9d7801bef76f8abe0ec1c7486",
+    "dest": "offline-repository/org/java-gi/gstreamer/1.0.0-RC1",
+    "dest-filename": "gstreamer-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gstreamer/0.15.0/gstreamer-0.15.0.module",
-    "sha512": "8a9fda1568460212a6a45ed04d1e270b6a94c4fc65eeca4c5db88f53c010f483b946d4d53f9402269efcfe9d12e7bb60fd23c9d71a2551c4a960c3f1064187ce",
-    "dest": "offline-repository/org/java-gi/gstreamer/0.15.0",
-    "dest-filename": "gstreamer-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gstreamer/1.0.0-RC1/gstreamer-1.0.0-RC1.module",
+    "sha512": "e0ee76440535fbeb48271931bc4f763efb59538e865f8227b93b1ca73363cf4482e939448ee457a2a1cb42663a7b2f4541294673e57a661b2b7c9f02a832e87a",
+    "dest": "offline-repository/org/java-gi/gstreamer/1.0.0-RC1",
+    "dest-filename": "gstreamer-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gstreamer/0.15.0/gstreamer-0.15.0.pom",
-    "sha512": "6d65b01d810ebd13c51d9bba525b08348001087b3e8a6b1fdda38730140b2aca7b4bb99e03b489c934b4b94ef2215731487168f15f8f219a1f4fc8631ce87845",
-    "dest": "offline-repository/org/java-gi/gstreamer/0.15.0",
-    "dest-filename": "gstreamer-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gstreamer/1.0.0-RC1/gstreamer-1.0.0-RC1.pom",
+    "sha512": "471ae47e42920e71383de951e0757859b0bf1ecc99602c425d74ba48cb35fbeb690fa5fbc29e531b85f1e196e8538f0b340808350790b6857bb5c3fd05a986a4",
+    "dest": "offline-repository/org/java-gi/gstreamer/1.0.0-RC1",
+    "dest-filename": "gstreamer-1.0.0-RC1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gtk/0.15.0/gtk-0.15.0.jar",
-    "sha512": "26e5838e8233b3baf51a8e875edf6126a57175928c5d49580fe45cc2a04d7ca6a7427f7e22ed42a3f3a19a41c951485abd595eaf8bde78c403796b14a9fb9c76",
-    "dest": "offline-repository/org/java-gi/gtk/0.15.0",
-    "dest-filename": "gtk-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gtk/1.0.0-RC1/gtk-1.0.0-RC1.jar",
+    "sha512": "a7d5775c2f725f2c86ab126a79ae7de740b8232fa26fa9c05890c547e6dc2f88faef0b4f27f9b20fc9a6a2002861be1adec30ac405c419819675b3d8525810d3",
+    "dest": "offline-repository/org/java-gi/gtk/1.0.0-RC1",
+    "dest-filename": "gtk-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gtk/0.15.0/gtk-0.15.0.module",
-    "sha512": "48a6e3d07e516e940281afa64b66ae5e9bc4044573f1bbae99d6899614cc32f4a49eb827ca69a4bbf077e26a726a33f27ef20813eafbd589bd9b0df4b160f2c6",
-    "dest": "offline-repository/org/java-gi/gtk/0.15.0",
-    "dest-filename": "gtk-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gtk/1.0.0-RC1/gtk-1.0.0-RC1.module",
+    "sha512": "116283e947b79d4a42bec525f906593f7cbf0023aacc7a7386a3c74ff5c050973488ba65af12c14e76397aaa8975f4cd8b35ce69d9d2b0fe45bfd4827f05d646",
+    "dest": "offline-repository/org/java-gi/gtk/1.0.0-RC1",
+    "dest-filename": "gtk-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/gtk/0.15.0/gtk-0.15.0.pom",
-    "sha512": "791932cd27ad7603f40633a8f65a49ee01ca4a0b6481cf942a3775c9bb7d71b4f8bce0def5e17e896fc3fa3de15c5d3d4734a2870624042e08f1488229c394af",
-    "dest": "offline-repository/org/java-gi/gtk/0.15.0",
-    "dest-filename": "gtk-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/gtk/1.0.0-RC1/gtk-1.0.0-RC1.pom",
+    "sha512": "ff480d59fac2b0379763714462971c63f030b973bbf1f9da377de8ed1eb215bcbe932351ce1d0ac90dff4efebf0c2a9c7d97a7d01237ec8ffec74d95a0f47978",
+    "dest": "offline-repository/org/java-gi/gtk/1.0.0-RC1",
+    "dest-filename": "gtk-1.0.0-RC1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/harfbuzz/0.15.0/harfbuzz-0.15.0.jar",
-    "sha512": "c848f0a7c265c61e97926754bafc522cc9a4e410c7a8b1cccb6efc03ec61d52f78582636fd71a4db17273def6e6c624a7ed88598204f2950791bf37e45fef13e",
-    "dest": "offline-repository/org/java-gi/harfbuzz/0.15.0",
-    "dest-filename": "harfbuzz-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/harfbuzz/1.0.0-RC1/harfbuzz-1.0.0-RC1.jar",
+    "sha512": "f4688186c5fd5ef6c5ad46d24a72f85e70a56624d203df06863371685c6d7abee98b47e4c43830bf75b9acc2c1a8930005780167cbc2586a41d98d684a393f26",
+    "dest": "offline-repository/org/java-gi/harfbuzz/1.0.0-RC1",
+    "dest-filename": "harfbuzz-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/harfbuzz/0.15.0/harfbuzz-0.15.0.module",
-    "sha512": "e8952d594b764415d6189f77907bea52c558349b6e162e5d92c378920adbd47ac95ed888c58b4b599a726cb6c993d396ca0027d92402b2a3a07b927ea509794e",
-    "dest": "offline-repository/org/java-gi/harfbuzz/0.15.0",
-    "dest-filename": "harfbuzz-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/harfbuzz/1.0.0-RC1/harfbuzz-1.0.0-RC1.module",
+    "sha512": "a215814e39a14c441804148abbf962430806eda5073ffd492ebcdc4bd656f1728012048cb90e3a22fbc8e36becd535e67498c251ad26f68c45b37ffcee804156",
+    "dest": "offline-repository/org/java-gi/harfbuzz/1.0.0-RC1",
+    "dest-filename": "harfbuzz-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/harfbuzz/0.15.0/harfbuzz-0.15.0.pom",
-    "sha512": "b82d08f70189861fc794960441430e85f5be0be05a703db38ef87521a4d30daecc79cad3b809eb2cf139166a90d1d96f7f0c0d5c6532317dd685f7cd08566e60",
-    "dest": "offline-repository/org/java-gi/harfbuzz/0.15.0",
-    "dest-filename": "harfbuzz-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/harfbuzz/1.0.0-RC1/harfbuzz-1.0.0-RC1.pom",
+    "sha512": "e363be935c671a8771e08737ea93b6002296b6f4cfda84cf5fe941e30e40c2f69a3466c91fc462790536440f81b4ace1bacfceb7150debf151ef1590472fcd69",
+    "dest": "offline-repository/org/java-gi/harfbuzz/1.0.0-RC1",
+    "dest-filename": "harfbuzz-1.0.0-RC1.pom"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/pango/0.15.0/pango-0.15.0.jar",
-    "sha512": "2fe20c11e8519fde170a54498a4631c61bce3da5a25e1d9eafd6997fe13d96e1d41ff0c0650f63748b613e76d736f84fc7becf7cb6432e069f51aa766c2fb1d5",
-    "dest": "offline-repository/org/java-gi/pango/0.15.0",
-    "dest-filename": "pango-0.15.0.jar"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/pango/1.0.0-RC1/pango-1.0.0-RC1.jar",
+    "sha512": "2e01ddcd2265c0fe719e820cf71042a76fbf161376f5f6be5793ec394a1b2e156fd7a9ad60382b1e5c0cb68aa53d17b83ea8bea6e82e73a573ebe143471feab1",
+    "dest": "offline-repository/org/java-gi/pango/1.0.0-RC1",
+    "dest-filename": "pango-1.0.0-RC1.jar"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/pango/0.15.0/pango-0.15.0.module",
-    "sha512": "69de84994c25d63d3e35730d6e3ce7d3de26849a005fb9d973837641250cfaa2dbebfb0ce1c54517fa16eb6a64d18e58f79ad30863a2ffd8b7d1af936b8cad80",
-    "dest": "offline-repository/org/java-gi/pango/0.15.0",
-    "dest-filename": "pango-0.15.0.module"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/pango/1.0.0-RC1/pango-1.0.0-RC1.module",
+    "sha512": "cacce9351f2ebdfbdf2bfdd36497fd73c3dfcb6450fe4019d07c2cde2a5334d4d89585c6d831558bf11e6e645fd7c033df5c544e35196054bf4a4e71696d3eb7",
+    "dest": "offline-repository/org/java-gi/pango/1.0.0-RC1",
+    "dest-filename": "pango-1.0.0-RC1.module"
   },
   {
     "type": "file",
-    "url": "https://plugins.gradle.org/m2/org/java-gi/pango/0.15.0/pango-0.15.0.pom",
-    "sha512": "48fce9008c0b12be5a7a55f2b50b6341473ad6831b166bdbc54628c412c101140580d514f9b0287abebb20f4ac0a6f92d1f908c21dddcfb52d79f7fbbb53f5ab",
-    "dest": "offline-repository/org/java-gi/pango/0.15.0",
-    "dest-filename": "pango-0.15.0.pom"
+    "url": "https://plugins.gradle.org/m2/org/java-gi/pango/1.0.0-RC1/pango-1.0.0-RC1.pom",
+    "sha512": "eadfdfc2910b6e3f65307ed0bb02581c03c6b4284e0517bfb9d04af9f272dab5dcc9f7fc6ddf136a5033d74c4a5f40f82de35e2ea8adfb559a13bbfd4d9456e2",
+    "dest": "offline-repository/org/java-gi/pango/1.0.0-RC1",
+    "dest-filename": "pango-1.0.0-RC1.pom"
   },
   {
     "type": "file",
