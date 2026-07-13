@@ -74,7 +74,7 @@ val SUPPORTED_SHERPA_PARAKEET_ASR_MODELS = mapOf(
         archiveFile = VoiceModelFile(
             name = "sherpa-onnx-nemo-parakeet_tdt_transducer_110m-en-36000",
             url = "$SHERPA_ONNX_ASR_MODELS_URL/sherpa-onnx-nemo-parakeet_tdt_transducer_110m-en-36000.tar.bz2",
-            sha256sum = "4cb81f605eb7bc6fe0d69cd9d4045161e1691a64c2b7d4f1e7d5099e1d3bc024"
+            sha256sum = "20358a9587ce150a87afd7aa4984ee7aebb1e35c154fc38a6639a3ed9b6adbb6"
         ),
         components = listOf(
             VoiceModelFile(name = "encoder.onnx"),
