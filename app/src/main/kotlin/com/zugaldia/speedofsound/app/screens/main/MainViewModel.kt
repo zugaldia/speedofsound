@@ -17,6 +17,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_CREDENTIALS
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_CONTEXT
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_MAX_RECORDING_DURATION_S
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SECONDARY_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_TEXT_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
@@ -276,6 +277,10 @@ class MainViewModel(
                 asrProviderManager.refreshProviderConfiguration()
                 llmProviderManager.refreshProviderConfiguration()
             }
+
+            KEY_MAX_RECORDING_DURATION_S -> director.updateOptions(
+                director.getOptions().copy(maxRecordingDurationMs = settingsClient.getMaxRecordingDurationMs())
+            )
 
             KEY_TEXT_OUTPUT_METHOD -> activateSelectedTextOutput()
 

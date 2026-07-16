@@ -41,6 +41,12 @@
       <summary>Text output method</summary>
       <description>How transcribed text is delivered to the active application. 'portal' simulates keyboard input via the XDG Remote Desktop Portal. 'clipboard' copies the text to the clipboard and simulates Ctrl+V to paste it.</description>
     </key>
+    <key name="max-recording-duration-s" type="i">
+      <range min="10" max="600"/>
+      <default>30</default>
+      <summary>Maximum recording duration (s)</summary>
+      <description>Maximum duration in seconds for each recording. The recording automatically stops and transcription starts when this limit is reached.</description>
+    </key>
     <key name="append-space" type="b">
       <default>false</default>
       <summary>Append space after transcription</summary>

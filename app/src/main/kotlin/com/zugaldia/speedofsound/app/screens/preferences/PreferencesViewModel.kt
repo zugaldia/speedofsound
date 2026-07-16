@@ -61,6 +61,10 @@ class PreferencesViewModel(
     fun getSecondaryLanguage(): String = settingsClient.getSecondaryLanguage()
     fun setSecondaryLanguage(value: String): Boolean = settingsClient.setSecondaryLanguage(value)
 
+    fun getMaxRecordingDurationS(): Int = (settingsClient.getMaxRecordingDurationMs() / 1000L).toInt()
+    fun setMaxRecordingDurationS(value: Int): Boolean =
+        settingsClient.setMaxRecordingDurationMs(value.toLong() * 1000L)
+
     fun getAppendSpace(): Boolean = settingsClient.getAppendSpace()
     fun setAppendSpace(value: Boolean): Boolean = settingsClient.setAppendSpace(value)
 
