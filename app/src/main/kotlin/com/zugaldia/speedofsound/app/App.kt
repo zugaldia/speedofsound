@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
 
 class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Application(applicationId, flags) {
     private var mainWindow: MainWindow? = null
-    private var isHoldingForHiddenStart = false
+    private var isHoldingInBackground = false
     private var statusNotifierService: StatusNotifierService? = null
 
     private lateinit var settingsClient: SettingsClient
@@ -76,13 +76,8 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
                 }.present()
             } else if (!settingsClient.getStayHiddenOnActivation()) {
                 presentMainWindow()
-            } else if (!isHoldingForHiddenStart) {
-                // Keep the app alive without a visible window. GApplication auto-quits
-                // when its use-count drops to zero (no visible windows), hold() prevents
-                // that until the user triggers the global shortcut for the first time.
-                // https://github.com/zugaldia/speedofsound/issues/141
-                hold()
-                isHoldingForHiddenStart = true
+            } else {
+                holdInBackground()
             }
         }
 
@@ -145,11 +140,27 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
         }
     }
 
-    private fun presentMainWindow() {
-        if (isHoldingForHiddenStart) {
-            release()
-            isHoldingForHiddenStart = false
+    /**
+     * Keeps the app alive without a visible window. GApplication auto-quits when its use-count drops to
+     * zero (no visible windows), hold() prevents that until the window is presented again.
+     * https://github.com/zugaldia/speedofsound/issues/141
+     */
+    fun holdInBackground() {
+        if (!isHoldingInBackground) {
+            hold()
+            isHoldingInBackground = true
         }
+    }
+
+    private fun releaseBackgroundHold() {
+        if (isHoldingInBackground) {
+            release()
+            isHoldingInBackground = false
+        }
+    }
+
+    private fun presentMainWindow() {
+        releaseBackgroundHold()
         mainWindow?.present()
     }
 

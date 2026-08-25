@@ -2,6 +2,7 @@
 
 package com.zugaldia.speedofsound.app.screens.main
 
+import com.zugaldia.speedofsound.app.SosApplication
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_HEIGHT
 import com.zugaldia.speedofsound.app.DEFAULT_WINDOW_WIDTH
 import com.zugaldia.speedofsound.app.ICON_MENU
@@ -38,7 +39,7 @@ import org.gnome.gtk.Orientation
 import org.gnome.gtk.Separator
 
 class MainWindow(
-    app: Application,
+    private val app: Application,
     private val viewModel: MainViewModel,
     private val settingsClient: SettingsClient,
     private val portalsClient: PortalsClient,
@@ -54,6 +55,9 @@ class MainWindow(
     // https://github.com/zugaldia/speedofsound/issues/29
     private var shouldHideOnCompletion = true
 
+    // Set while the app is actually quitting, so the close-to-background handler lets the window go
+    private var isQuitting = false
+
     init {
         application = app
         title = APPLICATION_NAME
@@ -62,6 +66,7 @@ class MainWindow(
         addController(EventControllerKey().apply {
             onKeyPressed { keyval, _, state -> keyPressed(keyval, state) }
         })
+        onCloseRequest { closeRequested() }
 
         portalsBanner = buildBannerWidget { viewModel.startPortalsSession() }
         notSupportedBanner = buildNotSupportedBannerWidget { viewModel.openUri(APPLICATION_URL_TROUBLESHOOTING) }
@@ -190,6 +195,22 @@ class MainWindow(
         }
     }
 
+    /**
+     * Handles the window close button. With "Close to background" enabled, the window is hidden and the app
+     * keeps running (reachable from the status icon, the global shortcut, and the dock) instead of quitting.
+     *
+     * @return true to stop the window from being destroyed, false to let the default handler close it.
+     */
+    private fun closeRequested(): Boolean {
+        if (isQuitting || !settingsClient.getCloseToBackground()) return false
+        // Closing the window stops any dictation in progress: closing is an explicit "I am done here",
+        // and a recording that survived it would keep the microphone open with no visible indication.
+        viewModel.cancelListening()
+        visible = false
+        (app as? SosApplication)?.holdInBackground()
+        return true
+    }
+
     private fun goAway() {
         if (settingsClient.getHideInsteadOfMinimize()) {
             // Hide the window so it restores on the current workspace (where the target app is),
@@ -235,7 +256,8 @@ class MainWindow(
     }
 
     private fun onQuit() {
+        isQuitting = true
         viewModel.cancelListening()
-        close()
+        app.quit()
     }
 }
