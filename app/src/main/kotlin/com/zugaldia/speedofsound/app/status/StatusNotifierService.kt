@@ -4,6 +4,7 @@ import com.zugaldia.speedofsound.core.APPLICATION_ID
 import com.zugaldia.stargate.sdk.status.StargateMenu
 import com.zugaldia.stargate.sdk.status.StargateMenuItem
 import com.zugaldia.stargate.sdk.status.StatusNotifierManager
+import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -16,6 +17,7 @@ class StatusNotifierService(
     private val onTrigger: (token: String?) -> Unit,
     private val onOpen: (token: String?) -> Unit,
     private val onQuit: () -> Unit,
+    private val isMonochrome: () -> Boolean = { false },
 ) : AutoCloseable {
     private val logger = LoggerFactory.getLogger(StatusNotifierService::class.java)
 
@@ -23,6 +25,7 @@ class StatusNotifierService(
     private val scope = CoroutineScope(job + Dispatchers.IO)
 
     private var manager: StatusNotifierManager? = null
+    private var registrations = 0
 
     private fun onMenuClick(label: String, action: (token: String?) -> Unit): (tokenSupplier: () -> String?) -> Unit =
         { tokenSupplier ->
@@ -59,11 +62,15 @@ class StatusNotifierService(
         scope.launch {
             try {
                 manager?.close()
-                val connected = StatusNotifierManager.connect()
+                // A private connection, not the shared session one: re-exporting the item on the shared
+                // connection throws "Object already exported", and closing it would affect other users of
+                // it. With a private connection the item can be torn down and rebuilt on a setting change.
+                val connected = StatusNotifierManager(DBusConnectionBuilder.forSessionBus().withShared(false).build())
                 manager = connected
                 logger.info("Connected to StatusNotifierWatcher")
 
                 val item = SosStatusNotifierItem(
+                    monochrome = isMonochrome,
                     menu = buildMenu(),
                     onActivate = { token ->
                         GLib.idleAdd(GLib.PRIORITY_DEFAULT) {
@@ -83,13 +90,27 @@ class StatusNotifierService(
 
                 // Use a dot-separated child of APPLICATION_ID so the bus name
                 // (e.g. "io.speedofsound.SpeedOfSound.StatusNotifier-{pid}-1")
-                // matches the Snap AppArmor policy for our D-Bus slot.
-                val serviceName = connected.registerItem(item, "$APPLICATION_ID.StatusNotifier")
+                // matches the Snap AppArmor policy for our D-Bus slot. Later registrations get a distinct
+                // name, so a host that keys items by bus name sees a new item rather than the old one.
+                registrations++
+                val suffix = if (registrations == 1) "" else registrations.toString()
+                val serviceName = connected.registerItem(item, "$APPLICATION_ID.StatusNotifier$suffix")
                 logger.info("Registered StatusNotifierItem as $serviceName")
             } catch (e: Exception) {
                 logger.error("Failed to connect to StatusNotifierWatcher", e)
             }
         }
+    }
+
+    /**
+     * Applies a new status icon by tearing the item down and registering it again.
+     *
+     * The desktop reads the icon when the item registers. GNOME's AppIndicator extension ignores the
+     * spec's NewIcon signal, so re-registering is the only way to change the icon without restarting.
+     */
+    fun refreshIcon() {
+        logger.info("Re-registering the status notifier item to apply a new icon.")
+        connect()
     }
 
     override fun close() {

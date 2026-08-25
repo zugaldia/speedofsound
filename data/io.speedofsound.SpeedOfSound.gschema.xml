@@ -56,6 +56,11 @@
       <summary>Stay hidden on activation</summary>
       <description>When enabled, the app starts without showing the main window. The global shortcut still works normally.</description>
     </key>
+    <key name="monochrome-status-icon" type="b">
+      <default>false</default>
+      <summary>Monochrome status icon</summary>
+      <description>When enabled, the status icon uses the symbolic (monochrome) variant of the app icon, which the desktop recolors to match its panel, instead of the full color icon.</description>
+    </key>
 
     <!-- Cloud Credentials page -->
 
