@@ -4,6 +4,8 @@ import com.zugaldia.speedofsound.core.languageFromIso2
 import com.zugaldia.speedofsound.core.models.voice.ModelManager
 import com.zugaldia.speedofsound.core.plugins.asr.AsrPluginOptions
 import com.zugaldia.speedofsound.core.plugins.asr.AsrProvider
+import com.zugaldia.speedofsound.core.plugins.asr.clampRecordingDurationMs
+import com.zugaldia.speedofsound.core.plugins.asr.isLimitedToThirtySeconds
 import com.zugaldia.speedofsound.core.plugins.asr.OpenAiAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaCanaryAsrOptions
 import com.zugaldia.speedofsound.core.plugins.asr.SherpaParakeetAsrOptions
@@ -24,6 +26,10 @@ import org.slf4j.LoggerFactory
 @Suppress("TooManyFunctions")
 class SettingsClient(val settingsStore: SettingsStore) {
     private val logger = LoggerFactory.getLogger(SettingsClient::class.java)
+
+    companion object {
+        private const val MILLIS_PER_SECOND = 1_000L
+    }
 
     private val _settingsChanged = MutableSharedFlow<String>(extraBufferCapacity = 1)
     val settingsChanged: SharedFlow<String> = _settingsChanged.asSharedFlow()
@@ -99,8 +105,33 @@ class SettingsClient(val settingsStore: SettingsStore) {
         enableTextProcessing = getTextProcessingEnabled(),
         language = languageFromIso2(getDefaultLanguage()) ?: DEFAULT_LANGUAGE,
         customVocabulary = getCustomVocabulary(),
-        customContext = getCustomContext()
+        customContext = getCustomContext(),
+        maxRecordingDurationMs = getEffectiveMaxRecordingDurationMs(),
     )
+
+    /**
+     * Returns the recording timeout to apply to the pipeline, in milliseconds.
+     *
+     * The user-configured value is capped for backends that cannot process longer audio: the Sherpa ONNX
+     * offline Whisper recognizer truncates anything past 30 seconds, so a longer timeout there would only
+     * record audio that is silently discarded. Every other backend (Parakeet, Canary, cloud providers)
+     * gets the configured value.
+     */
+    fun getEffectiveMaxRecordingDurationMs(): Long =
+        clampRecordingDurationMs(getMaxRecordingDurationMs(), getSelectedVoiceProvider())
+
+    /**
+     * Whether the active speech recognition backend is capped at 30 seconds of audio.
+     */
+    fun isSelectedVoiceProviderLimitedTo30s(): Boolean = isLimitedToThirtySeconds(getSelectedVoiceProvider())
+
+    private fun getSelectedVoiceProvider(): AsrProvider? {
+        val selectedId = getSelectedVoiceModelProviderId()
+        // Fall back to the model registry: a local model that is not downloaded (yet) is not listed as a
+        // configured provider, but we still know which backend it belongs to.
+        return getVoiceModelProviders().find { it.id == selectedId }?.provider
+            ?: SUPPORTED_LOCAL_ASR_MODELS[selectedId]?.provider
+    }
 
     /*
      * Not exposed to the UI
@@ -174,6 +205,17 @@ class SettingsClient(val settingsStore: SettingsStore) {
     fun setStayHiddenOnActivation(value: Boolean): Boolean =
         settingsStore.setBoolean(KEY_STAY_HIDDEN_ON_ACTIVATION, value).also { success ->
             if (success) _settingsChanged.tryEmit(KEY_STAY_HIDDEN_ON_ACTIVATION)
+        }
+
+    fun getMaxRecordingDurationS(): Int =
+        settingsStore.getInt(KEY_MAX_RECORDING_DURATION_S, DEFAULT_MAX_RECORDING_DURATION_S)
+
+    fun getMaxRecordingDurationMs(): Long =
+        getMaxRecordingDurationS().toLong() * MILLIS_PER_SECOND
+
+    fun setMaxRecordingDurationS(value: Int): Boolean =
+        settingsStore.setInt(KEY_MAX_RECORDING_DURATION_S, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_MAX_RECORDING_DURATION_S)
         }
 
     fun getTextOutputMethod(): String =

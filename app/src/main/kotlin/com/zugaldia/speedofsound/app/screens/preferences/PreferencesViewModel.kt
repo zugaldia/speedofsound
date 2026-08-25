@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.SharedFlow
 import org.slf4j.LoggerFactory
 
 @Suppress("TooManyFunctions") // ViewModel delegates to SettingsClient for all preference properties
@@ -21,6 +22,9 @@ class PreferencesViewModel(
 ) {
     private val logger = LoggerFactory.getLogger(PreferencesViewModel::class.java)
     val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    /** Emits the key of every setting changed elsewhere in the app, so pages can stay in sync. */
+    val settingsChanged: SharedFlow<String> = settingsClient.settingsChanged
 
     init {
         logger.info("Initializing.")
@@ -54,6 +58,11 @@ class PreferencesViewModel(
 
     fun getStayHiddenOnActivation(): Boolean = settingsClient.getStayHiddenOnActivation()
     fun setStayHiddenOnActivation(value: Boolean): Boolean = settingsClient.setStayHiddenOnActivation(value)
+
+    fun getMaxRecordingDurationS(): Int = settingsClient.getMaxRecordingDurationS()
+    fun setMaxRecordingDurationS(value: Int): Boolean = settingsClient.setMaxRecordingDurationS(value)
+
+    fun isSelectedVoiceProviderLimitedTo30s(): Boolean = settingsClient.isSelectedVoiceProviderLimitedTo30s()
 
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)

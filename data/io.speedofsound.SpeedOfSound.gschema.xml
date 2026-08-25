@@ -56,6 +56,12 @@
       <summary>Stay hidden on activation</summary>
       <description>When enabled, the app starts without showing the main window. The global shortcut still works normally.</description>
     </key>
+    <key name="max-recording-duration-s" type="i">
+      <range min="10" max="300"/>
+      <default>30</default>
+      <summary>Recording timeout (seconds)</summary>
+      <description>Maximum duration of a single recording before it stops automatically. Local Whisper models cannot transcribe more than 30 seconds of audio, so the timeout is capped at 30 seconds while one of them is selected.</description>
+    </key>
 
     <!-- Cloud Credentials page -->
 
