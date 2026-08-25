@@ -23,6 +23,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val stayHiddenOnActivationRow: SwitchRow
     private val backgroundRecordingRow: SwitchRow
     private val hideInsteadOfMinimizeRow: SwitchRow
+    private val monochromeStatusIconRow: SwitchRow
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
     private val textOutputMethodRow: TextOutputMethodComboRow
@@ -127,11 +128,19 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             active = viewModel.getHideInsteadOfMinimize()
         }
 
+        monochromeStatusIconRow = SwitchRow().apply {
+            title = "Monochrome status icon"
+            subtitle = "Use the symbolic app icon in the system tray, " +
+                "which the desktop recolors to match its panel."
+            active = viewModel.getMonochromeStatusIcon()
+        }
+
         val behaviorGroup = PreferencesGroup().apply {
             title = "App Behavior"
             add(stayHiddenOnActivationRow)
             add(backgroundRecordingRow)
             add(hideInsteadOfMinimizeRow)
+            add(monochromeStatusIconRow)
         }
 
         add(globalShortcutGroup)
@@ -153,6 +162,9 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         hideInsteadOfMinimizeRow.onNotify("active") {
             viewModel.setHideInsteadOfMinimize(hideInsteadOfMinimizeRow.active)
         }
+        monochromeStatusIconRow.onNotify("active") {
+            viewModel.setMonochromeStatusIcon(monochromeStatusIconRow.active)
+        }
     }
 
     fun refresh() {
@@ -163,6 +175,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         stayHiddenOnActivationRow.active = viewModel.getStayHiddenOnActivation()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         hideInsteadOfMinimizeRow.active = viewModel.getHideInsteadOfMinimize()
+        monochromeStatusIconRow.active = viewModel.getMonochromeStatusIcon()
     }
 
     /*
