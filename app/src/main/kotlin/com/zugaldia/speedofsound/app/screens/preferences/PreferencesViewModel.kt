@@ -55,6 +55,9 @@ class PreferencesViewModel(
     fun getStayHiddenOnActivation(): Boolean = settingsClient.getStayHiddenOnActivation()
     fun setStayHiddenOnActivation(value: Boolean): Boolean = settingsClient.setStayHiddenOnActivation(value)
 
+    fun getCloseToBackground(): Boolean = settingsClient.getCloseToBackground()
+    fun setCloseToBackground(value: Boolean): Boolean = settingsClient.setCloseToBackground(value)
+
     fun getDefaultLanguage(): String = settingsClient.getDefaultLanguage()
     fun setDefaultLanguage(value: String): Boolean = settingsClient.setDefaultLanguage(value)
 

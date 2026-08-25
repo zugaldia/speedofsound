@@ -23,6 +23,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val stayHiddenOnActivationRow: SwitchRow
     private val backgroundRecordingRow: SwitchRow
     private val hideInsteadOfMinimizeRow: SwitchRow
+    private val closeToBackgroundRow: SwitchRow
     private val primaryComboRow: LanguageComboRow
     private val secondaryComboRow: LanguageComboRow
     private val textOutputMethodRow: TextOutputMethodComboRow
@@ -127,11 +128,19 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             active = viewModel.getHideInsteadOfMinimize()
         }
 
+        closeToBackgroundRow = SwitchRow().apply {
+            title = "Close to background"
+            subtitle = "Closing the window keeps the app running, " +
+                "so the global shortcut and the status icon stay available."
+            active = viewModel.getCloseToBackground()
+        }
+
         val behaviorGroup = PreferencesGroup().apply {
             title = "App Behavior"
             add(stayHiddenOnActivationRow)
             add(backgroundRecordingRow)
             add(hideInsteadOfMinimizeRow)
+            add(closeToBackgroundRow)
         }
 
         add(globalShortcutGroup)
@@ -153,6 +162,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         hideInsteadOfMinimizeRow.onNotify("active") {
             viewModel.setHideInsteadOfMinimize(hideInsteadOfMinimizeRow.active)
         }
+        closeToBackgroundRow.onNotify("active") { viewModel.setCloseToBackground(closeToBackgroundRow.active) }
     }
 
     fun refresh() {
@@ -163,6 +173,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         stayHiddenOnActivationRow.active = viewModel.getStayHiddenOnActivation()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         hideInsteadOfMinimizeRow.active = viewModel.getHideInsteadOfMinimize()
+        closeToBackgroundRow.active = viewModel.getCloseToBackground()
     }
 
     /*
