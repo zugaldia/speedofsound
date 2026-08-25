@@ -1,12 +1,13 @@
 package com.zugaldia.speedofsound.app.portals
 
-import com.zugaldia.speedofsound.core.desktop.portals.PortalsClient
+import com.zugaldia.speedofsound.core.desktop.portals.PortalsGateway
 import com.zugaldia.stargate.sdk.globalshortcuts.ShortcutActivation
 import com.zugaldia.speedofsound.core.desktop.settings.SettingsClient
 import com.zugaldia.stargate.sdk.isSandboxed
 import com.zugaldia.stargate.sdk.request.PortalRequestException
 import com.zugaldia.stargate.sdk.request.RequestResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,10 +16,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 
 class PortalsSessionManager(
-    private val portalsClient: PortalsClient,
+    private val portalsClient: PortalsGateway,
     private val settingsClient: SettingsClient,
     initialSessionDisconnected: Boolean = true,
     initialRemoteDesktopStatus: RemoteDesktopStatus = RemoteDesktopStatus.NeedToken,
@@ -26,6 +28,7 @@ class PortalsSessionManager(
     private val logger = LoggerFactory.getLogger(PortalsSessionManager::class.java)
 
     private var portalsEventsJob: Job? = null
+    private var sessionStartJob: Job? = null
 
     private val _isSessionDisconnected = MutableStateFlow(initialSessionDisconnected)
     val isSessionDisconnected: StateFlow<Boolean> = _isSessionDisconnected.asStateFlow()
@@ -65,16 +68,27 @@ class PortalsSessionManager(
             // We can still use portals even if registration above fails.
             // (Some portals might not work, e.g. Global Shortcuts, or have degraded experience though).
             val token = settingsClient.getPortalsRestoreToken()
-            if (token.isNotBlank()) {
-                startSession(scope, token)
-            } else {
+            if (token.isBlank()) {
                 logger.info("No previous session found.")
+            } else {
+                // The session is restored on demand (see [ensureSession]) rather than here, so that the
+                // desktop does not show a screen sharing indicator while the app sits idle.
+                logger.info("Session will be restored on demand.")
+                _remoteDesktopStatus.value = RemoteDesktopStatus.Ready
             }
         }
     }
 
     fun startSession(scope: CoroutineScope, token: String? = null) {
-        scope.launch {
+        // Starting a session is asynchronous, and both the trigger action and the recording itself ask for
+        // one. Without this guard the two calls race and leave an extra session open, which keeps the
+        // desktop's screen sharing indicator lit.
+        if (sessionStartJob?.isActive == true) {
+            logger.info("A session start is already in progress, skipping.")
+            return
+        }
+
+        sessionStartJob = scope.launch {
             val restoreToken = token?.ifBlank { null }
             logger.info(restoreToken?.let { "Trying to restore previous session: $it" } ?: "Starting a new session")
             portalsClient.startRemoteDesktopSession(restoreToken).onSuccess { response ->
@@ -101,6 +115,34 @@ class PortalsSessionManager(
                 _isSessionDisconnected.value = true
                 settingsClient.setPortalsRestoreToken("")
             }
+        }
+    }
+
+    /**
+     * Makes sure a remote desktop session is available before a dictation starts. This is a no-op unless
+     * the session was released while idle (or closed by the desktop, e.g. after the screen was locked).
+     */
+    fun ensureSession(scope: CoroutineScope) {
+        attemptReconnect(scope)
+    }
+
+    /**
+     * Closes the remote desktop session once a dictation is over, so that the desktop stops showing the
+     * screen sharing indicator. The stored restore token keeps the next session silent (no permission
+     * dialog), so this is transparent to the user.
+     */
+    fun releaseSession(scope: CoroutineScope) {
+        if (_isSessionDisconnected.value) return
+
+        // Publish the state change before the close is dispatched, not after it completes: a dictation
+        // triggered while the close is still in flight reads this flag to decide whether it needs to
+        // restore the session, and would otherwise skip the restore and have nothing to type through.
+        _isSessionDisconnected.value = true
+        portalsEventsJob?.cancel()
+        portalsEventsJob = null
+        scope.launch {
+            withContext(Dispatchers.IO) { portalsClient.stopRemoteDesktopSession() }
+                .onFailure { logger.warn("Failed to close the remote desktop session: {}", it.message) }
         }
     }
 
