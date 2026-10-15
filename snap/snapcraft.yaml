@@ -84,5 +84,5 @@ apps:
       PATH: $SNAP/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
       ALSA_CONFIG_PATH: $SNAP/etc/asound.conf
       ALSA_PLUGIN_DIR: $SNAP/usr/lib/x86_64-linux-gnu/alsa-lib
-      # LD_LIBRARY_PATH from https://documentation.ubuntu.com/snapcraft/stable/reference/extensions/gnome-extension/
-      LD_LIBRARY_PATH: /snap/gnome-46-2404-sdk/current/lib/x86_64-linux-gnu:/snap/gnome-46-2404-sdk/current/usr/lib/x86_64-linux-gnu:/snap/gnome-46-2404-sdk/current/usr/lib:/snap/gnome-46-2404-sdk/current/usr/lib/vala-current:/snap/gnome-46-2404-sdk/current/usr/lib/x86_64-linux-gnu/pulseaudio${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+      # Prefer libraries from the GNOME runtime over conflicting staged libraries.
+      LD_LIBRARY_PATH: $SNAP/gnome-platform/usr/lib/x86_64-linux-gnu:$SNAP/gnome-platform/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
