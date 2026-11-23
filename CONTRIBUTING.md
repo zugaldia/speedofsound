@@ -2,7 +2,18 @@
 
 This document describes how to build Speed of Sound from source. Most users don't need to do this,
 you can install the application using one of the [pre-built packages](https://www.speedofsound.io/getting-started/).
-Building from source is necessary however when working on a new feature or bug fix. Contributions are welcome!
+Building from source is necessary however when working on a bug fix. Contributions are welcome!
+
+## Scope
+
+Speed of Sound is in maintenance mode (see [Project Status](README.md#project-status)). Contributions in scope:
+
+- **Bug fixes** for the existing feature set.
+- **Compatibility updates**, such as support for new distribution releases, desktop environment or portal
+  changes, packaging fixes, and dependency updates.
+
+New features and large changes are out of scope and will likely be declined. If you're unsure whether
+something fits, please open an issue to discuss it before writing code.
 
 Use [GitHub issues](https://github.com/zugaldia/speedofsound/issues) to guide and track your work.
 

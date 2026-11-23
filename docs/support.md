@@ -31,10 +31,10 @@ Kotlin: 2.3.10
 
 ## Contributing
 
-There are several ideas already tracked as tickets to improve the project. Everything planned on the
-roadmap has a corresponding issue. If you'd like to contribute, please use those tickets to guide your
-work. You can also use GitHub emoji reactions on issues to vote for the ones that matter most to you,
-which helps with prioritization.
+Speed of Sound is in [maintenance mode](faq.md#is-speed-of-sound-still-maintained), so contributions are
+limited to bug fixes and compatibility updates (for example, new distribution releases, desktop environment
+changes, or dependency updates). Pull requests that add new features or make large changes will likely be
+declined, so if you're unsure whether something fits, please open an issue to discuss it before writing code.
 
 ## Sponsorship
 

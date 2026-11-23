@@ -74,7 +74,6 @@ in favor of ease of use.
 ## Where does the app store my models, settings, and logs?
 
 Audio and transcriptions are never written to disk. They are discarded as soon as they are processed.
-In the future we may add a history or statistics feature, but that is not currently in place.
 Settings are stored using GSettings unless you run the JAR standalone, in which case they are stored
 in a properties file, typically under `$HOME/.local/share/speedofsound/speedofsound.properties`.
 
@@ -98,17 +97,26 @@ The same is expected from any contributors to this project. You may or may not u
 this project, but the PR author is ultimately responsible for the quality of their contributions. Coding agents are
 not an excuse to take shortcuts. In fact, the opposite is true.
 
+## Is Speed of Sound still maintained?
+
+Yes. Speed of Sound is in **maintenance mode**. It started at a time when there were very few voice typing
+options on Linux, and most of them were cross-platform ports that didn't feel at home on a modern Linux desktop.
+That has changed. Ubuntu's [Myna](https://github.com/canonical/myna), [Voxtype](https://voxtype.io/), and
+commercial tools like [SuperWhisper](https://superwhisper.com/linux) are now available on Linux, which is
+great news for everyone.
+
+The app is feature-complete for what it set out to do, and the author still uses it every day. It will keep
+receiving bug fixes and compatibility updates, with new releases at a slower pace. New features and large
+changes are out of scope and will likely be declined. Bug reports and pull requests for fixes are still
+very welcome.
+
 ## How can I support this project?
 
 If you find Speed of Sound useful, consider [sponsoring this work](https://github.com/sponsors/zugaldia).
-You can also contribute code, report bugs, or vote on issues.
+You can also report bugs or contribute fixes.
 
 ## What do I do if I have another question not answered here?
 
 If you run into any issues, have questions, or need troubleshooting help, please open a ticket on the
-[GitHub issues page](https://github.com/zugaldia/speedofsound/issues). Pull requests are also welcome.
-
-There are several ideas already tracked as tickets to improve the project. Everything planned on the
-roadmap has a corresponding issue. If you'd like to contribute, please use those tickets to guide your
-work. You can also use GitHub emoji reactions on issues to vote for the ones that matter most to you,
-which helps with prioritization.
+[GitHub issues page](https://github.com/zugaldia/speedofsound/issues). Pull requests for bug fixes and
+compatibility updates are also welcome.
