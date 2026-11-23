@@ -7,6 +7,12 @@ Voice typing for the Linux desktop:
   <img src="assets/videos/demo-dark.gif#only-dark" alt="Speed of Sound typing into a text editor">
 </div>
 
+!!! info "Project status"
+
+    Speed of Sound is in **maintenance mode**. It is feature-complete, the author still uses it every day,
+    and it will keep receiving bug fixes and compatibility updates. New features are no longer being
+    developed. [Learn more](faq.md#is-speed-of-sound-still-maintained).
+
 ## Features
 
 - Offline, on-device transcription powered by Whisper, Parakeet, Canary, and more. No data leaves your machine.
