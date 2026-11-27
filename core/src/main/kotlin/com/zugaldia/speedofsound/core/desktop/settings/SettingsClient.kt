@@ -176,6 +176,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_STAY_HIDDEN_ON_ACTIVATION)
         }
 
+    fun getCloseToBackground(): Boolean =
+        settingsStore.getBoolean(KEY_CLOSE_TO_BACKGROUND, DEFAULT_CLOSE_TO_BACKGROUND)
+
+    fun setCloseToBackground(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_CLOSE_TO_BACKGROUND, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_CLOSE_TO_BACKGROUND)
+        }
+
     fun getTextOutputMethod(): String =
         settingsStore.getString(KEY_TEXT_OUTPUT_METHOD, DEFAULT_TEXT_OUTPUT_METHOD)
 

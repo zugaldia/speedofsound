@@ -35,6 +35,9 @@ const val DEFAULT_HIDE_INSTEAD_OF_MINIMIZE = false
 const val KEY_STAY_HIDDEN_ON_ACTIVATION = "stay-hidden-on-activation"
 const val DEFAULT_STAY_HIDDEN_ON_ACTIVATION = false
 
+const val KEY_CLOSE_TO_BACKGROUND = "close-to-background"
+const val DEFAULT_CLOSE_TO_BACKGROUND = false
+
 const val KEY_APPEND_SPACE = "append-space"
 const val DEFAULT_APPEND_SPACE = false
 

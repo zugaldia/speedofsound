@@ -56,6 +56,11 @@
       <summary>Stay hidden on activation</summary>
       <description>When enabled, the app starts without showing the main window. The global shortcut still works normally.</description>
     </key>
+    <key name="close-to-background" type="b">
+      <default>false</default>
+      <summary>Close to background</summary>
+      <description>When enabled, closing the main window hides it instead of quitting the application. The app keeps running in the background, so the global shortcut and the status icon remain available.</description>
+    </key>
 
     <!-- Cloud Credentials page -->
 

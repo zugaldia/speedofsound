@@ -105,6 +105,11 @@ entirely in the background. You can still access the window at any time from the
 - Enable **Hide instead of minimize** to hide the main window instead of minimizing it when not in use. This is useful
 on multi-workspace setups where you want the window to restore on the current workspace.
 
+- Enable **Close to background** to keep the app running when you close the main window, instead of quitting. The
+window is hidden and the app stays reachable from the shortcut, the [system tray](#system-tray), and the dock. A
+dictation in progress is stopped when you close the window. Use **Quit** (from the menu, `Ctrl+Q`, or the system tray)
+to exit the app.
+
 ### Model Library
 
 Browse and manage the locally available voice models. You can download new models or remove ones you no longer need.
