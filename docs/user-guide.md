@@ -82,7 +82,7 @@ language and switch between the two using the `Left Shift` and `Right Shift` key
     this requirement. See [Troubleshooting](troubleshooting.md#non-latin-text-produces-only-spaces-and-punctuation)
     for details.
 
-**Output** — Two settings control how transcribed text is delivered to the active application:
+**Output** — Three settings control how transcribed text is delivered to the active application:
 
 - **Text output method** — Choose between **Keyboard simulation** (default), which simulates keyboard input character by
   character via the XDG Remote Desktop Portal, and **Clipboard**, which copies the text to the clipboard and pastes it
@@ -91,6 +91,11 @@ language and switch between the two using the `Left Shift` and `Right Shift` key
 
 - **Append space after transcription** — Automatically inserts a trailing space after each result, which is useful
   when dictating consecutive sentences independently.
+
+- **Recording Timeout** — How long a single recording runs before it stops on its own, from 10 seconds up to 5 minutes
+  (30 seconds by default). Local Whisper models cannot transcribe more than 30 seconds of audio and discard the rest,
+  so while one of them is selected the timeout is capped at 30 seconds and the setting says so. Switch to Parakeet,
+  Canary, or a cloud provider for longer dictations.
 
 **App Behavior** — Configure the general application flow:
 

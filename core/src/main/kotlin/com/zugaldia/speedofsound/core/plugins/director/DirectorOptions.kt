@@ -5,7 +5,9 @@ import com.zugaldia.speedofsound.core.Language
 import com.zugaldia.speedofsound.core.desktop.settings.DEFAULT_LANGUAGE
 
 // Sherpa ONNX offline Whisper recognizer has a hard 30-second limit, longer audio is truncated
-const val DEFAULT_MAX_RECORDING_DURATION_MS = 30_000L
+const val WHISPER_MAX_RECORDING_DURATION_MS = 30_000L
+
+const val DEFAULT_MAX_RECORDING_DURATION_MS = WHISPER_MAX_RECORDING_DURATION_MS
 
 // Default timeout for LLM polishing operations to ensure a quick response
 const val DEFAULT_LLM_TIMEOUT_MS = 5_000L

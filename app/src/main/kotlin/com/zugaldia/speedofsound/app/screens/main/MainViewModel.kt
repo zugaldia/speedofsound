@@ -17,6 +17,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_CREDENTIALS
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_CONTEXT
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_MAX_RECORDING_DURATION_S
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SECONDARY_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_TEXT_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
@@ -254,6 +255,8 @@ class MainViewModel(
 
             KEY_SELECTED_VOICE_MODEL_PROVIDER_ID -> {
                 asrProviderManager.activateSelectedProvider()
+                // The recording timeout is capped for backends that cannot transcribe longer audio
+                updateMaxRecordingDuration()
                 updateModelLabels()
             }
 
@@ -277,6 +280,12 @@ class MainViewModel(
                 llmProviderManager.refreshProviderConfiguration()
             }
 
+            else -> refreshOutputSettings(key)
+        }
+    }
+
+    private fun refreshOutputSettings(key: String) {
+        when (key) {
             KEY_TEXT_OUTPUT_METHOD -> activateSelectedTextOutput()
 
             KEY_TYPING_DELAY_MS -> portalTextOutput.updateOptions(
@@ -286,7 +295,15 @@ class MainViewModel(
             KEY_SANITIZE_SPECIAL_CHARS -> portalTextOutput.updateOptions(
                 portalTextOutput.getOptions().copy(sanitizeSpecialChars = settingsClient.getSanitizeSpecialChars())
             )
+
+            KEY_MAX_RECORDING_DURATION_S -> updateMaxRecordingDuration()
         }
+    }
+
+    private fun updateMaxRecordingDuration() {
+        director.updateOptions(
+            director.getOptions().copy(maxRecordingDurationMs = settingsClient.getEffectiveMaxRecordingDurationMs())
+        )
     }
 
     private fun updateModelLabels() {

@@ -2,14 +2,19 @@ package com.zugaldia.speedofsound.app.screens.preferences.general
 
 import com.zugaldia.speedofsound.app.ICON_PREFERENCES_SYSTEM
 import com.zugaldia.speedofsound.app.STYLE_CLASS_SUGGESTED_ACTION
+import com.zugaldia.speedofsound.app.STYLE_CLASS_WARNING
 import com.zugaldia.speedofsound.app.screens.preferences.PreferencesViewModel
 import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
+import com.zugaldia.speedofsound.core.desktop.settings.MAX_MAX_RECORDING_DURATION_S
+import com.zugaldia.speedofsound.core.desktop.settings.MIN_MAX_RECORDING_DURATION_S
 import com.zugaldia.stargate.sdk.globalshortcuts.BoundShortcut
 import com.zugaldia.stargate.sdk.isSandboxed
 import kotlinx.coroutines.launch
 import org.gnome.adw.ActionRow
 import org.gnome.adw.PreferencesGroup
 import org.gnome.adw.PreferencesPage
+import org.gnome.adw.SpinRow
 import org.gnome.adw.SwitchRow
 import org.gnome.glib.GLib
 import org.gnome.gtk.Align
@@ -20,6 +25,16 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val logger = LoggerFactory.getLogger(GeneralPage::class.java)
     private val scope = viewModel.viewModelScope
 
+    companion object {
+        private val RECORDING_TIMEOUT_MIN = MIN_MAX_RECORDING_DURATION_S.toDouble()
+        private val RECORDING_TIMEOUT_MAX = MAX_MAX_RECORDING_DURATION_S.toDouble()
+        private const val RECORDING_TIMEOUT_STEP = 5.0
+        private const val TIMEOUT_NOTE = "Recording stops automatically after this many seconds."
+        private const val WHISPER_LIMIT_NOTE =
+            "Capped at 30 seconds: the selected Whisper model discards longer audio. " +
+                "Switch to Parakeet or Canary for longer dictations."
+    }
+
     private val stayHiddenOnActivationRow: SwitchRow
     private val backgroundRecordingRow: SwitchRow
     private val hideInsteadOfMinimizeRow: SwitchRow
@@ -27,6 +42,7 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
     private val secondaryComboRow: LanguageComboRow
     private val textOutputMethodRow: TextOutputMethodComboRow
     private val appendSpaceRow: SwitchRow
+    private val recordingTimeoutRow: SpinRow
     private val shortcutManualRow: ActionRow
     private val shortcutSetupRow: ActionRow
     private val shortcutActiveRow: ActionRow
@@ -103,10 +119,20 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
             active = viewModel.getAppendSpace()
         }
 
+        recordingTimeoutRow = SpinRow.withRange(
+            RECORDING_TIMEOUT_MIN, RECORDING_TIMEOUT_MAX, RECORDING_TIMEOUT_STEP
+        ).apply {
+            title = "Recording Timeout (seconds)"
+            digits = 0
+            subtitleLines = 0 // Wrap instead of ellipsizing, the spin button leaves little room
+            value = viewModel.getMaxRecordingDurationS().toDouble()
+        }
+
         val outputGroup = PreferencesGroup().apply {
             title = "Output"
             add(textOutputMethodRow)
             add(appendSpaceRow)
+            add(recordingTimeoutRow)
         }
 
         stayHiddenOnActivationRow = SwitchRow().apply {
@@ -153,6 +179,25 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         hideInsteadOfMinimizeRow.onNotify("active") {
             viewModel.setHideInsteadOfMinimize(hideInsteadOfMinimizeRow.active)
         }
+        recordingTimeoutRow.onNotify("value") {
+            viewModel.setMaxRecordingDurationS(recordingTimeoutRow.value.toInt())
+        }
+        updateRecordingTimeoutSubtitle()
+        watchSelectedVoiceModel()
+    }
+
+    /**
+     * The Whisper 30 second cap note has to follow the model selected on the Voice Models page, which the
+     * user can change while this page is already built.
+     */
+    private fun watchSelectedVoiceModel() {
+        scope.launch {
+            viewModel.settingsChanged.collect { key ->
+                if (key == KEY_SELECTED_VOICE_MODEL_PROVIDER_ID) {
+                    GLib.idleAdd(GLib.PRIORITY_DEFAULT) { updateRecordingTimeoutSubtitle(); false }
+                }
+            }
+        }
     }
 
     fun refresh() {
@@ -163,6 +208,22 @@ class GeneralPage(private val viewModel: PreferencesViewModel) : PreferencesPage
         stayHiddenOnActivationRow.active = viewModel.getStayHiddenOnActivation()
         backgroundRecordingRow.active = viewModel.getBackgroundRecording()
         hideInsteadOfMinimizeRow.active = viewModel.getHideInsteadOfMinimize()
+        recordingTimeoutRow.value = viewModel.getMaxRecordingDurationS().toDouble()
+        updateRecordingTimeoutSubtitle()
+    }
+
+    /**
+     * The timeout is capped at 30 seconds while a local Whisper model is selected, because the model itself
+     * cannot transcribe longer audio. Say so instead of silently ignoring the setting.
+     */
+    private fun updateRecordingTimeoutSubtitle() {
+        val limited = viewModel.isSelectedVoiceProviderLimitedTo30s()
+        recordingTimeoutRow.subtitle = if (limited) WHISPER_LIMIT_NOTE else TIMEOUT_NOTE
+        if (limited) {
+            recordingTimeoutRow.addCssClass(STYLE_CLASS_WARNING)
+        } else {
+            recordingTimeoutRow.removeCssClass(STYLE_CLASS_WARNING)
+        }
     }
 
     /*
