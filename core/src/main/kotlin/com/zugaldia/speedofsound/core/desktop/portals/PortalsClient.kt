@@ -5,6 +5,7 @@ import com.zugaldia.speedofsound.core.APPLICATION_NAME
 import com.zugaldia.speedofsound.core.APPLICATION_SHORT
 import com.zugaldia.speedofsound.core.APPLICATION_SHORTCUT_TRIGGER
 import com.zugaldia.speedofsound.core.generateUniqueId
+import com.zugaldia.stargate.sdk.BUS_NAME
 import com.zugaldia.stargate.sdk.DesktopPortal
 import com.zugaldia.stargate.sdk.globalshortcuts.BoundShortcut
 import com.zugaldia.stargate.sdk.globalshortcuts.Shortcut
@@ -22,20 +23,26 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.freedesktop.dbus.DBusPath
+import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder
+import org.freedesktop.portal.Session
 import org.slf4j.LoggerFactory
 import kotlin.time.Duration.Companion.milliseconds
 
 private const val SHORTCUT_ID = "$APPLICATION_SHORT-trigger"
 private const val SHORTCUT_DESCRIPTION = "Start or stop voice typing"
 
-class PortalsClient {
+@Suppress("TooManyFunctions")
+class PortalsClient : PortalsGateway {
 
     private val logger = LoggerFactory.getLogger(PortalsClient::class.java)
-    private val portal = DesktopPortal.connect()
+    // The connection is created here (rather than via DesktopPortal.connect()) so that sessions can be
+    // closed explicitly, which the SDK does not expose yet.
+    private val connection = DBusConnectionBuilder.forSessionBus().build()
+    private val portal = DesktopPortal(connection)
     private var shortcutsSessionHandle: DBusPath? = null
     private val shortcutsSessionMutex = Mutex()
 
-    val sessionClosedEvents: Flow<SessionClosedEvent>
+    override val sessionClosedEvents: Flow<SessionClosedEvent>
         get() = portal.remoteDesktop.observeSessionClosed()
 
     /**
@@ -43,7 +50,7 @@ class PortalsClient {
      * This should only be called when not running in a sandboxed environment (Flatpak/Snap),
      * as sandboxed apps are registered automatically.
      */
-    suspend fun registerApplication() =
+    override suspend fun registerApplication() =
         portal.registry.register(APPLICATION_ID)
             .onSuccess { logger.info("Registered application ID: {}", APPLICATION_ID) }
             .onFailure { logger.warn("Failed to register application ID: {} ({})", APPLICATION_ID, it.message) }
@@ -54,12 +61,31 @@ class PortalsClient {
      * @param restoreToken Optional token from a previous session. When provided, the portal will
      * attempt to restore the session without prompting the user for authorization again.
      */
-    suspend fun startRemoteDesktopSession(restoreToken: String?): Result<StartResponse> =
+    override suspend fun startRemoteDesktopSession(restoreToken: String?): Result<StartResponse> =
         portal.remoteDesktop.startSession(
             types = setOf(DeviceType.KEYBOARD),
             restoreToken = restoreToken,
             persistMode = PersistMode.UNTIL_REVOKED
         )
+
+    /**
+     * Closes the active remote desktop session, if any.
+     *
+     * The desktop shows a screen sharing indicator for as long as a remote desktop session is open, so the
+     * session is worth releasing while the app is idle. Note that the SDK's `clearSession()` only drops the
+     * local handle, it does not close the session on the portal side, hence the explicit `Close()` call.
+     */
+    override fun stopRemoteDesktopSession(): Result<Unit> = runCatching {
+        val handle = portal.remoteDesktop.activeSession
+        if (handle == null) {
+            logger.info("No active remote desktop session to close.")
+            return@runCatching
+        }
+
+        connection.getRemoteObject(BUS_NAME, handle.path, Session::class.java).Close()
+        portal.remoteDesktop.clearSession()
+        logger.info("Closed remote desktop session: {}", handle.path)
+    }
 
     /**
      * Sends a desktop notification via the XDG Notification portal.
@@ -94,23 +120,24 @@ class PortalsClient {
      * This is idempotent — if a session already exists, it returns success without creating a new one.
      * This is expected to fail on older desktop environments that do not support the portal.
      */
-    suspend fun createGlobalShortcutsSession(): Result<CreateSessionResponse> = shortcutsSessionMutex.withLock {
-        val existingHandle = shortcutsSessionHandle
-        if (existingHandle != null) {
-            logger.info("Global shortcuts session already exists, skipping creation.")
-            return@withLock Result.success(CreateSessionResponse(existingHandle))
-        }
+    override suspend fun createGlobalShortcutsSession(): Result<CreateSessionResponse> =
+        shortcutsSessionMutex.withLock {
+            val existingHandle = shortcutsSessionHandle
+            if (existingHandle != null) {
+                logger.info("Global shortcuts session already exists, skipping creation.")
+                return@withLock Result.success(CreateSessionResponse(existingHandle))
+            }
 
-        portal.globalShortcuts.createSession()
-            .onSuccess { response -> shortcutsSessionHandle = response.sessionHandle }
-    }
+            portal.globalShortcuts.createSession()
+                .onSuccess { response -> shortcutsSessionHandle = response.sessionHandle }
+        }
 
     /**
      * Returns a Flow that emits a [ShortcutActivation] each time the global shortcut is activated.
      *
      * Filters activations to only the application's shortcut ID and only when activated (not released).
      */
-    fun observeShortcutActivated(): Flow<ShortcutActivation> =
+    override fun observeShortcutActivated(): Flow<ShortcutActivation> =
         portal.globalShortcuts.activations()
             .filter { it.shortcutId == SHORTCUT_ID && it.activated }
 
@@ -145,7 +172,7 @@ class PortalsClient {
     /**
      * Binds the application's global shortcut to the active session.
      */
-    suspend fun bindGlobalShortcuts(): Result<List<BoundShortcut>> {
+    override suspend fun bindGlobalShortcuts(): Result<List<BoundShortcut>> {
         val handle = shortcutsSessionHandle
             ?: return Result.failure(IllegalStateException("No active global shortcuts session"))
         val shortcut = Shortcut(

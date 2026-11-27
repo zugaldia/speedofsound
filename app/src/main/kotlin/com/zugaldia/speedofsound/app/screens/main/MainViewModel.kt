@@ -151,9 +151,8 @@ class MainViewModel(
             return
         }
 
-        // Check if the portal session needs reconnection. This typically happens when the user locks the screen and
-        // comes back. The remote desktop session is closed in those circumstances for security reasons.
-        portalsSessionManager.attemptReconnect(viewModelScope)
+        // The session is (re)opened by toggleListening once the trigger is known to start a recording.
+        // Doing it here too would open a session that nothing closes when the trigger is debounced away.
         logger.info("Trigger action invoked.")
         toggleListening()
     }
@@ -349,6 +348,10 @@ class MainViewModel(
         lastToggleTime = now
 
         if (state.currentStage() == AppStage.IDLE) {
+            // Restores the remote desktop session if it was released while idle, or closed by the desktop
+            // (e.g. after the screen was locked). Done here rather than right before typing so it happens
+            // in parallel with the recording, and only once the trigger is known to start one.
+            portalsSessionManager.ensureSession(viewModelScope)
             currentPipelineJob = viewModelScope.launch { director.start() }
         } else if (state.currentStage() == AppStage.LISTENING) {
             viewModelScope.launch { director.stop() }
@@ -365,6 +368,7 @@ class MainViewModel(
     private fun onPipelineCompleted(event: DirectorEvent.PipelineCompleted) {
         logger.info("Pipeline completed.")
         if (event.finalResult.isBlank()) {
+            portalsSessionManager.releaseSession(viewModelScope)
             hideAndReset()
             return
         }
@@ -399,10 +403,13 @@ class MainViewModel(
                     logger.error("Error outputting text: ${error.message}")
                     portalsClient.showNotification(body = "Failed to output text: ${error.message ?: "Unknown error"}")
                 }
+
+            portalsSessionManager.releaseSession(viewModelScope)
         }
     }
 
     private fun onPipelineCancelled() {
+        portalsSessionManager.releaseSession(viewModelScope)
         hideAndReset()
     }
 
@@ -414,6 +421,7 @@ class MainViewModel(
             PipelineStage.POLISHING -> "Text processing failed: ${event.error.message ?: "Unknown error"}"
         }
         portalsClient.showNotification(body = body)
+        portalsSessionManager.releaseSession(viewModelScope)
         hideAndReset()
     }
 
