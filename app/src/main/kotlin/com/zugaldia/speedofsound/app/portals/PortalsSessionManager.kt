@@ -76,11 +76,13 @@ class PortalsSessionManager(
     fun startSession(scope: CoroutineScope, token: String? = null) {
         scope.launch {
             val restoreToken = token?.ifBlank { null }
-            logger.info(restoreToken?.let { "Trying to restore previous session: $it" } ?: "Starting a new session")
+            logger.info(
+                restoreToken?.let { "Trying to restore the previous session" } ?: "Starting a new session"
+            )
             portalsClient.startRemoteDesktopSession(restoreToken).onSuccess { response ->
                 val newToken = response.restoreToken
                 if (!newToken.isNullOrBlank()) {
-                    logger.info("Got a fresh restore token: $newToken")
+                    logger.info("Got a fresh restore token.")
                     settingsClient.setPortalsRestoreToken(newToken)
                 }
                 collectPortalsEvents(scope)
