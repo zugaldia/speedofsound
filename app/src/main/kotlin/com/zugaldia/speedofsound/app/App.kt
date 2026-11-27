@@ -58,7 +58,12 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
 
             settingsClient = SettingsClient(buildSettingsStore())
             portalsClient = PortalsClient()
-            mainViewModel = MainViewModel(settingsClient, portalsClient, onShortcutTriggered = { handleTrigger() })
+            mainViewModel = MainViewModel(
+                settingsClient,
+                portalsClient,
+                onShortcutTriggered = { handleTrigger() },
+                onStatusIconChanged = { statusNotifierService?.refreshIcon() },
+            )
             registerTriggerAction()
         }
 
@@ -141,6 +146,7 @@ class SosApplication(applicationId: String, flags: Set<ApplicationFlags>) : Appl
                     presentMainWindow()
                 },
                 onQuit = { quit() },
+                isMonochrome = { settingsClient.getMonochromeStatusIcon() },
             ).also { it.connect() }
         }
     }

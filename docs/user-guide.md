@@ -24,7 +24,8 @@ menu with options to start or stop listening, open the app, or quit.
 
 This is especially useful in combination with **Stay hidden on activation** and **Record in background**
 (see [Preferences](#preferences) below), which let the app run entirely in the background with the tray as your
-primary access point.
+primary access point. Enable **Monochrome status icon** if you would rather have the symbolic version of the app icon,
+which the desktop recolors to match its panel.
 
 !!! note "GNOME users"
     Some GNOME-based distributions do not display status tray icons by default. On Ubuntu, the
@@ -104,6 +105,10 @@ entirely in the background. You can still access the window at any time from the
 
 - Enable **Hide instead of minimize** to hide the main window instead of minimizing it when not in use. This is useful
 on multi-workspace setups where you want the window to restore on the current workspace.
+
+- Enable **Monochrome status icon** to show the symbolic (single color) version of the app icon in the
+[system tray](#system-tray) instead of the full color one. The desktop recolors it to match its panel, which suits
+GNOME's top bar, where the other indicators are monochrome. The change applies immediately.
 
 ### Model Library
 

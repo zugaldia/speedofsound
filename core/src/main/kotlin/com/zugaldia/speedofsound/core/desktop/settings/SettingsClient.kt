@@ -176,6 +176,14 @@ class SettingsClient(val settingsStore: SettingsStore) {
             if (success) _settingsChanged.tryEmit(KEY_STAY_HIDDEN_ON_ACTIVATION)
         }
 
+    fun getMonochromeStatusIcon(): Boolean =
+        settingsStore.getBoolean(KEY_MONOCHROME_STATUS_ICON, DEFAULT_MONOCHROME_STATUS_ICON)
+
+    fun setMonochromeStatusIcon(value: Boolean): Boolean =
+        settingsStore.setBoolean(KEY_MONOCHROME_STATUS_ICON, value).also { success ->
+            if (success) _settingsChanged.tryEmit(KEY_MONOCHROME_STATUS_ICON)
+        }
+
     fun getTextOutputMethod(): String =
         settingsStore.getString(KEY_TEXT_OUTPUT_METHOD, DEFAULT_TEXT_OUTPUT_METHOD)
 

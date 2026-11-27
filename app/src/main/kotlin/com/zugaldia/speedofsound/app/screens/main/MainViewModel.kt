@@ -17,6 +17,7 @@ import com.zugaldia.speedofsound.core.desktop.settings.KEY_CREDENTIALS
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_CONTEXT
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_CUSTOM_VOCABULARY
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_DEFAULT_LANGUAGE
+import com.zugaldia.speedofsound.core.desktop.settings.KEY_MONOCHROME_STATUS_ICON
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SECONDARY_LANGUAGE
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_TEXT_MODEL_PROVIDER_ID
 import com.zugaldia.speedofsound.core.desktop.settings.KEY_SELECTED_VOICE_MODEL_PROVIDER_ID
@@ -57,6 +58,7 @@ class MainViewModel(
     private val settingsClient: SettingsClient,
     private val portalsClient: PortalsClient,
     private val onShortcutTriggered: (() -> Unit)? = null,
+    private val onStatusIconChanged: (() -> Unit)? = null,
 ) {
     private val logger = LoggerFactory.getLogger(MainViewModel::class.java)
 
@@ -277,7 +279,15 @@ class MainViewModel(
                 llmProviderManager.refreshProviderConfiguration()
             }
 
+            else -> refreshOutputSettings(key)
+        }
+    }
+
+    private fun refreshOutputSettings(key: String) {
+        when (key) {
             KEY_TEXT_OUTPUT_METHOD -> activateSelectedTextOutput()
+
+            KEY_MONOCHROME_STATUS_ICON -> onStatusIconChanged?.invoke()
 
             KEY_TYPING_DELAY_MS -> portalTextOutput.updateOptions(
                 portalTextOutput.getOptions().copy(typingDelayMs = settingsClient.getTypingDelayMs().toLong())
